@@ -17,13 +17,49 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
         Route::get('index'  , ['as' => 'index', 'uses' => 'DefaultController@index']);
 
-        Route::group(['prefix' => 'crud', 'as' => 'crud.'], function () {
-            Route::get('index', ['as' => 'index', 'uses' => 'DefaultController@index']);
-            Route::get('grid', ['as' => 'grid', 'uses' => 'AlunoController@grid']);
-            Route::get('create', ['as' => 'create', 'uses' => 'AlunoController@create']);
-            Route::post('store', ['as' => 'store', 'uses' => 'AlunoController@store']);
-            Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'AlunoController@edit']);
-            Route::post('update/{id}', ['as' => 'update', 'uses' => 'AlunoController@update']);
+        Route::group(['prefix' => 'cgm', 'as' => 'cgm.'], function () {
+            Route::get('index', ['as' => 'index', 'uses' => 'CGMController@index']);
+            Route::get('grid', ['as' => 'grid', 'uses' => 'CGMController@grid']);
+            Route::get('create', ['as' => 'create', 'uses' => 'CGMController@create']);
+            Route::post('store', ['as' => 'store', 'uses' => 'CGMController@store']);
+            Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'CGMController@edit']);
+            Route::post('update/{id}', ['as' => 'update', 'uses' => 'CGMController@update']);
+        });
+
+        Route::group(['prefix' => 'localidade', 'as' => 'localidade.'], function () {
+            Route::get('index', ['as' => 'index', 'uses' => 'LocalidadeController@index']);
+            Route::get('grid', ['as' => 'grid', 'uses' => 'LocalidadeController@grid']);
+            Route::get('create', ['as' => 'create', 'uses' => 'LocalidadeController@create']);
+            Route::post('store', ['as' => 'store', 'uses' => 'LocalidadeController@store']);
+            Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'LocalidadeController@edit']);
+            Route::post('update/{id}', ['as' => 'update', 'uses' => 'LocalidadeController@update']);
+        });
+
+        Route::group(['prefix' => 'ps', 'as' => 'ps.'], function () {
+            Route::get('index', ['as' => 'index', 'uses' => 'PostoSaudeController@index']);
+            Route::get('grid', ['as' => 'grid', 'uses' => 'PostoSaudeController@grid']);
+            Route::get('create', ['as' => 'create', 'uses' => 'PostoSaudeController@create']);
+            Route::post('store', ['as' => 'store', 'uses' => 'PostoSaudeController@store']);
+            Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'PostoSaudeController@edit']);
+            Route::post('update/{id}', ['as' => 'update', 'uses' => 'PostoSaudeController@update']);
+        });
+
+        Route::group(['prefix' => 'especialidade', 'as' => 'especialidade.'], function () {
+            Route::get('index', ['as' => 'index', 'uses' => 'EspecialidadeController@index']);
+            Route::get('grid', ['as' => 'grid', 'uses' => 'EspecialidadeController@grid']);
+            Route::get('create', ['as' => 'create', 'uses' => 'EspecialidadeController@create']);
+            Route::post('store', ['as' => 'store', 'uses' => 'EspecialidadeController@store']);
+            Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'EspecialidadeController@edit']);
+            Route::post('update/{id}', ['as' => 'update', 'uses' => 'EspecialidadeController@update']);
+        });
+
+        Route::group(['prefix' => 'especialista', 'as' => 'especialista.'], function () {
+            Route::get('index', ['as' => 'index', 'uses' => 'EspecialistaController@index']);
+            Route::get('grid', ['as' => 'grid', 'uses' => 'EspecialistaController@grid']);
+            Route::get('create', ['as' => 'create', 'uses' => 'EspecialistaController@create']);
+            Route::post('store', ['as' => 'store', 'uses' => 'EspecialistaController@store']);
+            Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'EspecialistaController@edit']);
+            Route::post('update/{id}', ['as' => 'update', 'uses' => 'EspecialistaController@update']);
         });
 
 

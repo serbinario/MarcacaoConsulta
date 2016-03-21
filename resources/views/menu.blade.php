@@ -33,36 +33,24 @@
         <div class="sidebar-collapse">
             <ul class="nav metismenu" id="side-menu">
                 <li class="nav-header">
-                    <img alt="image" class="logoDash" src="{{ asset('/img/logoser2.png')}}"/>
-                </li>
-                <li>
-                    <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Secretaria</span> <span
-                                class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse">
-                        <li><a href="{{ route('seracademico.aluno.index') }}">Alunos</a></li>
-                    </ul>
+                    <img alt="image" class="logoDash"  src="{{ asset('/img/logoser2.png')}}"/>
                 </li>
                 <li>
                     <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Cadastros</span> <span
                                 class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
-                        <li><a href="{{ route('seracademico.user.index') }}">Usuários</a></li>
-                        <li><a href="{{ route('seracademico.role.index') }}">Perfís</a></li>
-                        <li><a href="{{ route('seracademico.sala.index') }}">Salas</a></li>
-                        <li><a href="{{ route('seracademico.tipoAvaliacao.index') }}">Tipos de Avaliações</a></li>
-                        <li><a href="{{ route('seracademico.tipoDisciplina.index') }}">Tipos de Disciplinas</a></li>
-                        <li><a href="{{ route('seracademico.tipoCurso.index') }}">Tipos de Cursos</a></li>
-                        <li><a href="{{ route('seracademico.sede.index') }}">Sedes</a></li>
-                        <li><a href="{{ route('seracademico.departamento.index') }}">Departamentos</a></li>
-                        <li><a href="{{ route('seracademico.disciplina.index') }}">Disciplinas</a></li>
-                        <li><a href="{{ route('seracademico.curso.index') }}">Cursos</a></li>
+                        <li><a href="{{ route('serbinario.cgm.index') }}">CGM</a></li>
+                        <li><a href="{{ route('serbinario.localidade.index') }}">Localidade</a></li>
+                        <li><a href="{{ route('serbinario.ps.index') }}">Posto de Saúde</a></li>
+                        <li><a href="{{ route('serbinario.especialidade.index') }}">Especialidade</a></li>
+                        <li><a href="{{ route('serbinario.especialista.index') }}">Especialista</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Parâmetros do sistema</span> <span
                                 class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
-                        <li><a href="{{ route('seracademico.empresa.check') }}">Empresa</a></li>
+                        <li><a href="">Empresa</a></li>
                     </ul>
                 </li>
             </ul>
