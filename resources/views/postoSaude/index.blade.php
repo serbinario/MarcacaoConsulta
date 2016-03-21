@@ -44,6 +44,9 @@
         var table = $('#ps-grid').DataTable({
             processing: true,
             serverSide: true,
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json'
+            },
             ajax: "{!! route('serbinario.ps.grid') !!}",
             columns: [
                 {data: 'nome', name: 'nome'},

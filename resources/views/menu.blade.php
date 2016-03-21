@@ -19,7 +19,7 @@
     <link href="{{asset('/css/bootstrapValidation.mim.css')}}" rel="stylesheet">
     <link href="{{asset('/css/jquery.datetimepicker.css')}}" rel="stylesheet"/>
 
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="///cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.0.3/css/buttons.dataTables.min.css">
 
 
@@ -102,6 +102,7 @@
 <script src="{{ asset('/js/jquery-2.1.1.js')}}"></script>
 <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js" type="text/javascript" ></script>
 <script src="{{ asset('/js/select2.full.min.js')}}" type="text/javascript"></script>
+<script src="{{ asset('/js/pt-BR.js')}}" type="text/javascript"></script>
 <script src="{{ asset('/js/bootstrap.min.js')}}"></script>
 <script src="{{ asset('/js/plugins/metisMenu/jquery.metisMenu.js')}}"></script>
 <script src="{{ asset('/js/plugins/toastr.min.js')}}"></script>

@@ -62,6 +62,9 @@
         var table = $('#role-grid').DataTable({
             processing: true,
             serverSide: true,
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json'
+            },
             ajax: "{!! route('seracademico.role.grid') !!}",
             columns: [
                 {data: 'name', name: 'name'},
