@@ -146,4 +146,17 @@ class EspecialidadeController extends Controller
         }
     }
 
+    /**
+     *
+     */
+    public function all()
+    {
+        $especialidades = $this->service->all();
+
+        //var_dump($localidades);exit();
+
+        #Retorno para view
+        return compact('especialidades');
+    }
+
 }

@@ -40,6 +40,24 @@ class LocalidadeService
     }
 
     /**
+     * @return mixed
+     * @throws \Exception
+     */
+    public function all()
+    {
+        #Recuperando o registro no banco de dados
+        $localidades = $this->repository->all();
+
+        #Verificando se o registro foi encontrado
+        if(!$localidades) {
+            throw new \Exception('Localidades não encontrada!');
+        }
+
+        #retorno
+        return $localidades;
+    }
+
+    /**
      * @param array $data
      * @return array
      */

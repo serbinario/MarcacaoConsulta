@@ -103,6 +103,17 @@ class SeracademicoRepositoryProvider extends ServiceProvider
 			\Seracademico\Repositories\EspecialistaRepository::class,
 			\Seracademico\Repositories\EspecialistaRepositoryEloquent::class
 		);
-
+		$this->app->bind(
+			\Seracademico\Repositories\CalendarioRepository::class,
+			\Seracademico\Repositories\CalendarioRepositoryEloquent::class
+		);
+		$this->app->bind(
+			\Seracademico\Repositories\AgendamentoRepository::class,
+			\Seracademico\Repositories\AgendamentoRepositoryEloquent::class
+		);
+		$this->app->bind(
+			\Seracademico\Repositories\EventoRepository::class,
+			\Seracademico\Repositories\EventoRepositoryEloquent::class
+		);
 	}
 }

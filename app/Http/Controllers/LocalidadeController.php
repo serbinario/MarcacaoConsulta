@@ -146,4 +146,17 @@ class LocalidadeController extends Controller
         }
     }
 
+    /**
+     *
+     */
+    public function all()
+    {
+        $localidades = $this->service->all();
+
+       //var_dump($localidades);exit();
+
+        #Retorno para view
+        return compact('localidades');
+    }
+
 }

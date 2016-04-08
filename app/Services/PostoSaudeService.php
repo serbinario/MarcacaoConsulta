@@ -40,6 +40,24 @@ class PostoSaudeService
     }
 
     /**
+     * @return mixed
+     * @throws \Exception
+     */
+    public function all()
+    {
+        #Recuperando o registro no banco de dados
+        $psfs = $this->repository->all();
+
+        #Verificando se o registro foi encontrado
+        if(!$psfs) {
+            throw new \Exception('Especialidades não encontrada!');
+        }
+
+        #retorno
+        return $psfs;
+    }
+
+    /**
      * @param array $data
      * @return array
      */

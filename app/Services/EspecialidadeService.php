@@ -40,6 +40,24 @@ class EspecialidadeService
     }
 
     /**
+     * @return mixed
+     * @throws \Exception
+     */
+    public function all()
+    {
+        #Recuperando o registro no banco de dados
+        $especialidades = $this->repository->all();
+
+        #Verificando se o registro foi encontrado
+        if(!$especialidades) {
+            throw new \Exception('Especialidades não encontrada!');
+        }
+
+        #retorno
+        return $especialidades;
+    }
+
+    /**
      * @param array $data
      * @return array
      */

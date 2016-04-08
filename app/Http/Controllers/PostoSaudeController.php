@@ -146,4 +146,17 @@ class PostoSaudeController extends Controller
         }
     }
 
+    /**
+     *
+     */
+    public function all()
+    {
+        $psfs = $this->service->all();
+
+        //var_dump($localidades);exit();
+
+        #Retorno para view
+        return compact('psfs');
+    }
+
 }

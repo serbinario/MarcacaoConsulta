@@ -2,20 +2,20 @@
 
 namespace Seracademico\Services;
 
-use Seracademico\Repositories\EspecialistaRepository;
-use Seracademico\Entities\Especialista;
+use Seracademico\Repositories\EventoRepository;
+use Seracademico\Entities\Evento;
 
-class EspecialistaService
+class EventoService
 {
     /**
-     * @var EspecialistaRepository
+     * @var EventoRepository
      */
     private $repository;
 
     /**
-     * @param EspecialistaRepository $repository
+     * @param EventoRepository $repository
      */
-    public function __construct(EspecialistaRepository $repository)
+    public function __construct(EventoRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -27,65 +27,34 @@ class EspecialistaService
      */
     public function find($id)
     {
-
-        $relacionamentos = [
-            'getCgm',
-            'getEspecialidade',
-        ];
-
         #Recuperando o registro no banco de dados
-        $especialista = $this->repository->with($relacionamentos)->find($id);
+        $evento = $this->repository->find($id);
 
         #Verificando se o registro foi encontrado
-        if(!$especialista) {
+        if(!$evento) {
             throw new \Exception('Empresa não encontrada!');
         }
 
         #retorno
-        return $especialista;
-    }
-
-    /**
-     * @param $id
-     * @return mixed
-     * @throws \Exception
-     */
-    public function findByEspecialidade($id)
-    {
-
-        $relacionamentos = [
-            'getCgm',
-            'getEspecialidade',
-        ];
-
-        #Recuperando o registro no banco de dados
-        $especialista = $this->repository->with($relacionamentos)->findWhere(array('especialidade' => $id));
-
-        #Verificando se o registro foi encontrado
-        if(!$especialista) {
-            throw new \Exception('Empresa não encontrada!');
-        }
-
-        #retorno
-        return $especialista;
+        return $evento;
     }
 
     /**
      * @param array $data
      * @return array
      */
-    public function store(array $data) : Especialista
+    public function store(array $data) : Evento
     {
         #Salvando o registro pincipal
-        $especialista =  $this->repository->create($data);
+        $evento =  $this->repository->create($data);
 
         #Verificando se foi criado no banco de dados
-        if(!$especialista) {
+        if(!$evento) {
             throw new \Exception('Ocorreu um erro ao cadastrar!');
         }
 
         #Retorno
-        return $especialista;
+        return $evento;
     }
 
     /**
@@ -93,19 +62,19 @@ class EspecialistaService
      * @param int $id
      * @return mixed
      */
-    public function update(array $data, int $id) : Especialista
+    public function update(array $data, int $id) : Evento
     {
         #Atualizando no banco de dados
-        $especialista = $this->repository->update($data, $id);
+        $evento = $this->repository->update($data, $id);
 
 
         #Verificando se foi atualizado no banco de dados
-        if(!$especialista) {
+        if(!$evento) {
             throw new \Exception('Ocorreu um erro ao cadastrar!');
         }
 
         #Retorno
-        return $especialista;
+        return $evento;
     }
 
     /**

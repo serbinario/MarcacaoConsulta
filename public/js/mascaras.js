@@ -16,6 +16,9 @@ $(document).ready(function(){
     //Telefone
     $('.phone').mask('(00)00000.000');
 
+    //Telefone
+    $('.hora').mask('00:00');
+
     //##### Submeter formulário
     $('#formAluno').submit(function() {
         $('.cpf').unmask();

@@ -7,8 +7,9 @@
 
     <title>Gestão Acadêmica</title>
 
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('/css/zabuto_calendar.min.css')}}" />
     <link href="{{ asset('/css/select2.min.css')}}" rel="stylesheet">
     <link href="{{ asset('/css/animate.css')}}" rel="stylesheet">
     <link href="{{ asset('/css/style.css')}}" rel="stylesheet">
@@ -19,9 +20,14 @@
     <link href="{{asset('/css/bootstrapValidation.mim.css')}}" rel="stylesheet">
     <link href="{{asset('/css/jquery.datetimepicker.css')}}" rel="stylesheet"/>
 
-    <link rel="stylesheet" href="///cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.0.3/css/buttons.dataTables.min.css">
 
+    <!-- full calendar -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.6.1/fullcalendar.min.css">
+    <style>
+        .select2-close-mask{ z-index: 2099; } .select2-dropdown{ z-index: 3051; }
+    </style>
 
     @yield('css')
 </head>
@@ -33,7 +39,7 @@
         <div class="sidebar-collapse">
             <ul class="nav metismenu" id="side-menu">
                 <li class="nav-header">
-                    <img alt="image" class="logoDash"  src="{{ asset('/img/logoser2.png')}}"/>
+                    <img alt="image" class="logoDash"  src="{{ asset('/img/logo_igarassu.png')}}"/>
                 </li>
                 <li>
                     <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Cadastros</span> <span
@@ -47,12 +53,19 @@
                     </ul>
                 </li>
                 <li>
+                    <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Agendamento</span> <span
+                                class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a href="{{ route('serbinario.agendamento.index') }}">Agendar Paciente</a></li>
+                    </ul>
+                </li>
+                {{--<li>
                     <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Parâmetros do sistema</span> <span
                                 class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
                         <li><a href="">Empresa</a></li>
                     </ul>
-                </li>
+                </li>--}}
             </ul>
 
         </div>
@@ -111,10 +124,17 @@
 <script src="{{ asset('/js/jquery.tree.js')}}" type="text/javascript"></script>
 <script src="{{ asset('/js/jquery.datetimepicker.js')}}" type="text/javascript"></script>
 
-<script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+<!-- full calendar -->
+<script src="{{ asset('/js/moment.min.js')}}" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.6.1/fullcalendar.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
 
 <script src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
 <script src="{{ asset('/vendor/datatables/buttons.server-side.js') }}"></script>
+
+<script type="text/javascript" src="{{asset('/js/zabuto_calendar.min.js')}}"></script>
+
 
 <!-- Custom and plugin javascript -->
 <script src="{{ asset('/js/inspinia.js')}}"></script>
