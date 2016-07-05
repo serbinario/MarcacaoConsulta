@@ -162,7 +162,7 @@
                 //Carrega os eventos no fullcalendar
                 events: function (start, end, timezone, callback) {
                     jQuery.ajax({
-                        url: '/serbinario/agendamento/loadCalendar',
+                        url: '{{ route('serbinario.agendamento.loadCalendar') }}',
                         headers: {
                             'X-CSRF-TOKEN': '{{  csrf_token() }}'
                         },
@@ -214,7 +214,7 @@
 
                     jQuery.ajax({
                         type: 'POST',
-                        url: '/serbinario/calendario/calendariodatamedico',
+                        url: '{{ route('serbinario.calendario.calendariodatamedico') }}',
                         headers: {
                             'X-CSRF-TOKEN': '{{  csrf_token() }}'
                         },
@@ -362,7 +362,7 @@
                 }
 
                 $.ajax({
-                    url: "/serbinario/agendamento/store",
+                    url: "{{ route('serbinario.agendamento.store')  }}",
                     data: {
                         agendamento: dados,
                         dataEvento: $('#data').val(),

@@ -105,7 +105,7 @@
                     return myDateFunction(this.id, false);
                 },
                 ajax: {
-                    url: "/serbinario/calendario/calendarios/{{$especialista['id']}}",
+                    url: "{{route('serbinario.calendario.calendarios', ['id' => $especialista['id']])}}",
                 },
             });
 
@@ -162,16 +162,16 @@
                 }
 
                 $.ajax({
-                    url: "/serbinario/calendario/store",
+                    url: "{{route('serbinario.calendario.store')}}",
                     data: {calendario:dados,},
                     headers: {
-                        'X-CSRF-TOKEN': '{{  csrf_token() }}'
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
                     dataType: "json",
                     type: "POST",
                     success: function(data){
                         alert(data['msg']);
-                        location.href = "/serbinario/calendario/index/{{$especialista['id']}}";
+                        location.href = "{{ route('serbinario.calendario.index', ['id' => $especialista['id']])  }}";
                     }
                 });
             });
@@ -198,13 +198,10 @@
                     type: "POST",
                     success: function(data){
                         alert(data['msg']);
-                        location.href = "/serbinario/calendario/index/{{$especialista['id']}}";
+                        location.href = "{{ route('serbinario.calendario.index', ['id' => $especialista['id']])  }}";
                     }
                 });
             });
-
-
-
 
             //Função para listar as localidades
             function localidade(id) {

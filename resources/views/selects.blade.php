@@ -7,7 +7,7 @@
     function localidade(id) {
         jQuery.ajax({
             type: 'POST',
-            url: '/serbinario/localidade/all',
+            url: '{{ route('serbinario.localidade.all')  }}',
             datatype: 'json',
             headers: {
                 'X-CSRF-TOKEN': '{{  csrf_token() }}'
@@ -33,7 +33,7 @@
     function especialidade(id) {
         jQuery.ajax({
             type: 'POST',
-            url: '/serbinario/especialidade/all',
+            url: '{{ route('serbinario.especialidade.all')  }}',
             datatype: 'json',
             headers: {
                 'X-CSRF-TOKEN': '{{  csrf_token() }}'
@@ -59,7 +59,7 @@
     function psfs(id) {
         jQuery.ajax({
             type: 'POST',
-            url: '/serbinario/ps/all',
+            url: '{{ route('serbinario.ps.all')  }}',
             datatype: 'json',
             headers: {
                 'X-CSRF-TOKEN': '{{  csrf_token() }}'

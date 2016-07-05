@@ -96,6 +96,7 @@ class CGMService
 
         #Atualizando no banco de dados
         $cGM = $this->repository->update($data, $id);
+      
         $endereco = $this->enderecoRepository->update($data['endereco'], $cGM->endereco->id);
 
         #Verificando se foi atualizado no banco de dados
