@@ -31,4 +31,9 @@ class Calendario extends Model implements Transformable
 		return $this->belongsTo(Localidade::class, 'localidade_id');
 	}
 
+	public function agendamento()
+	{
+		return $this->hasMany(Agendamento::class, 'calendario_id', 'id');
+	}
+
 }

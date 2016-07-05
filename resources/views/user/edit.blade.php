@@ -32,7 +32,7 @@
                 </div>
             @endif
 
-            {!! Form::model($user, ['route'=> ['seracademico.user.update', $user->id], 'method' => "POST", 'enctype' => 'multipart/form-data' ]) !!}
+            {!! Form::model($user, ['route'=> ['serbinario.user.update', $user->id], 'method' => "POST", 'enctype' => 'multipart/form-data' ]) !!}
             <div class="row">
                 <div class="col-md-12">
                     <!-- Nav tabs -->

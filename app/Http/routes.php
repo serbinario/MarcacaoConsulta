@@ -64,6 +64,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'EspecialistaController@edit']);
             Route::post('update/{id}', ['as' => 'update', 'uses' => 'EspecialistaController@update']);
             Route::post('byespecialidade/{id}', ['as' => 'byespecialidade', 'uses' => 'EspecialistaController@getByEspacialidade']);
+            Route::get('agenda/{id}', ['as' => 'agenda', 'uses' => 'CalendarioController@index']);
         });
 
         Route::group(['prefix' => 'agenda', 'as' => 'agenda.'], function () {

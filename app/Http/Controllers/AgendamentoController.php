@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Seracademico\Http\Requests;
 use Seracademico\Services\AgendamentoService;
+use Seracademico\Services\CalendarioService;
 use Yajra\Datatables\Datatables;
 use Prettus\Validator\Exceptions\ValidatorException;
 use Prettus\Validator\Contracts\ValidatorInterface;
@@ -24,6 +25,11 @@ class AgendamentoController extends Controller
     private $validator;
 
     /**
+     * @var CalendarioService
+     */
+    private $calendarService;
+
+    /**
     * @var array
     */
     private $loadFields = [];
@@ -32,10 +38,11 @@ class AgendamentoController extends Controller
     * @param AgendamentoService $service
     * @param AgendamentoValidator $validator
     */
-    public function __construct(AgendamentoService $service, AgendamentoValidator $validator)
+    public function __construct(AgendamentoService $service, CalendarioService $calendarService, AgendamentoValidator $validator)
     {
-        $this->service   =  $service;
-        $this->validator =  $validator;
+        $this->service           =  $service;
+        $this->validator         =  $validator;
+        $this->calendarService   =  $calendarService;
     }
 
     /**
@@ -88,7 +95,12 @@ class AgendamentoController extends Controller
             $calendarios[$count]['date_start'] = $dado['data'];
             $calendarios[$count]['overlap']     = false;
             $calendarios[$count]['rendering']   = "background";
-            $calendarios[$count]['color']       = "#ff9f89";
+            $vagasRestantes = $dado['qtd_vagas'] - count($dado['agendamento']);
+            if($vagasRestantes <= 0) {
+                $calendarios[$count]['color']       = "#ff9f89";
+            } else {
+                $calendarios[$count]['color']       = "#2be135";
+            }
             $calendarios[$count]['id']          = $dado['id'];
             $count++;
         }
@@ -108,6 +120,19 @@ class AgendamentoController extends Controller
         try {
             #Recuperando os dados da requisição
             $data = $request->all();
+
+            #pegando sessão de usuário
+            $user = \Auth::user();
+
+            $calendario = $this->calendarService->find($data['agendamento']['calendario_id']);
+
+            //Verificando limite de vagas
+            $vagasRestantes = $calendario->qtd_vagas - count($calendario->agendamento);
+
+            // you can pass an id or slug // or alternatively $user->hasRole('admin') }
+            if ($vagasRestantes <= 0 && $user->is('submaster')) {
+                return array('msg' => 'Limite de vagas atingido, você não pode marcar mais consultas para esse dia!');
+            }
 
             #Validando a requisição
             $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_CREATE);

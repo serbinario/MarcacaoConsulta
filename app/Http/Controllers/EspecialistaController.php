@@ -62,7 +62,7 @@ class EspecialistaController extends Controller
         #Editando a grid
         return Datatables::of($rows)->addColumn('action', function ($row) {
             return '<a href="edit/'.$row->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a>
-            <a href="/serbinario/calendario/index/'.$row->id.'" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-important-day"></i> Agenda</a>';
+            <a href="agenda/'.$row->id.'" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-important-day"></i> Agenda</a>';
         })->make(true);
     }
 

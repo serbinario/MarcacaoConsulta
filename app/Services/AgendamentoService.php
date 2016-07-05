@@ -61,7 +61,7 @@ class AgendamentoService
         $relacionamentos = [
             'cgm',
             'psf',
-            'calendario',
+            'calendario.agendamento',
         ];
 
         #Recuperando o registro no banco de dados
@@ -85,7 +85,7 @@ class AgendamentoService
     public function getCalendarioByMedicoLocal($idMedico, $idLocal)
     {
         #Recuperando o registro no banco de dados
-        $calendarios = $this->repoCalendario->findWhere(['especialista_id' => $idMedico, 'localidade_id' => $idLocal]);
+        $calendarios = $this->repoCalendario->with(['especialista', 'agendamento'])->findWhere(['especialista_id' => $idMedico, 'localidade_id' => $idLocal]);
 
         $eventos = \DB::table('evento')
             ->join('agendamento', 'evento.agendamento_id', '=', 'agendamento.id')

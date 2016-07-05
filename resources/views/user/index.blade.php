@@ -25,7 +25,7 @@
         <div class="ibox-content">
             <div class="row">
                 <div class="col-md-12">
-                    <a href="{{ route('seracademico.user.create')}}" class="btn btn-primary btn-pressure btn-sm btn-sensitive">Novo Usuário</a><br /><br />
+                    <a href="{{ route('serbinario.user.create')}}" class="btn btn-primary btn-pressure btn-sm btn-sensitive">Novo Usuário</a><br /><br />
                     <div class="table-responsive no-padding">
                         <table id="user-grid" class="display table table-bordered" cellspacing="0" width="100%">
                             <thead>
@@ -65,7 +65,7 @@
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json'
             },
-            ajax: "{!! route('seracademico.user.grid') !!}",
+            ajax: "{!! route('serbinario.user.grid') !!}",
             columns: [
                 {data: 'name', name: 'name'},
                 {data: 'email', name: 'email'},

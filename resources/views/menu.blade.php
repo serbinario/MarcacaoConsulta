@@ -45,18 +45,25 @@
                     <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Cadastros</span> <span
                                 class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
-                        <li><a href="{{ route('serbinario.cgm.index') }}">CGM</a></li>
-                        <li><a href="{{ route('serbinario.localidade.index') }}">Localidade</a></li>
-                        <li><a href="{{ route('serbinario.ps.index') }}">Posto de Saúde</a></li>
-                        <li><a href="{{ route('serbinario.especialidade.index') }}">Especialidade</a></li>
-                        <li><a href="{{ route('serbinario.especialista.index') }}">Especialista</a></li>
+                        <li><a href="{{ route('serbinario.cgm.index') }}">Cadastro Paciente</a></li>
+                        <li><a href="{{ route('serbinario.localidade.index') }}">Unidade de Atendimento</a></li>
+                        <li><a href="{{ route('serbinario.ps.index') }}">Cadastro PSF</a></li>
+                        <li><a href="{{ route('serbinario.especialidade.index') }}">Especialidades</a></li>
+                        <li><a href="{{ route('serbinario.especialista.index') }}">Especialistas</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Agendamento</span> <span
                                 class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
-                        <li><a href="{{ route('serbinario.agendamento.index') }}">Agendar Paciente</a></li>
+                        <li><a href="{{ route('serbinario.agendamento.index') }}">Agenda dos Médicos</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Administrador</span> <span
+                                class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a href="{{ route('serbinario.user.index') }}">Cadastrar Usuário</a></li>
                     </ul>
                 </li>
                 {{--<li>

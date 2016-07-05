@@ -155,6 +155,9 @@ class CalendarioController extends Controller
         $data = $request->all();
 
         $calendario = $this->service->findCalendarioDataMedico($data['data'], $data['idMedico'], $data['idLocalidade']);
+        $qtdAgendados = 0;
+        
+        //dd(count($calendario[0]->agendamento));
 
         if($calendario) {
             $retorno = true;

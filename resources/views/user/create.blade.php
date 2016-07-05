@@ -32,7 +32,7 @@
                 </div>
             @endif
 
-            {!! Form::open(['route'=>'seracademico.user.store', 'method' => "POST", 'enctype' => 'multipart/form-data' ]) !!}
+            {!! Form::open(['route'=>'serbinario.user.store', 'method' => "POST", 'enctype' => 'multipart/form-data' ]) !!}
             <div class="row">
                 <div class="col-md-12">
                     <!-- Nav tabs -->

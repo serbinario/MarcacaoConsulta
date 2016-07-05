@@ -87,7 +87,10 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button class="close" type="button" data-dismiss="modal">×</button>
-                            <h4 class="modal-title">Agendar Paciente</h4>
+                            <h3 class="modal-title">Agendar Paciente</h3><br />
+                            <span class="total-vagas ocultar"></span>
+                            <span class="total-agendados ocultar"></span>
+                            <span class="vagas-restantes ocultar"></span><br />
                         </div>
                         <form method="post" id="form_agendamento">
                             <div class="modal-body" style="alignment-baseline: central">
@@ -133,6 +136,7 @@
 @section('javascript')
     <script type="text/javascript">
         $(document).ready(function () {
+            cgm();
                     @include('selects')
             @if(isset($dados))
                 var idEspecialista = "{{$dados['especialista']}}";
@@ -222,10 +226,34 @@
 
                             $('#calendario').val(json['calendario'][0]['id']);
                             $('#data').val(json['calendario'][0]['data']);
+                            $('#cgm option').remove();
+                            cgm()
+
+                            var vagasRestantes = json['calendario'][0]['qtd_vagas'] - json['calendario'][0]['agendamento'].length;
+
+                            $('.total-vagas').html("<b>Total de Vagas:</b> " + json['calendario'][0]['qtd_vagas'] + " / ");
+                            if(vagasRestantes <= "0") {
+                                $('.total-agendados').html("<b>Total de Agendados: </b>" + "<span style='color: red' '>" + json['calendario'][0]['agendamento'].length + "</span>" + " / ");
+                            } else {
+                                $('.total-agendados').html("<b>Total de Agendados: </b>" + json['calendario'][0]['agendamento'].length + " / ");
+                            }
+                            vagasRestantes = vagasRestantes < 0 ? 0 : vagasRestantes;
+                            $('.vagas-restantes').html("<b>Vagas Restantes: </b>" + vagasRestantes );
+                           // console.log(json['calendario'][0]['agendamento'].length);
                             psfs();
                             $('#obs').text('');
 
-                            $('#save').attr('disabled', false);
+                            if(vagasRestantes <= "0") {
+                                @role('submaster')
+                                    $('#save').attr('disabled', true);
+                                @endrole
+                                 @role('master|admin')
+                                    $('#save').attr('disabled', false);
+                                @endrole
+                            } else {
+                                $('#save').attr('disabled', false);
+                            }
+
                             $('#edit').attr('disabled', true);
                             $("#modalCGM").modal({show: true});
                         } else {
@@ -261,9 +289,15 @@
                             $('#obs').text(data['model']['obs']);
                             psfs(data['model']['posto_saude_id']);
 
-                            //var option = '<option value="' + data['model']['cgm']['id'] + '">' + data['model']['cgm']['nome'] + '</option>'
-                            //$('#cgm option').remove();
-                            //$('#cgm').append(option);
+                            var option = '<option selected value="' + data['model']['cgm']['id'] + '">' + data['model']['cgm']['nome'] + '</option>'
+                            $('#cgm option').remove();
+                            $('#cgm').append(option);
+                            //$("#cgm").select2("updateResults");
+                           cgm();
+
+                            $('.total-vagas').html('');
+                            $('.total-agendados').html('');
+                            $('.vagas-restantes').html('');
 
                             $('#save').attr('disabled', true);
                             $('#edit').attr('disabled', false);
@@ -334,13 +368,15 @@
                         dataEvento: $('#data').val(),
                     },
                     headers: {
-                        'X-CSRF-TOKEN': '{{  csrf_token() }}'
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
                     dataType: "json",
                     type: "POST",
                     success: function (data) {
                         alert(data['msg']);
-                        location.href = "/serbinario/calendario/index/";
+                        $("#calendar").fullCalendar("refetchEvents");
+                        $("#modalCGM").modal('hide');
+
                     }
                 });
             });
@@ -371,7 +407,8 @@
                     type: "POST",
                     success: function (data) {
                         alert(data['msg']);
-                        //location.href = "/serbinario/calendario/index/";
+                        $("#calendar").fullCalendar("refetchEvents");
+                        $("#modalCGM").modal('hide');
                     }
                 });
             });
@@ -379,46 +416,49 @@
 
 
         //consulta via select2 cgm
-        $("#cgm").select2({
-            placeholder: 'Selecione um cgm',
-            minimumInputLength: 3,
-            width: 400,
-            ajax: {
-                type: 'POST',
-                url: "{{ route('serbinario.util.select2')  }}",
-                dataType: 'json',
-                delay: 250,
-                crossDomain: true,
-                data: function (params) {
-                    return {
-                        'search':     params.term, // search term
-                        'tableName':  'cgm',
-                        'fieldName':  'nome',
-                        /*'fieldWhere':  'nivel',
-                         'valueWhere':  '3',*/
-                        'page':       params.page
-                    };
-                },
-                headers: {
-                    'X-CSRF-TOKEN' : '{{  csrf_token() }}'
-                },
-                processResults: function (data, params) {
+        function cgm () {
+            $("#cgm").select2({
+                placeholder: 'Selecione um cgm',
+                minimumInputLength: 3,
+                width: 400,
+                ajax: {
+                    type: 'POST',
+                    url: "{{ route('serbinario.util.select2')  }}",
+                    dataType: 'json',
+                    delay: 250,
+                    crossDomain: true,
+                    data: function (params) {
+                        return {
+                            'search':     params.term, // search term
+                            'tableName':  'cgm',
+                            'fieldName':  'nome',
+                            /*'fieldWhere':  'nivel',
+                             'valueWhere':  '3',*/
+                            'page':       params.page
+                        };
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN' : '{{  csrf_token() }}'
+                    },
+                    processResults: function (data, params) {
 
-                    // parse the results into the format expected by Select2
-                    // since we are using custom formatting functions we do not need to
-                    // alter the remote JSON data, except to indicate that infinite
-                    // scrolling can be used
-                    params.page = params.page || 1;
+                        // parse the results into the format expected by Select2
+                        // since we are using custom formatting functions we do not need to
+                        // alter the remote JSON data, except to indicate that infinite
+                        // scrolling can be used
+                        params.page = params.page || 1;
 
-                    return {
-                        results: data,
-                        pagination: {
-                            more: (params.page * 30) < data.total_count
-                        }
-                    };
+                        return {
+                            results: data,
+                            pagination: {
+                                more: (params.page * 30) < data.total_count
+                            }
+                        };
+                    }
                 }
-            }
-        });
+            });
+        };
+
     </script>
 @stop
 @stop
