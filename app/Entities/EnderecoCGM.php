@@ -20,4 +20,8 @@ class EnderecoCGM extends Model implements Transformable
 		'bairro',
 	];
 
+	public function bairros()
+	{
+		return $this->belongsTo(Bairro::class, 'bairro');
+	}
 }

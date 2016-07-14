@@ -37,7 +37,7 @@ class CGMService
     {
 
         $relacionamentos = [
-            'endereco',
+            'endereco.bairros.cidade.estado',
             'estadoCivil',
             'sexo',
             'escolaridade',
@@ -90,13 +90,14 @@ class CGMService
      */
     public function update(array $data, int $id) : CGM
     {
-
+        //dd($data);
         #tratamento de dados do aluno
         $data     = $this->tratamentoCamposAluno($data);
+        $this->tratamentoCampos($data['endereco']);
 
         #Atualizando no banco de dados
         $cGM = $this->repository->update($data, $id);
-      
+        
         $endereco = $this->enderecoRepository->update($data['endereco'], $cGM->endereco->id);
 
         #Verificando se foi atualizado no banco de dados
@@ -187,5 +188,22 @@ class CGMService
 
         #return
         return $model;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function tratamentoCampos(array &$data)
+    {
+        # Tratamento de campos de chaves estrangeira
+        foreach ($data as $key => $value) {
+
+            if ($value == null) {
+                unset($data[$key]);
+            }
+        }
+        #Retorno
+        return $data;
     }
 }

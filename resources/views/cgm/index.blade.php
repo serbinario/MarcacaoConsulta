@@ -7,7 +7,7 @@
             <div class="col-md-10">
                 <h4>
                     <i class="fa fa-users"></i>
-                    Listar Alunos
+                    Listar Pessoas
                 </h4>
             </div>
             <div class="col-md-2">
@@ -23,6 +23,7 @@
                             <tr>
                                 <th>Nome</th>
                                 <th>CPF</th>
+                                <th>SUS</th>
                                 <th>Acão</th>
                             </tr>
                             </thead>
@@ -30,6 +31,7 @@
                             <tr>
                                 <th>Nome</th>
                                 <th>CPF</th>
+                                <th>SUS</th>
                                 <th style="width: 17%;">Acão</th>
                             </tr>
                             </tfoot>
@@ -53,6 +55,7 @@
             columns: [
                 {data: 'nome', name: 'nome'},
                 {data: 'cpf_cnpj', name: 'cpf_cnpj'},
+                {data: 'numero_sus', name: 'numero_sus'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });

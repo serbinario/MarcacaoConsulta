@@ -18,6 +18,7 @@ class Agendamento extends Model implements Transformable
 		'posto_saude_id',
 		'calendario_id',
 		'cgm_id',
+		'hora',
 	];
 
 	public function cgm()
@@ -33,6 +34,11 @@ class Agendamento extends Model implements Transformable
 	public function calendario()
 	{
 		return $this->belongsTo(Calendario::class, 'calendario_id');
+	}
+
+	public function evento()
+	{
+		return $this->hasMany(Evento::class, 'agendamento_id', 'id');
 	}
 
 }

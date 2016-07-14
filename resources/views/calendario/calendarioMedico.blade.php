@@ -56,21 +56,33 @@
                                     <div class="col-md-10">
                                         <div class="form-group">
                                             {!! Form::label('data', 'Data') !!}
-                                            {!! Form::text('data', '', array('class' => 'form-control data', 'readonly' => 'readonly', 'data' => 'data')) !!}
+                                            {!! Form::text('data', '', array('class' => 'form-control data', 'readonly' => 'readonly', 'id' => 'data')) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="checkbox checkbox-primary">
+                                            {!! Form::checkbox('mais_mapa', 1, null, array('class' => 'form-control', 'id' => 'mapa')) !!}
+                                            {!! Form::label('mais_mapa', 'Possui mais de um mapa?', false) !!}
                                         </div>
                                     </div>
                                     <div class="col-md-10">
                                         <div class="form-group">
-                                            {!! Form::label('hora', 'Hora') !!}
+                                            {!! Form::label('hora', 'Hora Mapa 1') !!}
                                             {!! Form::text('hora', '', array('class' => 'form-control hora', 'id' => 'hora')) !!}
                                         </div>
                                     </div>
-
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            {!! Form::label('hora2', 'Hora Mapa 2') !!}
+                                            {!! Form::text('hora2', '', array('class' => 'form-control hora', 'id' => 'hora2', 'readonly' => 'readonly')) !!}
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-10">
                                         {!! Form::submit('Salvar', array('class' => 'btn btn-primary', 'disabled' => 'disabled', 'id' => 'save')) !!}
                                         {!! Form::submit('Editar', array('class' => 'btn btn-success', 'disabled' => 'disabled', 'id' => 'edit')) !!}
+                                        <a href="{{route('serbinario.especialista.index')}}" class="btn btn-default">Voltar</a>
                                     </div>
                                 </div>
                             </div>
@@ -125,17 +137,26 @@
                         url: '{{route('serbinario.calendario.calendariodata')}}',
                         datatype: 'json',
                         data: dados,
-                        headers: {
-                            'X-CSRF-TOKEN': '{{  csrf_token() }}'
-                        },
                     }).done(function (json) {
                         localidade(json['calendario'][0]['localidade_id']);
                         $('#especialista_id').val(json['calendario'][0]['especialista_id']);
-                        $('#qtd_vagas').val(json['calendario'][0]['qtd_vagas']);
                         $('#data').val(toDate(json['calendario'][0]['data']));
                         $('#hora').val(json['calendario'][0]['hora']);
+                        $('#hora2').val(json['calendario'][0]['hora2']);
+                        json['calendario'][0]['mais_mapa'] == '1' ? $('#mapa').prop('checked', true) : $('#mapa').attr('checked', false);
+                        json['calendario'][0]['mais_mapa'] == '1' ? $('#hora2').prop('readonly', false) : $('#hora2').prop('readonly', true);
                         idCalendario = json['calendario'][0]['id'];
 
+                        var qtdVagas = 0;
+                        if(json['calendario'][0]['mais_mapa'] == '1') {
+                            qtdVagas = json['calendario'][0]['qtd_vagas'] / 2;
+                        } else {
+                            qtdVagas = json['calendario'][0]['qtd_vagas'];
+                        }
+                        $('#qtd_vagas').val(qtdVagas);
+
+
+                        $('#data').prop('readonly', false);
                         $('#edit').attr('disabled', false);
                         $('#save').attr('disabled', true);
                     });
@@ -143,64 +164,98 @@
                     localidade();
                     $('#qtd_vagas').val({{$especialista['qtd_vagas']}});
                     $('#hora').val("");
+                    $('#hora2').val("");
+                    $('#hora2').prop('readonly', true);
+                    $('#mapa').prop('checked', false);
 
+                    $('#data').prop('readonly', true);
                     $('#save').attr('disabled', false);
                     $('#edit').attr('disabled', true);
                 }
             };
 
 
+            $('#mapa').click(function(){
+                if($('#mapa').is(":checked")) {
+                    $('#hora2').prop('readonly', false)
+                } else {
+                    $('#hora2').prop('readonly', true)
+                    $('#hora2').val("")
+                }
+            });
+
             //Salvar formulário
             $("#save").click(function(event){
                 event.preventDefault();
+                var mapa = $('#mapa').is(":checked") == true ? '1' : '0';
+
                 var dados = {
                     'localidade_id' : $('#localidades').val(),
                     'especialista_id' : $('#especialista_id').val(),
                     'qtd_vagas' : $('#qtd_vagas').val(),
                     'data' : $('#data').val(),
                     'hora' : $('#hora').val(),
+                    'hora2' : $('#hora2').val(),
+                    'mais_mapa' : mapa,
                 }
 
-                $.ajax({
-                    url: "{{route('serbinario.calendario.store')}}",
-                    data: {calendario:dados,},
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    dataType: "json",
-                    type: "POST",
-                    success: function(data){
-                        alert(data['msg']);
-                        location.href = "{{ route('serbinario.calendario.index', ['id' => $especialista['id']])  }}";
-                    }
-                });
+                if(!$('#mapa').is(":checked") && (!$('#localidades').val() || !$('#especialista_id').val() || !$('#qtd_vagas').val() || !$('#data').val() || !$('#hora').val()))
+                {
+                    alert("O preenchimento de todos os campos são obrigatórios")
+                } else if ($('#mapa').is(":checked") && (!$('#localidades').val() || !$('#especialista_id').val() || !$('#qtd_vagas').val() || !$('#data').val() || !$('#hora').val()
+                         || !$('#hora2').val())) {
+                    alert('O preenchimento de todos os campos são obrigatórios');
+
+                } else {
+                    $.ajax({
+                        url: "{{route('serbinario.calendario.store')}}",
+                        data: {calendario:dados,},
+                        dataType: "json",
+                        type: "POST",
+                        success: function(data){
+                            alert(data['msg']);
+                            location.href = "{{ route('serbinario.calendario.index', ['id' => $especialista['id']])  }}";
+                        }
+                    });
+                }
+
             });
 
             //Editar formulário
             $("#edit").click(function(event){
                 event.preventDefault();
+                var mapa = $('#mapa').is(":checked") == true ? '1' : '0';
                 var dados = {
                     'localidade_id' : $('#localidades').val(),
                     'especialista_id' : $('#especialista_id').val(),
                     'qtd_vagas' : $('#qtd_vagas').val(),
                     'data' : $('#data').val(),
                     'hora' : $('#hora').val(),
+                    'hora2' : $('#hora2').val(),
+                    'mais_mapa' : mapa,
                     'id' : $('#id').val(),
                 }
 
-                $.ajax({
-                    url: "/serbinario/calendario/update/" + idCalendario,
-                    data: {calendario:dados},
-                    headers: {
-                        'X-CSRF-TOKEN': '{{  csrf_token() }}'
-                    },
-                    dataType: "json",
-                    type: "POST",
-                    success: function(data){
-                        alert(data['msg']);
-                        location.href = "{{ route('serbinario.calendario.index', ['id' => $especialista['id']])  }}";
-                    }
-                });
+                if(!$('#mapa').is(":checked") && (!$('#localidades').val() || !$('#especialista_id').val() || !$('#qtd_vagas').val() || !$('#data').val() || !$('#hora').val()))
+                {
+                    alert("O preenchimento de todos os campos são obrigatórios")
+                } else if ($('#mapa').is(":checked") && (!$('#localidades').val() || !$('#especialista_id').val() || !$('#qtd_vagas').val() || !$('#data').val() || !$('#hora').val()
+                        || !$('#hora2').val())) {
+                    alert('O preenchimento de todos os campos são obrigatórios');
+
+                } else {
+                    $.ajax({
+                        url: "/MarcConsulta/public/index.php/serbinario/calendario/update/" + idCalendario,
+                        data: {calendario:dados},
+                        dataType: "json",
+                        type: "POST",
+                        success: function(data){
+                            alert(data['msg']);
+                            location.href = "{{ route('serbinario.calendario.index', ['id' => $especialista['id']])  }}";
+                        }
+                    });
+                }
+
             });
 
             //Função para listar as localidades
@@ -209,9 +264,6 @@
                     type: 'POST',
                     url: '{{route('serbinario.localidade.all')}}',
                     datatype: 'json',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{  csrf_token() }}'
-                    },
                 }).done(function (json) {
                     var option = '';
 

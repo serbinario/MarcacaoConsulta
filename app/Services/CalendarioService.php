@@ -4,6 +4,7 @@ namespace Seracademico\Services;
 
 use Seracademico\Repositories\CalendarioRepository;
 use Seracademico\Entities\Calendario;
+use Yajra\Datatables\Datatables;
 
 class CalendarioService
 {
@@ -48,7 +49,11 @@ class CalendarioService
 
         #tratamento de dados do aluno
         $data     = $this->tratamentoCampos($data);
-
+        $data     = $this->tratamentoCamposVazio($data);
+        
+        if($data['mais_mapa'] == '1') {
+            $data['qtd_vagas'] = $data['qtd_vagas'] * 2;
+        }
         #Salvando o registro pincipal
         $calendario =  $this->repository->create($data);
 
@@ -110,13 +115,49 @@ class CalendarioService
         #Recuperando o registro no banco de dados
         $calendario = $this->repository->with(['especialista', 'agendamento'])->findWhere(['data' => $data, 'especialista_id' => $idEspecialista, 'localidade_id' => $idlocalidade]);
 
+        if(count($calendario) > 0) {
+            //Quantidade hora um
+            $qtdVagaHora1 = \DB::table('agendamento')
+                ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
+                ->where('agendamento.hora', '=', $calendario[0]->hora)
+                ->where('calendario.id', '=', $calendario[0]->id)
+                ->select([
+                    \DB::raw('count(agendamento.id) as agendamento_um')
+                ])->get();
+
+            //Quantidade hora dois
+            $qtdVagaHora2 = \DB::table('agendamento')
+                ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
+                ->where('agendamento.hora', '=', $calendario[0]->hora2)
+                ->where('calendario.id', '=', $calendario[0]->id)
+                ->select([
+                    \DB::raw('count(agendamento.id) as agendamento_dois')
+                ])->get();
+
+            $retorno = [
+                'calendario' => $calendario,
+                'qtdVagaHora1' => $qtdVagaHora1,
+                'qtdVagaHora2' => $qtdVagaHora2,
+            ];
+        } else {
+            $retorno = [
+                'calendario' => $calendario,
+                'qtdVagaHora1' => "",
+                'qtdVagaHora2' => "",
+            ];
+        }
+
+        
         #Verificando se o registro foi encontrado
         if(count($calendario) <= 0) {
-            return false;
+            $retorno['status'] = false;
+            return $retorno;
+        } else {
+            $retorno['status'] = true;
         }
 
         #retorno
-        return $calendario;
+        return $retorno;
     }
 
     /**
@@ -129,10 +170,27 @@ class CalendarioService
 
         #tratamento de dados do aluno
         $data     = $this->tratamentoCampos($data);
+        $data     = $this->tratamentoCamposVazio($data);
+
+        if($data['mais_mapa'] == '1') {
+            $data['qtd_vagas'] = $data['qtd_vagas'] * 2;
+        } 
+
+        if(!isset($data['hora2'])) {
+            $data['hora2'] = null;
+        }
 
         #Atualizando no banco de dados
         $calendario = $this->repository->update($data, $id);
 
+        $calendarioFind = $this->repository->with(['agendamento.evento'])->find($id);
+        //Atualizando os agendamentos conforme a data atual do calendário
+        foreach ($calendarioFind->agendamento as $agendamento) {
+            foreach ($agendamento->evento as $evento) {
+                $evento->start = $calendario->data;
+                $evento->save();
+            }
+        }
 
         #Verificando se foi atualizado no banco de dados
         if(!$calendario) {
@@ -213,5 +271,22 @@ class CalendarioService
 
         #return
         return $model;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function tratamentoCamposVazio(array &$data)
+    {
+        # Tratamento de campos de chaves estrangeira
+        foreach ($data as $key => $value) {
+
+            if ($value == null) {
+                unset($data[$key]);
+            }
+        }
+        #Retorno
+        return $data;
     }
 }

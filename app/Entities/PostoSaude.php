@@ -14,6 +14,10 @@ class PostoSaude extends Model implements Transformable
 
     protected $fillable = [ 
 		'nome',
+        'cnes',
+        'endereco',
+        'numero',
+        'bairro',
 	];
 
 }

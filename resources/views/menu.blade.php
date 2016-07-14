@@ -45,7 +45,7 @@
                     <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Cadastros</span> <span
                                 class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
-                        <li><a href="{{ route('serbinario.cgm.index') }}">Cadastro Paciente</a></li>
+                        <li><a href="{{ route('serbinario.cgm.index') }}">Cadastro Pessoa</a></li>
                         <li><a href="{{ route('serbinario.localidade.index') }}">Unidade de Atendimento</a></li>
                         <li><a href="{{ route('serbinario.ps.index') }}">Cadastro PSF</a></li>
                         <li><a href="{{ route('serbinario.especialidade.index') }}">Especialidades</a></li>

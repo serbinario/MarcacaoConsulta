@@ -88,9 +88,19 @@
                         <div class="modal-header">
                             <button class="close" type="button" data-dismiss="modal">×</button>
                             <h3 class="modal-title">Agendar Paciente</h3><br />
-                            <span class="total-vagas ocultar"></span>
-                            <span class="total-agendados ocultar"></span>
-                            <span class="vagas-restantes ocultar"></span><br />
+                            <div class="div-hora1">
+                                <span class="hora1"></span>
+                                <span class="total-vagas1 ocultar1"></span>
+                                <span class="total-agendados1 ocultar1"></span>
+                                <span class="vagas-restantes1 ocultar1"></span><br />
+                            </div>
+                            <div class="div-hora2">
+                                <span class="hora2"></span>
+                                <span class="total-vagas2 ocultar2"></span>
+                                <span class="total-agendados2 ocultar2"></span>
+                                <span class="vagas-restantes2 ocultar2"></span><br />
+                            </div>
+
                         </div>
                         <form method="post" id="form_agendamento">
                             <div class="modal-body" style="alignment-baseline: central">
@@ -110,6 +120,13 @@
                                             <div class="form-group">
                                                 <select class="form-control" name="posto_saude_is" id="psf">
                                                     <option value="">Selecione o posto de saúde</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select class="form-control" name="hora" id="hora">
+
                                                 </select>
                                             </div>
                                         </div>
@@ -137,14 +154,14 @@
     <script type="text/javascript">
         $(document).ready(function () {
             cgm();
-                    @include('selects')
+            @include('selects')
             @if(isset($dados))
                 var idEspecialista = "{{$dados['especialista']}}";
                 var idLocalidade = "{{$dados['localidade']}}";
                 var idEspecialidade = "{{$dados['especialidade']}}";
-            localidade(idLocalidade);
-            especialidade(idEspecialidade);
-            especialistas(idEspecialidade, idEspecialista);
+                localidade(idLocalidade);
+                especialidade(idEspecialidade);
+                especialistas(idEspecialidade, idEspecialista);
             @else
                 var idEspecialista = "";
                 var idLocalidade = "";
@@ -163,9 +180,6 @@
                 events: function (start, end, timezone, callback) {
                     jQuery.ajax({
                         url: '{{ route('serbinario.agendamento.loadCalendar') }}',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{  csrf_token() }}'
-                        },
                         type: 'POST',
                         dataType: 'json',
                         data: {
@@ -194,9 +208,7 @@
                         }
                     });
                 },
-
                 eventRender: function (event, element) {
-
                 },
 
                 //Envento do click no dia do calendário
@@ -215,9 +227,6 @@
                     jQuery.ajax({
                         type: 'POST',
                         url: '{{ route('serbinario.calendario.calendariodatamedico') }}',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{  csrf_token() }}'
-                        },
                         data: dados,
                         datatype: 'json'
                     }).done(function (json) {
@@ -227,23 +236,49 @@
                             $('#calendario').val(json['calendario'][0]['id']);
                             $('#data').val(json['calendario'][0]['data']);
                             $('#cgm option').remove();
-                            cgm()
-
-                            var vagasRestantes = json['calendario'][0]['qtd_vagas'] - json['calendario'][0]['agendamento'].length;
-
-                            $('.total-vagas').html("<b>Total de Vagas:</b> " + json['calendario'][0]['qtd_vagas'] + " / ");
-                            if(vagasRestantes <= "0") {
-                                $('.total-agendados').html("<b>Total de Agendados: </b>" + "<span style='color: red' '>" + json['calendario'][0]['agendamento'].length + "</span>" + " / ");
-                            } else {
-                                $('.total-agendados').html("<b>Total de Agendados: </b>" + json['calendario'][0]['agendamento'].length + " / ");
-                            }
-                            vagasRestantes = vagasRestantes < 0 ? 0 : vagasRestantes;
-                            $('.vagas-restantes').html("<b>Vagas Restantes: </b>" + vagasRestantes );
-                           // console.log(json['calendario'][0]['agendamento'].length);
+                            cgm();
                             psfs();
                             $('#obs').text('');
+                            var TotalVagas = 0;
 
-                            if(vagasRestantes <= "0") {
+                            if(json['calendario'][0]['hora2']) {
+                                TotalVagas = json['calendario'][0]['qtd_vagas'] / 2;
+                            } else {
+                                TotalVagas = json['calendario'][0]['qtd_vagas'];
+                            }
+
+                            //Tratando os resultados para vagas hora 1
+                            var vagasRestantes1 = TotalVagas - json['qtdVagaHora1'][0]['agendamento_um'];
+                            $('.hora1').html("<b>Mapa:</b> " + json['calendario'][0]['hora'] + ": ");
+                            $('.total-vagas1').html("<b>Total de Vagas:</b> " + TotalVagas + " / ");
+                            if(vagasRestantes1 <= "0") {
+                                $('.total-agendados1').html("<b>Total de Agendados: </b>" + "<span style='color: red' '>" + json['qtdVagaHora1'][0]['agendamento_um'] + "</span>" + " / ");
+                            } else {
+                                $('.total-agendados1').html("<b>Total de Agendados: </b>" + json['qtdVagaHora1'][0]['agendamento_um'] + " / ");
+                            }
+                            vagasRestantes1 = vagasRestantes1 < 0 ? 0 : vagasRestantes1;
+                            $('.vagas-restantes1').html("<b>Vagas Restantes: </b>" + vagasRestantes1 );
+
+                            //Tratando os resultados para vagas hora 2
+                            if(json['calendario'][0]['hora2']) {
+                                $('.div-hora2').show();
+                                var vagasRestantes2 = TotalVagas - json['qtdVagaHora2'][0]['agendamento_dois'];
+                                $('.hora2').html("<b>Mapa:</b> " + json['calendario'][0]['hora2'] + ": ");
+                                $('.total-vagas2').html("<b>Total de Vagas:</b> " + TotalVagas + " / ");
+                                $('.total-vagas2').html("<b>Total de Vagas:</b> " + TotalVagas + " / ");
+                                if(vagasRestantes2 <= "0") {
+                                    $('.total-agendados2').html("<b>Total de Agendados: </b>" + "<span style='color: red' '>" + json['qtdVagaHora2'][0]['agendamento_dois'] + "</span>" + " / ");
+                                } else {
+                                    $('.total-agendados2').html("<b>Total de Agendados: </b>" + json['qtdVagaHora2'][0]['agendamento_dois'] + " / ");
+                                }
+                                vagasRestantes2 = vagasRestantes2 < 0 ? 0 : vagasRestantes2;
+                                $('.vagas-restantes2').html("<b>Vagas Restantes: </b>" + vagasRestantes2 );
+                            } else {
+                                $('.div-hora2').hide();
+                            }
+
+                            //Validando habilitação do botão save para perfil de usuário
+                            if(vagasRestantes1 <= "0") {
                                 @role('submaster')
                                     $('#save').attr('disabled', true);
                                 @endrole
@@ -253,6 +288,16 @@
                             } else {
                                 $('#save').attr('disabled', false);
                             }
+
+                            //Combobox para hora
+                            var option = "";
+                            option += '<option value="'+json['calendario'][0]['hora']+'">'+json['calendario'][0]['hora']+'</option>';
+                            if(json['calendario'][0]['hora2']) {
+                                option += '<option value="'+json['calendario'][0]['hora2']+'">'+json['calendario'][0]['hora2']+'</option>';
+                            }
+                            $('#hora option').remove();
+                            $('#hora').prepend(option);
+
 
                             $('#edit').attr('disabled', true);
                             $("#modalCGM").modal({show: true});
@@ -269,7 +314,6 @@
                     var date       = calEvent.start._i;
                     var idPaciente = calEvent.idAgendamento;
 
-                    console.log(calEvent.idAgendamento);
                     jQuery.ajax({
                         url: '{{ route('serbinario.agendamento.edit') }}',
                         type: 'POST',
@@ -282,7 +326,7 @@
                         },
                         success: function (data) {
 
-                            console.log(data['model']['cgm']);
+                            $('#hora option').remove();
                             $('#calendario').val(data['model']['calendario_id']);
                             $('#data').val(date);
                             $('#id').val(data['model']['id']);
@@ -294,6 +338,23 @@
                             $('#cgm').append(option);
                             //$("#cgm").select2("updateResults");
                            cgm();
+
+                            //Combobox para hora
+                            var option = "";
+                            if(data['model']['calendario']['hora'] == data['model']['hora']) {
+                                option += '<option selected value="'+data['model']['calendario']['hora']+'">'+data['model']['calendario']['hora']+'</option>';
+                            }else {
+                                option += '<option value="'+data['model']['calendario']['hora']+'">'+data['model']['calendario']['hora']+'</option>';
+                            }
+                            if(data['model']['calendario']['hora2']) {
+                                if(data['model']['calendario']['hora2'] == data['model']['hora']) {
+                                    option += '<option selected value="'+data['model']['calendario']['hora2']+'">'+data['model']['calendario']['hora2']+'</option>';
+                                } else {
+                                    option += '<option value="'+data['model']['calendario']['hora2']+'">'+data['model']['calendario']['hora2']+'</option>';
+                                }
+                            }
+                            $('#hora option').remove();
+                            $('#hora').prepend(option);
 
                             $('.total-vagas').html('');
                             $('.total-agendados').html('');
@@ -311,42 +372,6 @@
 
         });
 
-        //Carregando os especialidades
-        $(document).on('change', "#especialidade", function () {
-            //Removendo as Bairros
-            $('#especialista option').remove();
-
-            //Recuperando a cidade
-            var especialidade = $(this).val();
-
-            if (especialidade !== "") {
-                var dados = {
-                    'especialidade': especialidade,
-                }
-
-                jQuery.ajax({
-                    type: 'POST',
-                    url: '{{ route('serbinario.especialista.byespecialidade')  }}',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{  csrf_token() }}'
-                    },
-                    data: dados,
-                    datatype: 'json'
-                }).done(function (json) {
-                    console.log(json['especialistas'][0]['get_cgm']);
-                    var option = "";
-
-                    option += '<option value="">Selecione um Especialista</option>';
-                    for (var i = 0; i < json['especialistas'].length; i++) {
-                        option += '<option value="' + json['especialistas'][i]['id'] + '">' + json['especialistas'][i]['get_cgm']['nome'] + '</option>';
-                    }
-
-                    $('#especialista option').remove();
-                    $('#especialista').append(option);
-                });
-            }
-        });
-
 
         //Ações do formulário
         $(document).ready(function () {
@@ -358,7 +383,8 @@
                     'calendario_id': $('#calendario').val(),
                     'posto_saude_id': $('#psf').val(),
                     'obs': $('#obs').val(),
-                    'status': '1'
+                    'status': '1',
+                    'hora': $('#hora').val(),
                 }
 
                 $.ajax({
@@ -392,28 +418,59 @@
                     'calendario_id': $('#calendario').val(),
                     'posto_saude_id': $('#psf').val(),
                     'obs': $('#obs').val(),
-                    'status': '1'
+                    'status': '1',
+                    'hora': $('#hora').val(),
                 }
 
-                $.ajax({
-                    url: "/serbinario/agendamento/update/" + $('#id').val(),
+                jQuery.ajax({
+                    type: 'POST',
+                    url: '/MarcConsulta/public/index.php/serbinario/agendamento/update/' + $('#id').val(),
                     data: {
-                        agendamento: dados,
+                        agendamento: dados
                     },
-                    headers: {
-                        'X-CSRF-TOKEN': '{{  csrf_token() }}'
-                    },
-                    dataType: "json",
-                    type: "POST",
-                    success: function (data) {
-                        alert(data['msg']);
-                        $("#calendar").fullCalendar("refetchEvents");
-                        $("#modalCGM").modal('hide');
-                    }
+                    datatype: 'json'
+                }).done(function (retorno) {
+                    alert(retorno['msg']);
+                    $("#calendar").fullCalendar("refetchEvents");
+                    $("#modalCGM").modal('hide');
                 });
             });
         });
 
+        //Carregando os especialidades
+        $(document).on('change', "#especialidade", function () {
+            //Removendo as Bairros
+            $('#especialista option').remove();
+
+            //Recuperando a cidade
+            var especialidade = $(this).val();
+
+            if (especialidade !== "") {
+                var dados = {
+                    'especialidade': especialidade,
+                }
+
+                jQuery.ajax({
+                    type: 'POST',
+                    url: '{{ route('serbinario.especialista.byespecialidade')  }}',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{  csrf_token() }}'
+                    },
+                    data: dados,
+                    datatype: 'json'
+                }).done(function (json) {
+                    var option = "";
+
+                    option += '<option value="">Selecione um Especialista</option>';
+                    for (var i = 0; i < json['especialistas'].length; i++) {
+                        option += '<option value="' + json['especialistas'][i]['id'] + '">' + json['especialistas'][i]['get_cgm']['nome'] + '</option>';
+                    }
+
+                    $('#especialista option').remove();
+                    $('#especialista').append(option);
+                });
+            }
+        });
 
         //consulta via select2 cgm
         function cgm () {
@@ -423,7 +480,7 @@
                 width: 400,
                 ajax: {
                     type: 'POST',
-                    url: "{{ route('serbinario.util.select2')  }}",
+                    url: "{{ route('serbinario.util.select2Agenda')  }}",
                     dataType: 'json',
                     delay: 250,
                     crossDomain: true,

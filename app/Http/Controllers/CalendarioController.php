@@ -154,18 +154,18 @@ class CalendarioController extends Controller
     {
         $data = $request->all();
 
-        $calendario = $this->service->findCalendarioDataMedico($data['data'], $data['idMedico'], $data['idLocalidade']);
-        $qtdAgendados = 0;
-        
-        //dd(count($calendario[0]->agendamento));
+        $result = $this->service->findCalendarioDataMedico($data['data'], $data['idMedico'], $data['idLocalidade']);
+        $calendario   = $result['calendario'];
+        $qtdVagaHora1 = $result['qtdVagaHora1'];
+        $qtdVagaHora2 = $result['qtdVagaHora2'];
 
-        if($calendario) {
+        if($result['status']) {
             $retorno = true;
         } else {
             $retorno = false;
         }
 
-        return compact('calendario', 'retorno');
+        return compact('calendario', 'retorno', 'qtdVagaHora1', 'qtdVagaHora2');
     }
 
 }

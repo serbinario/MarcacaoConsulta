@@ -52,7 +52,7 @@ class PostoSaudeController extends Controller
     public function grid()
     {
         #Criando a consulta
-        $rows = \DB::table('posto_saude')->select(['id', 'nome']);
+        $rows = \DB::table('posto_saude')->select(['id', 'nome', 'cnes']);
 
         #Editando a grid
         return Datatables::of($rows)->addColumn('action', function ($row) {

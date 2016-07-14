@@ -17,7 +17,6 @@ class Kernel extends HttpKernel
         \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-        \Seracademico\Http\Middleware\VerifyCsrfToken::class,
     ];
 
     /**
@@ -32,5 +31,6 @@ class Kernel extends HttpKernel
         'role' => \Bican\Roles\Middleware\VerifyRole::class,
         'permission' => \Bican\Roles\Middleware\VerifyPermission::class,
         'level' => \Bican\Roles\Middleware\VerifyLevel::class,
+        'token' => \Seracademico\Http\Middleware\VerifyCsrfToken::class,
     ];
 }

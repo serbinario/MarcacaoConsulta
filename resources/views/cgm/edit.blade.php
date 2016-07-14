@@ -7,7 +7,7 @@
         <div class="ibox-title">
             <h4>
                 <i class="fa fa-user"></i>
-                Editar Aluno
+                Editar Pessoa
             </h4>
         </div>
         <div class="ibox-content">
@@ -130,6 +130,7 @@
                     });
                 }
             });
+
 
             //consulta via select2
             $("#instituicao").select2({

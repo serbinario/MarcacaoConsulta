@@ -10,11 +10,21 @@ class Bairro extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $table    = 'bairro';
+    protected $table    = 'bairros';
 
     protected $fillable = [ 
 		'nome',
-		'cidade',
+		'cidades_id',
 	];
+
+    public function enderecos()
+    {
+        return $this->hasMany(EnderecoCGM::class, "bairro");
+    }
+
+    public function cidade()
+    {
+        return $this->belongsTo(Cidade::class, "cidades_id");
+    }
 
 }

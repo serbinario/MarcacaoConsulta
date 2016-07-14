@@ -28,7 +28,6 @@ class CGM extends Model implements Transformable
 		'email',
 		'num_cnh',
 		'venci_cnh',
-		'nire',
 		'nome_complemento',
 		'nome_fantasia',
 		'tipo_cadastro',

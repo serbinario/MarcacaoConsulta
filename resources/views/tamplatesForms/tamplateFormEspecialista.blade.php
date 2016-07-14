@@ -19,7 +19,6 @@
                     </select>
                 </div>
             </div>
-
             <div class="col-md-2">
                 <div class="form-group">
 				{!! Form::label('qtd_vagas', 'Quantidade de vagas') !!}
@@ -27,8 +26,23 @@
                 </div>
             </div>
 		</div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    {!! Form::label('crm', 'CRM') !!}
+                    {!! Form::text('crm', Session::getOldInput('crm')  , array('class' => 'form-control')) !!}
+                </div>
+            </div>
+        </div>
 	</div>
-    <div class="col-md-2">
-        {!! Form::submit('Salvar', array('class' => 'btn btn-primary btn-block pull-right')) !!}
+    <div class="col-md-3">
+        <div class="btn-group btn-group-justified">
+            <div class="btn-group">
+                <a href="{{ route('serbinario.especialista.index') }}" class="btn btn-primary btn-block"><i
+                            class="fa fa-long-arrow-left"></i> Voltar</a></div>
+            <div class="btn-group">
+                {!! Form::submit('Salvar', array('class' => 'btn btn-primary btn-block')) !!}
+            </div>
+        </div>
     </div>
 </div>

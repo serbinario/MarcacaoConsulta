@@ -19,4 +19,9 @@ class Evento extends Model implements Transformable
 		'agendamento_id',
 	];
 
+	public function agendamento()
+	{
+		return $this->belongsTo(Agendamento::class, 'agendamento_id');
+	}
+
 }

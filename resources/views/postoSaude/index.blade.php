@@ -22,12 +22,14 @@
                             <thead>
                             <tr>
                                 <th>Nome</th>
+                                <th>cnes</th>
                                 <th>Acão</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
                                 <th>Nome</th>
+                                <th>cnes</th>
                                 <th style="width: 17%;">Acão</th>
                             </tr>
                             </tfoot>
@@ -50,6 +52,7 @@
             ajax: "{!! route('serbinario.ps.grid') !!}",
             columns: [
                 {data: 'nome', name: 'nome'},
+                {data: 'cnes', name: 'cnes'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });

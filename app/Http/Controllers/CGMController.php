@@ -61,7 +61,7 @@ class CGMController extends Controller
     public function grid()
     {
         #Criando a consulta
-        $rows = \DB::table('cgm')->select(['id', 'nome', 'cpf_cnpj']);
+        $rows = \DB::table('cgm')->select(['id', 'nome', 'cpf_cnpj', 'numero_sus']);
 
         #Editando a grid
         return Datatables::of($rows)->addColumn('action', function ($row) {

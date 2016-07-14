@@ -16,6 +16,7 @@ class Especialista extends Model implements Transformable
 		'especialidade',
 		'cgm',
 		'qtd_vagas',
+		'crm',
 	];
 
 	public function getCgm()
