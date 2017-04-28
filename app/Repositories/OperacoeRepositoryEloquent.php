@@ -4,15 +4,15 @@ namespace Seracademico\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Seracademico\Validators\CGMValidator;
-use Seracademico\Repositories\CGMRepository;
-use Seracademico\Entities\CGM;
+use Seracademico\Validators\OperacoeValidator;
+use Seracademico\Repositories\OperacoeRepository;
+use Seracademico\Entities\Operacoe;
 
 /**
- * Class CGMRepositoryEloquent
+ * Class OperacoeRepositoryEloquent
  * @package namespace App\Repositories;
  */
-class CGMRepositoryEloquent extends BaseRepository implements CGMRepository
+class OperacoeRepositoryEloquent extends BaseRepository implements OperacoeRepository
 {
     /**
      * Specify Model class name
@@ -21,8 +21,20 @@ class CGMRepositoryEloquent extends BaseRepository implements CGMRepository
      */
     public function model()
     {
-        return CGM::class;
+        return Operacoe::class;
     }
+
+    /**
+    * Specify Validator class name
+    *
+    * @return mixed
+    */
+    public function validator()
+    {
+
+         return OperacoeValidator::class;
+    }
+
 
 
     /**

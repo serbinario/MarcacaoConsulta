@@ -30,7 +30,7 @@ class EspecialistaService
 
         $relacionamentos = [
             'getCgm',
-            'getEspecialidade',
+            'especialistaEspecialidade.operacao.grupo.tipo',
         ];
 
         #Recuperando o registro no banco de dados
@@ -53,18 +53,23 @@ class EspecialistaService
     public function findByEspecialidade($id)
     {
 
-        $relacionamentos = [
+        /*$relacionamentos = [
             'getCgm',
-            'getEspecialidade',
-        ];
+            'especialistaEspecialidade',
+        ];*/
 
         #Recuperando o registro no banco de dados
-        $especialista = $this->repository->with($relacionamentos)->findWhere(array('especialidade' => $id));
+       //$especialista = $this->repository->with($relacionamentos)->findWhere(array('especialidade' => $id));
 
-        #Verificando se o registro foi encontrado
-        if(!$especialista) {
-            throw new \Exception('Empresa não encontrada!');
-        }
+        #Recuperando o registro no banco de dados
+        $especialista = \DB::table('especialista')
+            ->join('cgm', 'cgm.id', '=', 'especialista.cgm')
+            ->join('especialista_especialidade', 'especialista_especialidade.especialista_id', '=', 'especialista.id')
+            ->where('especialista_especialidade.especialidade_id', '=', $id)
+            ->select([
+                'especialista.id',
+                'cgm.nome'
+            ])->get();
 
         #retorno
         return $especialista;
@@ -78,6 +83,7 @@ class EspecialistaService
     {
         #Salvando o registro pincipal
         $especialista =  $this->repository->create($data);
+        $especialista->especialistaEspecialidade()->attach($data['operacoes']);
 
         #Verificando se foi criado no banco de dados
         if(!$especialista) {
@@ -97,7 +103,8 @@ class EspecialistaService
     {
         #Atualizando no banco de dados
         $especialista = $this->repository->update($data, $id);
-
+        $especialista->especialistaEspecialidade()->detach();
+        $especialista->especialistaEspecialidade()->attach($data['operacoes']);
 
         #Verificando se foi atualizado no banco de dados
         if(!$especialista) {

@@ -4,15 +4,14 @@ namespace Seracademico\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Seracademico\Validators\CGMValidator;
-use Seracademico\Repositories\CGMRepository;
-use Seracademico\Entities\CGM;
+use Seracademico\Entities\Fila;
+use Seracademico\Validators\FilaValidator;
 
 /**
- * Class CGMRepositoryEloquent
+ * Class EspecialidadeRepositoryEloquent
  * @package namespace App\Repositories;
  */
-class CGMRepositoryEloquent extends BaseRepository implements CGMRepository
+class FilaRepositoryEloquent extends BaseRepository implements FilaRepository
 {
     /**
      * Specify Model class name
@@ -21,9 +20,8 @@ class CGMRepositoryEloquent extends BaseRepository implements CGMRepository
      */
     public function model()
     {
-        return CGM::class;
+        return Fila::class;
     }
-
 
     /**
      * Boot up the repository, pushing criteria

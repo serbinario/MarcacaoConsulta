@@ -117,7 +117,8 @@
                                     <div class="col-md-12">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <select class="form-control" name="cgm_id" id="paciente">
+                                                <select class="form-control" name="cgm_id" id="cgm">
+
                                                 </select>
                                                 <input type="hidden" id="calendario" name="calendario_id">
                                                 <input type="hidden" id="data" name="data">
@@ -149,8 +150,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button class="btn btn-primary" disabled id="save">Salvar</button>
-                                <button class="btn btn-danger" id="delete">Deletar</button>
-                                {{--<button class="btn btn-warning" id="edit">Editar</button>--}}
+                                <button class="btn btn-warning" id="edit">Editar</button>
                             </div>
                         </form>
                     </div>
@@ -164,30 +164,37 @@
 <script type="text/javascript" src="{{asset('/js/agendamento/script-agendamento.js')}}"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-
-        // Campos da pesquisa zerados para carregamento inicial do calendáriowq
+        {{--@if(isset($dados))
+            var idEspecialista = "{{$dados['especialista']}}";
+            var idLocalidade = "{{$dados['localidade']}}";
+            var idEspecialidade = "{{$dados['especialidade']}}";
+            localidade(idLocalidade);
+            especialidade(idEspecialidade);
+            especialistas(idEspecialidade, idEspecialista);
+        @else
+            var idEspecialista = "";
+            var idLocalidade = "";
+        @endif
+--}}
         var dados = {
             'idLocalidade': "",
-            'idEspecialista': ""
+            'idEspecialista': "",
         };
 
-        // Submete a pesquisa para carregamento do calendário por especialista e localidade
         $('#btnConsultar').click(function () {
 
-            var localidade = $('#localidade').val();
-            var especialista = $('#especialista').val();
-            var especialidade = $('#grupo_operacao').val();
+            var localidade      = $('#localidade').val();
+            var especialista    = $('#especialista').val();
+            var especialidade   = $('#grupo_operacao').val();
 
-            if (localidade && especialista) {
+            if(localidade && especialista) {
 
                 dados = {
                     'idLocalidade': localidade,
                     'idEspecialista': especialista,
                 };
 
-                $('#calendar').fullCalendar('refetchEvents');
-
-                paciente("", especialidade);
+                $('#calendar').fullCalendar( 'refetchEvents' );
             }
 
         });
@@ -231,9 +238,8 @@
 
             //Envento do click no dia do calendário
             dayClick: function (date, allDay, jsEvent, view, resourceObj) {
-                var idMedico        = $('#especialista').val();
-                var idLocal         = $('#localidade').val();
-                var especialidade   = $('#grupo_operacao').val();
+                var idMedico = $('#especialista').val();
+                var idLocal = $('#localidade').val();
                 var data = date.format();
 
                 //Dados do para validar médico
@@ -241,7 +247,7 @@
                     idMedico: idMedico,
                     data: data,
                     idLocalidade: idLocal
-                };
+                }
 
                 jQuery.ajax({
                     type: 'POST',
@@ -254,12 +260,12 @@
 
                         $('#calendario').val(json['calendario']['id']);
                         $('#data').val(json['calendario']['data']);
-                        $('#obs').text('');
-
+                        $('#cgm option').remove();
+                        cgm();
                         psfs();
-                        paciente("", especialidade);
-
+                        $('#obs').text('');
                         var TotalVagas = 0;
+
                         if (json['calendario']['hora2']) {
                             TotalVagas = json['calendario']['qtd_vagas'] / 2;
                         } else {
@@ -271,7 +277,6 @@
                         $('.hora1').html("<b>Mapa:</b> " + json['calendario']['hora'] + ": ");
                         $('.total-vagas1').html("<b>Total de Vagas:</b> " + TotalVagas + " / ");
 
-                        // Verifica se as vagas para o primeiro mapa estão esgotados
                         if (vagasRestantes1 <= "0") {
                             $('.total-agendados1').html("<b>Total de Agendados: </b>" + "<span style='color: red' '>" + json['qtdVagaHora1']['agendamento_um'] + "</span>" + " / ");
                         } else {
@@ -284,12 +289,12 @@
                         //Tratando os resultados para vagas hora 2
                         if (json['calendario']['hora2']) {
                             $('.div-hora2').show();
-
                             var vagasRestantes2 = TotalVagas - json['qtdVagaHora2']['agendamento_dois'];
                             $('.hora2').html("<b>Mapa:</b> " + json['calendario']['hora2'] + ": ");
                             $('.total-vagas2').html("<b>Total de Vagas:</b> " + TotalVagas + " / ");
 
-                            // Verifica se as vagas para o segundo mapa estão esgotados
+                            //$('.total-vagas2').html("<b>Total de Vagas:</b> " + TotalVagas + " / ");
+
                             if (vagasRestantes2 <= "0") {
                                 $('.total-agendados2').html("<b>Total de Agendados: </b>" + "<span style='color: red' '>" + json['qtdVagaHora2']['agendamento_dois'] + "</span>" + " / ");
                             } else {
@@ -310,7 +315,6 @@
                              @role('master|admin')
                                 $('#save').attr('disabled', false);
                             @endrole
-
                         } else {
                             $('#save').attr('disabled', false);
                         }
@@ -326,7 +330,7 @@
                         $('#hora').prepend(option);
 
 
-                        $('#delete').attr('disabled', true);
+                        $('#edit').attr('disabled', true);
                         $("#modalCGM").modal({show: true});
                     } else {
                         //$('#especialista').val("");
@@ -345,32 +349,35 @@
                     url: '{{ route('serbinario.agendamento.edit') }}',
                     type: 'POST',
                     dataType: 'json',
-                    data: {'id': idPaciente},
+                    headers: {
+                        'X-CSRF-TOKEN': '{{  csrf_token() }}'
+                    },
+                    data: {
+                        'id': idPaciente
+                    },
                     success: function (data) {
 
+                        $('#hora option').remove();
                         $('#calendario').val(data['model']['calendario_id']);
                         $('#data').val(date);
                         $('#id').val(data['model']['id']);
                         $('#obs').text(data['model']['obs']);
                         psfs(data['model']['posto_saude_id']);
-                        //paciente(data['model']['fila']['id'], data['model']['fila']['especialidade_id']);
 
-                        var optionPaciente = '<option selected value="' + data['model']['fila']['id'] + '">' + data['model']['fila']['cgm']['nome'] + '</option>'
-                        $('#paciente option').remove();
-                        $('#paciente').append(optionPaciente);
+                        var option = '<option selected value="' + data['model']['cgm']['id'] + '">' + data['model']['cgm']['nome'] + '</option>'
+                        $('#cgm option').remove();
+                        $('#cgm').append(option);
+                        //$("#cgm").select2("updateResults");
+                        cgm();
 
                         //Combobox para hora
                         var option = "";
-                        // Regra para marcar como selecioando a hora da consulta do paciente - primeiro mapa
                         if (data['model']['calendario']['hora'] == data['model']['hora']) {
                             option += '<option selected value="' + data['model']['calendario']['hora'] + '">' + data['model']['calendario']['hora'] + '</option>';
                         } else {
                             option += '<option value="' + data['model']['calendario']['hora'] + '">' + data['model']['calendario']['hora'] + '</option>';
                         }
-
-                        // Validando se existe um segundo mapa de consulta
                         if (data['model']['calendario']['hora2']) {
-                            // Regra para marcar como selecioando a hora da consulta do paciente - segundo mapa
                             if (data['model']['calendario']['hora2'] == data['model']['hora']) {
                                 option += '<option selected value="' + data['model']['calendario']['hora2'] + '">' + data['model']['calendario']['hora2'] + '</option>';
                             } else {
@@ -386,7 +393,7 @@
                         $('.vagas-restantes').html('');
 
                         $('#save').attr('disabled', true);
-                        $('#delete').attr('disabled', false);
+                        $('#edit').attr('disabled', false);
                         $("#modalCGM").modal({show: true});
                     }
                 });
@@ -394,6 +401,7 @@
             }
 
         });
+
     });
 
 </script>

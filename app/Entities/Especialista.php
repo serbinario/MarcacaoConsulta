@@ -12,8 +12,7 @@ class Especialista extends Model implements Transformable
 
     protected $table    = 'especialista';
 
-    protected $fillable = [ 
-		'especialidade',
+    protected $fillable = [
 		'cgm',
 		'qtd_vagas',
 		'crm',
@@ -24,8 +23,11 @@ class Especialista extends Model implements Transformable
 		return $this->belongsTo(CGM::class, 'cgm');
 	}
 
-	public function getEspecialidade()
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+	 */
+	public function especialistaEspecialidade()
 	{
-		return $this->belongsTo(Especialidade::class, 'especialidade');
+		return $this->belongsToMany(Especialidade::class, 'especialista_especialidade', 'especialista_id', "especialidade_id");
 	}
 }

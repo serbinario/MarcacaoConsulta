@@ -5,36 +5,34 @@ namespace Seracademico\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Seracademico\Http\Requests;
-use Seracademico\Services\EspecialistaService;
+use Seracademico\Services\OperacoeService;
 use Yajra\Datatables\Datatables;
 use Prettus\Validator\Exceptions\ValidatorException;
 use Prettus\Validator\Contracts\ValidatorInterface;
-use Seracademico\Validators\EspecialistaValidator;
+use Seracademico\Validators\OperacoeValidator;
 
-class EspecialistaController extends Controller
+class OperacoeController extends Controller
 {
     /**
-    * @var EspecialistaService
+    * @var OperacoeService
     */
     private $service;
 
     /**
-    * @var EspecialistaValidator
+    * @var OperacoeValidator
     */
     private $validator;
 
     /**
     * @var array
     */
-    private $loadFields = [
-        'TipoOperacao'
-    ];
+    private $loadFields = [];
 
     /**
-    * @param EspecialistaService $service
-    * @param EspecialistaValidator $validator
+    * @param OperacoeService $service
+    * @param OperacoeValidator $validator
     */
-    public function __construct(EspecialistaService $service, EspecialistaValidator $validator)
+    public function __construct(OperacoeService $service, OperacoeValidator $validator)
     {
         $this->service   =  $service;
         $this->validator =  $validator;
@@ -45,7 +43,7 @@ class EspecialistaController extends Controller
      */
     public function index()
     {
-        return view('especialista.index');
+        return view('operacoe.index');
     }
 
     /**
@@ -54,16 +52,11 @@ class EspecialistaController extends Controller
     public function grid()
     {
         #Criando a consulta
-        $rows = \DB::table('especialista')
-            ->join('cgm', 'cgm.id', '=', 'especialista.cgm')
-            ->select('especialista.id as id', 'cgm.nome as nomecgm');
-
-       //dd($rows);
+        $rows = \DB::table('operacoes')->select(['id', 'nome']);
 
         #Editando a grid
         return Datatables::of($rows)->addColumn('action', function ($row) {
-            return '<a href="edit/'.$row->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a>
-            <a href="agenda/'.$row->id.'" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-important-day"></i> Agenda</a>';
+            return '<a href="edit/'.$row->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a>';
         })->make(true);
     }
 
@@ -76,7 +69,7 @@ class EspecialistaController extends Controller
         $loadFields = $this->service->load($this->loadFields);
 
         #Retorno para view
-        return view('especialista.create', compact('loadFields'));
+        return view('operacoe.create', compact('loadFields'));
     }
 
     /**
@@ -121,7 +114,7 @@ class EspecialistaController extends Controller
             $loadFields = $this->service->load($this->loadFields);
 
             #retorno para view
-            return view('especialista.edit', compact('model', 'loadFields'));
+            return view('operacoe.edit', compact('model', 'loadFields'));
         } catch (\Throwable $e) {dd($e);
             return redirect()->back()->with('message', $e->getMessage());
         }
@@ -152,20 +145,5 @@ class EspecialistaController extends Controller
             return redirect()->back()->with('message', $e->getMessage());
         }
     }
-
-    /**
-     * @param Request $request
-     * @return array
-     * @throws \Exception
-     */
-    public function getByEspacialidade(Request $request)
-    {
-        $data = $request->all();
-
-        $especialistas = $this->service->findByEspecialidade($data['especialidade']);
-
-        return compact('especialistas');
-    }
-
 
 }

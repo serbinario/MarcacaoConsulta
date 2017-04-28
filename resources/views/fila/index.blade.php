@@ -7,27 +7,29 @@
             <div class="col-md-10">
                 <h4>
                     <i class="fa fa-users"></i>
-                    Listar Especialidades
+                    Fila de espera
                 </h4>
             </div>
             <div class="col-md-2">
-                <a href="{{ route('serbinario.especialidade.create')}}" class="btn-sm btn-primary">Nova Especialidade</a>
+                <a href="{{ route('serbinario.fila.create')}}" class="btn-sm btn-primary">Adicionar na fila</a>
             </div>
         </div>
         <div class="ibox-content">
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-responsive no-padding">
-                        <table id="ps-grid" class="display table table-bordered" cellspacing="0" width="100%">
+                        <table id="fila-grid" class="display table table-bordered" cellspacing="0" width="100%">
                             <thead>
                             <tr>
-                                <th>Nome</th>
+                                <th>Paciente</th>
+                                <th>Especialidade</th>
                                 <th>Acão</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
-                                <th>Nome</th>
+                                <th>Paciente</th>
+                                <th>Especialidade</th>
                                 <th style="width: 17%;">Acão</th>
                             </tr>
                             </tfoot>
@@ -41,15 +43,16 @@
 
 @section('javascript')
     <script type="text/javascript">
-        var table = $('#ps-grid').DataTable({
+        var table = $('#fila-grid').DataTable({
             processing: true,
             serverSide: true,
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json'
             },
-            ajax: "{!! route('serbinario.especialidade.grid') !!}",
+            ajax: "{!! route('serbinario.fila.grid') !!}",
             columns: [
-                {data: 'nome', name: 'operacoes.nome'},
+                {data: 'nome', name: 'cgm.nome'},
+                {data: 'especialidade', name: 'operacoes.nome'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });

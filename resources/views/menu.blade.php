@@ -46,6 +46,7 @@
                                 class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
                         <li><a href="{{ route('serbinario.cgm.index') }}">Cadastro Pessoa</a></li>
+                        <li><a href="{{ route('serbinario.fila.index') }}">Fila</a></li>
                         <li><a href="{{ route('serbinario.localidade.index') }}">Unidade de Atendimento</a></li>
                         <li><a href="{{ route('serbinario.ps.index') }}">Cadastro PSF</a></li>
                         <li><a href="{{ route('serbinario.especialidade.index') }}">Especialidades</a></li>
@@ -122,7 +123,7 @@
 <script src="{{ asset('/js/jquery-2.1.1.js')}}"></script>
 <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js" type="text/javascript" ></script>
 <script src="{{ asset('/js/select2.full.min.js')}}" type="text/javascript"></script>
-<script src="{{ asset('/js/pt-BR.js')}}" type="text/javascript"></script>
+{{--<script src="{{ asset('/js/pt-BR.js')}}" type="text/javascript"></script>--}}
 <script src="{{ asset('/js/bootstrap.min.js')}}"></script>
 <script src="{{ asset('/js/plugins/metisMenu/jquery.metisMenu.js')}}"></script>
 <script src="{{ asset('/js/plugins/toastr.min.js')}}"></script>
@@ -149,6 +150,7 @@
 <script src="{{ asset('/js/jasny-bootstrap.js')}}"></script>
 <script src="{{ asset('/js/jquery.mask.js')}}"></script>
 <script src="{{ asset('/js/mascaras.js')}}"></script>
+<script src="{{ asset('/js/laroute.js')}}"></script>
 <script type="text/javascript">
 $(document).ready(function () {
     $('.datepicker').datetimepicker({

@@ -5,6 +5,7 @@ namespace Seracademico\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
+use Seracademico\Uteis\SerbinarioDateFormat;
 
 class CGM extends Model implements Transformable
 {
@@ -44,7 +45,61 @@ class CGM extends Model implements Transformable
 		'cgmmunicipio',
 		'categoria_cnh',
 		'estado_civil',
+		'fone',
+		'idade'
 	];
+
+
+	/**
+	 * @return string
+	 */
+	public function getDataNascimentoAttribute()
+	{
+		return SerbinarioDateFormat::toBrazil($this->attributes['data_nascimento']);
+	}
+
+	/**
+	 *
+	 * @return \DateTime
+	 */
+	public function setDataNascimentoAttribute($value)
+	{
+		$this->attributes['data_nascimento'] = SerbinarioDateFormat::toUsa($value);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDataFalecimentoAttribute()
+	{
+		return SerbinarioDateFormat::toBrazil($this->attributes['data_falecimento']);
+	}
+
+	/**
+	 *
+	 * @return \DateTime
+	 */
+	public function setDataFalecimentoAttribute($value)
+	{
+		$this->attributes['data_falecimento'] = SerbinarioDateFormat::toUsa($value);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDataExpedicaoAttribute()
+	{
+		return SerbinarioDateFormat::toBrazil($this->attributes['data_expedicao']);
+	}
+
+	/**
+	 *
+	 * @return \DateTime
+	 */
+	public function setDataExpedicaoAttribute($value)
+	{
+		$this->attributes['data_expedicao'] = SerbinarioDateFormat::toUsa($value);
+	}
 
 	public function endereco()
 	{

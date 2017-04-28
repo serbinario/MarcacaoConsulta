@@ -7,7 +7,7 @@
         <div class="ibox-title">
             <h4>
                 <i class="fa fa-user"></i>
-                Cadastrar Especialista
+                Cadastrar Fila
             </h4>
         </div>
         <div class="ibox-content">
@@ -28,8 +28,8 @@
                 </div>
             @endif
 
-            {!! Form::open(['route'=>'serbinario.especialista.store', 'method' => "POST", 'id' => 'formEspecialista', 'enctype' => 'multipart/form-data']) !!}
-                @include('tamplatesForms.tamplateFormEspecialista')
+            {!! Form::open(['route'=>'serbinario.fila.store', 'method' => "POST", 'id' => 'formFila']) !!}
+                @include('tamplatesForms.tamplateFormFila')
             {!! Form::close() !!}
         </div>
     </div>

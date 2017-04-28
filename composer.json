@@ -15,7 +15,8 @@
         "mcamara/laravel-localization": "1.0.*",
         "barryvdh/laravel-snappy": "0.2.x",
         "doctrine/dbal": "~2.3",
-        "nesbot/carbon": "~1.14"
+        "nesbot/carbon": "~1.14",
+        "lord/laroute" : "^5.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

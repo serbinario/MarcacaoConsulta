@@ -7,10 +7,11 @@
         <div class="ibox-title">
             <h4>
                 <i class="fa fa-user"></i>
-                Cadastrar Especialista
+                Editar Fila
             </h4>
         </div>
         <div class="ibox-content">
+
 
             @if(Session::has('message'))
                 <div class="alert alert-success">
@@ -28,9 +29,10 @@
                 </div>
             @endif
 
-            {!! Form::open(['route'=>'serbinario.especialista.store', 'method' => "POST", 'id' => 'formEspecialista', 'enctype' => 'multipart/form-data']) !!}
-                @include('tamplatesForms.tamplateFormEspecialista')
+            {!! Form::model($model, ['route'=> ['serbinario.fila.update', $model->id], 'id' => 'formFila']) !!}
+                @include('tamplatesForms.tamplateFormFila')
             {!! Form::close() !!}
         </div>
     </div>
+
 @stop

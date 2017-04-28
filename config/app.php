@@ -177,6 +177,11 @@ return [
          */
         Serbinario\L5scaffold\GeneratorsServiceProvider::class,
 
+        /*
+         * Gerador de rotas javascript
+         */
+        Lord\Laroute\LarouteServiceProvider::class,
+
 
     ],
 

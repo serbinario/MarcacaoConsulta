@@ -2,20 +2,20 @@
 
 namespace Seracademico\Services;
 
-use Seracademico\Repositories\EspecialidadeRepository;
-use Seracademico\Entities\Especialidade;
+use Seracademico\Repositories\OperacoeRepository;
+use Seracademico\Entities\Operacoe;
 
-class EspecialidadeService
+class OperacoeService
 {
     /**
-     * @var EspecialidadeRepository
+     * @var OperacoeRepository
      */
     private $repository;
 
     /**
-     * @param EspecialidadeRepository $repository
+     * @param OperacoeRepository $repository
      */
-    public function __construct(EspecialidadeRepository $repository)
+    public function __construct(OperacoeRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -27,56 +27,34 @@ class EspecialidadeService
      */
     public function find($id)
     {
-        $relacionamento = [
-            'operacao.grupo.tipo'
-        ];
-        
         #Recuperando o registro no banco de dados
-        $especialidade = $this->repository->with($relacionamento)->find($id);
+        $operacoes = $this->repository->find($id);
 
         #Verificando se o registro foi encontrado
-        if(!$especialidade) {
+        if(!$operacoes) {
             throw new \Exception('Empresa não encontrada!');
         }
 
         #retorno
-        return $especialidade;
-    }
-
-    /**
-     * @return mixed
-     * @throws \Exception
-     */
-    public function all()
-    {
-        #Recuperando o registro no banco de dados
-        $especialidades = $this->repository->all();
-
-        #Verificando se o registro foi encontrado
-        if(!$especialidades) {
-            throw new \Exception('Especialidades não encontrada!');
-        }
-
-        #retorno
-        return $especialidades;
+        return $operacoes;
     }
 
     /**
      * @param array $data
      * @return array
      */
-    public function store(array $data) : Especialidade
+    public function store(array $data) : Operacoe
     {
         #Salvando o registro pincipal
-        $especialidade =  $this->repository->create($data);
+        $operacoes =  $this->repository->create($data);
 
         #Verificando se foi criado no banco de dados
-        if(!$especialidade) {
+        if(!$operacoes) {
             throw new \Exception('Ocorreu um erro ao cadastrar!');
         }
 
         #Retorno
-        return $especialidade;
+        return $operacoes;
     }
 
     /**
@@ -84,19 +62,19 @@ class EspecialidadeService
      * @param int $id
      * @return mixed
      */
-    public function update(array $data, int $id) : Especialidade
+    public function update(array $data, int $id) : Operacoe
     {
         #Atualizando no banco de dados
-        $especialidade = $this->repository->update($data, $id);
+        $operacoes = $this->repository->update($data, $id);
 
 
         #Verificando se foi atualizado no banco de dados
-        if(!$especialidade) {
+        if(!$operacoes) {
             throw new \Exception('Ocorreu um erro ao cadastrar!');
         }
 
         #Retorno
-        return $especialidade;
+        return $operacoes;
     }
 
     /**

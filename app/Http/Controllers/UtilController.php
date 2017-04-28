@@ -41,6 +41,70 @@ class UtilController extends Controller
      * @param Request $request
      * @return mixed
      */
+    public function searchOperacoes(Request $request)
+    {
+        try {
+            #recuperando os dados da requisição
+            $table = $request->get('table');
+            $filed = $request->get('field_search');
+            $value = $request->get('value_search');
+            $tipo  = $request->get('tipo_search');
+
+            #Validando os parametros
+            if($table == null || $filed == null || $value == null) {
+                throw new \Exception('Parametros inválidos');
+            }
+
+            #executando a consulta e retornando os dados
+            $grupos =  DB::table($table)
+                ->join('tipo_operacoes', 'tipo_operacoes.id', '=', $table.'.tipo_operacao_id')
+                ->select([
+                    $table.'.nome',
+                    $table.'.id'
+            ])->orderBy($table.'.nome', 'asc')->where($filed, $value)->get();
+
+            if($tipo == '1') {
+
+                foreach ($grupos as $grupo) {
+                    $gruposArray[] = [
+                        'text' => $grupo->nome,
+                        'children' => DB::table('operacoes')
+                            ->join('grupo_operacoes', 'grupo_operacoes.id', '=', 'operacoes.grupo_operaco_id')
+                            ->select([
+                                'operacoes.nome as text',
+                                'operacoes.id'
+                            ])->orderBy('operacoes.nome', 'asc')->where('grupo_operacoes.id', $grupo->id)->get()
+                    ];
+                }
+
+            } else {
+                foreach ($grupos as $grupo) {
+                    $gruposArray[] = [
+                        'text' => $grupo->nome,
+                        'children' => DB::table('especialidade')
+                            ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
+                            ->join('grupo_operacoes', 'grupo_operacoes.id', '=', 'operacoes.grupo_operaco_id')
+                            ->select([
+                                'operacoes.nome as text',
+                                'especialidade.id'
+                            ])->orderBy('operacoes.nome', 'asc')->where('grupo_operacoes.id', $grupo->id)->get()
+                    ];
+                }
+            }
+
+            return $gruposArray;
+           // dd($gruposArray);
+        } catch (\Throwable $e) {
+            return \Illuminate\Support\Facades\Response::json([
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function queryByselect2(Request $request)
     {
         try {
@@ -54,6 +118,8 @@ class UtilController extends Controller
             $pageValue   = $request->get('page');
             $fieldWhere  = $request->get('fieldWhere');
             $valueWhere  = $request->get('valueWhere');
+            $joinTable   = $request->get('joinTable');
+            $joinName    = $request->get('joinName');
 
 //            #Validando os parametros
 //            if($searchValue == null || $tableName == null || $fieldName == null || $pageValue == null) {
@@ -61,11 +127,19 @@ class UtilController extends Controller
 //            }
 
             #preparando a consulta
-            $qb = DB::table($tableName)->select('id', 'nome');
+            $qb = DB::table($tableName);
+            if($joinTable && $joinName) {
+                $qb->join($joinTable, $joinTable.".id", '=', $tableName.".".$joinName);
+                $qb->select($tableName.".id", $joinTable.".nome");
+                $qb->orderBy($joinTable.'.nome', 'asc');
+                $qb->where($joinTable.".".$fieldName,'like', "%$searchValue%");
+            } else {
+                $qb->select('id', 'nome');
+                $qb->orderBy('nome', 'asc');
+                $qb->where($fieldName,'like', "%$searchValue%");
+            }
             $qb->skip($pageValue);
             $qb->take(10);
-            $qb->orderBy('nome', 'asc');
-            $qb->where($fieldName,'like', "%$searchValue%");
 
             #Validando os campos de where
             if($fieldWhere != null && $valueWhere != null) {

@@ -33,7 +33,4 @@
             {!! Form::close() !!}
         </div>
     </div>
-
-    @section('javascript')
-    @stop
 @stop

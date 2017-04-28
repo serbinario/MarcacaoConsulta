@@ -96,8 +96,24 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('store', ['as' => 'store', 'uses' => 'AgendamentoController@store']);
             Route::post('edit/{id}', ['as' => 'edit', 'uses' => 'AgendamentoController@edit']);
             Route::post('update/{id}', ['as' => 'update', 'uses' => 'AgendamentoController@update']);
+            Route::post('delete/{id}', ['as' => 'delete', 'uses' => 'AgendamentoController@delete']);
+            Route::post('getTipoOperacao', ['as' => 'getTipoOperacao', 'uses' => 'AgendamentoController@getTipoOperacao']);
+            Route::post('getGrupoOperacao/{id}', ['as' => 'getGrupoOperacao', 'uses' => 'AgendamentoController@getGrupoOperacao']);
+            Route::post('getPacientes', ['as' => 'getPacientes', 'uses' => 'AgendamentoController@getPacientes']);
         });
 
+
+        Route::group(['prefix' => 'fila', 'as' => 'fila.'], function () {
+            Route::get('index', ['as' => 'index', 'uses' => 'FilaController@index']);
+            Route::post('all', ['as' => 'all', 'uses' => 'FilaController@all']);
+            Route::get('grid', ['as' => 'grid', 'uses' => 'FilaController@grid']);
+            Route::get('create', ['as' => 'create', 'uses' => 'FilaController@create']);
+            Route::post('store', ['as' => 'store', 'uses' => 'FilaController@store']);
+            Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'FilaController@edit']);
+            Route::post('update/{id}', ['as' => 'update', 'uses' => 'FilaController@update']);
+
+            Route::post('getDadosPaciente', ['as' => 'getDadosPaciente', 'uses' => 'FilaController@getDadosDoPaciente']);
+        });
 
         Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
             Route::get('index', ['as' => 'index', 'uses' => 'UserController@index']);
@@ -119,6 +135,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
         Route::group(['prefix' => 'util', 'as' => 'util.'], function () {
             Route::post('search', ['as' => 'search', 'uses' => 'UtilController@search']);
+            Route::post('searchOperacoes', ['as' => 'searchOperacoes', 'uses' => 'UtilController@searchOperacoes']);
             Route::post('select2', ['as' => 'select2', 'uses' => 'UtilController@queryByselect2']);
             Route::post('select2Agenda', ['as' => 'select2Agenda', 'uses' => 'UtilController@queryByselect2Agenda']);
         });

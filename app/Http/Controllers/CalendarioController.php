@@ -66,8 +66,6 @@ class CalendarioController extends Controller
             #Recuperando os dados da requisição
             $data = $request->all();
 
-            //dd(json_encode($data));
-
             #Validando a requisição
             $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_CREATE);
 
@@ -94,8 +92,6 @@ class CalendarioController extends Controller
             #Recuperando os dados da requisição
             $data = $request->all();
 
-           //dd($data);
-
             #Validando a requisição
             //$this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
 
@@ -110,6 +106,7 @@ class CalendarioController extends Controller
             return $e->getMessage();
         }
     }
+
 
     /**
      * @param $id

@@ -26,7 +26,10 @@ class EspecialidadeController extends Controller
     /**
     * @var array
     */
-    private $loadFields = [];
+    private $loadFields = [
+        'TipoOperacao',
+        'GrupoOperacao'
+    ];
 
     /**
     * @param EspecialidadeService $service
@@ -52,7 +55,9 @@ class EspecialidadeController extends Controller
     public function grid()
     {
         #Criando a consulta
-        $rows = \DB::table('especialidade')->select(['id', 'nome']);
+        $rows = \DB::table('especialidade')
+            ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
+            ->select(['especialidade.id as id', 'operacoes.nome']);
 
         #Editando a grid
         return Datatables::of($rows)->addColumn('action', function ($row) {

@@ -113,26 +113,43 @@ class CalendarioService
     public function findCalendarioDataMedico($data, $idEspecialista, $idlocalidade)
     {
         #Recuperando o registro no banco de dados
-        $calendario = $this->repository->with(['especialista', 'agendamento'])->findWhere(['data' => $data, 'especialista_id' => $idEspecialista, 'localidade_id' => $idlocalidade]);
+        //$calendario = $this->repository->with(['especialista', 'agendamento'])->findWhere(['data' => $data, 'especialista_id' => $idEspecialista, 'localidade_id' => $idlocalidade]);
 
-        if(count($calendario) > 0) {
+        $calendario = \DB::table('calendario')
+            ->join('especialista', 'especialista.id', '=', 'calendario.especialista_id')
+            ->leftJoin('agendamento', 'agendamento.calendario_id', '=', 'calendario.id')
+            ->where('calendario.especialista_id', '=', $idEspecialista)
+            ->where('calendario.localidade_id', '=', $idlocalidade)
+            ->where('calendario.data', '=', $data)
+            ->select([
+                'calendario.id',
+                'calendario.hora',
+                'calendario.hora2',
+                'calendario.qtd_vagas',
+                'calendario.mais_mapa',
+                'calendario.status',
+                'calendario.data',
+            ])->first()
+        ;
+
+        if($calendario) {
             //Quantidade hora um
             $qtdVagaHora1 = \DB::table('agendamento')
                 ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
-                ->where('agendamento.hora', '=', $calendario[0]->hora)
-                ->where('calendario.id', '=', $calendario[0]->id)
+                ->where('agendamento.hora', '=', $calendario->hora)
+                ->where('calendario.id', '=', $calendario->id)
                 ->select([
                     \DB::raw('count(agendamento.id) as agendamento_um')
-                ])->get();
+                ])->first();
 
             //Quantidade hora dois
             $qtdVagaHora2 = \DB::table('agendamento')
                 ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
-                ->where('agendamento.hora', '=', $calendario[0]->hora2)
-                ->where('calendario.id', '=', $calendario[0]->id)
+                ->where('agendamento.hora', '=', $calendario->hora2)
+                ->where('calendario.id', '=', $calendario->id)
                 ->select([
                     \DB::raw('count(agendamento.id) as agendamento_dois')
-                ])->get();
+                ])->first();
 
             $retorno = [
                 'calendario' => $calendario,
@@ -149,7 +166,7 @@ class CalendarioService
 
         
         #Verificando se o registro foi encontrado
-        if(count($calendario) <= 0) {
+        if(!$calendario) {
             $retorno['status'] = false;
             return $retorno;
         } else {

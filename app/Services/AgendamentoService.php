@@ -59,7 +59,7 @@ class AgendamentoService
     public function find($id)
     {
         $relacionamentos = [
-            'cgm',
+            'fila.cgm',
             'psf',
             'calendario.agendamento',
         ];
@@ -89,7 +89,8 @@ class AgendamentoService
 
         $eventos = \DB::table('evento')
             ->join('agendamento', 'evento.agendamento_id', '=', 'agendamento.id')
-            ->join('cgm', 'agendamento.cgm_id', '=', 'cgm.id')
+            ->join('fila', 'fila.id', '=', 'agendamento.fila_id')
+            ->join('cgm', 'cgm.id', '=', 'fila.cgm_id')
             ->join('calendario', 'agendamento.calendario_id', '=', 'calendario.id')
             ->join('localidade', 'calendario.localidade_id', '=', 'localidade.id')
             ->join('especialista', 'calendario.especialista_id', '=', 'especialista.id')
@@ -119,17 +120,20 @@ class AgendamentoService
     public function store(array $data) : Agendamento
     {
         #Salvando o registro pincipal
-        $agendamento =  $this->repository->create($data['agendamento']);
+        $agendamento =  $this->repository->create($data['dados']);
 
-        $agendamentoFind = $this->repository->with('cgm')->find($agendamento->id);
+        $agendamentoFind = $this->repository->with(['fila.cgm', 'calendario'])->find($agendamento->id);
 
         $evento = [
-            'title' => $agendamentoFind['cgm']['nome'],
-            'start' => $data['dataEvento'],
+            'title' => $agendamentoFind['fila']['cgm']['nome'],
+            'start' => $data['dados']['dataEvento'],
             'agendamento_id' => $agendamento->id,
         ];
 
         $evento = $this->repoEvento->create($evento);
+
+        // Atualizando o status do paciente na fila
+        \DB::table('fila')->where('id', $data['dados']['fila_id'])->update(['status' => '1']);
 
         #Verificando se foi criado no banco de dados
         if(!$agendamento && !$evento) {
@@ -147,7 +151,8 @@ class AgendamentoService
      */
     public function update(array $data, $id) : Agendamento
     {
-        #Atualizando no banco de dados
+
+        #Deletando no banco de dados
         $agendamento = $this->repository->update($data, $id);
 
         #Verificando se foi atualizado no banco de dados
@@ -157,6 +162,29 @@ class AgendamentoService
 
         #Retorno
         return $agendamento;
+    }
+
+    /**
+     * @param array $data
+     * @param int $id
+     * @return mixed
+     */
+    public function delete($id)
+    {
+        // Pegando o agendamento
+        $agendamento = $this->repository->find($id);
+
+        // Atualizando o status do paciente na fila
+        \DB::table('fila')->where('id', $agendamento['fila_id'])->update(['status' => '0']);
+
+        #Deletando no banco de dados
+        // Deletando o evento
+        \DB::table('evento')->where('agendamento_id', $id)->delete();
+        // Deletando agendamento
+        $this->repository->delete($id);
+
+        #Retorno
+        return true;
     }
 
     /**

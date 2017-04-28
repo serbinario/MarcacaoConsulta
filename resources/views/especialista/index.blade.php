@@ -22,14 +22,12 @@
                             <thead>
                             <tr>
                                 <th>Nome</th>
-                                <th>Especialidade</th>
                                 <th>Acão</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
                                 <th>Nome</th>
-                                <th>Especialidade</th>
                                 <th style="width: 17%;">Acão</th>
                             </tr>
                             </tfoot>
@@ -52,7 +50,6 @@
             ajax: "{!! route('serbinario.especialista.grid') !!}",
             columns: [
                 {data: 'nomecgm', name: 'nomecgm'},
-                {data: 'nomeesp', name: 'nomeesp'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });

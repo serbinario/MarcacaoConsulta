@@ -5,17 +5,17 @@ namespace Seracademico\Validators;
 use \Prettus\Validator\Contracts\ValidatorInterface;
 use \Prettus\Validator\LaravelValidator;
 
-class EspecialistaValidator extends LaravelValidator
+class OperacoeValidator extends LaravelValidator
 {
 
     protected $rules = [
         ValidatorInterface::RULE_CREATE => [
             
-			'cgm' =>  'required' ,
-			'qtd_vagas' =>  '' ,
+			'nome' =>  '' ,
+			'tipo_operacao_id' =>  '' ,
+			'grupo_operaco_id' =>  '' ,
 
         ],
-
         ValidatorInterface::RULE_UPDATE => [],
    ];
 

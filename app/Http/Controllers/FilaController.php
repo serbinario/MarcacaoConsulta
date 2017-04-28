@@ -5,21 +5,21 @@ namespace Seracademico\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Seracademico\Http\Requests;
-use Seracademico\Services\EspecialistaService;
+use Seracademico\Services\FilaService;
 use Yajra\Datatables\Datatables;
 use Prettus\Validator\Exceptions\ValidatorException;
 use Prettus\Validator\Contracts\ValidatorInterface;
-use Seracademico\Validators\EspecialistaValidator;
+use Seracademico\Validators\FilaValidator;
 
-class EspecialistaController extends Controller
+class FilaController extends Controller
 {
     /**
-    * @var EspecialistaService
+    * @var FilaService
     */
     private $service;
 
     /**
-    * @var EspecialistaValidator
+    * @var FilaValidator
     */
     private $validator;
 
@@ -27,14 +27,16 @@ class EspecialistaController extends Controller
     * @var array
     */
     private $loadFields = [
-        'TipoOperacao'
+        'Estado',
+        'Prioridade',
+        'CGM'
     ];
 
     /**
-    * @param EspecialistaService $service
-    * @param EspecialistaValidator $validator
+    * @param FilaService $service
+    * @param FilaValidator $validator
     */
-    public function __construct(EspecialistaService $service, EspecialistaValidator $validator)
+    public function __construct(FilaService $service, FilaValidator $validator)
     {
         $this->service   =  $service;
         $this->validator =  $validator;
@@ -45,7 +47,7 @@ class EspecialistaController extends Controller
      */
     public function index()
     {
-        return view('especialista.index');
+        return view('fila.index');
     }
 
     /**
@@ -54,16 +56,19 @@ class EspecialistaController extends Controller
     public function grid()
     {
         #Criando a consulta
-        $rows = \DB::table('especialista')
-            ->join('cgm', 'cgm.id', '=', 'especialista.cgm')
-            ->select('especialista.id as id', 'cgm.nome as nomecgm');
-
-       //dd($rows);
+        $rows = \DB::table('fila')
+            ->join('cgm', 'cgm.id', '=', 'fila.cgm_id')
+            ->join('especialidade', 'especialidade.id', '=', 'fila.especialidade_id')
+            ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
+            ->select([
+                'fila.id',
+                'cgm.nome',
+                'operacoes.nome as especialidade'
+            ]);
 
         #Editando a grid
         return Datatables::of($rows)->addColumn('action', function ($row) {
-            return '<a href="edit/'.$row->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a>
-            <a href="agenda/'.$row->id.'" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-important-day"></i> Agenda</a>';
+            return '<a href="edit/'.$row->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a>';
         })->make(true);
     }
 
@@ -76,7 +81,7 @@ class EspecialistaController extends Controller
         $loadFields = $this->service->load($this->loadFields);
 
         #Retorno para view
-        return view('especialista.create', compact('loadFields'));
+        return view('fila.create', compact('loadFields'));
     }
 
     /**
@@ -121,7 +126,7 @@ class EspecialistaController extends Controller
             $loadFields = $this->service->load($this->loadFields);
 
             #retorno para view
-            return view('especialista.edit', compact('model', 'loadFields'));
+            return view('fila.edit', compact('model', 'loadFields'));
         } catch (\Throwable $e) {dd($e);
             return redirect()->back()->with('message', $e->getMessage());
         }
@@ -154,18 +159,46 @@ class EspecialistaController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @return array
-     * @throws \Exception
+     *
      */
-    public function getByEspacialidade(Request $request)
+    public function all()
     {
-        $data = $request->all();
+        $localidades = $this->service->all();
 
-        $especialistas = $this->service->findByEspecialidade($data['especialidade']);
-
-        return compact('especialistas');
+        #Retorno para view
+        return compact('localidades');
     }
 
+    /**
+     *
+     */
+    public function getDadosDoPaciente(Request $request)
+    {
+
+        $paciente = \DB::table('cgm')
+            ->join('endereco_cgm', 'endereco_cgm.id', '=', 'cgm.endereco_cgm')
+            ->leftJoin('bairros', 'bairros.id', '=', 'endereco_cgm.bairro')
+            ->leftJoin('cidades', 'cidades.id', '=', 'bairros.cidades_id')
+            ->leftJoin('estados', 'estados.id', '=', 'cidades.estados_id')
+            ->where('cgm.id', '=', $request->get('paciente'))
+            ->select([
+                'cgm.id',
+                'cgm.nome',
+                'cgm.numero_sus',
+                \DB::raw('DATE_FORMAT(cgm.data_nascimento,"%d/%m/%Y") as data_nascimento'),
+                'cgm.idade',
+                'cgm.fone',
+                'endereco_cgm.logradouro',
+                'endereco_cgm.numero',
+                'bairros.nome as bairro',
+                'bairros.id as bairro_id',
+                'cidades.nome as cidade',
+                'cidades.id as cidade_id',
+                'estados.id as estado',
+            ])->first();
+
+        #Retorno para view
+        return compact('paciente');
+    }
 
 }

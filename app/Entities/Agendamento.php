@@ -17,13 +17,13 @@ class Agendamento extends Model implements Transformable
 		'obs',
 		'posto_saude_id',
 		'calendario_id',
-		'cgm_id',
+		'fila_id',
 		'hora',
 	];
 
-	public function cgm()
+	public function fila()
 	{
-		return $this->belongsTo(CGM::class, 'cgm_id');
+		return $this->belongsTo(Fila::class, 'fila_id');
 	}
 
 	public function psf()
