@@ -20,7 +20,7 @@ $(document).ready(function () {
         };
 
         $.ajax({
-            url: laroute.route('serbinario.agendamento.store'),
+            url: "/serbinario/agendamento/store",
             data: {dados: dados},
             dataType: "json",
             type: "POST",
@@ -69,7 +69,7 @@ $(document).ready(function () {
 
         jQuery.ajax({
             type: 'POST',
-            url: laroute.route('serbinario.agendamento.delete', {'id' : $('#id').val()}),
+            url: "/serbinario/agendamento/delete/"+$('#id').val(),
             datatype: 'json'
         }).done(function (retorno) {
             alert(retorno['msg']);

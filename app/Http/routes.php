@@ -63,7 +63,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('store', ['as' => 'store', 'uses' => 'EspecialistaController@store']);
             Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'EspecialistaController@edit']);
             Route::post('update/{id}', ['as' => 'update', 'uses' => 'EspecialistaController@update']);
-            Route::post('byespecialidade/{id}', ['as' => 'byespecialidade', 'uses' => 'EspecialistaController@getByEspacialidade']);
+            Route::post('byespecialidade', ['as' => 'byespecialidade', 'uses' => 'EspecialistaController@getByEspacialidade']);
             Route::get('agenda/{id}', ['as' => 'agenda', 'uses' => 'CalendarioController@index']);
         });
 

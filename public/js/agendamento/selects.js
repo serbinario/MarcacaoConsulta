@@ -6,7 +6,7 @@
 function localidade(id) {
     jQuery.ajax({
         type: 'POST',
-        url: laroute.route('serbinario.localidade.all'),
+        url: "/serbinario/localidade/all",
         datatype: 'json',
     }).done(function (json) {
         var option = '';
@@ -29,7 +29,7 @@ function localidade(id) {
 function especialidade(id) {
     jQuery.ajax({
         type: 'POST',
-        url: laroute.route('serbinario.especialidade.all'),
+        url: "/serbinario/especialidade/all",
         datatype: 'json'
     }).done(function (json) {
         var option = '';
@@ -53,7 +53,7 @@ function psfs(id) {
 
     jQuery.ajax({
         type: 'POST',
-        url: laroute.route('serbinario.ps.all'),
+        url: "/serbinario/ps/all",
         datatype: 'json',
     }).done(function (json) {
         var option = '';
@@ -77,7 +77,7 @@ function especialistas(idEspecialidade, id) {
 
     jQuery.ajax({
         type: 'POST',
-        url: laroute.route('serbinario.especialista.byespecialidade'),
+        url: "/serbinario/especialista/byespecialidade",
         datatype: 'json',
         data: {
             'especialidade': idEspecialidade
@@ -113,7 +113,7 @@ $(document).on('change', "#grupo_operacao", function () {
 
         jQuery.ajax({
             type: 'POST',
-            url: laroute.route('serbinario.especialista.byespecialidade'),
+            url: "/serbinario/especialista/byespecialidade",
             datatype: 'json',
             data: {
                 'especialidade': idEspecialidade
@@ -142,7 +142,7 @@ function tipoOperacoes(id) {
 
     jQuery.ajax({
         type: 'POST',
-        url: laroute.route('serbinario.agendamento.getTipoOperacao'),
+        url: "/serbinario/agendamento/getTipoOperacao",
         datatype: 'json',
     }).done(function (json) {
         var option = '';
@@ -179,7 +179,7 @@ $(document).on('change', "#tipo_operacao", function () {
 
         jQuery.ajax({
             type: 'POST',
-            url: laroute.route('serbinario.util.searchOperacoes'),
+            url: "/serbinario/util/searchOperacoes",
             data: dados,
             datatype: 'json'
         }).done(function (json) {
@@ -205,7 +205,7 @@ function paciente(id, especialidade) {
 
     jQuery.ajax({
         type: 'POST',
-        url: laroute.route('serbinario.agendamento.getPacientes'),
+        url: "/serbinario/agendamento/getPacientes",
         datatype: 'json',
         data: {'especialidade' : especialidade}
     }).done(function (json) {
@@ -269,7 +269,7 @@ function paciente(id, especialidade) {
     });
 }*/
 
-tipoOperacoes();
-localidade();
+//tipoOperacoes();
+//localidade();
 especialidade();
 psfs();
