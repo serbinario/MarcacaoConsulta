@@ -21,13 +21,15 @@
                         <table id="ps-grid" class="display table table-bordered" cellspacing="0" width="100%">
                             <thead>
                             <tr>
-                                <th>Nome</th>
+                                <th>Especialidade</th>
+                                <th>Tipo de operação</th>
                                 <th>Acão</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
-                                <th>Nome</th>
+                                <th>Especialidade</th>
+                                <th>Tipo de operação</th>
                                 <th style="width: 17%;">Acão</th>
                             </tr>
                             </tfoot>
@@ -50,6 +52,7 @@
             ajax: "{!! route('serbinario.especialidade.grid') !!}",
             columns: [
                 {data: 'nome', name: 'operacoes.nome'},
+                {data: 'tipo_operacao', name: 'tipo_operacoes.nome'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });

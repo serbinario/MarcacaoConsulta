@@ -21,15 +21,19 @@
                         <table id="fila-grid" class="display table table-bordered" cellspacing="0" width="100%">
                             <thead>
                             <tr>
-                                <th>Paciente</th>
-                                <th>Especialidade</th>
+                                <th>Cidadão</th>
+                                <th>Exame</th>
+                                <th>Prioridade</th>
+                                <th>Data do cadastro</th>
                                 <th>Acão</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
-                                <th>Paciente</th>
-                                <th>Especialidade</th>
+                                <th>Cidadão</th>
+                                <th>Exame</th>
+                                <th>Prioridade</th>
+                                <th>Data do cadastro</th>
                                 <th style="width: 17%;">Acão</th>
                             </tr>
                             </tfoot>
@@ -53,6 +57,8 @@
             columns: [
                 {data: 'nome', name: 'cgm.nome'},
                 {data: 'especialidade', name: 'operacoes.nome'},
+                {data: 'prioridade', name: 'prioridade.nome'},
+                {data: 'data_cadastro', name: 'fila.data'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });

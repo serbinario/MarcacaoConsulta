@@ -60,10 +60,13 @@ class FilaController extends Controller
             ->join('cgm', 'cgm.id', '=', 'fila.cgm_id')
             ->join('especialidade', 'especialidade.id', '=', 'fila.especialidade_id')
             ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
+            ->join('prioridade', 'prioridade.id', '=', 'fila.prioridade_id')
             ->select([
                 'fila.id',
                 'cgm.nome',
-                'operacoes.nome as especialidade'
+                'operacoes.nome as especialidade',
+                'prioridade.nome as prioridade',
+                \DB::raw('DATE_FORMAT(fila.data,"%d/%m/%Y") as data_cadastro')
             ]);
 
         #Editando a grid
@@ -175,7 +178,7 @@ class FilaController extends Controller
     public function getDadosDoPaciente(Request $request)
     {
 
-        $paciente = \DB::table('cgm')
+        $cidadao = \DB::table('cgm')
             ->join('endereco_cgm', 'endereco_cgm.id', '=', 'cgm.endereco_cgm')
             ->leftJoin('bairros', 'bairros.id', '=', 'endereco_cgm.bairro')
             ->leftJoin('cidades', 'cidades.id', '=', 'bairros.cidades_id')
@@ -188,6 +191,9 @@ class FilaController extends Controller
                 \DB::raw('DATE_FORMAT(cgm.data_nascimento,"%d/%m/%Y") as data_nascimento'),
                 'cgm.idade',
                 'cgm.fone',
+                'cgm.cpf_cnpj',
+                'cgm.rg',
+                'cgm.numero_nis',
                 'endereco_cgm.logradouro',
                 'endereco_cgm.numero',
                 'bairros.nome as bairro',
@@ -198,7 +204,7 @@ class FilaController extends Controller
             ])->first();
 
         #Retorno para view
-        return compact('paciente');
+        return compact('cidadao');
     }
 
 }

@@ -30,7 +30,7 @@
             @endif
 
             {!! Form::model($model, ['route'=> ['serbinario.fila.update', $model->id], 'id' => 'formFila']) !!}
-                @include('tamplatesForms.tamplateFormFila')
+                @include('tamplatesForms.tamplateFormFilaDeEspera')
             {!! Form::close() !!}
         </div>
     </div>

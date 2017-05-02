@@ -28,12 +28,12 @@
                 </div>
             @endif
 
-            {!! Form::open(['route'=>'serbinario.ps.store', 'method' => "POST", 'id' => 'formPS', 'enctype' => 'multipart/form-data']) !!}
+            {!! Form::open(['route'=>'serbinario.ps.store', 'method' => "POST", 'id' => 'formPS']) !!}
                 @include('tamplatesForms.tamplateFormPostoSaude')
             {!! Form::close() !!}
         </div>
     </div>
-
-    @section('javascript')
-    @stop
+@stop
+@section('javascript')
+    <script src="{{ asset('/js/validacoes/validation_form_psf.js')}}"></script>
 @stop

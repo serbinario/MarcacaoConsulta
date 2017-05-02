@@ -1,12 +1,14 @@
 <div class="row">
-	<div class="col-md-11">
-        <div class="row">
-            <div class="col-md-5">
-                <div class="form-group">
-                    {!! Form::label('cgm_id', 'Cidad�o ') !!}
-                    {!! Form::select('cgm_id', ['' => 'Selecione um paciente'] + $loadFields['cgm']->toArray(), Session::getOldInput('cgm_id'), array('class' => 'form-control', 'id' => 'paciente')) !!}
+	<div class="col-md-12">
+		<div class="row">
+            @if(!isset($model))
+                <div class="col-md-5">
+                    <div class="form-group">
+                        {!! Form::label('cgm_id', 'Cidadão ') !!}
+                        {!! Form::select('cgm_id', ['' => 'Selecione um paciente'] + $loadFields['cgm']->toArray(), Session::getOldInput('cgm_id'), array('class' => 'form-control', 'id' => 'paciente')) !!}
+                    </div>
                 </div>
-            </div>
+            @endif
             <div class="col-md-3">
                 <div class="form-group">
                     {!! Form::label('especialidade_id', 'Exame solicitado') !!}
@@ -31,16 +33,36 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-5">
-                <div class="form-group">
-                    {!! Form::label('cgm[nome]', 'Cidad�o') !!}
-                    {!! Form::text('cgm[nome]', Session::getOldInput('cgm[nome]')  , array('class' => 'form-control', 'id' => 'nome')) !!}
-                </div>
-            </div>
             <div class="col-md-2">
                 <div class="form-group">
                     {!! Form::label('cgm[nome]', 'SUS') !!}
                     {!! Form::text('cgm[numero_sus]', Session::getOldInput('cgm[numero_sus]')  , array('class' => 'form-control', 'id' => 'numero_sus')) !!}
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    {!! Form::label('cgm[numero_nis]', 'Número NIS') !!}
+                    {!! Form::text('cgm[numero_nis]', Session::getOldInput('cgm[numero_nis]')  , array('class' => 'form-control', 'id' => 'numero_nis')) !!}
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    {!! Form::label('cgm[cpf_cnpj]', 'CPF') !!}
+                    {!! Form::text('cgm[cpf_cnpj]', Session::getOldInput('cgm[cpf_cnpj]')  , array('class' => 'form-control', 'id' => 'cpf_cnpj')) !!}
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    {!! Form::label('cgm[rg]', 'RG') !!}
+                    {!! Form::text('cgm[rg]', Session::getOldInput('cgm[rg]')  , array('class' => 'form-control', 'id' => 'rg')) !!}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    {!! Form::label('cgm[nome]', 'Cidadão') !!}
+                    {!! Form::text('cgm[nome]', Session::getOldInput('cgm[nome]')  , array('class' => 'form-control', 'id' => 'nome')) !!}
                 </div>
             </div>
             <div class="col-md-3">
@@ -56,16 +78,17 @@
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    {!! Form::label('logradouro', 'Endereco') !!}
+                    {!! Form::label('logradouro', 'Endereço') !!}
                     {!! Form::text('cgm[endereco][logradouro]', Session::getOldInput('endereco[logradouro]]')  , array('class' => 'form-control', 'id' => 'logradouro')) !!}
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    {!! Form::label('numero', 'Numero') !!}
+                    {!! Form::label('numero', 'Número') !!}
                     {!! Form::text('cgm[endereco][numero]', Session::getOldInput('endereco[numero]')  , array('class' => 'form-control', 'id' => 'numero')) !!}
                 </div>
             </div>
@@ -97,7 +120,7 @@
                     @endif
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
                     {!! Form::label('bairro', 'Bairro ') !!}
                     @if(isset($model->cgm->endereco->bairros->id))
@@ -120,18 +143,18 @@
         </div>
     </div>
 </div>
-
 @section('javascript')
+    <script src="{{ asset('/js/validacoes/validation_form_fila.js')}}"></script>
     <script type="text/javascript">
 
         //consulta via cgm
         $("#paciente").select2({
-            placeholder: 'Selecione um paciente',
+            placeholder: 'Selecione um cidadão',
             minimumInputLength: 3,
             width: 400,
             ajax: {
                 type: 'POST',
-                url: "{{ route('serbinario.util.select2')  }}",
+                url: "{{ route('serbinario.util.select2FilaDeEspera')  }}",
                 dataType: 'json',
                 delay: 250,
                 crossDomain: true,
@@ -305,28 +328,31 @@
                     datatype: 'json'
                 }).done(function (json) {
 
-                    $('#nome').val(json['paciente']['nome']);
-                    $('#numero_sus').val(json['paciente']['numero_sus']);
-                    $('#data_nascimento').val(json['paciente']['data_nascimento']);
-                    $('#idade').val(json['paciente']['idade']);
-                    $('#fone').val(json['paciente']['fone']);
-                    $('#logradouro').val(json['paciente']['logradouro']);
-                    $('#numero').val(json['paciente']['numero']);
+                    $('#nome').val(json['cidadao']['nome']);
+                    $('#numero_sus').val(json['cidadao']['numero_sus']);
+                    $('#data_nascimento').val(json['cidadao']['data_nascimento']);
+                    $('#idade').val(json['cidadao']['idade']);
+                    $('#fone').val(json['cidadao']['fone']);
+                    $('#logradouro').val(json['cidadao']['logradouro']);
+                    $('#numero').val(json['cidadao']['numero']);
+                    $('#cpf_cnpj').val(json['cidadao']['cpf_cnpj']);
+                    $('#rg').val(json['cidadao']['rg']);
+                    $('#numero_nis').val(json['cidadao']['numero_nis']);
 
                     $( "#estado option" ).each(function() {
-                        if($(this).val() == json['paciente']['estado']) {
+                        if($(this).val() == json['cidadao']['estado']) {
                             $(this).prop('selected', true);
                         }
                     });
 
-                    if(json['paciente']['cidade_id']) {
-                        var option = '<option value="' + json['paciente']['cidade_id'] + '">' + json['paciente']['cidade'] + '</option>';
+                    if(json['cidadao']['cidade_id']) {
+                        var option = '<option value="' + json['cidadao']['cidade_id'] + '">' + json['cidadao']['cidade'] + '</option>';
                         $('#cidade option').remove();
                         $('#cidade').append(option);
                     }
 
-                    if(json['paciente']['bairro_id']) {
-                        var option = '<option value="' + json['paciente']['bairro_id'] + '">' + json['paciente']['bairro'] + '</option>';
+                    if(json['cidadao']['bairro_id']) {
+                        var option = '<option value="' + json['cidadao']['bairro_id'] + '">' + json['cidadao']['bairro'] + '</option>';
                         $('#bairro option').remove();
                         $('#bairro').append(option);
                     }

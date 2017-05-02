@@ -138,6 +138,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('searchOperacoes', ['as' => 'searchOperacoes', 'uses' => 'UtilController@searchOperacoes']);
             Route::post('select2', ['as' => 'select2', 'uses' => 'UtilController@queryByselect2']);
             Route::post('select2Agenda', ['as' => 'select2Agenda', 'uses' => 'UtilController@queryByselect2Agenda']);
+            Route::post('select2FilaDeEspera', ['as' => 'select2FilaDeEspera', 'uses' => 'UtilController@queryByselect2FilaDeEspera']);
         });
 
 

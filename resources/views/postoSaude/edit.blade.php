@@ -41,16 +41,12 @@
                 @endif
             @endif
 
-            {!! Form::model($model, ['route'=> ['serbinario.ps.update', $model->id], 'id' => 'formPS', 'enctype' => 'multipart/form-data']) !!}
+            {!! Form::model($model, ['route'=> ['serbinario.ps.update', $model->id], 'id' => 'formPS']) !!}
                 @include('tamplatesForms.tamplateFormPostoSaude')
-                {{--<a href="{{ route('seracademico.report.contratoAluno', ['id' => $crud->id]) }}" target="_blank" class="btn btn-info">Contrato</a>--}}
             {!! Form::close() !!}
         </div>
     </div>
-<?php
-@endsection
-//echo $cliente['enderecosEnderecos']['bairrosBairros']['cidadesCidades']['estadosEstados']['id']; ?>
-    @section('javascript')
-        <script src="{{ asset('/js/validacoes/validation_form_aluno.js')}}"></script>
-    @stop
+@stop
+@section('javascript')
+    <script src="{{ asset('/js/validacoes/validation_form_psf.js')}}"></script>
 @stop

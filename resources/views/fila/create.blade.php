@@ -29,7 +29,7 @@
             @endif
 
             {!! Form::open(['route'=>'serbinario.fila.store', 'method' => "POST", 'id' => 'formFila']) !!}
-                @include('tamplatesForms.tamplateFormFila')
+                @include('tamplatesForms.tamplateFormFilaDeEspera')
             {!! Form::close() !!}
         </div>
     </div>
