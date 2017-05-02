@@ -7,7 +7,7 @@
             <div class="col-md-10">
                 <h4>
                     <i class="fa fa-users"></i>
-                    Listar Pessoas
+                    Listar CGM
                 </h4>
             </div>
             <div class="col-md-2">

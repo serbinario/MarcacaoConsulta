@@ -7,7 +7,7 @@
         <div class="ibox-title">
             <h4>
                 <i class="fa fa-user"></i>
-                Editar Localidade
+                Cadastrar Unidade de Atendimento
             </h4>
         </div>
         <div class="ibox-content">

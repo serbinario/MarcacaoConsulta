@@ -36,12 +36,12 @@
 
                     <div class="panel panel-primary">
                         <!-- Default panel contents -->
-                        <div class="panel-heading">AGENDAS PROFISSIONAIS</div>
+                        <div class="panel-heading">AGENDA ESPECIALISTA</div>
                         <div class="panel-body">
                             {!! Form::open(['route'=>'serbinario.agendamento.calendar', 'method' => "POST", 'id' => 'formPS']) !!}
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    {!! Form::select('localidade', ['' => 'Localidades'] + $loadFields['localidade']->toArray(), null, array('class' => 'form-control', 'id' => 'localidade')) !!}
+                                    {!! Form::select('localidade', ['' => 'Unidade de Atendimento'] + $loadFields['localidade']->toArray(), null, array('class' => 'form-control', 'id' => 'localidade')) !!}
                                     {{--<select class="form-control" name="localidade" id="localidade">
                                         <option>Localidades</option>
                                         @foreach($localidades as $localidade)

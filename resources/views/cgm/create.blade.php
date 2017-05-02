@@ -7,7 +7,7 @@
         <div class="ibox-title">
             <h4>
                 <i class="fa fa-user"></i>
-                Cadastrar Pessoa
+                Cadastrar CGM
             </h4>
         </div>
         <div class="ibox-content">

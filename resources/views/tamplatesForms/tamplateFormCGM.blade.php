@@ -76,7 +76,7 @@
 
                     <div class="col-md-2">
                         <div class="form-group">
-                            {!! Form::label('cgmmunicipio', 'CGM do município?') !!}
+                            {!! Form::label('cgmmunicipio', 'Cidação do município?') !!}
                             {!! Form::select('cgmmunicipio', $loadFields['cgmmunicipio'], Session::getOldInput('cgmmunicipio'), array('class' => 'form-control')) !!}
                         </div>
                     </div>

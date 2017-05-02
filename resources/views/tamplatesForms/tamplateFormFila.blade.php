@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-5">
                 <div class="form-group">
-                    {!! Form::label('cgm_id', 'Paciente ') !!}
+                    {!! Form::label('cgm_id', 'Cidadão ') !!}
                     {!! Form::select('cgm_id', ['' => 'Selecione um paciente'] + $loadFields['cgm']->toArray(), Session::getOldInput('cgm_id'), array('class' => 'form-control', 'id' => 'paciente')) !!}
                 </div>
             </div>
@@ -25,7 +25,7 @@
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    {!! Form::label('data', 'Data') !!}
+                    {!! Form::label('data', 'Data do cadastro') !!}
                     {!! Form::text('data', Session::getOldInput('data')  , array('class' => 'form-control')) !!}
                 </div>
             </div>
@@ -33,7 +33,7 @@
         <div class="row">
             <div class="col-md-5">
                 <div class="form-group">
-                    {!! Form::label('cgm[nome]', 'Nome') !!}
+                    {!! Form::label('cgm[nome]', 'Cidadão') !!}
                     {!! Form::text('cgm[nome]', Session::getOldInput('cgm[nome]')  , array('class' => 'form-control', 'id' => 'nome')) !!}
                 </div>
             </div>

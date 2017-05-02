@@ -7,7 +7,7 @@
         <div class="ibox-title">
             <h4>
                 <i class="fa fa-user"></i>
-                Editar Posto de Saúde
+                Editar PSF
             </h4>
         </div>
         <div class="ibox-content">
