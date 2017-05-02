@@ -7,11 +7,11 @@
             <div class="col-md-10">
                 <h4>
                     <i class="fa fa-users"></i>
-                    Listar Alunos
+                    Listar PSF
                 </h4>
             </div>
             <div class="col-md-2">
-                <a href="{{ route('serbinario.ps.create')}}" class="btn-sm btn-primary">Novo CGM</a>
+                <a href="{{ route('serbinario.ps.create')}}" class="btn-sm btn-primary">Novo PSF</a>
             </div>
         </div>
         <div class="ibox-content">

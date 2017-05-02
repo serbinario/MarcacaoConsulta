@@ -41,7 +41,7 @@
                                 <div class="row">
                                     <div class="col-md-10">
                                         <div class="form-group">
-                                            {!! Form::label('localidades', 'Localidade') !!}
+                                            {!! Form::label('localidades', 'Unidade de Atendimento') !!}
                                             {!! Form::select('localidade_id', array(), array(),array('class' => 'form-control', 'id' => 'localidades')) !!}
                                             <input type="hidden" id="especialista_id" name="especialista_id"
                                                    value="{{ $especialista['id'] }}">

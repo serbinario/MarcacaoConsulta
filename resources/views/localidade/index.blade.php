@@ -7,11 +7,11 @@
             <div class="col-md-10">
                 <h4>
                     <i class="fa fa-users"></i>
-                    Listar Alunos
+                    Listar Unidades de Atendimento
                 </h4>
             </div>
             <div class="col-md-2">
-                <a href="{{ route('serbinario.localidade.create')}}" class="btn-sm btn-primary">Novo CGM</a>
+                <a href="{{ route('serbinario.localidade.create')}}" class="btn-sm btn-primary">Nova Unidade</a>
             </div>
         </div>
         <div class="ibox-content">

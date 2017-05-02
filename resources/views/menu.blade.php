@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Gestão Acadêmica</title>
+    <title>SerAgendamento</title>
 
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
@@ -42,26 +42,26 @@
                     <img alt="image" class="logoDash"  src="{{ asset('/img/logo_igarassu.png')}}"/>
                 </li>
                 <li>
-                    <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Cadastros</span> <span
+                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Cadastros</span> <span
                                 class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
-                        <li><a href="{{ route('serbinario.cgm.index') }}">Cadastro Pessoa</a></li>
-                        <li><a href="{{ route('serbinario.fila.index') }}">Fila</a></li>
+                        <li><a href="{{ route('serbinario.cgm.index') }}">CGM</a></li>
+                        <li><a href="{{ route('serbinario.fila.index') }}">Fila de Espera</a></li>
                         <li><a href="{{ route('serbinario.localidade.index') }}">Unidade de Atendimento</a></li>
-                        <li><a href="{{ route('serbinario.ps.index') }}">Cadastro PSF</a></li>
+                        <li><a href="{{ route('serbinario.ps.index') }}">PSF</a></li>
                         <li><a href="{{ route('serbinario.especialidade.index') }}">Especialidades</a></li>
                         <li><a href="{{ route('serbinario.especialista.index') }}">Especialistas</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Agendamento</span> <span
+                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Agendamento</span> <span
                                 class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
-                        <li><a href="{{ route('serbinario.agendamento.index') }}">Agenda dos Médicos</a></li>
+                        <li><a href="{{ route('serbinario.agendamento.index') }}">Agenda</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Administrador</span> <span
+                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Administrador</span> <span
                                 class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
                         <li><a href="{{ route('serbinario.user.index') }}">Cadastrar Usuário</a></li>
