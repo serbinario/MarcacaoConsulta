@@ -47,7 +47,7 @@
             <div class="form-group col-sm-2">
                 <div class="fg-line">
                     <label class="control-label" for="cgm[nome]">Nome</label>
-                    {!! Form::text('cgm[nome]', Session::getOldInput('cgm[nome]')  , array('id' => 'numero_sus', 'class' => 'form-control', 'placeholder' => '')) !!}
+                    {!! Form::text('cgm[nome]', Session::getOldInput('cgm[nome]')  , array('id' => 'numero_sus', 'class' => 'form-control input-sm', 'placeholder' => '')) !!}
                 </div>
             </div>
             <div class="form-group col-sm-2">
