@@ -19,7 +19,8 @@
         <link type="text/css" rel="stylesheet" href="{{ asset('/dist/js/krajee/css/fileinput.css')}}" rel="stylesheet"/>
         <link type="text/css" rel="stylesheet" href="{{ asset('/lib/select2/dist/css/select2.css')}}" rel="stylesheet"/>
         <link rel="stylesheet" href="{{asset('/css/zabuto_calendar.min.css')}}" />
-        <link type="text/css" rel="stylesheet" href="{{ asset('/fullcalendar/fullcalendar.min.css') }}"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/bower_components/fullcalendar/dist/fullcalendar.min.css') }}" />
+        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') }}" />
 
         <!-- Animação de loading em consultas ajax -->
         <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/load.css')}}" rel="stylesheet"/>
@@ -170,12 +171,14 @@
     <script src="{{ asset('/dist/js/krajee/js/locales/pt-BR.js')}}"></script>
     <script src="{{ asset('/lib/jquery-mask-plugin/dist/jquery.mask.js') }}"></script>
     <script src="{{ asset('/lib/select2/dist/js/select2.full.js') }}"></script>
+    <script src="{{ asset('/js/bootstrapvalidator.js')}}" type="text/javascript"></script>
 
 
     <script type="text/javascript" src="{{asset('/js/zabuto_calendar.min.js')}}"></script>
-    <script src="{{ asset('/js/moment.min.js')}}" type="text/javascript"></script>
-    <script type="text/javascript" src="{{asset('/fullcalendar/fullcalendar.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('/fullcalendar/locale/pt-br.js')}}"></script>
+    <script src="{{ asset('/dist/bower_components/moment/min/moment.min.js')}}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{asset('/dist/bower_components/fullcalendar/dist/fullcalendar.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/dist/bower_components/fullcalendar/dist/locale/pt-br.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/dist/bower_components/autosize/dist/autosize.min.js')}}"></script>
 
     <!-- Placeholder for IE9 -->
     <!--[if IE 9 ]-->
