@@ -42,23 +42,11 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     {!! Form::select('localidade', ['' => 'Unidade de Atendimento'] + $loadFields['localidade']->toArray(), null, array('class' => 'form-control', 'id' => 'localidade')) !!}
-                                    {{--<select class="form-control" name="localidade" id="localidade">
-                                        <option>Localidades</option>
-                                        @foreach($localidades as $localidade)
-                                            <option value="{{$localidade['id']}}">{{$localidade['nome']}}</option>
-                                        @endforeach
-                                    </select>--}}
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     {!! Form::select('tipo_operacao', ['' => 'Tipo de operação'] + $loadFields['tipooperacao']->toArray(), null, array('class' => 'form-control', 'id' => 'tipo_operacao')) !!}
-                                    {{--<select class="form-control" id="tipo_operacao" name="Tipo Operação">
-                                        <option>Tipo de operação</option>
-                                        @foreach($tipoOperacoes as $tipooperacao)
-                                            <option value="{{$tipooperacao['id']}}">{{$tipooperacao['nome']}}</option>
-                                        @endforeach
-                                    </select>--}}
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -124,14 +112,14 @@
                                                 <input type="hidden" id="id" name="id">
                                             </div>
                                         </div>
-                                        <div class="col-md-8">
+                                        <div class="col-md-7">
                                             <div class="form-group">
                                                 <select class="form-control" name="posto_saude_is" id="psf">
                                                     <option value="">Selecione o posto de saúde</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-5">
                                             <div class="form-group">
                                                 <select class="form-control" name="hora" id="hora">
 
@@ -267,15 +255,15 @@
                         }
 
                         //Tratando os resultados para vagas hora 1
-                        var vagasRestantes1 = TotalVagas - json['qtdVagaHora1']['agendamento_um'];
+                        var vagasRestantes1 = TotalVagas - json['mapa1']['qtdAgendados'];
                         $('.hora1').html("<b>Mapa:</b> " + json['calendario']['hora'] + ": ");
                         $('.total-vagas1').html("<b>Total de Vagas:</b> " + TotalVagas + " / ");
 
                         // Verifica se as vagas para o primeiro mapa estão esgotados
                         if (vagasRestantes1 <= "0") {
-                            $('.total-agendados1').html("<b>Total de Agendados: </b>" + "<span style='color: red' '>" + json['qtdVagaHora1']['agendamento_um'] + "</span>" + " / ");
+                            $('.total-agendados1').html("<b>Total de Agendados: </b>" + "<span style='color: red' '>" + json['mapa1']['qtdAgendados'] + "</span>" + " / ");
                         } else {
-                            $('.total-agendados1').html("<b>Total de Agendados: </b>" + json['qtdVagaHora1']['agendamento_um'] + " / ");
+                            $('.total-agendados1').html("<b>Total de Agendados: </b>" + json['mapa1']['qtdAgendados'] + " / ");
                         }
 
                         vagasRestantes1 = vagasRestantes1 < 0 ? 0 : vagasRestantes1;
@@ -285,15 +273,15 @@
                         if (json['calendario']['hora2']) {
                             $('.div-hora2').show();
 
-                            var vagasRestantes2 = TotalVagas - json['qtdVagaHora2']['agendamento_dois'];
+                            var vagasRestantes2 = TotalVagas - json['mapa2']['qtdAgendados'];
                             $('.hora2').html("<b>Mapa:</b> " + json['calendario']['hora2'] + ": ");
                             $('.total-vagas2').html("<b>Total de Vagas:</b> " + TotalVagas + " / ");
 
                             // Verifica se as vagas para o segundo mapa estão esgotados
                             if (vagasRestantes2 <= "0") {
-                                $('.total-agendados2').html("<b>Total de Agendados: </b>" + "<span style='color: red' '>" + json['qtdVagaHora2']['agendamento_dois'] + "</span>" + " / ");
+                                $('.total-agendados2').html("<b>Total de Agendados: </b>" + "<span style='color: red' '>" + json['mapa2']['qtdAgendados'] + "</span>" + " / ");
                             } else {
-                                $('.total-agendados2').html("<b>Total de Agendados: </b>" + json['qtdVagaHora2']['agendamento_dois'] + " / ");
+                                $('.total-agendados2').html("<b>Total de Agendados: </b>" + json['mapa2']['qtdAgendados'] + " / ");
                             }
 
                             vagasRestantes2 = vagasRestantes2 < 0 ? 0 : vagasRestantes2;
@@ -317,19 +305,18 @@
 
                         //Combobox para hora
                         var option = "";
-                        option += '<option value="' + json['calendario']['hora'] + '">' + json['calendario']['hora'] + '</option>';
+                        option += '<option value="' + json['calendario']['hora'] + '">' + json['calendario']['hora'] + ' - ' +json['mapa1']['especialidade']+ '</option>';
                         if (json['calendario']['hora2']) {
-                            option += '<option value="' + json['calendario']['hora2'] + '">' + json['calendario']['hora2'] + '</option>';
+                            option += '<option value="' + json['calendario']['hora2'] + '">' + json['calendario']['hora2'] + ' - ' +json['mapa2']['especialidade']+ '</option>';
                         }
 
                         $('#hora option').remove();
                         $('#hora').prepend(option);
 
-
+                        $('.div-hora1').show();
                         $('#delete').attr('disabled', true);
                         $("#modalCGM").modal({show: true});
                     } else {
-                        //$('#especialista').val("");
                         alert("Não é possível fazer agendamentos para este dia");
                     }
 
@@ -381,9 +368,8 @@
                         $('#hora option').remove();
                         $('#hora').prepend(option);
 
-                        $('.total-vagas').html('');
-                        $('.total-agendados').html('');
-                        $('.vagas-restantes').html('');
+                        $('.div-hora1').hide();
+                        $('.div-hora2').hide();
 
                         $('#save').attr('disabled', true);
                         $('#delete').attr('disabled', false);

@@ -43,8 +43,7 @@
                                         <div class="form-group">
                                             {!! Form::label('localidades', 'Unidade de Atendimento') !!}
                                             {!! Form::select('localidade_id', array(), array(),array('class' => 'form-control', 'id' => 'localidades')) !!}
-                                            <input type="hidden" id="especialista_id" name="especialista_id"
-                                                   value="{{ $especialista['id'] }}">
+                                            <input type="hidden" id="especialista_id" name="especialista_id" value="{{ $especialista['id'] }}">
                                         </div>
                                     </div>
                                     <div class="col-md-10">
@@ -73,8 +72,18 @@
                                     </div>
                                     <div class="col-md-10">
                                         <div class="form-group">
+                                            {!! Form::select('especialidade_um', array(), array(),array('class' => 'form-control', 'id' => 'especialidade_um')) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
                                             {!! Form::label('hora2', 'Hora Mapa 2') !!}
                                             {!! Form::text('hora2', '', array('class' => 'form-control hora', 'id' => 'hora2', 'readonly' => 'readonly')) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            {!! Form::select('especialidade_dois', array(), array(),array('disabled' => 'disabled', 'class' => 'form-control', 'id' => 'especialidade_dois')) !!}
                                         </div>
                                     </div>
                                 </div>
@@ -99,9 +108,11 @@
         $(document).ready(function () {
 
             var idCalendario = "";
+            var idEspecialista = "{{$especialista['id']}}";
 
             //Carregando as localidades
             localidade();
+            especialidadesUm("", idEspecialista);
 
             //Calendário
             $("#my-calendar").zabuto_calendar({
@@ -118,7 +129,7 @@
                 },
                 ajax: {
                     url: "{{route('serbinario.calendario.calendarios', ['id' => $especialista['id']])}}",
-                },
+                }
             });
 
             //Pega o evento da data
@@ -138,21 +149,36 @@
                         datatype: 'json',
                         data: dados,
                     }).done(function (json) {
-                        localidade(json['calendario'][0]['localidade_id']);
-                        $('#especialista_id').val(json['calendario'][0]['especialista_id']);
-                        $('#data').val(toDate(json['calendario'][0]['data']));
-                        $('#hora').val(json['calendario'][0]['hora']);
-                        $('#hora2').val(json['calendario'][0]['hora2']);
-                        json['calendario'][0]['mais_mapa'] == '1' ? $('#mapa').prop('checked', true) : $('#mapa').attr('checked', false);
-                        json['calendario'][0]['mais_mapa'] == '1' ? $('#hora2').prop('readonly', false) : $('#hora2').prop('readonly', true);
-                        idCalendario = json['calendario'][0]['id'];
+
+                        // Carregando os selectes
+                        localidade(json['calendario']['localidade_id']);
+                        especialidadesUm(json['calendario']['especialidade_id_um'], idEspecialista);
+
+                        $('#especialista_id').val(json['calendario']['especialista_id']);
+                        $('#data').val(toDate(json['calendario']['data']));
+                        $('#hora').val(json['calendario']['hora']);
+                        $('#hora2').val(json['calendario']['hora2']);
+                        json['calendario']['mais_mapa'] == '1' ? $('#mapa').prop('checked', true) : $('#mapa').attr('checked', false);
+                        idCalendario = json['calendario']['id'];
 
                         var qtdVagas = 0;
-                        if(json['calendario'][0]['mais_mapa'] == '1') {
-                            qtdVagas = json['calendario'][0]['qtd_vagas'] / 2;
+                        if(json['calendario']['mais_mapa'] == '1') {
+                            qtdVagas = json['calendario']['qtd_vagas'] / 2;
+
+                            // Habilitando os campos do segundo mapa
+                            $('#hora2').prop('readonly', false);
+                            $('#especialidade_dois').prop('disabled', false);
+                            especialidadesDois(json['calendario']['especialidade_id_dois'], idEspecialista);
                         } else {
-                            qtdVagas = json['calendario'][0]['qtd_vagas'];
+                            qtdVagas = json['calendario']['qtd_vagas'];
+
+                            // Desabilitando os campos do segundo mapa
+                            $('#hora2').prop('readonly', true);
+                            $('#especialidade_dois').prop('disabled', true);
+                            $('#especialidade_dois option').remove();
                         }
+
+                        // Preenchendo o campo vaga
                         $('#qtd_vagas').val(qtdVagas);
 
 
@@ -162,6 +188,7 @@
                     });
                 } else {
                     localidade();
+                    especialidadesUm("", idEspecialista);
                     $('#qtd_vagas').val({{$especialista['qtd_vagas']}});
                     $('#hora').val("");
                     $('#hora2').val("");
@@ -177,10 +204,14 @@
 
             $('#mapa').click(function(){
                 if($('#mapa').is(":checked")) {
-                    $('#hora2').prop('readonly', false)
+                    $('#hora2').prop('readonly', false);
+                    $('#especialidade_dois').prop('disabled', false);
+                    especialidadesDois("", idEspecialista);
                 } else {
-                    $('#hora2').prop('readonly', true)
-                    $('#hora2').val("")
+                    $('#hora2').prop('readonly', true);
+                    $('#hora2').val("");
+                    $('#especialidade_dois').prop('disabled', true);
+                    $('#especialidade_dois option').remove();
                 }
             });
 
@@ -197,15 +228,16 @@
                     'hora' : $('#hora').val(),
                     'hora2' : $('#hora2').val(),
                     'mais_mapa' : mapa,
-                }
+                    'especialidade_id_um' : $('#especialidade_um').val(),
+                    'especialidade_id_dois' : $('#especialidade_dois').val()
+                };
 
-                if(!$('#mapa').is(":checked") && (!$('#localidades').val() || !$('#especialista_id').val() || !$('#qtd_vagas').val() || !$('#data').val() || !$('#hora').val()))
-                {
+                if(!$('#mapa').is(":checked") && (!$('#localidades').val() || !$('#especialista_id').val() || !$('#qtd_vagas').val()
+                        || !$('#data').val() || !$('#hora').val() || !$('#especialidade_um').val())) {
                     alert("O preenchimento de todos os campos são obrigatórios")
-                } else if ($('#mapa').is(":checked") && (!$('#localidades').val() || !$('#especialista_id').val() || !$('#qtd_vagas').val() || !$('#data').val() || !$('#hora').val()
-                         || !$('#hora2').val())) {
+                } else if ($('#mapa').is(":checked") && (!$('#localidades').val() || !$('#especialista_id').val() || !$('#qtd_vagas').val() || !$('#data').val()
+                        || !$('#hora').val() || !$('#especialidade_um').val() || !$('#hora2').val() || !$('#especialidade_dois').val())) {
                     alert('O preenchimento de todos os campos são obrigatórios');
-
                 } else {
                     $.ajax({
                         url: "{{route('serbinario.calendario.store')}}",
@@ -234,18 +266,19 @@
                     'hora2' : $('#hora2').val(),
                     'mais_mapa' : mapa,
                     'id' : $('#id').val(),
-                }
+                    'especialidade_id_um' : $('#especialidade_um').val(),
+                    'especialidade_id_dois' : $('#especialidade_dois').val()
+                };
 
-                if(!$('#mapa').is(":checked") && (!$('#localidades').val() || !$('#especialista_id').val() || !$('#qtd_vagas').val() || !$('#data').val() || !$('#hora').val()))
-                {
+                if(!$('#mapa').is(":checked") && (!$('#localidades').val() || !$('#especialista_id').val() || !$('#qtd_vagas').val()
+                        || !$('#data').val() || !$('#hora').val() || !$('#especialidade_um').val())) {
                     alert("O preenchimento de todos os campos são obrigatórios")
-                } else if ($('#mapa').is(":checked") && (!$('#localidades').val() || !$('#especialista_id').val() || !$('#qtd_vagas').val() || !$('#data').val() || !$('#hora').val()
-                        || !$('#hora2').val())) {
+                } else if ($('#mapa').is(":checked") && (!$('#localidades').val() || !$('#especialista_id').val() || !$('#qtd_vagas').val() || !$('#data').val()
+                        || !$('#hora').val() || !$('#especialidade_um').val() || !$('#hora2').val() || !$('#especialidade_dois').val())) {
                     alert('O preenchimento de todos os campos são obrigatórios');
-
                 } else {
                     $.ajax({
-                        url: "/MarcConsulta/public/index.php/serbinario/calendario/update/" + idCalendario,
+                        url: "/index.php/serbinario/calendario/update/" + idCalendario,
                         data: {calendario:dados},
                         dataType: "json",
                         type: "POST",
@@ -267,7 +300,7 @@
                 }).done(function (json) {
                     var option = '';
 
-                    option += '<option value="">Selecione a localidade</option>';
+                    option += '<option value="">Selecione uma unidade de atendimento</option>';
                     for (var i = 0; i < json['localidades'].length; i++) {
                         if (json['localidades'][i]['id'] == id) {
                             option += '<option selected value="' + json['localidades'][i]['id'] + '">' + json['localidades'][i]['nome'] + '</option>';
@@ -278,6 +311,54 @@
 
                     $('#localidades option').remove();
                     $('#localidades').append(option);
+                });
+            }
+
+            //Função para listar as especialidades do mapa 1
+            function especialidadesUm(id, idEspecialista) {
+                jQuery.ajax({
+                    type: 'POST',
+                    url: '{{route('serbinario.especialista.especialidades')}}',
+                    datatype: 'json',
+                    data: {'idEspecialista' : idEspecialista}
+                }).done(function (json) {
+                    var option = '';
+
+                    option += '<option value="">Selecione uma especialidade</option>';
+                    for (var i = 0; i < json['especialidades'].length; i++) {
+                        if (json['especialidades'][i]['id'] == id) {
+                            option += '<option selected value="' + json['especialidades'][i]['id'] + '">' + json['especialidades'][i]['nome'] + '</option>';
+                        } else {
+                            option += '<option value="' + json['especialidades'][i]['id'] + '">' + json['especialidades'][i]['nome'] + '</option>';
+                        }
+                    }
+
+                    $('#especialidade_um option').remove();
+                    $('#especialidade_um').append(option);
+                });
+            }
+
+            //Função para listar as especialidades do mapa 2
+            function especialidadesDois(id, idEspecialista) {
+                jQuery.ajax({
+                    type: 'POST',
+                    url: '{{route('serbinario.especialista.especialidades')}}',
+                    datatype: 'json',
+                    data: {'idEspecialista' : idEspecialista}
+                }).done(function (json) {
+                    var option = '';
+
+                    option += '<option value="">Selecione uma especialidade</option>';
+                    for (var i = 0; i < json['especialidades'].length; i++) {
+                        if (json['especialidades'][i]['id'] == id) {
+                            option += '<option selected value="' + json['especialidades'][i]['id'] + '">' + json['especialidades'][i]['nome'] + '</option>';
+                        } else {
+                            option += '<option value="' + json['especialidades'][i]['id'] + '">' + json['especialidades'][i]['nome'] + '</option>';
+                        }
+                    }
+
+                    $('#especialidade_dois option').remove();
+                    $('#especialidade_dois').append(option);
                 });
             }
 

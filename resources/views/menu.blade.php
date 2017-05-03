@@ -123,7 +123,6 @@
 <script src="{{ asset('/js/jquery-2.1.1.js')}}"></script>
 <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js" type="text/javascript" ></script>
 <script src="{{ asset('/js/select2.full.min.js')}}" type="text/javascript"></script>
-{{--<script src="{{ asset('/js/pt-BR.js')}}" type="text/javascript"></script>--}}
 <script src="{{ asset('/js/bootstrap.min.js')}}"></script>
 <script src="{{ asset('/js/plugins/metisMenu/jquery.metisMenu.js')}}"></script>
 <script src="{{ asset('/js/plugins/toastr.min.js')}}"></script>
@@ -134,7 +133,8 @@
 
 <!-- full calendar -->
 <script src="{{ asset('/js/moment.min.js')}}" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.6.1/fullcalendar.min.js"></script>
+<script src="{{ asset('/fullcalendar/fullcalendar.min.js')}}"></script>
+<script src="{{ asset('/fullcalendar/locale/pt-br.js')}}" type="text/javascript"></script>
 
 <script src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
 

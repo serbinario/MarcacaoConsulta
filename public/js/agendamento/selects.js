@@ -83,7 +83,6 @@ function especialistas(idEspecialidade, id) {
             'especialidade': idEspecialidade
         }
     }).done(function (json) {
-        console.log(json);
         var option = '';
 
         option += '<option value="">Selecione o especialista</option>';
@@ -119,7 +118,6 @@ $(document).on('change', "#grupo_operacao", function () {
                 'especialidade': idEspecialidade
             }
         }).done(function (json) {
-            console.log(json);
             var option = '';
 
             option += '<option value="">Selecione o especialista</option>';

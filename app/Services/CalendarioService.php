@@ -97,12 +97,12 @@ class CalendarioService
         $calendario = $this->repository->findWhere(['data' => $data]);
 
         #Verificando se o registro foi encontrado
-        if(!$calendario) {
+        if(count($calendario) <= 0) {
             throw new \Exception('Empresa não encontrada!');
         }
 
         #retorno
-        return $calendario;
+        return $calendario[0];
     }
 
     /**
@@ -133,34 +133,42 @@ class CalendarioService
         ;
 
         if($calendario) {
-            //Quantidade hora um
-            $qtdVagaHora1 = \DB::table('agendamento')
+            //Select dados mapa 1
+            $mapa1 = \DB::table('agendamento')
                 ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
+                ->leftJoin('especialista_especialidade', 'especialista_especialidade.id', '=', 'calendario.especialidade_id_um')
+                ->leftJoin('especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
+                ->leftJoin('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
                 ->where('agendamento.hora', '=', $calendario->hora)
                 ->where('calendario.id', '=', $calendario->id)
                 ->select([
-                    \DB::raw('count(agendamento.id) as agendamento_um')
+                    \DB::raw('count(agendamento.id) as qtdAgendados'),
+                    'operacoes.nome as especialidade'
                 ])->first();
 
-            //Quantidade hora dois
-            $qtdVagaHora2 = \DB::table('agendamento')
+            //Select dados mapa 2
+            $mapa2 = \DB::table('agendamento')
                 ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
+                ->leftJoin('especialista_especialidade', 'especialista_especialidade.id', '=', 'calendario.especialidade_id_dois')
+                ->leftJoin('especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
+                ->leftJoin('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
                 ->where('agendamento.hora', '=', $calendario->hora2)
                 ->where('calendario.id', '=', $calendario->id)
                 ->select([
-                    \DB::raw('count(agendamento.id) as agendamento_dois')
+                    \DB::raw('count(agendamento.id) as qtdAgendados'),
+                    'operacoes.nome as especialidade'
                 ])->first();
 
             $retorno = [
                 'calendario' => $calendario,
-                'qtdVagaHora1' => $qtdVagaHora1,
-                'qtdVagaHora2' => $qtdVagaHora2,
+                'mapa1' => $mapa1,
+                'mapa2' => $mapa2,
             ];
         } else {
             $retorno = [
                 'calendario' => $calendario,
-                'qtdVagaHora1' => "",
-                'qtdVagaHora2' => "",
+                'mapa1' => "",
+                'mapa2' => "",
             ];
         }
 

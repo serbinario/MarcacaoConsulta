@@ -4,14 +4,14 @@
             @if(!isset($model))
                 <div class="col-md-5">
                     <div class="form-group">
-                        {!! Form::label('cgm_id', 'Cidadão ') !!}
+                        {!! Form::label('cgm_id', 'Cidadão *') !!}
                         {!! Form::select('cgm_id', ['' => 'Selecione um paciente'] + $loadFields['cgm']->toArray(), Session::getOldInput('cgm_id'), array('class' => 'form-control', 'id' => 'paciente')) !!}
                     </div>
                 </div>
             @endif
             <div class="col-md-3">
                 <div class="form-group">
-                    {!! Form::label('especialidade_id', 'Exame solicitado') !!}
+                    {!! Form::label('especialidade_id', 'Exame solicitado *') !!}
                     @if(isset($model->especialidade->id))
                         {!! Form::select('especialidade_id',array($model->especialidade->id => $model->especialidade->operacao->nome), $model->especialidade->id, array('class' => 'form-control', 'id' => 'especialidade')) !!}
                     @else
@@ -21,43 +21,18 @@
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    {!! Form::label('prioridade', 'Prioridade') !!}
+                    {!! Form::label('prioridade', 'Prioridade *') !!}
                     {!! Form::select('prioridade_id', $loadFields['prioridade'], null, array('class' => 'form-control', 'id' => 'prioridade')) !!}
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    {!! Form::label('data', 'Data do cadastro') !!}
+                    {!! Form::label('data', 'Data do cadastro *') !!}
                     {!! Form::text('data', Session::getOldInput('data')  , array('class' => 'form-control')) !!}
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-2">
-                <div class="form-group">
-                    {!! Form::label('cgm[nome]', 'SUS') !!}
-                    {!! Form::text('cgm[numero_sus]', Session::getOldInput('cgm[numero_sus]')  , array('class' => 'form-control', 'id' => 'numero_sus')) !!}
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    {!! Form::label('cgm[numero_nis]', 'Número NIS') !!}
-                    {!! Form::text('cgm[numero_nis]', Session::getOldInput('cgm[numero_nis]')  , array('class' => 'form-control', 'id' => 'numero_nis')) !!}
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    {!! Form::label('cgm[cpf_cnpj]', 'CPF') !!}
-                    {!! Form::text('cgm[cpf_cnpj]', Session::getOldInput('cgm[cpf_cnpj]')  , array('class' => 'form-control', 'id' => 'cpf_cnpj')) !!}
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    {!! Form::label('cgm[rg]', 'RG') !!}
-                    {!! Form::text('cgm[rg]', Session::getOldInput('cgm[rg]')  , array('class' => 'form-control', 'id' => 'rg')) !!}
-                </div>
-            </div>
-        </div>
+
         <div class="row">
             <div class="col-md-5">
                 <div class="form-group">
@@ -80,6 +55,54 @@
         </div>
 
         <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    {!! Form::label('cgm[nome]', 'SUS *') !!}
+                    {!! Form::text('cgm[numero_sus]', Session::getOldInput('cgm[numero_sus]')  , array('class' => 'form-control', 'id' => 'numero_sus')) !!}
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    {!! Form::label('cgm[numero_nis]', 'Número NIS') !!}
+                    {!! Form::text('cgm[numero_nis]', Session::getOldInput('cgm[numero_nis]')  , array('class' => 'form-control', 'id' => 'numero_nis')) !!}
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    {!! Form::label('cgm[cpf_cnpj]', 'CPF') !!}
+                    {!! Form::text('cgm[cpf_cnpj]', Session::getOldInput('cgm[cpf_cnpj]')  , array('class' => 'form-control', 'id' => 'cpf_cnpj')) !!}
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    {!! Form::label('cgm[rg]', 'RG') !!}
+                    {!! Form::text('cgm[rg]', Session::getOldInput('cgm[rg]')  , array('class' => 'form-control', 'id' => 'rg')) !!}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    {!! Form::label('cgm[fone]', 'Telefone 1') !!}
+                    {!! Form::text('cgm[fone]', Session::getOldInput('cgm[fone]')  , array('class' => 'form-control', 'id' => 'fone')) !!}
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    {!! Form::label('cgm[fone2]', 'Telefone 2') !!}
+                    {!! Form::text('cgm[fone2]', Session::getOldInput('cgm[fone2]')  , array('class' => 'form-control', 'id' => 'fone2')) !!}
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    {!! Form::label('cgm[fone3]', 'Telefone 3') !!}
+                    {!! Form::text('cgm[fone3]', Session::getOldInput('cgm[fone3]')  , array('class' => 'form-control', 'id' => 'fone3')) !!}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     {!! Form::label('logradouro', 'Endereço') !!}
@@ -90,12 +113,6 @@
                 <div class="form-group">
                     {!! Form::label('numero', 'Número') !!}
                     {!! Form::text('cgm[endereco][numero]', Session::getOldInput('endereco[numero]')  , array('class' => 'form-control', 'id' => 'numero')) !!}
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    {!! Form::label('cgm[fone]', 'Telefone') !!}
-                    {!! Form::text('cgm[fone]', Session::getOldInput('cgm[fone]')  , array('class' => 'form-control', 'id' => 'fone')) !!}
                 </div>
             </div>
         </div>
