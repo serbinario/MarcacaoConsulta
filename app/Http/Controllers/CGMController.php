@@ -122,7 +122,6 @@ class CGMController extends Controller
             #Carregando os dados para o cadastro
             $loadFields = $this->service->load($this->loadFields);
 
-
             #retorno para view
             return view('cgm.edit', compact('model', 'loadFields'));
         } catch (\Throwable $e) {dd($e);

@@ -33,48 +33,53 @@
 @endsection
 
 @section('content')
+    <section id="content">
+        <div class="container">
 
-    <div class="ibox float-e-margins">
-        <div class="ibox-title">
-            <div class="col-md-10">
-                <h4>
-                    <i class="fa fa-users"></i>
-                    Listar Especialistas
-                </h4>
+            <div class="block-header">
+                <h2>Listar Especialistas</h2>
             </div>
-            <div class="col-md-2">
-                <a href="{{ route('serbinario.especialista.create')}}" class="btn-sm btn-primary">Novo Especialista</a>
-            </div>
-        </div>
-        <div class="ibox-content">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="table-responsive no-padding">
-                        <table id="especialista-grid" class="display table table-bordered" cellspacing="0" width="100%">
+
+            <div class="card material-table">
+                <div class="card-header">
+                    <!-- Botão novo -->
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="text-right">
+                                <a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.especialista.create')}}">Novo Especialista</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Botão novo -->
+                </div>
+
+                <div class="card-body card-padding">
+                    <div class="table-responsive">
+                        <table id="especialista-grid" class="display table table-bordered compact" cellspacing="0" width="100%">
                             <thead>
-                            <tr>
-                                <th style="width: 2%;">Especialidades</th>
-                                <th>Especialista</th>
-                                <th>CRM</th>
-                                <th>Quantidade de vagas</th>
-                                <th>Acão</th>
-                            </tr>
+                                <tr>
+                                    <th style="width: 2%;">Especialidades</th>
+                                    <th>Especialista</th>
+                                    <th>CRM</th>
+                                    <th>Quantidade de vagas</th>
+                                    <th>Acão</th>
+                                </tr>
                             </thead>
                             <tfoot>
-                            <tr>
-                                <th>Especialidades</th>
-                                <th>Especialista</th>
-                                <th>CRM</th>
-                                <th>Quantidade de vagas</th>
-                                <th style="width: 17%;">Acão</th>
-                            </tr>
+                                <tr>
+                                    <th>Especialidades</th>
+                                    <th>Especialista</th>
+                                    <th>CRM</th>
+                                    <th>Quantidade de vagas</th>
+                                    <th style="width: 17%;">Acão</th>
+                                </tr>
                             </tfoot>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 @stop
 
 @section('javascript')
@@ -84,9 +89,9 @@
 
             var html = "";
 
-           for(var i = 0; i < d['especialidades'].length; i++) {
-               html += '<span>'+d['especialidades'][i]['nome']+'</span><br />';
-           }
+            for(var i = 0; i < d['especialidades'].length; i++) {
+                html += '<span>'+d['especialidades'][i]['nome']+'</span><br />';
+            }
 
             return html;
         }
@@ -130,23 +135,23 @@
         });
 
         /*//Seleciona uma linha
-        $('#crud-grid tbody').on( 'click', 'tr', function () {
-            if ( $(this).hasClass('selected') ) {
-                $(this).removeClass('selected');
-            }
-            else {
-                table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-            }
-        } );
+         $('#crud-grid tbody').on( 'click', 'tr', function () {
+         if ( $(this).hasClass('selected') ) {
+         $(this).removeClass('selected');
+         }
+         else {
+         table.$('tr.selected').removeClass('selected');
+         $(this).addClass('selected');
+         }
+         } );
 
-        //Retonra o id do registro
-        $('#crud-grid tbody').on( 'click', 'tr', function () {
+         //Retonra o id do registro
+         $('#crud-grid tbody').on( 'click', 'tr', function () {
 
-            var rows = table.row( this ).data()
+         var rows = table.row( this ).data()
 
-            console.log( rows.id );
-        } );*/
+         console.log( rows.id );
+         } );*/
 
     </script>
 @stop

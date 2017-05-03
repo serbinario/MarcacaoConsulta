@@ -1,17 +1,10 @@
 @extends('menu')
 
-
 @section('content')
-
-    <div class="ibox float-e-margins">
-        <div class="ibox-title">
-            <h4>
-                <i class="fa fa-user"></i>
-                Cadastrar CGM
-            </h4>
-        </div>
-        <div class="ibox-content">
-
+    <div class="container">
+        <section id="content">
+            {{-- Mensagem de alerta quando os dados não atendem as regras de validação que foramd efinidas no servidor --}}
+            <div class="ibox-content">
             @if(Session::has('message'))
                 <div class="alert alert-success">
                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -26,12 +19,15 @@
                         <div>{{ $error }}</div>
                     @endforeach
                 </div>
-            @endif
-
+                @endif
+            </div>
+            {{-- Fim mensagem de alerta --}}
+            {{--Formulario--}}
             {!! Form::open(['route'=>'serbinario.cgm.store', 'method' => "POST", 'id' => 'formCGM', 'enctype' => 'multipart/form-data']) !!}
                 @include('tamplatesForms.tamplateFormCGM')
             {!! Form::close() !!}
-        </div>
+            {{--Fim formulario--}}
+        </section>
     </div>
 @stop
 @section('javascript')

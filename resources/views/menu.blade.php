@@ -1,50 +1,106 @@
 <!DOCTYPE html>
-<html>
+<!--[if IE 9 ]-->
+<html class="ie9">
+<!--[endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>SerAgendamento</title>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- -->
+        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/btnLoadind.css') }}"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="{{ asset('/lib/animate.css/animate.min.css') }}"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="{{ asset('/lib/sweetalert2/dist/sweetalert2.min.css') }}"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="{{ asset('/lib/material-design-iconic-font/dist/css/material-design-iconic-font.min.css') }}"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="{{ asset('/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') }}"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="{{ asset('/lib/datatables.net-dt/css/jquery.dataTables.min.css') }}" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/datetimepicker/build/jquery.datetimepicker.min.css')}}" rel="stylesheet"/>
+        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/js/krajee/css/fileinput.css')}}" rel="stylesheet"/>
+        <link type="text/css" rel="stylesheet" href="{{ asset('/lib/select2/dist/css/select2.css')}}" rel="stylesheet"/>
+        <link rel="stylesheet" href="{{asset('/css/zabuto_calendar.min.css')}}" />
+        <link type="text/css" rel="stylesheet" href="{{ asset('/fullcalendar/fullcalendar.min.css') }}"  media="screen,projection"/>
 
-    <title>SerAgendamento</title>
+        <!-- Animação de loading em consultas ajax -->
+        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/load.css')}}" rel="stylesheet"/>
+        <link href="{{ asset('/lib/chosen/chosen.css') }}" rel="stylesheet">
+        <link href="{{ asset('/lib/summernote/dist/summernote.css') }}" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/app_1.min.css') }}"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/app_2.min.css') }}"  media="screen,projection"/>
 
-    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ asset('/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
-    <link rel="stylesheet" href="{{asset('/css/zabuto_calendar.min.css')}}" />
-    <link href="{{ asset('/css/select2.min.css')}}" rel="stylesheet">
-    <link href="{{ asset('/css/animate.css')}}" rel="stylesheet">
-    <link href="{{ asset('/css/style.css')}}" rel="stylesheet">
-    <link href="https://code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css">
-    <link href="{{ asset('/css/jquery.tree.css')  }}" rel="stylesheet">
-    <link href="{{ asset('/css/jasny-bootstrap.css')  }}" rel="stylesheet">
-    <link href="{{ asset('/css/awesome-bootstrap-checkbox.css')  }}" rel="stylesheet">
-    <link href="{{asset('/css/bootstrapValidation.mim.css')}}" rel="stylesheet">
-    <link href="{{asset('/css/jquery.datetimepicker.css')}}" rel="stylesheet"/>
+        {{--CSS personalizados--}}
+        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/demo.css') }}"  media="screen,projection"/>
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.0.3/css/buttons.dataTables.min.css">
+        @yield('css')
+    </head>
+    <body id="body">
+    <header id="header" class="clearfix" data-ma-theme="blue">
+        <ul class="h-inner">
+            <li class="hi-trigger ma-trigger" data-ma-action="sidebar-open" data-ma-target="#sidebar">
+                <div class="line-wrap">
+                    <div class="line top"></div>
+                    <div class="line center"></div>
+                    <div class="line bottom"></div>
+                </div>
+            </li>
 
-    <!-- full calendar -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.6.1/fullcalendar.min.css">
-    <style>
-        .select2-close-mask{ z-index: 2099; } .select2-dropdown{ z-index: 3051; }
-    </style>
+            <li class="hi-logo hidden-xs">
+                <a href="#">SerAgendamento</a>
+            </li>
 
-    @yield('css')
-</head>
+            <li class="pull-right">
+                <ul class="hi-menu">
 
-<body>
 
-<div id="wrapper">
-    <nav class="navbar-default navbar-static-side" role="navigation">
-        <div class="sidebar-collapse">
-            <ul class="nav metismenu" id="side-menu">
-                <li class="nav-header">
-                    <img alt="image" class="logoDash"  src="{{ asset('/img/logo_igarassu.png')}}"/>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Cadastros</span> <span
-                                class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse">
+                    <li class="hidden-xs ma-trigger" data-ma-action="sidebar-open" data-ma-target="#chat">
+                        <a href=""><i class="him-icon zmdi zmdi-comment-alt-text"></i></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <!-- Top Search Content -->
+        <div class="h-search-wrap">
+            <div class="hsw-inner">
+                <i class="hsw-close zmdi zmdi-arrow-left" data-ma-action="search-close"></i>
+                <input type="text">
+            </div>
+        </div>
+    </header>
+
+
+    <section id="main">
+
+        {{--Menu Lateral--}}
+        <aside id="sidebar" class="sidebar c-overflow">
+            <div class="s-profile">
+                <a href="" data-ma-action="profile-menu-toggle">
+                    <div class="sp-pic">
+                        <img src="/dist/img/demo/profile-pics/1.jpg" alt="">
+                    </div>
+
+                    {{--<div class="sp-info">
+                        {{ isset(Auth::user()->operador->nome_operadores)
+                            ? Auth::user()->operador->nome_operadores
+                            : Auth::user()->username }}
+                        <i class="zmdi zmdi-caret-down"></i>
+                    </div>--}}
+                </a>
+
+                {{--<ul class="main-menu">
+                    <li>
+                        <a href="{{ route('usuario.edit', ['id' => Auth::user()->id])  }}"><i class="zmdi zmdi-settings"></i>Perfil</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('auth.getLogout') }}"><i class="zmdi zmdi-time-restore"></i>Sair</a>
+                    </li>
+                </ul>--}}
+            </div>
+
+            <ul class="main-menu">
+                <li class="sub-menu">
+                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-phone"></i>Cadastros</a>
+                    <ul>
                         <li><a href="{{ route('serbinario.cgm.index') }}">CGM</a></li>
                         <li><a href="{{ route('serbinario.fila.index') }}">Fila de Espera</a></li>
                         <li><a href="{{ route('serbinario.localidade.index') }}">Unidade de Atendimento</a></li>
@@ -53,115 +109,95 @@
                         <li><a href="{{ route('serbinario.especialista.index') }}">Especialistas</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Agendamento</span> <span
-                                class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse">
+                <li class="sub-menu">
+                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-phone"></i>Agendamento</a>
+                    <ul>
                         <li><a href="{{ route('serbinario.agendamento.index') }}">Agenda</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Administrador</span> <span
-                                class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse">
+                <li class="sub-menu">
+                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-phone"></i>Administrador</a>
+                    <ul>
                         <li><a href="{{ route('serbinario.user.index') }}">Cadastrar Usuário</a></li>
                     </ul>
                 </li>
-                {{--<li>
-                    <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Parâmetros do sistema</span> <span
-                                class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse">
-                        <li><a href="">Empresa</a></li>
-                    </ul>
-                </li>--}}
             </ul>
+        </aside>
+        {{--FIM Menu Lateral--}}
 
-        </div>
-    </nav>
+        @yield('content')
 
-    <div id="page-wrapper" class="gray-bg">
-        <div class="row border-bottom">
-            <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-                <div class="navbar-header">
-                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i>
-                    </a>
-                </div>
-                <div class="profile-img">
-                    <span>
-                        @if(isset(Session::get("user")['img']))
-                            <img alt="image" class="img-circle" src="{{asset('/uploads/fotos/'.Session::get("user")['img'])}}" alt="Foto"  height="50" width="50">
-                        @endif
-                    </span>
-                </div>
-                <ul class="nav navbar-top-links navbar-right">
-                    <li>
-                        <div class="dropdown">
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                             <span class="text-muted text-xs block">{{ Auth::user()->name }}<b class="caret"></b></span></a>
-                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                               {{-- <li><a href="profile.html">Perfil</a></li>
-                                <li><a href="contacts.html">Notificações</a></li>--}}
-                                {{--<li class="divider"></li>--}}
-                                <li><a href="{{ url('auth/logout') }}">Sair</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-        <div class="wrapper wrapper-content animated fadeInRight">
-            <div class="row">
-                <div class="col-lg-12">
-                    @yield('content')
-                </div>
-            </div>
+    </section>
+
+    <!-- Page Loader -->
+    <div class="page-loader">
+        <div class="preloader pls-blue">
+            <svg class="pl-circular" viewBox="25 25 50 50">
+                <circle class="plc-path" cx="50" cy="50" r="20" />
+            </svg>
+
+            <p>Please wait...</p>
         </div>
     </div>
-</div>
 
-<!-- Mainly scripts -->
-<script src="{{ asset('/js/jquery-2.1.1.js')}}"></script>
-<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js" type="text/javascript" ></script>
-<script src="{{ asset('/js/select2.full.min.js')}}" type="text/javascript"></script>
-<script src="{{ asset('/js/bootstrap.min.js')}}"></script>
-<script src="{{ asset('/js/plugins/metisMenu/jquery.metisMenu.js')}}"></script>
-<script src="{{ asset('/js/plugins/toastr.min.js')}}"></script>
-<script src="{{ asset('/js/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
-<script src="{{ asset('/js/bootstrapvalidator.js')}}" type="text/javascript"></script>
-<script src="{{ asset('/js/jquery.tree.js')}}" type="text/javascript"></script>
-<script src="{{ asset('/js/jquery.datetimepicker.js')}}" type="text/javascript"></script>
+    <!-- Imagem de carregamento em requisições ajax-->
+    <div class="modal">
+        <div class="preloader pl-xxl">
+            <svg class="pl-circular" viewBox="25 25 50 50">
+                <circle class="plc-path" cx="50" cy="50" r="20"/>
+            </svg>
+        </div>
+    </div>
+    <!-- Fim imagem de carregamento em requisições ajax-->
 
-<!-- full calendar -->
-<script src="{{ asset('/js/moment.min.js')}}" type="text/javascript"></script>
-<script src="{{ asset('/fullcalendar/fullcalendar.min.js')}}"></script>
-<script src="{{ asset('/fullcalendar/locale/pt-br.js')}}" type="text/javascript"></script>
+    <footer id="footer" class="p-t-0">
+        <strong>Copyright &copy; 2015-2016 <a target="_blank" href="http://serbinario.com.br"><i></i>SERBINARIO</a> .</strong> Todos os direitos reservados.
+    </footer>
 
-<script src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    <!-- Javascript Libraries -->
+    <script src="{{ asset('/lib/jquery/dist/jquery.js') }}"></script>
+    <script src="{{ asset('/lib/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+    <script src="{{ asset('/lib/Waves/dist/waves.min.js') }}"></script>
+    <script src="{{ asset('/dist/jquery.datetimepicker.js') }}"></script>
+    <script src="{{ asset('/lib/sweetalert2/dist/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('/lib/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('/lib/jquery-validation/dist/jquery.validate.js') }}"></script>
+    <script src="{{ asset('/lib/jquery-validation/src/additional/cpfBR.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/dist/js/adicional/unique.js')  }}"></script>
+    <script src="{{ asset('/dist/js/fileinput/fileinput.min.js')}}"></script>
+    <script src="{{ asset('/dist/js/krajee/js/fileinput.js')}}"></script>
+    <script src="{{ asset('/dist/js/krajee/js/locales/pt-BR.js')}}"></script>
+    <script src="{{ asset('/lib/jquery-mask-plugin/dist/jquery.mask.js') }}"></script>
+    <script src="{{ asset('/lib/select2/dist/js/select2.full.js') }}"></script>
 
-<script src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
-<script src="{{ asset('/vendor/datatables/buttons.server-side.js') }}"></script>
 
-<script type="text/javascript" src="{{asset('/js/zabuto_calendar.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/js/zabuto_calendar.min.js')}}"></script>
+    <script src="{{ asset('/js/moment.min.js')}}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{asset('/fullcalendar/fullcalendar.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/fullcalendar/locale/pt-br.js')}}"></script>
 
+    <!-- Placeholder for IE9 -->
+    <!--[if IE 9 ]-->
+    <script type="text/javascript" src={{ asset('/lib/jquery-placeholder/jquery.placeholder.min.js') }}></script>
+    <!--[endif]-->
 
-<!-- Custom and plugin javascript -->
-<script src="{{ asset('/js/inspinia.js')}}"></script>
-<script src="{{ asset('/js/plugins/pace/pace.min.js')}}"></script>
-<script src="{{ asset('/js/jasny-bootstrap.js')}}"></script>
-<script src="{{ asset('/js/jquery.mask.js')}}"></script>
-<script src="{{ asset('/js/mascaras.js')}}"></script>
-<script src="{{ asset('/js/laroute.js')}}"></script>
-<script type="text/javascript">
-$(document).ready(function () {
-    $('.datepicker').datetimepicker({
-        timepicker: false,
-        format: 'd/m/Y',
-        mask: false,
-        lang: 'pt-BR'
-    });
-});
-</script>
-@yield('javascript')
-</body>
+    <script type="text/javascript" src={{ asset('/dist/js/app.js') }}></script>
 
+    <script src="{{ asset('/lib/chosen/chosen.jquery.js') }}"></script>
+    <script src="{{ asset('/js/jasny-bootstrap.js')}}"></script>
+    <script src="{{ asset('/js/jquery.mask.js')}}"></script>
+    <script src="{{ asset('/js/mascaras.js')}}"></script>
+    <script src="{{ asset('/js/laroute.js')}}"></script>
+
+    <script type="text/javascript">
+        $(".chosen").chosen();
+        $('.dateTimePicker').datetimepicker({
+            format : 'd/m/Y'
+        });
+    </script>
+
+    @yield('javascript')
+
+    </body>
 </html>

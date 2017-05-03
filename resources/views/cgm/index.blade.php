@@ -1,23 +1,28 @@
 @extends('menu')
 
 @section('content')
+    <section id="content">
+        <div class="container">
 
-    <div class="ibox float-e-margins">
-        <div class="ibox-title">
-            <div class="col-md-10">
-                <h4>
-                    <i class="fa fa-users"></i>
-                    Listar CGM
-                </h4>
+            <div class="block-header">
+                <h2>Listar CGM</h2>
             </div>
-            <div class="col-md-2">
-                <a href="{{ route('serbinario.cgm.create')}}" class="btn-sm btn-primary">Novo CGM</a>
-            </div>
-        </div>
-        <div class="ibox-content">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="table-responsive no-padding">
+
+            <div class="card material-table">
+                <div class="card-header">
+                    <!-- Botão novo -->
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="text-right">
+                                <a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.cgm.create')  }}">Novo CGM</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Botão novo -->
+                </div>
+
+                <div class="card-body card-padding">
+                    <div class="table-responsive">
                         <table id="cgm-grid" class="display table table-bordered" cellspacing="0" width="100%">
                             <thead>
                             <tr>
@@ -40,7 +45,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 @stop
 
 @section('javascript')

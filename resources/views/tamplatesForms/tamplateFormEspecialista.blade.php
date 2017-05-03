@@ -1,85 +1,96 @@
-<div class="row">
-	<div class="col-md-12">
-		<div class="row">
-            <div class="form-group col-md-5">
-                <label for="cgm">CGM</label>
-                <select id="cgm" class="form-control" name="cgm">
-                    @if(isset($model->id) && $model->getCgm != null)
-                        <option value="{{ $model->getCgm->id  }}" selected="selected">{{ $model->getCgm->nome }}</option>
-                    @endif
-                </select>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-				{!! Form::label('qtd_vagas', 'Quantidade de vagas') !!}
-				{!! Form::text('qtd_vagas', Session::getOldInput('qtd_vagas')  , array('class' => 'form-control')) !!}
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    {!! Form::label('crm', 'CRM') !!}
-                    {!! Form::text('crm', Session::getOldInput('crm')  , array('class' => 'form-control')) !!}
-                </div>
-            </div>
-		</div>
+<div class="block-header">
+    <h2>Cadastro de Especialista</h2>
+</div>
+<div class="card">
+    <div class="card-body card-padding">
         <div class="row">
-            <div class="col-md-2">
-                <div class="form-group">
-                    {!! Form::label('tipo', 'Tipo ') !!}
-                    {!! Form::select('tipo', (['' => 'Selecione um tipo'] + $loadFields['tipooperacao']->toArray()), null, array('class' => 'form-control', 'id' => 'tipo')) !!}
+            <div class="col-md-12">
+
+                <div class="row">
+                    <div class="form-group col-md-5">
+                        <div class="fg-line">
+                            <label for="cgm">CGM</label>
+                            <select id="cgm" class="form-control input-sm" name="cgm">
+                                @if(isset($model->id) && $model->getCgm != null)
+                                    <option value="{{ $model->getCgm->id  }}" selected="selected">{{ $model->getCgm->nome }}</option>
+                                @endif
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <div class="fg-line">
+                            {!! Form::label('qtd_vagas', 'Quantidade de vagas') !!}
+                            {!! Form::text('qtd_vagas', Session::getOldInput('qtd_vagas')  , array('class' => 'form-control input-sm')) !!}
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <div class="fg-line">
+                            {!! Form::label('crm', 'CRM') !!}
+                            {!! Form::text('crm', Session::getOldInput('crm')  , array('class' => 'form-control input-sm')) !!}
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    {!! Form::label('operacao_id', 'Operação ') !!}
-                    {!! Form::select('operacao_id', array(), Session::getOldInput('operacao_id'),array('class' => 'form-control', 'id' => 'operacao_id')) !!}
+
+                <div class="row">
+
+                    <div class="form-group col-md-2">
+                        <div class="fg-line">
+                            {!! Form::label('tipo', 'Tipo ') !!}
+                            {!! Form::select('tipo', (['' => 'Selecione um tipo'] + $loadFields['tipooperacao']->toArray()), null, array('class' => 'form-control input-sm', 'id' => 'tipo')) !!}
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <div class="fg-line">
+                            {!! Form::label('operacao_id', 'Operação ') !!}
+                            {!! Form::select('operacao_id', array(), Session::getOldInput('operacao_id'),array('class' => 'form-control input-sm', 'id' => 'operacao_id')) !!}
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <div class="fg-line">
+                            <button type="button" id="btnAdd" style="margin-top: 22px;" class="btn btn-primary btn-sm">Adicionar</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <button type="button" id="btnAdd" style="margin-top: 22px;" class="btn btn-primary btn-sm">Adicionar</button>
+                <div class="row">
+                    <div class="col-md-6">
+                        <table id="especialidades" class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th style="width: 24%">Tipo</th>
+                                <th>Especialidade</th>
+                                <th style="width: 10%">Ação</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if(isset($model->id))
+                                @foreach($model->especialistaEspecialidade as $especialidade)
+                                    <tr>
+                                        <td>{{$especialidade->operacao->grupo->tipo->nome}}</td>
+                                        <td>{{$especialidade->operacao->nome}}</td>
+                                        <td>
+                                            <button type='button' class='btn btn-primary' onclick='RemoveTableRow(this)'  title='Deletar'><i class='fa fa-times'></i></button></li>
+                                            <input type='hidden' name='operacoes[]' value='{{$especialidade->id}}'>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <table id="especialidades" class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th style="width: 24%">Tipo</th>
-                        <th>Especialidade</th>
-                        <th style="width: 10%">Ação</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        @if(isset($model->id))
-                            @foreach($model->especialistaEspecialidade as $especialidade)
-                                <tr>
-                                    <td>{{$especialidade->operacao->grupo->tipo->nome}}</td>
-                                    <td>{{$especialidade->operacao->nome}}</td>
-                                    <td>
-                                        <button type='button' class='btn-floating remove' onclick='RemoveTableRow(this)'  title='Deletar'><i class='fa fa-times'></i></button></li>
-                                        <input type='hidden' name='operacoes[]' value='{{$especialidade->id}}'>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @endif
-                    </tbody>
-                </table>
-            </div>
-        </div>
-	</div>
-    <div class="col-md-3">
-        <div class="btn-group btn-group-justified">
-            <div class="btn-group">
-                <a href="{{ route('serbinario.especialista.index') }}" class="btn btn-primary btn-block"><i
-                            class="fa fa-long-arrow-left"></i> Voltar</a></div>
-            <div class="btn-group">
-                {!! Form::submit('Salvar', array('class' => 'btn btn-primary btn-block')) !!}
+
+                <button class="btn btn-primary btn-sm m-t-10">Salvar</button>
+                <a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.especialista.index') }}">Voltar</a>
             </div>
         </div>
     </div>
 </div>
+</div>
+
 @section('javascript')
     <script src="{{ asset('/js/validacoes/validation_form_aluno.js')}}"></script>
     <script type="text/javascript">

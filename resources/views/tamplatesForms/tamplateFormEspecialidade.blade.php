@@ -4,7 +4,7 @@
 
             {{--<div class="col-md-4">
                 <div class="form-group">
-                    
+
 				{!! Form::label('nome', 'nome') !!}
 				{!! Form::text('nome', Session::getOldInput('nome')  , array('class' => 'form-control')) !!}
                 </div>
@@ -53,47 +53,6 @@
 @section('javascript')
 	<script src="{{ asset('/js/validacoes/validation_form_aluno.js')}}"></script>
 	<script type="text/javascript">
-		//Carregando as operações
-		/*$("#ddd").select2({
-			placeholder: 'Selecione uma operação',
-			minimumInputLength: 3,
-			width: 400,
-			ajax: {
-				type: 'POST',
-				url: "",
-				dataType: 'json',
-				delay: 250,
-				crossDomain: true,
-				data: function (params) {
-					return {
-						'search':     params.term, // search term
-						'tableName':  'grupo_operacoes',
-						'fieldName':  'nome',
-						/!*'fieldWhere':  'nivel',
-						 'valueWhere':  '3',*!/
-						'page':       params.page
-					};
-				},
-				headers: {
-					'X-CSRF-TOKEN' : '{{  csrf_token() }}'
-				},
-				processResults: function (data, params) {
-
-					// parse the results into the format expected by Select2
-					// since we are using custom formatting functions we do not need to
-					// alter the remote JSON data, except to indicate that infinite
-					// scrolling can be used
-					params.page = params.page || 1;
-
-					return {
-						results: data,
-						pagination: {
-							more: (params.page * 30) < data.total_count
-						}
-					};
-				}
-			}
-		});*/
 
 		//Carregando os bairros
 		$(document).on('change', "#tipo", function () {
