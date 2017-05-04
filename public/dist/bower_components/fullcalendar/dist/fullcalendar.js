@@ -10539,7 +10539,7 @@ function Header(calendar) {
 
 		if (sections) {
 			if (!el) {
-				el = this.el = $("<div class='fc-toolbar'/>");
+				el = this.el = $("<div class=''/>");
 			}
 			else {
 				el.empty();

@@ -19,7 +19,7 @@
         <link type="text/css" rel="stylesheet" href="{{ asset('/dist/js/krajee/css/fileinput.css')}}" rel="stylesheet"/>
         <link type="text/css" rel="stylesheet" href="{{ asset('/lib/select2/dist/css/select2.css')}}" rel="stylesheet"/>
         <link rel="stylesheet" href="{{asset('/css/zabuto_calendar.min.css')}}" />
-        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/bower_components/fullcalendar/dist/fullcalendar.min.css') }}" />
+        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/bower_components/fullcalendar/dist/fullcalendar.css') }}" />
         <link type="text/css" rel="stylesheet" href="{{ asset('/dist/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') }}" />
 
         <!-- Animação de loading em consultas ajax -->
@@ -185,9 +185,9 @@
 
     <script type="text/javascript" src="{{asset('/js/zabuto_calendar.min.js')}}"></script>
     <script src="{{ asset('/dist/bower_components/moment/min/moment.min.js')}}" type="text/javascript"></script>
-    <script type="text/javascript" src="{{asset('/dist/bower_components/fullcalendar/dist/fullcalendar.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/dist/bower_components/fullcalendar/dist/fullcalendar.js')}}"></script>
     <script type="text/javascript" src="{{asset('/dist/bower_components/fullcalendar/dist/locale/pt-br.js')}}"></script>
-    <script type="text/javascript" src="{{asset('/dist/bower_components/autosize/dist/autosize.min.js')}}"></script>
+    {{--<script type="text/javascript" src="{{asset('/dist/bower_components/autosize/dist/autosize.min.js')}}"></script>--}}
 
     <!-- Placeholder for IE9 -->
     <!--[if IE 9 ]-->
