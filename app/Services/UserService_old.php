@@ -70,13 +70,11 @@ class UserService
      */
     public function store(array $data) : User
     {
-        $data = $this->tratamentoCampos($data);
-
         #tratando a senha
         $data['password'] = \bcrypt($data['password']);
 
         #tratando a imagem
-        /*if(isset($data['img'])) {
+        if(isset($data['img'])) {
             $file     = $data['img'];
             $fileName = md5(uniqid(rand(), true)) . "." . $file->getClientOriginalExtension();
 
@@ -88,11 +86,10 @@ class UserService
 
             #destruindo o img do array
             unset($data['img']);
-        }*/
+        }
 
         #Salvando o registro pincipal
-        //$user =  $this->repository->create($data);
-        $user = User::create($data);
+        $user =  $this->repository->create($data);
 
         #Verificando se foi criado no banco de dados
         if(!$user) {
@@ -143,28 +140,18 @@ class UserService
      */
     public function update(array $data, int $id) : User
     {
-
-        $data = $this->tratamentoCamposUpdate($data);
-
         #tratando a senha
         if(empty($data['password'])) {
             unset($data['password']);
         } else {
-            $newPassword = \bcrypt($data['password']);
+            $data['password'] = \bcrypt($data['password']);
         }
 
         #Salvando o registro pincipal
         $user =  $this->repository->update($data, $id);
 
-        # Alterando a senha do usuário
-        if(isset($newPassword)) {
-            $user->fill([
-                'password' => $newPassword
-            ])->save();
-        }
-
         #tratando a imagem
-        /*if(isset($data['img'])) {
+        if(isset($data['img'])) {
             $file     = $data['img'];
             $fileName = md5(uniqid(rand(), true)) . "." . $file->getClientOriginalExtension();
 
@@ -182,7 +169,8 @@ class UserService
 
             #destruindo o img do array
             unset($data['img']);
-        }*/
+        }
+
 
         #Verificando se foi criado no banco de dados
         if(!$user) {
@@ -251,39 +239,4 @@ class UserService
         return $result;
     }
 
-    /**
-     * @param array $data
-     * @return array
-     */
-    public function tratamentoCampos(array &$data)
-    {
-        # Tratamento de campos de chaves estrangeira
-        foreach ($data as $key => $value) {
-            $explodeKey = explode("_", $key);
-
-            if ($explodeKey[count($explodeKey) -1] == "id" && $value == null ) {
-                unset($data[$key]);
-            }
-        }
-        #Retorno
-        return $data;
-    }
-
-    /**
-     * @param array $data
-     * @return array
-     */
-    public function tratamentoCamposUpdate(array &$data)
-    {
-        # Tratamento de campos de chaves estrangeira
-        foreach ($data as $key => $value) {
-            $explodeKey = explode("_", $key);
-
-            if ($explodeKey[count($explodeKey) -1] == "id" && $value == null ) {
-                $data[$key] = null;
-            }
-        }
-        #Retorno
-        return $data;
-    }
 }
