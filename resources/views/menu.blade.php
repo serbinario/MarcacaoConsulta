@@ -75,27 +75,36 @@
         {{--Menu Lateral--}}
         <aside id="sidebar" class="sidebar c-overflow">
             <div class="s-profile">
-                <a href="" data-ma-action="profile-menu-toggle">
+                <a href="#" data-ma-action="profile-menu-toggle">
                     <div class="sp-pic">
                         <img src="/dist/img/demo/profile-pics/1.jpg" alt="">
+                        {{--{{dd(Auth::user())}}--}}
+                        {{--{{Auth::user()->operador()->get()->first()->nome_operadores}}--}}
                     </div>
 
-                    {{--<div class="sp-info">
-                        {{ isset(Auth::user()->operador->nome_operadores)
-                            ? Auth::user()->operador->nome_operadores
-                            : Auth::user()->username }}
+                    <div class="sp-info">
+                        {{ Auth::user()->name }}
                         <i class="zmdi zmdi-caret-down"></i>
-                    </div>--}}
+                    </div>
                 </a>
 
-                {{--<ul class="main-menu">
-                    <li>
-                        <a href="{{ route('usuario.edit', ['id' => Auth::user()->id])  }}"><i class="zmdi zmdi-settings"></i>Perfil</a>
+                <ul class="main-menu">
+                    {{--<li>
+                        <a href="profile-about.html"><i class="zmdi zmdi-account"></i>Perfil</a>
                     </li>
                     <li>
-                        <a href="{{ route('auth.getLogout') }}"><i class="zmdi zmdi-time-restore"></i>Sair</a>
+                        <a href=""><i class="zmdi zmdi-input-antenna"></i> Privacy Settings</a>
                     </li>
-                </ul>--}}
+                    <li>
+                        <a href="{{ route('user.alterarSenha') }}"><i class="zmdi zmdi-settings"></i>Alterar Senha</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('logout') }}"><i class="zmdi zmdi-time-restore"></i>Sair</a>
+                    </li>--}}
+                    <li>
+                        <a href="{{ url('auth/logout') }}"><i class="zmdi zmdi-power"></i>Sair</a>
+                    </li>
+                </ul>
             </div>
 
             <ul class="main-menu">

@@ -12,12 +12,14 @@
 					{!! Form::text('nome', Session::getOldInput('nome')  , array('class' => 'form-control')) !!}
 				</div>
 			</div>
-		</div>
+		</div><br />
 		{{--#2--}}
-
-		<br />
-		<button type="submit" class="btn btn-primary btn-sm m-t-10">Salvar</button>
-		<a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.localidade.index') }}">Voltar</a>
+		<div class="row">
+			<div class="col-md-12">
+				<button type="submit" class="btn btn-primary btn-sm m-t-10">Salvar</button>
+				<a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.localidade.index') }}">Voltar</a>
+			</div>
+		</div>
 	</div>
 </div>
 @section('javascript')

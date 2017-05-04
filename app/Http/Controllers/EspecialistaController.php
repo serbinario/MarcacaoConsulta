@@ -98,6 +98,8 @@ class EspecialistaController extends Controller
             #Recuperando os dados da requisição
             $data = $request->all();
 
+           // dd('kkk');
+
             #Validando a requisição
             $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_CREATE);
 

@@ -116,9 +116,6 @@ class CGMController extends Controller
             #Recuperando a empresa
             $model = $this->service->find($id);
 
-            #Tratando as datas
-            $model = $this->service->getCGMWithDateFormatPtBr($model);
-
             #Carregando os dados para o cadastro
             $loadFields = $this->service->load($this->loadFields);
 

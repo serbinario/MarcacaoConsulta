@@ -47,7 +47,7 @@
             <div class="form-group col-sm-6">
                 <div class="fg-line">
                     <label class="control-label" for="cgm[nome]">Cidadão *</label>
-                    {!! Form::text('cgm[nome]', Session::getOldInput('cgm[nome]')  , array('id' => 'numero_sus', 'class' => 'form-control input-sm', 'placeholder' => 'Nome')) !!}
+                    {!! Form::text('cgm[nome]', Session::getOldInput('cgm[nome]')  , array('id' => 'nome', 'class' => 'form-control input-sm', 'placeholder' => 'Nome')) !!}
                 </div>
             </div>
             <div class="form-group col-sm-2">
@@ -129,9 +129,12 @@
                 </div>
             </div>
         </div>
-
-        <button type="submit" class="btn btn-primary btn-sm m-t-10">Salvar</button>
-        <a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.fila.index') }}">Voltar</a>
+        <div class="row">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary btn-sm m-t-10">Salvar</button>
+                <a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.fila.index') }}">Voltar</a>
+            </div>
+        </div>
     </div>
 </div>
 @section('javascript')
@@ -320,6 +323,7 @@
                 }).done(function (json) {
 
                     $('#nome').val(json['cidadao']['nome']);
+                    console.log(json['cidadao']['numero_sus'])
                     $('#numero_sus').val(json['cidadao']['numero_sus']);
                     $('#data_nascimento').val(json['cidadao']['data_nascimento']);
                     $('#idade').val(json['cidadao']['idade']);

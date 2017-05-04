@@ -4,10 +4,9 @@
 <div class="card">
     <div class="card-body card-padding">
         <div class="row">
-            <div class="col-md-12">
-
+            <div class="col-md-6">
                 <div class="row">
-                    <div class="form-group col-md-5">
+                    <div class="form-group col-md-6">
                         <div class="fg-line">
                             <label for="cgm">CGM</label>
                             <select id="cgm" class="form-control input-sm" name="cgm">
@@ -17,46 +16,47 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="form-group col-md-2">
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
                         <div class="fg-line">
                             {!! Form::label('qtd_vagas', 'Quantidade de vagas') !!}
                             {!! Form::text('qtd_vagas', Session::getOldInput('qtd_vagas')  , array('class' => 'form-control input-sm')) !!}
                         </div>
                     </div>
 
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-md-6">
                         <div class="fg-line">
                             {!! Form::label('crm', 'CRM') !!}
                             {!! Form::text('crm', Session::getOldInput('crm')  , array('class' => 'form-control input-sm')) !!}
                         </div>
                     </div>
                 </div>
-
+            </div>
+            <div class="col-md-6">
                 <div class="row">
-
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-md-4">
                         <div class="fg-line">
                             {!! Form::label('tipo', 'Tipo ') !!}
                             {!! Form::select('tipo', (['' => 'Selecione um tipo'] + $loadFields['tipooperacao']->toArray()), null, array('class' => 'form-control input-sm', 'id' => 'tipo')) !!}
                         </div>
                     </div>
 
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-md-5">
                         <div class="fg-line">
                             {!! Form::label('operacao_id', 'Operação ') !!}
                             {!! Form::select('operacao_id', array(), Session::getOldInput('operacao_id'),array('class' => 'form-control input-sm', 'id' => 'operacao_id')) !!}
                         </div>
                     </div>
 
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-2">
                         <div class="fg-line">
                             <button type="button" id="btnAdd" style="margin-top: 22px;" class="btn btn-primary btn-sm">Adicionar</button>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <table id="especialidades" class="table table-bordered compact">
                             <thead>
                             <tr style="background-color: #000066">
@@ -82,9 +82,14 @@
                         </table>
                     </div>
                 </div>
-
-                <button class="btn btn-primary btn-sm m-t-10">Salvar</button>
-                <a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.especialista.index') }}">Voltar</a>
+            </div>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary btn-sm m-t-10">Salvar</button>
+                        <a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.especialista.index') }}">Voltar</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -92,7 +97,7 @@
 </div>
 
 @section('javascript')
-    <script src="{{ asset('/js/validacoes/validation_form_aluno.js')}}"></script>
+    <script src="{{ asset('/js/validacoes/validation_form_especialista.js')}}"></script>
     <script type="text/javascript">
         //consulta via select2 cgm
         $("#cgm").select2({
