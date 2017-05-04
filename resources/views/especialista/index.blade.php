@@ -99,6 +99,7 @@
         var table = $('#especialista-grid').DataTable({
             processing: true,
             serverSide: true,
+            order: [[ 1, "asc" ]],
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json'
             },

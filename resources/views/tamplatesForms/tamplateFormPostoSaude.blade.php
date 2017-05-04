@@ -20,13 +20,10 @@
 			</div>
 			<div class="form-group col-sm-4">
 				<div class="fg-line">
-					<label class="control-label" for="endereco">Endereço</label>
+					<label class="control-label" for="endereco">Logradouro</label>
 					{!! Form::text('endereco', Session::getOldInput('endereco')  , array('class' => 'form-control input-sm', 'placeholder' => '')) !!}
 				</div>
 			</div>
-
-			{{-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx --}}
-
 
 		</div>
 		{{--#2--}}

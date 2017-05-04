@@ -17,8 +17,18 @@
                     <div class="row">
                         <div class="col-md-5 col-md-offset-1">
                             <!-- define the calendar element -->
-
-                            <div id="my-calendar"></div>
+                            <div class="row">
+                                <div id="my-calendar"></div>
+                            </div>
+                            <div class="row">
+                                <div class="row">
+                                    <div class="form-group col-md-10">
+                                        <button type="button" id="save" disabled class="btn btn-primary btn-sm m-t-10">Salvar</button>
+                                        <button type="button" id="edit" disabled class="btn btn-success btn-sm m-t-10">Editar</button>
+                                        <a href="{{route('serbinario.especialista.index')}}" class="btn btn-default btn-sm m-t-10">Voltar</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <div class="row">
@@ -35,13 +45,13 @@
                                             </div>
 
 
-                                            <div class="col-md-10">
+                                            <div class="form-group col-md-10">
                                                 <div class="fg-line">
                                                     {!! Form::label('qtd_vagas', 'Quantidade de vagas') !!}
                                                     {!! Form::text('qtd_vagas', $especialista['qtd_vagas'] , array('class' => 'form-control input-sm', 'id' => 'qtd_vagas')) !!}
                                                 </div>
                                             </div>
-                                            <div class="col-md-10">
+                                            <div class=" col-md-10">
                                                 <div class="fg-line">
                                                     {!! Form::label('data', 'Data') !!}
                                                     {!! Form::text('data', '', array('class' => 'form-control data input-sm', 'readonly' => 'readonly', 'id' => 'data')) !!}
@@ -57,14 +67,13 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="col-md-10">
                                                 <div class="fg-line">
                                                     {!! Form::label('hora', 'Hora Mapa 1') !!}
                                                     {!! Form::text('hora', '', array('class' => 'form-control hora input-sm', 'id' => 'hora')) !!}
                                                 </div>
                                             </div>
-                                            <div class="col-md-10">
+                                            <div class="form-group col-md-10">
                                                 <div class="fg-line">
                                                     {!! Form::select('especialidade_um', array(), array(),array('class' => 'form-control input-sm', 'id' => 'especialidade_um')) !!}
                                                 </div>
@@ -75,19 +84,13 @@
                                                     {!! Form::text('hora2', '', array('class' => 'form-control hora', 'id' => 'hora2', 'readonly' => 'readonly')) !!}
                                                 </div>
                                             </div>
-                                            <div class="col-md-10">
+                                            <div class="form-group col-md-10">
                                                 <div class="fg-line">
                                                     {!! Form::select('especialidade_dois', array(), array(),array('disabled' => 'disabled', 'class' => 'form-control input-sm', 'id' => 'especialidade_dois')) !!}
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-10">
-                                                <button type="button" id="save" disabled class="btn btn-primary btn-sm m-t-10">Salvar</button>
-                                                <button type="button" id="edit" disabled class="btn btn-success btn-sm m-t-10">Editar</button>
-                                                <a href="{{route('serbinario.especialista.index')}}" class="btn btn-default m-t-10">Voltar</a>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </form>
                             </div>
@@ -190,6 +193,8 @@
                     $('#hora').val("");
                     $('#hora2').val("");
                     $('#hora2').prop('readonly', true);
+                    $('#especialidade_dois').prop('disabled', true);
+                    $('#especialidade_dois option').remove();
                     $('#mapa').prop('checked', false);
 
                     $('#data').prop('readonly', true);

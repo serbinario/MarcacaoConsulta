@@ -303,7 +303,7 @@
         </div>
     </div>
 
-    <button class="btn btn-primary btn-sm m-t-10">Salvar</button>
+    <button type="submit" class="btn btn-primary btn-sm m-t-10">Salvar</button>
     <a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.cgm.index') }}">Voltar</a>
 </div>
 

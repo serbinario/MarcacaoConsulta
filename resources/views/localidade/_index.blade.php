@@ -1,40 +1,33 @@
 @extends('menu')
 
 @section('content')
-    <section id="content">
-        <div class="container">
 
-            <div class="block-header">
-                <h2>Listar PSF(s)</h2>
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <div class="col-md-10">
+                <h4>
+                    <i class="fa fa-users"></i>
+                    Listar Unidades de Atendimento
+                </h4>
             </div>
-
-            <div class="card material-table">
-                <div class="card-header">
-                    <!-- Botão novo -->
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="text-right">
-                                <a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.ps.create')  }}">Novo PSF</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Botão novo -->
-                </div>
-
-                <div class="card-body card-padding">
-                    <div class="table-responsive">
-                        <table id="ps-grid" class="display table table-bordered compact" cellspacing="0" width="100%">
+            <div class="col-md-2">
+                <a href="{{ route('serbinario.localidade.create')}}" class="btn-sm btn-primary">Nova Unidade</a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive no-padding">
+                        <table id="localidade-grid" class="display table table-bordered" cellspacing="0" width="100%">
                             <thead>
                             <tr>
                                 <th>Nome</th>
-                                <th>cnes</th>
                                 <th>Acão</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
                                 <th>Nome</th>
-                                <th>cnes</th>
                                 <th style="width: 17%;">Acão</th>
                             </tr>
                             </tfoot>
@@ -43,21 +36,20 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 @stop
 
 @section('javascript')
     <script type="text/javascript">
-        var table = $('#ps-grid').DataTable({
+        var table = $('#localidade-grid').DataTable({
             processing: true,
             serverSide: true,
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json'
             },
-            ajax: "{!! route('serbinario.ps.grid') !!}",
+            ajax: "{!! route('serbinario.localidade.grid') !!}",
             columns: [
                 {data: 'nome', name: 'nome'},
-                {data: 'cnes', name: 'cnes'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });
