@@ -69,6 +69,26 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="form-group col-sm-2">
+                <div class=" fg-line">
+                    <label for="cgm[numero_nis]">Número NIS *</label>
+                    {!! Form::text('cgm[numero_nis]', Session::getOldInput('cgm[numero_nis]') , array('id' => 'numero_nis', 'class' => 'form-control input-sm', 'placeholder' => '')) !!}
+                </div>
+            </div>
+            <div class="form-group col-sm-2">
+                <div class=" fg-line">
+                    <label for="cpf_cnpj">CPF *</label>
+                    {!! Form::text('cgm[cpf_cnpj]', Session::getOldInput('cgm[cpf_cnpj]') , array('id' => 'cpf_cnpj', 'class' => 'form-control cpf input-sm', 'placeholder' => '')) !!}
+                </div>
+            </div>
+            <div class="form-group col-sm-2">
+                <div class=" fg-line">
+                    <label for="rg">RG *</label>
+                    {!! Form::text('cgm[rg]', Session::getOldInput('cgm[rg]') , array('id' => 'rg', 'class' => 'form-control input-sm', 'placeholder' => '')) !!}
+                </div>
+            </div>
+        </div>
         {{--#3--}}
         <div class="row">
             <div class="form-group col-sm-6">
