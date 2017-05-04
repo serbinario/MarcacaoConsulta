@@ -1,24 +1,29 @@
 @extends('menu')
 
 @section('content')
+    <section id="content">
+        <div class="container">
 
-    <div class="ibox float-e-margins">
-        <div class="ibox-title">
-            <div class="col-md-10">
-                <h4>
-                    <i class="fa fa-users"></i>
-                    Listar Unidades de Atendimento
-                </h4>
+            <div class="block-header">
+                <h2>Listar Unidades de Atendimento</h2>
             </div>
-            <div class="col-md-2">
-                <a href="{{ route('serbinario.localidade.create')}}" class="btn-sm btn-primary">Nova Unidade</a>
-            </div>
-        </div>
-        <div class="ibox-content">
-            <div class="row">
-                <div class="col-md-12">
+
+            <div class="card material-table">
+                <div class="card-header">
+                    <!-- Botão novo -->
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="text-right">
+                                <a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.localidade.create')}}">Nova Unidade</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Botão novo -->
+                </div>
+
+                <div class="card-body card-padding">
                     <div class="table-responsive no-padding">
-                        <table id="localidade-grid" class="display table table-bordered" cellspacing="0" width="100%">
+                        <table id="localidade-grid" class="display table table-bordered compact" cellspacing="0" width="100%">
                             <thead>
                             <tr>
                                 <th>Nome</th>
@@ -36,7 +41,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 @stop
 
 @section('javascript')
@@ -55,23 +60,23 @@
         });
 
         /*//Seleciona uma linha
-        $('#crud-grid tbody').on( 'click', 'tr', function () {
-            if ( $(this).hasClass('selected') ) {
-                $(this).removeClass('selected');
-            }
-            else {
-                table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-            }
-        } );
+         $('#crud-grid tbody').on( 'click', 'tr', function () {
+         if ( $(this).hasClass('selected') ) {
+         $(this).removeClass('selected');
+         }
+         else {
+         table.$('tr.selected').removeClass('selected');
+         $(this).addClass('selected');
+         }
+         } );
 
-        //Retonra o id do registro
-        $('#crud-grid tbody').on( 'click', 'tr', function () {
+         //Retonra o id do registro
+         $('#crud-grid tbody').on( 'click', 'tr', function () {
 
-            var rows = table.row( this ).data()
+         var rows = table.row( this ).data()
 
-            console.log( rows.id );
-        } );*/
+         console.log( rows.id );
+         } );*/
 
     </script>
 @stop

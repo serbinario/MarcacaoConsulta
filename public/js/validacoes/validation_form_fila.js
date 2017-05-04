@@ -41,6 +41,34 @@ $(document).ready(function () {
                         message: "Este campo é obrigatório",
                     }
                 }
+            },
+            'cgm[data_nascimento]': {
+                validators: {
+                    notEmpty: {
+                        message: "Este campo é obrigatório",
+                    }
+                }
+            },
+            'cgm[endereco][logradouro]': {
+                validators: {
+                    notEmpty: {
+                        message: "Este campo é obrigatório",
+                    }
+                }
+            },
+            'cgm[fone]': {
+                validators: {
+                    notEmpty: {
+                        message: "Este campo é obrigatório",
+                    }
+                }
+            },
+            'cgm[endereco][bairro]': {
+                validators: {
+                    notEmpty: {
+                        message: "Este campo é obrigatório",
+                    }
+                }
             }
         }
     });

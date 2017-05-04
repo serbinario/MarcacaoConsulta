@@ -19,7 +19,8 @@
         <link type="text/css" rel="stylesheet" href="{{ asset('/dist/js/krajee/css/fileinput.css')}}" rel="stylesheet"/>
         <link type="text/css" rel="stylesheet" href="{{ asset('/lib/select2/dist/css/select2.css')}}" rel="stylesheet"/>
         <link rel="stylesheet" href="{{asset('/css/zabuto_calendar.min.css')}}" />
-        <link type="text/css" rel="stylesheet" href="{{ asset('/fullcalendar/fullcalendar.min.css') }}"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/bower_components/fullcalendar/dist/fullcalendar.min.css') }}" />
+        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') }}" />
 
         <!-- Animação de loading em consultas ajax -->
         <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/load.css')}}" rel="stylesheet"/>
@@ -99,7 +100,7 @@
 
             <ul class="main-menu">
                 <li class="sub-menu">
-                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-phone"></i>Cadastros</a>
+                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-plus"></i>Cadastros</a>
                     <ul>
                         <li><a href="{{ route('serbinario.cgm.index') }}">CGM</a></li>
                         <li><a href="{{ route('serbinario.fila.index') }}">Fila de Espera</a></li>
@@ -110,13 +111,13 @@
                     </ul>
                 </li>
                 <li class="sub-menu">
-                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-phone"></i>Agendamento</a>
+                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-calendar"></i>Agendamento</a>
                     <ul>
                         <li><a href="{{ route('serbinario.agendamento.index') }}">Agenda</a></li>
                     </ul>
                 </li>
                 <li class="sub-menu">
-                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-phone"></i>Administrador</a>
+                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-shield-security"></i>Administrador</a>
                     <ul>
                         <li><a href="{{ route('serbinario.user.index') }}">Cadastrar Usuário</a></li>
                     </ul>
@@ -170,12 +171,14 @@
     <script src="{{ asset('/dist/js/krajee/js/locales/pt-BR.js')}}"></script>
     <script src="{{ asset('/lib/jquery-mask-plugin/dist/jquery.mask.js') }}"></script>
     <script src="{{ asset('/lib/select2/dist/js/select2.full.js') }}"></script>
+    <script src="{{ asset('/js/bootstrapvalidator.js')}}" type="text/javascript"></script>
 
 
     <script type="text/javascript" src="{{asset('/js/zabuto_calendar.min.js')}}"></script>
-    <script src="{{ asset('/js/moment.min.js')}}" type="text/javascript"></script>
-    <script type="text/javascript" src="{{asset('/fullcalendar/fullcalendar.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('/fullcalendar/locale/pt-br.js')}}"></script>
+    <script src="{{ asset('/dist/bower_components/moment/min/moment.min.js')}}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{asset('/dist/bower_components/fullcalendar/dist/fullcalendar.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/dist/bower_components/fullcalendar/dist/locale/pt-br.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/dist/bower_components/autosize/dist/autosize.min.js')}}"></script>
 
     <!-- Placeholder for IE9 -->
     <!--[if IE 9 ]-->

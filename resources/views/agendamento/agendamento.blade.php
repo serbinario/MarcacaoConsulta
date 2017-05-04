@@ -4,19 +4,43 @@
     <div class="container">
         <section id="content">
             {{-- Mensagem de alerta quando os dados não atendem as regras de validação que foramd efinidas no servidor --}}
-            <div class="ibox-content">
+           {{-- <div class="ibox-content">
 
-            </div>
+            </div>--}}
 
-            <div class="block-header">
+            {{--<div class="block-header">
                 <h2>Agendamento</h2>
-            </div>
+            </div>--}}
 
             <div class="card">
                 <div class="card-body card-padding">
                     <div class="row">
                         <div class="col-md-8">
-                            <div id='calendar'></div>
+                            <div class="container container-alt">
+                                <div class="block-header block-header-calendar">
+                                    <h2>
+                                        <span></span>
+                                        <small>Calendário para agendamento das consultas médicas</small>
+                                    </h2>
+
+                                    <ul class="actions actions-calendar">
+                                        <li><a class="calendar-next" href=""><i class="zmdi zmdi-chevron-left"></i></a></li>
+                                        <li><a class="calendar-prev" href=""><i class="zmdi zmdi-chevron-right"></i></a></li>
+
+                                        <li class="dropdown">
+                                            <a href="" data-toggle="dropdown"><i class="zmdi zmdi-more-vert"></i></a>
+                                            <ul class="dropdown-menu dm-icon pull-right">
+                                                <li><a href="" data-calendar-view="month"><i class="zmdi zmdi-view-comfy active"></i> Visualizar por Mês</a></li>
+                                                <li><a href="" data-calendar-view="basicWeek"><i class="zmdi zmdi-view-week"></i> Visualizar por Semana</a></li>
+                                                <li><a href="" data-calendar-view="basicDay"><i class="zmdi zmdi-view-day"></i> Visualizar por Dia</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div id="calendar" class="card"></div>
+
+                            </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card">
@@ -123,7 +147,7 @@
                                                 <div class="col-md-12">
                                                     <label for="obs">Observação</label>
                                                     <div class="form-group">
-                                                        <textarea name="obs" id="obs" rows="10" class="form-control"></textarea>
+                                                        <textarea name="obs" id="obs" rows="4" class="form-control"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -148,6 +172,11 @@
     <script type="text/javascript" src="{{asset('/js/agendamento/script-agendamento.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+
+            var date = new Date();
+            var m = date.getMonth();
+            var y = date.getFullYear();
+            var target = $('#calendar');
 
             // Campos da pesquisa zerados para carregamento inicial do calendáriowq
             var dados = {
@@ -176,11 +205,17 @@
 
             });
 
-            $('#calendar').fullCalendar({
-                editable: true,
-                eventLimit: true,
+            target.fullCalendar({
+                header: {
+                    right: '',
+                    center: '',
+                    left: ''
+                },
 
-                //Carrega os eventos no fullcalendar
+                theme: false,
+                selectable: true,
+                selectHelper: true,
+                editable: true,
                 events: function (start, end, timezone, callback) {
                     jQuery.ajax({
                         url: '{{ route('serbinario.agendamento.loadCalendar') }}',
@@ -213,7 +248,6 @@
                     });
                 },
 
-                //Envento do click no dia do calendário
                 dayClick: function (date, allDay, jsEvent, view, resourceObj) {
                     var idMedico        = $('#especialista').val();
                     var idLocal         = $('#localidade').val();
@@ -319,7 +353,17 @@
                     });
                 },
 
-                //Evento do click no objeto
+                viewRender: function (view) {
+                    var calendarDate = $("#calendar").fullCalendar('getDate');
+                    var calendarMonth = calendarDate.month();
+
+                    //Set data attribute for header. This is used to switch header images using css
+                    $('#calendar .fc-toolbar').attr('data-calendar-month', calendarMonth);
+
+                    //Set title in page header
+                    $('.block-header-calendar > h2 > span').html(view.title);
+                },
+
                 eventClick: function (calEvent, jsEvent, view) {
                     var date = calEvent.start._i;
                     var idPaciente = calEvent.idAgendamento;
@@ -374,8 +418,32 @@
                     });
 
                 }
-
             });
+
+            //Calendar views switch
+            $('body').on('click', '[data-calendar-view]', function(e){
+                e.preventDefault();
+
+                $('[data-calendar-view]').removeClass('active');
+                $(this).addClass('active');
+                var calendarView = $(this).attr('data-calendar-view');
+                target.fullCalendar('changeView', calendarView);
+            });
+
+
+            //Calendar Next
+            $('body').on('click', '.calendar-next', function (e) {
+                e.preventDefault();
+                target.fullCalendar('prev');
+            });
+
+
+            //Calendar Prev
+            $('body').on('click', '.calendar-prev', function (e) {
+                e.preventDefault();
+                target.fullCalendar('next');
+            });
+
         });
 
     </script>

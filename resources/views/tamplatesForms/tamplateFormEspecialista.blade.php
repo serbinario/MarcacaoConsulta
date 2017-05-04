@@ -57,9 +57,9 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <table id="especialidades" class="table table-bordered">
+                        <table id="especialidades" class="table table-bordered compact">
                             <thead>
-                            <tr>
+                            <tr style="background-color: #000066">
                                 <th style="width: 24%">Tipo</th>
                                 <th>Especialidade</th>
                                 <th style="width: 10%">Ação</th>
@@ -72,7 +72,7 @@
                                         <td>{{$especialidade->operacao->grupo->tipo->nome}}</td>
                                         <td>{{$especialidade->operacao->nome}}</td>
                                         <td>
-                                            <button type='button' class='btn btn-primary' onclick='RemoveTableRow(this)'  title='Deletar'><i class='fa fa-times'></i></button></li>
+                                            <button type='button' class="btn btn-danger waves-effect" title='Deletar' onclick='RemoveTableRow(this)'><i class="zmdi zmdi-close"></i></button>
                                             <input type='hidden' name='operacoes[]' value='{{$especialidade->id}}'>
                                         </td>
                                     </tr>
@@ -191,7 +191,7 @@
             html += '<td>' + tipo + '</td>';
             html += '<td>' + operacaoNome + '</td>';
             html += "<td>" +
-                    "<button type='button' class='btn-floating remove' onclick='RemoveTableRow(this)'  title='Deletar'><i class='fa fa-times'></i></button></li></td>" +
+                    "<button type='button' class='btn btn-danger waves-effect' title='Deletar' onclick='RemoveTableRow(this)'><i class='zmdi zmdi-close'></i></button></td>" +
                     "<input type='hidden' name='operacoes[]' value='" + operacaoId + "'>";
             html += '</tr>';
 
