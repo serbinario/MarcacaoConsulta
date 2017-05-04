@@ -100,7 +100,7 @@
 
             <ul class="main-menu">
                 <li class="sub-menu">
-                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-phone"></i>Cadastros</a>
+                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-plus"></i>Cadastros</a>
                     <ul>
                         <li><a href="{{ route('serbinario.cgm.index') }}">CGM</a></li>
                         <li><a href="{{ route('serbinario.fila.index') }}">Fila de Espera</a></li>
@@ -111,13 +111,13 @@
                     </ul>
                 </li>
                 <li class="sub-menu">
-                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-phone"></i>Agendamento</a>
+                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-calendar"></i>Agendamento</a>
                     <ul>
                         <li><a href="{{ route('serbinario.agendamento.index') }}">Agenda</a></li>
                     </ul>
                 </li>
                 <li class="sub-menu">
-                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-phone"></i>Administrador</a>
+                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-shield-security"></i>Administrador</a>
                     <ul>
                         <li><a href="{{ route('serbinario.user.index') }}">Cadastrar Usuário</a></li>
                     </ul>

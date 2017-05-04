@@ -301,10 +301,13 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary btn-sm m-t-10">Salvar</button>
+                <a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.cgm.index') }}">Voltar</a>
+            </div>
+        </div>
     </div>
-
-    <button type="submit" class="btn btn-primary btn-sm m-t-10">Salvar</button>
-    <a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.cgm.index') }}">Voltar</a>
 </div>
 
 @section('javascript')
