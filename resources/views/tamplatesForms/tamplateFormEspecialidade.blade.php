@@ -1,53 +1,47 @@
-<div class="row">
-	<div class="col-md-12">
+<div class="block-header">
+	<h2>Cadastro Geral Municipal</h2>
+</div>
+
+<div class="card">
+	<div class="card-body card-padding">
 		<div class="row">
 
-            {{--<div class="col-md-4">
-                <div class="form-group">
-
-				{!! Form::label('nome', 'nome') !!}
-				{!! Form::text('nome', Session::getOldInput('nome')  , array('class' => 'form-control')) !!}
-                </div>
-            </div>--}}
-			<div class="col-md-2">
-				<div class="form-group">
-					{!! Form::label('tipo', 'Tipo ') !!}
+			<div class="form-group col-sm-2">
+				<div class="fg-line">
+					<label class="control-label" for="tipo">Tipo</label>
 					@if(isset($model->operacao->grupo->tipo->id))
-						{!! Form::select('tipo', $loadFields['tipooperacao'], $model->operacao->grupo->tipo->id, array('class' => 'form-control', 'id' => 'tipo')) !!}
+						{!! Form::select('tipo', $loadFields['tipooperacao'], $model->operacao->grupo->tipo->id, array('class' => 'form-control imput-sm', 'id' => 'tipo')) !!}
 					@else
-						{!! Form::select('tipo', (['' => 'Selecione um tipo'] + $loadFields['tipooperacao']->toArray()), null, array('class' => 'form-control', 'id' => 'tipo')) !!}
+						{!! Form::select('tipo', (['' => 'Selecione um tipo'] + $loadFields['tipooperacao']->toArray()), null, array('class' => 'form-control imput-sm', 'id' => 'tipo')) !!}
 					@endif
 				</div>
 			</div>
-			<div class="col-md-4">
-				<div class="form-group">
-					{!! Form::label('operacao_id', 'Operação ') !!}
-					@if(isset($model->operacao->id))
-						{!! Form::select('operacao_id', array($model->operacao->id => $model->operacao->nome), $model->operacao->id,array('class' => 'form-control', 'id' => 'operacao_id')) !!}
-					@else
-						{!! Form::select('operacao_id', array(), Session::getOldInput('operacao_id'),array('class' => 'form-control', 'id' => 'operacao_id')) !!}
-					@endif
+			<div class="form-group col-sm-2">
+				<div class="fg-line">
+					<label class="control-label" for="operacao_id">Operação</label>
+					<div class="select">
+						@if(isset($model->operacao->id))
+							{!! Form::select('operacao_id', array($model->operacao->id => $model->operacao->nome), $model->operacao->id,array('class' => 'form-control', 'id' => 'operacao_id')) !!}
+						@else
+							{!! Form::select('operacao_id', array(), Session::getOldInput('operacao_id'),array('class' => 'form-control', 'id' => 'operacao_id')) !!}
+						@endif
+					</div>
 				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-8">
 				<div class="form-group">
-					{!! Form::label('preparo', 'Preparo') !!}
-					{!! Form::textarea('preparo', Session::getOldInput('preparo')  ,['size' => '90x5'] , array('class' => 'form-control')) !!}
+					<div class=" fg-line">
+						<label for="preparo">Preparo</label>
+						{!! Form::textarea('preparo', Session::getOldInput('preparo'),
+                            array('class' => 'form-control input-sm', 'placeholder' => 'Adicione uma observação')) !!}
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="col-md-3">
-		<div class="btn-group btn-group-justified">
-			<div class="btn-group">
-				<a href="{{ route('serbinario.especialidade.index') }}" class="btn btn-primary btn-block"><i
-							class="fa fa-long-arrow-left"></i> Voltar</a></div>
-			<div class="btn-group">
-				{!! Form::submit('Salvar', array('class' => 'btn btn-primary btn-block')) !!}
-			</div>
-		</div>
+		<button class="btn btn-primary btn-sm m-t-10">Salvar</button>
+		<a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.especialidade.index') }}">Voltar</a>
 	</div>
 </div>
 @section('javascript')

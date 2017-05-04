@@ -1,5 +1,5 @@
 <div class="block-header">
-	<h2>Cadastro Geral Municipal</h2>
+	<h2>Cadastro de Usuários</h2>
 </div>
 
 <div class="card">
@@ -18,6 +18,8 @@
 
 		<!-- Tab panes -->
 		<div class="tab-content">
+
+			{{-- - --}}
 			<div role="tabpanel" class="tab-pane active" id="user">
 				<br/>
 				<div class="row">
@@ -27,22 +29,21 @@
 							{!! Form::text('nome', Session::getOldInput('nome') , array('class' => 'form-control input-sm', 'placeholder' => '')) !!}
 						</div>
 					</div>
-
-					<div class="col-sm-2">
-						<input type="file" name="contrato[path_arquivo][]" multiple="multiple"
-							   id="" class="file" data-preview-file-type="text" data-show-upload="false">
-						{{--<div class="fileinput fileinput-new" data-provides="fileinput">--}}
-						{{--<span class="btn btn-primary btn-file m-r-10">--}}
-						<span class="fileinput-new">Selecione um arquivo</span>
-						<span class="fileinput-exists">Mudar</span>
-						{{--<input type="file" name="contrato[path_arquivo][]" multiple="multiple">--}}
-						{{--</span>--}}
-						{{--<span class="fileinput-filename"></span>--}}
-						{{--<a href="#" class="close fileinput-exists" data-dismiss="fileinput">&times;</a>--}}
-						{{--</div>--}}
+					<div class="form-group col-md-offset-2 col-sm-4">
+						<div class="fileinput fileinput-new" data-provides="fileinput">
+							<div style="position:absolute; top:-30px; left:266px;" class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
+							<div>
+										<span style="position:absolute; top:130px; left:266px;" class="btn btn-info btn-file">
+											<span class="fileinput-new">Enviar arquivo</span>
+											{{--<span class="fileinput-exists">Change</span>--}}
+											{{--<input type="file" name="...">--}}
+										</span>
+								{{--<a href="#" class="btn btn-danger fileinput-exists"
+								   data-dismiss="fileinput">Remove</a>--}}
+							</div>
+						</div>
 					</div>
 				</div>
-
 				<div class="row">
 					<div class="form-group col-sm-4">
 						<div class="fg-line">
@@ -70,7 +71,7 @@
 					</div>
 				</div>
 
-				<div class="col-md-4">
+				{{--<div class="col-md-4">
 					<div class="fileinput fileinput-new" data-provides="fileinput">
 						<div class="fileinput-preview thumbnail" data-trigger="fileinput"
 							 style="width: 135px; height: 115px;">
@@ -81,14 +82,15 @@
                                             <span class="fileinput-exists">Mudar</span>
                                             <input type="file" name="img">
                                         </span>
-							{{--<a href="#" class="btn btn-warning btn-xs fileinput-exists col-md-6" data-dismiss="fileinput">Remover</a>--}}
+							--}}{{--<a href="#" class="btn btn-warning btn-xs fileinput-exists col-md-6" data-dismiss="fileinput">Remover</a>--}}{{--
 						</div>
 					</div>
-				</div>
+				</div>--}}
 			</div>
-			<div role="tabpanel" class="tab-pane active" id="permission">
-				<br/>
 
+			{{-- - --}}
+			<div role="tabpanel" class="tab-pane" id="permission">
+				<br/>
 				<div id="tree-role">
 					<ul>
 						<li>
@@ -104,9 +106,10 @@
 					</ul>
 				</div>
 			</div>
-			<div role="tabpanel" class="tab-pane active" id="perfil">
-				<br/>
 
+			{{-- - --}}
+			<div role="tabpanel" class="tab-pane" id="perfil">
+				<br/>
 				<div id="tree-permission">
 					<ul>
 						@if(isset($loadFields['role']))
@@ -118,7 +121,6 @@
 				</div>
 			</div>
 		</div>
+		<button class="btn btn-primary btn-sm m-t-10">Salvar</button>
 	</div>
-	<button class="btn btn-primary btn-sm m-t-10">Salvar</button>
-</div>
 </div>
