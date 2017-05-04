@@ -1,12 +1,12 @@
 <div class="block-header">
-	<h2>Cadastro Geral Municipal</h2>
+	<h2>Cadastro de Especialidade</h2>
 </div>
 
 <div class="card">
 	<div class="card-body card-padding">
 		<div class="row">
 
-			<div class="form-group col-sm-2">
+			<div class="form-group col-sm-3">
 				<div class="fg-line">
 					<label class="control-label" for="tipo">Tipo</label>
 					@if(isset($model->operacao->grupo->tipo->id))
@@ -16,7 +16,7 @@
 					@endif
 				</div>
 			</div>
-			<div class="form-group col-sm-2">
+			<div class="form-group col-sm-3">
 				<div class="fg-line">
 					<label class="control-label" for="operacao_id">Operação</label>
 					<div class="select">
@@ -40,12 +40,17 @@
 				</div>
 			</div>
 		</div>
-		<button class="btn btn-primary btn-sm m-t-10">Salvar</button>
-		<a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.especialidade.index') }}">Voltar</a>
+		<div class="row">
+			<div class="col-md-12">
+				<button type="submit" class="btn btn-primary btn-sm m-t-10">Salvar</button>
+				<a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.especialidade.index') }}">Voltar</a>
+			</div>
+		</div>
+
 	</div>
 </div>
 @section('javascript')
-	<script src="{{ asset('/js/validacoes/validation_form_aluno.js')}}"></script>
+	<script src="{{ asset('/js/validacoes/validation_form_especialidade.js')}}"></script>
 	<script type="text/javascript">
 
 		//Carregando os bairros

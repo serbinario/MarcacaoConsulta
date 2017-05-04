@@ -23,7 +23,7 @@
 
                 <div class="card-body card-padding">
                     <div class="table-responsive">
-                        <table id="especialidade-grid" class="display table table-bordered" cellspacing="0" width="100%">
+                        <table id="especialidade-grid" class="display table table-bordered compact" cellspacing="0" width="100%">
                             <thead>
                             <tr>
                                 <th>Especialidade</th>

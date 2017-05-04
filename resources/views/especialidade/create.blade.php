@@ -23,7 +23,7 @@
             </div>
             {{-- Fim mensagem de alerta --}}
             {{--Formulario--}}
-            {!! Form::open(['route'=>'serbinario.especialidade.store', 'method' => "POST", 'id' => 'formEspecialidade', 'enctype' => 'multipart/form-data']) !!}
+            {!! Form::open(['route'=>'serbinario.especialidade.store', 'method' => "POST", 'id' => 'formEspecialidade']) !!}
                 @include('tamplatesForms.tamplateFormEspecialidade')
             {!! Form::close() !!}
             {{--Fim formulario--}}

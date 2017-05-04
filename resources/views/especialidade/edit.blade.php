@@ -23,14 +23,10 @@
             </div>
             {{-- Fim mensagem de alerta --}}
             {{--Formulario--}}
-            {!! Form::model($model, ['route'=> ['serbinario.especialidade.update', $model->id], 'id' => 'formEspecialidade', 'enctype' => 'multipart/form-data']) !!}
+            {!! Form::model($model, ['route'=> ['serbinario.especialidade.update', $model->id], 'id' => 'formEspecialidade']) !!}
                 @include('tamplatesForms.tamplateFormEspecialidade')
-                {{--<a href="{{ route('seracademico.report.contratoAluno', ['id' => $crud->id]) }}" target="_blank" class="btn btn-info">Contrato</a>--}}
             {!! Form::close() !!}
             {{--Fim formulario--}}
         </section>
     </div>
-<?php
-    //echo $cliente['enderecosEnderecos']['bairrosBairros']['cidadesCidades']['estadosEstados']['id'];
-?>
 @stop
