@@ -143,9 +143,9 @@
                         </div>
                     </div>
                 </div>
-                <di class="col-md-12">
+                <div class="col-md-12">
                     {!! Form::submit('Enviar', array('class' => 'btn btn-primary')) !!}
-                </di>
+                </div>
             </div>
             {!! Form::close() !!}
         </div>

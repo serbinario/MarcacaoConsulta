@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="text-right">
-                                <a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.user.create')  }}">Novo PSF</a>
+                                <a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.user.create')  }}">Novo Usuário</a>
                             </div>
                         </div>
                     </div>
