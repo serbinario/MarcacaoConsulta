@@ -48,8 +48,8 @@
                                 <div class="row">
                                     <div class="form-group col-sm-4">
                                         <div class="fg-line">
-                                            <label class="control-label" for="nome">Nome</label>
-                                            {!! Form::text('nome', Session::getOldInput('nome') , array('class' => 'form-control input-sm', 'placeholder' => '')) !!}
+                                            <label class="control-label" for="name">Nome</label>
+                                            {!! Form::text('name', Session::getOldInput('name') , array('class' => 'form-control input-sm', 'placeholder' => '')) !!}
                                         </div>
                                     </div>
                                     <div class="form-group col-sm-4">
