@@ -49,7 +49,7 @@ $(document).ready(function () {
                     }
                 }
             },
-            'RG': {
+            'rg': {
                 validators: {
                     notEmpty: {
                         message: "Este campo é obrigatório",

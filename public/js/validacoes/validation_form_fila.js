@@ -35,6 +35,27 @@ $(document).ready(function () {
                     }
                 }
             },
+            'cgm[cpf_cnpj]': {
+                validators: {
+                    notEmpty: {
+                        message: "Este campo é obrigatório",
+                    }
+                }
+            },
+            'cgm[rg]': {
+                validators: {
+                    notEmpty: {
+                        message: "Este campo é obrigatório",
+                    }
+                }
+            },
+            'cgm[numero_nis]': {
+                validators: {
+                    notEmpty: {
+                        message: "Este campo é obrigatório",
+                    }
+                }
+            },
             'cgm[numero_sus]': {
                 validators: {
                     notEmpty: {
