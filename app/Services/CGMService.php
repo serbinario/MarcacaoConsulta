@@ -63,7 +63,7 @@ class CGMService
     public function store(array $data) : CGM
     {
         #tratamento de dados do aluno
-        $data     = $this->tratamentoCamposAluno($data);
+        $data  = $this->tratamentoCampos($data);
 
         #Criando no banco de dados
         $endereco = $this->enderecoRepository->create($data['endereco']);
@@ -92,7 +92,7 @@ class CGMService
     {
         //dd($data);
         #tratamento de dados do aluno
-        $data     = $this->tratamentoCamposAluno($data);
+        $data     = $this->tratamentoCampos($data);
         $this->tratamentoCampos($data['endereco']);
 
         #Atualizando no banco de dados
@@ -132,65 +132,6 @@ class CGMService
     }
 
     /**
-     * @param $data
-     * @return mixed
-     */
-    private function tratamentoCamposAluno($data)
-    {
-        #tratamento de datas do aluno
-        $data['data_expedicao']     = $this->convertDate($data['data_expedicao'], 'en');
-        $data['data_nascimento']    = $this->convertDate($data['data_nascimento'], 'en');
-        $data['data_falecimento']   = $this->convertDate($data['data_falecimento'], 'en');
-        $data['venci_cnh']          = $this->convertDate($data['venci_cnh'], 'en');
-
-        #retorno
-        return $data;
-    }
-
-    /**
-     * @param $date
-     * @return bool|string
-     */
-    public function convertDate($date, $format)
-    {
-        #declarando variável de retorno
-        $result = "";
-
-        #convertendo a data
-        if (!empty($date) && !empty($format)) {
-            #Fazendo o tratamento por idioma
-            switch ($format) {
-                case 'pt-BR' : $result = date_create_from_format('Y-m-d', $date); break;
-                case 'en'    : $result = date_create_from_format('d/m/Y', $date); break;
-            }
-        }
-
-        #retorno
-        return $result;
-    }
-
-    /**
-     * @param Aluno $aluno
-     */
-    public function getCGMWithDateFormatPtBr(CGM $model)
-    {
-        #validando as datas
-        $model->data_expedicao   = $model->data_expedicao == '0000-00-00' ? "" : $model->data_expedicao;
-        $model->data_nascimento  = $model->data_nascimento == '0000-00-00' ? "" : $model->data_nascimento;
-        $model->data_falecimento = $model->data_falecimento == '0000-00-00' ? "" : $model->data_falecimento;
-        $model->venci_cnh        = $model->venci_cnh == '0000-00-00' ? "" : $model->venci_cnh;
-
-        #tratando as datas
-        $model->data_expedicao      = $model->data_expedicao == "" ? "" : date('d/m/Y', strtotime($model->data_expedicao));
-        $model->data_nascimento     = $model->data_nascimento == "" ? "" : date('d/m/Y', strtotime($model->data_nascimento));
-        $model->data_falecimento    = $model->data_falecimento == "" ? "" : date('d/m/Y', strtotime($model->data_falecimento));
-        $model->venci_cnh           = $model->venci_cnh == "" ? "" : date('d/m/Y', strtotime($model->venci_cnh));
-
-        #return
-        return $model;
-    }
-
-    /**
      * @param array $data
      * @return array
      */
@@ -198,8 +139,9 @@ class CGMService
     {
         # Tratamento de campos de chaves estrangeira
         foreach ($data as $key => $value) {
+            $explodeKey = explode("_", $key);
 
-            if ($value == null) {
+            if ($explodeKey[count($explodeKey) -1] == "id" && $value == null ) {
                 unset($data[$key]);
             }
         }

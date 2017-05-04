@@ -1,19 +1,5 @@
 @extends('menu')
-
-
-@section('content')
-
-    <div class="ibox float-e-margins">
-        <div class="ibox-title">
-            <h4>
-                <i class="fa fa-user"></i>
-                Editar Posto de Saúde
-            </h4>
-        </div>
-        <div class="ibox-content">
-
-
-            @if(Session::has('message'))
+{{--@if(Session::has('message'))
                 <div class="alert alert-success">
                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                     <em> {!! session('message') !!}</em>
@@ -39,18 +25,37 @@
                         {{ $return['message'] }}<br>
                     </div>
                 @endif
-            @endif
+            @endif--}}
+@section('content')
+    <div class="container">
+        <section id="content">
+            {{-- Mensagem de alerta quando os dados não atendem as regras de validação que foramd efinidas no servidor --}}
+            <div class="ibox-content">
+                @if(Session::has('message'))
+                    <div class="alert alert-success">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <em> {!! session('message') !!}</em>
+                    </div>
+                @endif
 
-            {!! Form::model($model, ['route'=> ['serbinario.ps.update', $model->id], 'id' => 'formPS', 'enctype' => 'multipart/form-data']) !!}
+                @if(Session::has('errors'))
+                    <div class="alert alert-danger">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        @foreach($errors->all() as $error)
+                            <div>{{ $error }}</div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+            {{-- Fim mensagem de alerta --}}
+            {{--Formulario--}}
+            {!! Form::model($model, ['route'=> ['serbinario.ps.update', $model->id], 'id' => 'formPS']) !!}
                 @include('tamplatesForms.tamplateFormPostoSaude')
-                {{--<a href="{{ route('seracademico.report.contratoAluno', ['id' => $crud->id]) }}" target="_blank" class="btn btn-info">Contrato</a>--}}
             {!! Form::close() !!}
-        </div>
+            {{--Fim formulario--}}
+        </section>
     </div>
-<?php
-@endsection
-//echo $cliente['enderecosEnderecos']['bairrosBairros']['cidadesCidades']['estadosEstados']['id']; ?>
-    @section('javascript')
-        <script src="{{ asset('/js/validacoes/validation_form_aluno.js')}}"></script>
-    @stop
+@stop
+@section('javascript')
+    <script src="{{ asset('/js/validacoes/validation_form_psf.js')}}"></script>
 @stop

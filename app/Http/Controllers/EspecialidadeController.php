@@ -57,7 +57,13 @@ class EspecialidadeController extends Controller
         #Criando a consulta
         $rows = \DB::table('especialidade')
             ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
-            ->select(['especialidade.id as id', 'operacoes.nome']);
+            ->join('grupo_operacoes', 'grupo_operacoes.id', '=', 'operacoes.grupo_operaco_id')
+            ->join('tipo_operacoes', 'tipo_operacoes.id', '=', 'grupo_operacoes.tipo_operacao_id')
+            ->select([
+                'especialidade.id as id',
+                'operacoes.nome',
+                'tipo_operacoes.nome as tipo_operacao'
+            ]);
 
         #Editando a grid
         return Datatables::of($rows)->addColumn('action', function ($row) {

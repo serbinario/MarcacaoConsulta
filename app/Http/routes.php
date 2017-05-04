@@ -1,9 +1,13 @@
 <?php
 
+Route::get('/', function () {
+    return redirect()->route('auth.login');
+});
+
 Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
-    Route::group(['prefix' => 'auth'], function () {
-        Route::get('login', 'Auth\AuthController@getLogin');
+    Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
+        Route::get('login', ['as' => 'login', 'uses' => 'Auth\AuthController@getLogin']);
         Route::post('login', 'Auth\AuthController@postLogin');
         Route::get('logout', 'Auth\AuthController@getLogout');
     });
@@ -64,6 +68,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'EspecialistaController@edit']);
             Route::post('update/{id}', ['as' => 'update', 'uses' => 'EspecialistaController@update']);
             Route::post('byespecialidade', ['as' => 'byespecialidade', 'uses' => 'EspecialistaController@getByEspacialidade']);
+            Route::post('especialidades', ['as' => 'especialidades', 'uses' => 'EspecialistaController@getEspecialidades']);
             Route::get('agenda/{id}', ['as' => 'agenda', 'uses' => 'CalendarioController@index']);
         });
 
@@ -138,6 +143,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('searchOperacoes', ['as' => 'searchOperacoes', 'uses' => 'UtilController@searchOperacoes']);
             Route::post('select2', ['as' => 'select2', 'uses' => 'UtilController@queryByselect2']);
             Route::post('select2Agenda', ['as' => 'select2Agenda', 'uses' => 'UtilController@queryByselect2Agenda']);
+            Route::post('select2FilaDeEspera', ['as' => 'select2FilaDeEspera', 'uses' => 'UtilController@queryByselect2FilaDeEspera']);
         });
 
 

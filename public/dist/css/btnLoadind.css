@@ -1,0 +1,12 @@
+.btnLoading {
+    margin-top: 12px;
+    margin-right: 10px;
+    border: 0;
+    padding: 5px;
+    width: 63px;
+    height: 28px;
+    cursor: pointer;
+    border-radius: 4px;
+    color: #FFFFFF;
+    background-color: #2196f3 !important;
+}

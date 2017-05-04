@@ -1,160 +1,138 @@
 @extends('menu')
 
 @section('content')
-    <div class="ibox float-e-margins">
-        <div class="ibox-title">
-            <h5>Novo Usuário</h5>
+    <div class="container">
+        <section id="content">
+            {{-- Mensagem de alerta quando os dados não atendem as regras de validação que foramd efinidas no servidor --}}
+            <div class="ibox-content">
+                @if(Session::has('message'))
+                    <div class="alert alert-success">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <em> {!! session('message') !!}</em>
+                    </div>
+                @endif
 
-            <div class="ibox-tools">
-                <a class="collapse-link">
-                    <i class="fa fa-chevron-up"></i>
-                </a>
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-wrench"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                    <li><a href="#">Config option 1</a>
-                    </li>
-                    <li><a href="#">Config option 2</a>
-                    </li>
-                </ul>
-                <a class="close-link">
-                    <i class="fa fa-times"></i>
-                </a>
+                @if(Session::has('errors'))
+                    <div class="alert alert-danger">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        @foreach($errors->all() as $error)
+                            <div>{{ $error }}</div>
+                        @endforeach
+                    </div>
+                @endif
             </div>
-        </div>
-        <div class="ibox-content">
-
-            @if(Session::has('message'))
-                <div class="alert alert-success">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    <em> {!! session('message') !!}</em>
-                </div>
-            @endif
-
+            {{-- Fim mensagem de alerta --}}
+            {{--Formulario--}}
             {!! Form::model($user, ['route'=> ['serbinario.user.update', $user->id], 'method' => "POST", 'enctype' => 'multipart/form-data' ]) !!}
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs">
-                        <li role="presentation" class="active">
-                            <a href="#user" aria-controls="user" role="tab" data-toggle="tab">Dados Gerais</a>
-                        </li>
-                        <li role="presentation">
-                            <a href="#permission" aria-controls="permission" role="tab" data-toggle="tab">Permissões</a>
-                        </li>
-                        <li role="presentation">
-                            <a href="#perfil" aria-controls="perfil" role="tab" data-toggle="tab">Perfís</a>
-                        </li>
-                    </ul>
+            <div class="block-header">
+                <h2>Cadastro de Usuários</h2>
+            </div>
 
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="user">
-                            <br/>
+            <div class="card">
+                <div class="card-body card-padding">
 
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    {!! Form::label('name', 'Nome') !!}
-                                    {!! Form::text('name', null, array('class' => 'form-control')) !!}
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    {!! Form::label('email', 'Email') !!}
-                                    {!! Form::text('email', null, array('class' => 'form-control')) !!}
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    {!! Form::label('password', 'Senha') !!}
-                                    {!! Form::password('password', '', array('class' => 'form-control')) !!}
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="fileinput fileinput-new" data-provides="fileinput">
-                                    <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 135px; height: 115px;">
-                                        @if ($user->path_image != null)
-                                            <div id="midias">
-                                                <img id="logo" src="/seracademico-laravel/public/images/{{$user->path_image}}"  alt="Foto" height="120" width="100"/><br/>
-                                            </div>
-                                        @endif
+                    <div role="tabpanel">
+                        <ul class="tab-nav" role="tablist">
+                            <li><a href="#user" aria-controls="user" role="tab" data-toggle="tab">Dados Gerais</a>
+                            </li>
+                            <li><a href="#permission" aria-controls="permission" role="tab" data-toggle="tab">Permissões</a>
+                            </li>
+                            <li><a href="#perfil" aria-controls="perfil" role="tab" data-toggle="tab">Perfís</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+
+                            <div role="tabpanel" class="tab-pane active" id="user">
+                                <br />
+                                <div class="row">
+                                    <div class="form-group col-sm-4">
+                                        <div class="fg-line">
+                                            <label class="control-label" for="name">Nome</label>
+                                            {!! Form::text('name', Session::getOldInput('name') , array('class' => 'form-control input-sm', 'placeholder' => '')) !!}
+                                        </div>
                                     </div>
-                                    <div>
-                                        <span class="btn btn-primary btn-xs btn-block btn-file">
-                                            <span class="fileinput-new">Selecionar</span>
-                                            <span class="fileinput-exists">Mudar</span>
-                                            <input type="file" name="img">
-                                        </span>
-                                        <a href="#" class="btn btn-warning btn-xs fileinput-exists col-md-6" data-dismiss="fileinput">Remover</a>
+                                    <div class="form-group col-sm-4">
+                                        <div class="fg-line">
+                                            <label class="control-label" for="email">Email</label>
+                                            {!! Form::text('email', Session::getOldInput('email') , array('class' => 'form-control input-sm', 'placeholder' => '')) !!}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    {!! Form::hidden('active', 0) !!}
-                                    {!! Form::label('active', 'Ativo') !!}
-                                    {!! Form::checkbox('active', 1, null, array('class' => 'form-control')) !!}
+                                <div class="row">
+                                    <div class="form-group col-sm-2">
+                                        <div class="fg-line">
+                                            <label for="password">Senha</label>
+                                            {!! Form::password('password', array('class' => 'form-control input-sm', 'placeholder' => '')) !!}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-2">
+                                    <label for="status" class="checkbox checkbox-inline m-r-20">
+                                        {!! Form::hidden('active', 0) !!}
+                                        {!! Form::checkbox('active', 1, null, Array()) !!}
+                                        <i class="input-helper"></i>
+                                        Ativo
+                                    </label>
                                 </div>
                             </div>
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="permission">
-                            <br/>
+                            <div role="tabpanel" class="tab-pane" id="permission">
+                                <br/>
 
-                            <div id="tree-role">
-                                <ul>
-                                    <li>
-                                        @if(count($user->permissions->lists('name')->all()) > 0)
-                                            <input type="checkbox" checked> Todos
-                                        @else
-                                            <input type="checkbox"> Todos
-                                        @endif
-                                        <ul>
-                                            @if(isset($loadFields['permission']))
-                                                @foreach($loadFields['permission'] as $id => $permission)
-                                                    @if(\in_array($permission, $user->permissions->lists('name')->all()))
-                                                        <li><input type="checkbox" name="permission[]" checked value="{{ $id  }}"> {{ $permission }} </li>
-                                                    @else
-                                                        <li><input type="checkbox" name="permission[]" value="{{ $id  }}"> {{ $permission }} </li>
-                                                    @endif
-                                                @endforeach
-                                            @endif
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="perfil">
-                            <br/>
-
-                            <div id="tree-permission">
-                                <ul>
-                                    @if(isset($loadFields['role']))
-                                        @foreach($loadFields['role'] as $id => $role)
-                                            @if(\in_array($role, $user->roles->lists('name')->all()))
-                                                <li><input type="checkbox" name="role[]" checked value="{{ $id  }}"> {{ $role }} </li>
+                                <div id="tree-role">
+                                    <ul>
+                                        <li>
+                                            @if(count($user->permissions->lists('name')->all()) > 0)
+                                                <input type="checkbox" checked> Todos
                                             @else
-                                                <li><input type="checkbox" name="role[]" value="{{ $id  }}"> {{ $role }} </li>
+                                                <input type="checkbox"> Todos
                                             @endif
-                                        @endforeach
-                                    @endif
-                                </ul>
+                                            <ul>
+                                                @if(isset($loadFields['permission']))
+                                                    @foreach($loadFields['permission'] as $id => $permission)
+                                                        @if(\in_array($permission, $user->permissions->lists('name')->all()))
+                                                            <li><input type="checkbox" name="permission[]" checked value="{{ $id  }}"> {{ $permission }} </li>
+                                                        @else
+                                                            <li><input type="checkbox" name="permission[]" value="{{ $id  }}"> {{ $permission }} </li>
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="perfil">
+                                <br/>
+
+                                <div id="tree-permission">
+                                    <ul>
+                                        @if(isset($loadFields['role']))
+                                            @foreach($loadFields['role'] as $id => $role)
+                                                @if(\in_array($role, $user->roles->lists('name')->all()))
+                                                    <li><input type="checkbox" name="role[]" checked value="{{ $id  }}"> {{ $role }} </li>
+                                                @else
+                                                    <li><input type="checkbox" name="role[]" value="{{ $id  }}"> {{ $role }} </li>
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary btn-sm m-t-10">Salvar</button>
+                            <a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.user.index') }}">Voltar</a>
+                        </div>
+                    </div>
                 </div>
-                <di class="col-md-12">
-                    {!! Form::submit('Enviar', array('class' => 'btn btn-primary')) !!}
-                </di>
             </div>
+
             {!! Form::close() !!}
-        </div>
-        <div class="ibox-footer">
-            <span class="pull-right">
-                footer a direita
-            </span>
-            footer esquerda
-        </div>
+            {{--Fim formulario--}}
+        </section>
     </div>
 @stop
 

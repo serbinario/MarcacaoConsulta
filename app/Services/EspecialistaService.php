@@ -53,14 +53,6 @@ class EspecialistaService
     public function findByEspecialidade($id)
     {
 
-        /*$relacionamentos = [
-            'getCgm',
-            'especialistaEspecialidade',
-        ];*/
-
-        #Recuperando o registro no banco de dados
-       //$especialista = $this->repository->with($relacionamentos)->findWhere(array('especialidade' => $id));
-
         #Recuperando o registro no banco de dados
         $especialista = \DB::table('especialista')
             ->join('cgm', 'cgm.id', '=', 'especialista.cgm')
@@ -73,6 +65,28 @@ class EspecialistaService
 
         #retorno
         return $especialista;
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     * @throws \Exception
+     */
+    public function findEspecialidades($idEspecialista)
+    {
+
+        #Recuperando o registro no banco de dados
+        $especialidades = \DB::table('especialidade')
+            ->join('especialista_especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
+            ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
+            ->where('especialista_especialidade.especialista_id', '=', $idEspecialista)
+            ->select([
+                'especialista_especialidade.id',
+                'operacoes.nome'
+            ])->get();
+
+        #retorno
+        return $especialidades;
     }
 
     /**

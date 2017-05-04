@@ -1,36 +1,33 @@
 @extends('menu')
 
-
 @section('content')
+    <div class="container">
+        <section id="content">
+            {{-- Mensagem de alerta quando os dados não atendem as regras de validação que foramd efinidas no servidor --}}
+            <div class="ibox-content">
+                @if(Session::has('message'))
+                    <div class="alert alert-success">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <em> {!! session('message') !!}</em>
+                    </div>
+                @endif
 
-    <div class="ibox float-e-margins">
-        <div class="ibox-title">
-            <h4>
-                <i class="fa fa-user"></i>
-                Cadastrar Especialista
-            </h4>
-        </div>
-        <div class="ibox-content">
+                @if(Session::has('errors'))
+                    <div class="alert alert-danger">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        @foreach($errors->all() as $error)
+                            <div>{{ $error }}</div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+            {{-- Fim mensagem de alerta --}}
 
-            @if(Session::has('message'))
-                <div class="alert alert-success">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    <em> {!! session('message') !!}</em>
-                </div>
-            @endif
-
-            @if(Session::has('errors'))
-                <div class="alert alert-danger">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    @foreach($errors->all() as $error)
-                        <div>{{ $error }}</div>
-                    @endforeach
-                </div>
-            @endif
-
-            {!! Form::open(['route'=>'serbinario.especialista.store', 'method' => "POST", 'id' => 'formEspecialista', 'enctype' => 'multipart/form-data']) !!}
+            {{--Formulario--}}
+            {!! Form::open(['route'=>'serbinario.especialista.store', 'method' => "POST", 'id' => 'formEspecialista']) !!}
                 @include('tamplatesForms.tamplateFormEspecialista')
             {!! Form::close() !!}
-        </div>
+            {{--Fim formulario--}}
+        </section>
     </div>
 @stop

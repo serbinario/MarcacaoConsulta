@@ -1,51 +1,32 @@
 @extends('menu')
 
-
 @section('content')
-
-    <div class="ibox float-e-margins">
-        <div class="ibox-title">
-            <h4>
-                <i class="fa fa-user"></i>
-                Editar Especialista
-            </h4>
-        </div>
-        <div class="ibox-content">
-
-
-            @if(Session::has('message'))
-                <div class="alert alert-success">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    <em> {!! session('message') !!}</em>
-                </div>
-            @endif
-
-            @if (isset($return) && $return !=  null)
-                @if($return['success'] == false && isset($return[0]['fields']) &&  $return[0]['fields'] != null)
-                    <div class="alert alert-warning">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        @foreach ($return[0]['fields'] as $nome => $erro)
-                            {{ $erro }}<br>
-                        @endforeach
-                    </div>
-                @elseif($return['success'] == false)
-                    <div class="alert alert-danger">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        {{ $return['message'] }}<br>
-                    </div>
-                @elseif($return['success'] == true)
+    <div class="container">
+        <section id="content">
+            {{-- Mensagem de alerta quando os dados não atendem as regras de validação que foramd efinidas no servidor --}}
+            <div class="ibox-content">
+                @if(Session::has('message'))
                     <div class="alert alert-success">
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        {{ $return['message'] }}<br>
+                        <em> {!! session('message') !!}</em>
                     </div>
                 @endif
-            @endif
 
-            {!! Form::model($model, ['route'=> ['serbinario.especialista.update', $model->id], 'id' => 'formEspecialista', 'enctype' => 'multipart/form-data']) !!}
+                @if(Session::has('errors'))
+                    <div class="alert alert-danger">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        @foreach($errors->all() as $error)
+                            <div>{{ $error }}</div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+            {{-- Fim mensagem de alerta --}}
+            {{--Formulario--}}
+            {!! Form::model($model, ['route'=> ['serbinario.especialista.update', $model->id], 'id' => 'formEspecialista']) !!}
                 @include('tamplatesForms.tamplateFormEspecialista')
-                {{--<a href="{{ route('seracademico.report.contratoAluno', ['id' => $crud->id]) }}" target="_blank" class="btn btn-info">Contrato</a>--}}
             {!! Form::close() !!}
-        </div>
+            {{--Fim formulario--}}
+        </section>
     </div>
-@endsection
-
+@stop

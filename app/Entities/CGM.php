@@ -46,7 +46,10 @@ class CGM extends Model implements Transformable
 		'categoria_cnh',
 		'estado_civil',
 		'fone',
-		'idade'
+		'idade',
+		'fone2',
+		'fone3',
+
 	];
 
 

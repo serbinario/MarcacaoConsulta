@@ -115,34 +115,21 @@ class FilaService
     public function update(array $data, int $id) : Fila
     {
 
-        if(isset($data['cgm_id']) && $data['cgm_id'] != "") {
+        $fila = $this->repository->update($data, $id);
 
-            $cgmFind = $this->CGMRepository->find($data['cgm_id']);
+        $cgmFind = $this->CGMRepository->find($fila->cgm_id);
 
-            if($cgmFind->endereco_cgm) {
-                $endereco = $this->enderecoCGMRepository->update($data['cgm']['endereco'], $cgmFind->endereco_cgm);
-            } else {
-                $endereco = $this->enderecoCGMRepository->create($data['cgm']['endereco']);
-            }
-
-            $data['cgm']['endereco_cgm'] = $endereco->id;
-            $this->CGMRepository->update($data['cgm'], $cgmFind->id);
-
-            #Salvando o registro pincipal
-            $fila = $this->repository->update($data, $id);
-
+        // Atualizando ou creando um endereço
+        if($cgmFind->endereco_cgm) {
+            $endereco = $this->enderecoCGMRepository->update($data['cgm']['endereco'], $cgmFind->endereco_cgm);
         } else {
-
             $endereco = $this->enderecoCGMRepository->create($data['cgm']['endereco']);
-
-            $data['cgm']['endereco_cgm'] = $endereco->id;
-            unset($data['cgm']['endereco']);
-            $cgm = $this->CGMRepository->create($data['cgm']);
-
-            #Atualizando no banco de dados
-            $data['cgm_id'] = $cgm->id;
-            $fila = $this->repository->update($data, $id);
         }
+
+        // Update cgm
+        $data['cgm']['endereco_cgm'] = $endereco->id;
+        unset($data['cgm']['endereco']);
+        $this->CGMRepository->update($data['cgm'], $cgmFind->id);
 
 
         #Verificando se foi atualizado no banco de dados

@@ -1,35 +1,44 @@
 @extends('menu')
 
 @section('content')
+    <section id="content">
+        <div class="container">
 
-    <div class="ibox float-e-margins">
-        <div class="ibox-title">
-            <div class="col-md-10">
-                <h4>
-                    <i class="fa fa-users"></i>
-                    Fila de espera
-                </h4>
+            <div class="block-header">
+                <h2>Fila de Espera</h2>
             </div>
-            <div class="col-md-2">
-                <a href="{{ route('serbinario.fila.create')}}" class="btn-sm btn-primary">Adicionar na fila</a>
-            </div>
-        </div>
-        <div class="ibox-content">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="table-responsive no-padding">
-                        <table id="fila-grid" class="display table table-bordered" cellspacing="0" width="100%">
+
+            <div class="card material-table">
+                <div class="card-header">
+                    <!-- Botão novo -->
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="text-right">
+                                <a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.fila.create')  }}">Adicionar à Fila</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Botão novo -->
+                </div>
+
+                <div class="card-body card-padding">
+                    <div class="table-responsive">
+                        <table id="fila-grid" class="display table table-bordered compact" cellspacing="0" width="100%">
                             <thead>
                             <tr>
-                                <th>Paciente</th>
-                                <th>Especialidade</th>
+                                <th>Cidadão</th>
+                                <th>Exame</th>
+                                <th>Prioridade</th>
+                                <th>Data do cadastro</th>
                                 <th>Acão</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
-                                <th>Paciente</th>
-                                <th>Especialidade</th>
+                                <th>Cidadão</th>
+                                <th>Exame</th>
+                                <th>Prioridade</th>
+                                <th>Data do cadastro</th>
                                 <th style="width: 17%;">Acão</th>
                             </tr>
                             </tfoot>
@@ -38,7 +47,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 @stop
 
 @section('javascript')
@@ -53,6 +62,8 @@
             columns: [
                 {data: 'nome', name: 'cgm.nome'},
                 {data: 'especialidade', name: 'operacoes.nome'},
+                {data: 'prioridade', name: 'prioridade.nome'},
+                {data: 'data_cadastro', name: 'fila.data'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });

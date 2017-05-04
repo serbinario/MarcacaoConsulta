@@ -1,24 +1,29 @@
 @extends('menu')
 
 @section('content')
+    <section id="content">
+        <div class="container">
 
-    <div class="ibox float-e-margins">
-        <div class="ibox-title">
-            <div class="col-md-10">
-                <h4>
-                    <i class="fa fa-users"></i>
-                    Listar Alunos
-                </h4>
+            <div class="block-header">
+                <h2>Listar PSF(s)</h2>
             </div>
-            <div class="col-md-2">
-                <a href="{{ route('serbinario.ps.create')}}" class="btn-sm btn-primary">Novo CGM</a>
-            </div>
-        </div>
-        <div class="ibox-content">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="table-responsive no-padding">
-                        <table id="ps-grid" class="display table table-bordered" cellspacing="0" width="100%">
+
+            <div class="card material-table">
+                <div class="card-header">
+                    <!-- Botão novo -->
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="text-right">
+                                <a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.ps.create')  }}">Novo PSF</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Botão novo -->
+                </div>
+
+                <div class="card-body card-padding">
+                    <div class="table-responsive">
+                        <table id="ps-grid" class="display table table-bordered compact" cellspacing="0" width="100%">
                             <thead>
                             <tr>
                                 <th>Nome</th>
@@ -38,7 +43,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 @stop
 
 @section('javascript')

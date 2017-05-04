@@ -21,6 +21,8 @@ class Calendario extends Model implements Transformable
 		'localidade_id',
 		'mais_mapa',
 		'hora2',
+		'especialidade_id_um',
+		'especialidade_id_dois'
 	];
 
 	public function especialista()

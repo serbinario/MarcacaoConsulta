@@ -221,4 +221,62 @@ class UtilController extends Controller
             ]);
         }
     }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function queryByselect2FilaDeEspera(Request $request)
+    {
+        try {
+            #variável de retorno
+            $result = array();
+
+            #recuperando os dados da requisição
+            $searchValue = $request->get('search');
+            $tableName   = $request->get('tableName');
+            $fieldName   = $request->get('fieldName');
+            $pageValue   = $request->get('page');
+            $fieldWhere  = $request->get('fieldWhere');
+            $valueWhere  = $request->get('valueWhere');
+
+//            #Validando os parametros
+//            if($searchValue == null || $tableName == null || $fieldName == null || $pageValue == null) {
+//                throw new \Exception('Parametros inválidos');
+//            }
+
+            #preparando a consulta
+            $qb = DB::table($tableName)->select('id', 'nome');
+            $qb->skip($pageValue);
+            $qb->take(10);
+            $qb->orderBy('nome', 'asc');
+            $qb->where($fieldName,'like', "%$searchValue%");
+            $qb->orWhere('numero_sus','like', "%$searchValue%");
+            $qb->orWhere('numero_nis','like', "%$searchValue%");
+            $qb->orWhere('cpf_cnpj','like', "%$searchValue%");
+
+            #Validando os campos de where
+            if($fieldWhere != null && $valueWhere != null) {
+                $qb->where($fieldWhere, "$valueWhere");
+            }
+
+            #executando a consulta e recuperando os dados
+            $resultItems = $qb->get();
+
+            #criando o array de retorno
+            foreach($resultItems as $item) {
+                $result[] = [
+                    "id" => $item->id,
+                    "text" => $item->nome
+                ];
+            }
+
+            #retorno
+            return $result;
+        } catch (\Throwable $e) {
+            return \Illuminate\Support\Facades\Response::json([
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
 }

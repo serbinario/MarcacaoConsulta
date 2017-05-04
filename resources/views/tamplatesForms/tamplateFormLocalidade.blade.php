@@ -1,24 +1,27 @@
-<div class="row">
-	<div class="col-md-12">
-		<div class="row">
+<div class="block-header">
+	<h2>Cadastrar de Localidade</h2>
+</div>
 
-            <div class="col-md-4">
-                <div class="form-group">
-                    
-				{!! Form::label('nome', 'nome') !!}
-				{!! Form::text('nome', Session::getOldInput('nome')  , array('class' => 'form-control')) !!}
-                </div>
-            </div>
-		</div>
-	</div>
-	<div class="col-md-3">
-		<div class="btn-group btn-group-justified">
-			<div class="btn-group">
-				<a href="{{ route('serbinario.localidade.index') }}" class="btn btn-primary btn-block"><i
-							class="fa fa-long-arrow-left"></i> Voltar</a></div>
-			<div class="btn-group">
-				{!! Form::submit('Salvar', array('class' => 'btn btn-primary btn-block')) !!}
+<div class="card">
+	<div class="card-body card-padding">
+		{{--#1--}}
+		<div class="row">
+			<div class="form-group col-md-4">
+				<div class="input-sm">
+					{!! Form::label('nome', 'nome') !!}
+					{!! Form::text('nome', Session::getOldInput('nome')  , array('class' => 'form-control')) !!}
+				</div>
+			</div>
+		</div><br />
+		{{--#2--}}
+		<div class="row">
+			<div class="col-md-12">
+				<button type="submit" class="btn btn-primary btn-sm m-t-10">Salvar</button>
+				<a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.localidade.index') }}">Voltar</a>
 			</div>
 		</div>
 	</div>
 </div>
+@section('javascript')
+	<script src="{{ asset('/js/validacoes/validation_form_unidade.js')}}"></script>
+@stop

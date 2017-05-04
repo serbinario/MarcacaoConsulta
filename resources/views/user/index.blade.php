@@ -1,33 +1,29 @@
 @extends('menu')
 
 @section('content')
-    <div class="ibox float-e-margins">
-        <div class="ibox-title">
-            <h5>Lista usuário</h5>
-            <div class="ibox-tools">
-                <a class="collapse-link">
-                    <i class="fa fa-chevron-up"></i>
-                </a>
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-wrench"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                    <li><a href="#">Config option 1</a>
-                    </li>
-                    <li><a href="#">Config option 2</a>
-                    </li>
-                </ul>
-                <a class="close-link">
-                    <i class="fa fa-times"></i>
-                </a>
+    <section id="content">
+        <div class="container">
+
+            <div class="block-header">
+                <h2>Listar Usuários</h2>
             </div>
-        </div>
-        <div class="ibox-content">
-            <div class="row">
-                <div class="col-md-12">
-                    <a href="{{ route('serbinario.user.create')}}" class="btn btn-primary btn-pressure btn-sm btn-sensitive">Novo Usuário</a><br /><br />
-                    <div class="table-responsive no-padding">
-                        <table id="user-grid" class="display table table-bordered" cellspacing="0" width="100%">
+
+            <div class="card material-table">
+                <div class="card-header">
+                    <!-- Botão novo -->
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="text-right">
+                                <a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.user.create')  }}">Novo Usuário</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Botão novo -->
+                </div>
+
+                <div class="card-body card-padding">
+                    <div class="table-responsive">
+                        <table id="user-grid" class="display table table-bordered compact" cellspacing="0" width="100%">
                             <thead>
                             <tr>
                                 <th>Nome</th>
@@ -48,13 +44,7 @@
                 </div>
             </div>
         </div>
-        <div class="ibox-footer">
-            <span class="pull-right">
-                The righ side of the footer
-            </span>
-            This is simple footer example
-        </div>
-    </div>
+    </section>
 @stop
 
 @section('javascript')

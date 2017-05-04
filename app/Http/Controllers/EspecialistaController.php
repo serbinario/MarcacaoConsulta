@@ -56,14 +56,23 @@ class EspecialistaController extends Controller
         #Criando a consulta
         $rows = \DB::table('especialista')
             ->join('cgm', 'cgm.id', '=', 'especialista.cgm')
-            ->select('especialista.id as id', 'cgm.nome as nomecgm');
-
-       //dd($rows);
+            ->select([
+                'especialista.id',
+                'cgm.nome',
+                'especialista.crm',
+                'especialista.qtd_vagas',
+            ]);
 
         #Editando a grid
         return Datatables::of($rows)->addColumn('action', function ($row) {
             return '<a href="edit/'.$row->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a>
             <a href="agenda/'.$row->id.'" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-important-day"></i> Agenda</a>';
+        })->addColumn('especialidades', function ($row) {
+
+            $especialidades = $this->service->findEspecialidades($row->id);
+
+            return $especialidades;
+
         })->make(true);
     }
 
@@ -88,6 +97,8 @@ class EspecialistaController extends Controller
         try {
             #Recuperando os dados da requisição
             $data = $request->all();
+
+           // dd('kkk');
 
             #Validando a requisição
             $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_CREATE);
@@ -167,5 +178,16 @@ class EspecialistaController extends Controller
         return compact('especialistas');
     }
 
+    /**
+     * @param Request $request
+     * @return array
+     * @throws \Exception
+     */
+    public function getEspecialidades(Request $request)
+    {
+        $especialidades = $this->service->findEspecialidades($request->get('idEspecialista'));
+
+        return compact('especialidades');
+    }
 
 }
