@@ -187,7 +187,6 @@
     <script src="{{ asset('/dist/bower_components/moment/min/moment.min.js')}}" type="text/javascript"></script>
     <script type="text/javascript" src="{{asset('/dist/bower_components/fullcalendar/dist/fullcalendar.js')}}"></script>
     <script type="text/javascript" src="{{asset('/dist/bower_components/fullcalendar/dist/locale/pt-br.js')}}"></script>
-    {{--<script type="text/javascript" src="{{asset('/dist/bower_components/autosize/dist/autosize.min.js')}}"></script>--}}
 
     <!-- Placeholder for IE9 -->
     <!--[if IE 9 ]-->

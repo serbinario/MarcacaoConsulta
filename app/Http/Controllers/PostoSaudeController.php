@@ -26,7 +26,9 @@ class PostoSaudeController extends Controller
     /**
     * @var array
     */
-    private $loadFields = [];
+    private $loadFields = [
+        'Bairro|ByBairroLocal,5281',
+    ];
 
     /**
     * @param PostoSaudeService $service
@@ -107,9 +109,6 @@ class PostoSaudeController extends Controller
             #Recuperando a empresa
             $model = $this->service->find($id);
 
-            #Tratando as datas
-           // $aluno = $this->service->getAlunoWithDateFormatPtBr($aluno);
-
             #Carregando os dados para o cadastro
             $loadFields = $this->service->load($this->loadFields);
 
@@ -131,8 +130,11 @@ class PostoSaudeController extends Controller
             #Recuperando os dados da requisição
             $data = $request->all();
 
+            #tratando as rules
+            $this->validator->replaceRules(ValidatorInterface::RULE_UPDATE, ":id", $id);
+
             #Validando a requisição
-            //$this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
+            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
 
             #Executando a ação
             $this->service->update($data, $id);
@@ -152,8 +154,6 @@ class PostoSaudeController extends Controller
     public function all()
     {
         $psfs = $this->service->all();
-
-        //var_dump($localidades);exit();
 
         #Retorno para view
         return compact('psfs');

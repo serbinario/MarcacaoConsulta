@@ -111,7 +111,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         Route::group(['prefix' => 'fila', 'as' => 'fila.'], function () {
             Route::get('index', ['as' => 'index', 'uses' => 'FilaController@index']);
             Route::post('all', ['as' => 'all', 'uses' => 'FilaController@all']);
-            Route::get('grid', ['as' => 'grid', 'uses' => 'FilaController@grid']);
+            Route::post('grid', ['as' => 'grid', 'uses' => 'FilaController@grid']);
             Route::get('create', ['as' => 'create', 'uses' => 'FilaController@create']);
             Route::post('store', ['as' => 'store', 'uses' => 'FilaController@store']);
             Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'FilaController@edit']);

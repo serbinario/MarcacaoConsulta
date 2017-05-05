@@ -27,4 +27,14 @@ class Bairro extends Model implements Transformable
         return $this->belongsTo(Cidade::class, "cidades_id");
     }
 
+    /**
+     * @param $query
+     * @param $value
+     * @return mixed
+     */
+    public function scopeByBairroLocal($query, $value)
+    {
+        return $query->select('bairros.nome', 'bairros.id')
+            ->where('cidades_id', $value);
+    }
 }

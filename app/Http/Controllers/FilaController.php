@@ -10,6 +10,7 @@ use Yajra\Datatables\Datatables;
 use Prettus\Validator\Exceptions\ValidatorException;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Seracademico\Validators\FilaValidator;
+use Seracademico\Uteis\SerbinarioDateFormat;
 
 class FilaController extends Controller
 {
@@ -29,7 +30,8 @@ class FilaController extends Controller
     private $loadFields = [
         'Estado',
         'Prioridade',
-        'CGM'
+        'CGM',
+        'PostoSaude'
     ];
 
     /**
@@ -47,30 +49,73 @@ class FilaController extends Controller
      */
     public function index()
     {
-        return view('fila.index');
+
+        #Carregando os dados para o cadastro
+        $loadFields = $this->service->load($this->loadFields);
+
+        return view('fila.index', compact('loadFields'));
     }
 
     /**
      * @return mixed
      */
-    public function grid()
+    public function grid(Request $request)
     {
+
+        //Tratando as datas
+        $dataIni = SerbinarioDateFormat::toUsa($request->get('data_inicio'));
+        $dataFim = SerbinarioDateFormat::toUsa($request->get('data_fim'));
+
         #Criando a consulta
         $rows = \DB::table('fila')
             ->join('cgm', 'cgm.id', '=', 'fila.cgm_id')
             ->join('especialidade', 'especialidade.id', '=', 'fila.especialidade_id')
             ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
             ->join('prioridade', 'prioridade.id', '=', 'fila.prioridade_id')
+            ->leftJoin('posto_saude', 'posto_saude.id', '=', 'fila.posto_saude_id')
+            ->where('fila.status', 0)
             ->select([
                 'fila.id',
                 'cgm.nome',
+                'cgm.numero_sus',
                 'operacoes.nome as especialidade',
                 'prioridade.nome as prioridade',
+                'posto_saude.nome as psf',
                 \DB::raw('DATE_FORMAT(fila.data,"%d/%m/%Y") as data_cadastro')
             ]);
 
+        if($dataIni && $dataFim) {
+            $rows->whereBetween('fila.data', array($dataIni, $dataFim));
+        }
+
+        if($request->has('exame') && $request->get('exame') != "") {
+            $rows->where('especialidade.id', $request->get('exame'));
+        }
+
+        if($request->has('prioridade') && $request->get('prioridade') != "") {
+            $rows->where('prioridade.id', $request->get('prioridade'));
+        }
+
+        if($request->has('psf') && $request->get('psf') != "") {
+            $rows->where('posto_saude.id', $request->get('psf'));
+        }
+
         #Editando a grid
-        return Datatables::of($rows)->addColumn('action', function ($row) {
+        return Datatables::of($rows)->filter(function ($query) use ($request) {
+            // Filtrando Global
+            if ($request->has('globalSearch')) {
+                # recuperando o valor da requisição
+                $search = $request->get('globalSearch');
+
+                #condição
+                $query->where(function ($where) use ($search) {
+                    $where->orWhere('cgm.numero_sus', 'like', "%$search%")
+                        ->orWhere('cgm.nome', 'like', "%$search%")
+                    ;
+                });
+
+            }
+        })->addColumn('action', function ($row) {
             return '<a href="edit/'.$row->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a>';
         })->make(true);
     }
@@ -122,9 +167,6 @@ class FilaController extends Controller
             #Recuperando a empresa
             $model = $this->service->find($id);
 
-            #Tratando as datas
-           // $aluno = $this->service->getAlunoWithDateFormatPtBr($aluno);
-
             #Carregando os dados para o cadastro
             $loadFields = $this->service->load($this->loadFields);
 
@@ -146,8 +188,11 @@ class FilaController extends Controller
             #Recuperando os dados da requisição
             $data = $request->all();
 
+            #tratando as rules
+            $this->validator->replaceRules(ValidatorInterface::RULE_UPDATE, ":id", $id);
+
             #Validando a requisição
-            //$this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
+            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
 
             #Executando a ação
             $this->service->update($data, $id);

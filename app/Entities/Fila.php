@@ -18,7 +18,8 @@ class Fila extends Model implements Transformable
 		'especialidade_id',
         'data',
         'prioridade_id',
-        'status'
+        'status',
+        'posto_saude_id'
 	];
 
     /**
@@ -38,18 +39,35 @@ class Fila extends Model implements Transformable
         $this->attributes['data'] = SerbinarioDateFormat::toUsa($value);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function prioridade()
     {
         return $this->belongsTo(Prioridade::class, 'prioridade_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function cgm()
     {
         return $this->belongsTo(CGM::class, 'cgm_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function especialidade()
     {
         return $this->belongsTo(Especialidade::class, 'especialidade_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function psf()
+    {
+        return $this->belongsTo(PostoSaude::class, 'posto_saude_id');
     }
 }

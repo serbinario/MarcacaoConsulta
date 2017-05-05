@@ -8,7 +8,7 @@
 
 			<div class="form-group col-sm-3">
 				<div class="fg-line">
-					<label class="control-label" for="tipo">Tipo</label>
+					<label class="control-label" for="tipo">Tipo *</label>
 					@if(isset($model->operacao->grupo->tipo->id))
 						{!! Form::select('tipo', $loadFields['tipooperacao'], $model->operacao->grupo->tipo->id, array('class' => 'form-control imput-sm', 'id' => 'tipo')) !!}
 					@else
@@ -18,7 +18,7 @@
 			</div>
 			<div class="form-group col-sm-3">
 				<div class="fg-line">
-					<label class="control-label" for="operacao_id">Operação</label>
+					<label class="control-label" for="operacao_id">Operação *</label>
 					<div class="select">
 						@if(isset($model->operacao->id))
 							{!! Form::select('operacao_id', array($model->operacao->id => $model->operacao->nome), $model->operacao->id,array('class' => 'form-control', 'id' => 'operacao_id')) !!}

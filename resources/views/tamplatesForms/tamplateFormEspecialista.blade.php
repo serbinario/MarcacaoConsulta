@@ -1,6 +1,7 @@
 <div class="block-header">
     <h2>Cadastro de Especialista</h2>
 </div>
+
 <div class="card">
     <div class="card-body card-padding">
         <div class="row">
@@ -94,10 +95,9 @@
         </div>
     </div>
 </div>
-</div>
 
 @section('javascript')
-    <script src="{{ asset('/js/validacoes/validation_form_especialista.js')}}"></script>
+    {{--<script src="{{ asset('/js/validacoes/validation_form_especialista.js')}}"></script>--}}
     <script type="text/javascript">
         //consulta via select2 cgm
         $("#cgm").select2({

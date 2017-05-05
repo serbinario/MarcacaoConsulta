@@ -17,7 +17,7 @@ class PostoSaude extends Model implements Transformable
         'cnes',
         'endereco',
         'numero',
-        'bairro',
+        'bairro_id',
 	];
 
 }

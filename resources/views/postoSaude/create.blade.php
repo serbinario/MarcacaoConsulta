@@ -30,6 +30,4 @@
         </section>
     </div>
 @stop
-@section('javascript')
-    <script src="{{ asset('/js/validacoes/validation_form_psf.js')}}"></script>
-@stop
+
