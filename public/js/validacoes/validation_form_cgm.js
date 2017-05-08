@@ -14,7 +14,7 @@ $(document).ready(function () {
                     }
                 }
             },
-            'data_nascimento': {
+            /*'data_nascimento': {
                 validators: {
                     notEmpty: {
                         message: "Este campo é obrigatório",
@@ -55,7 +55,7 @@ $(document).ready(function () {
                         message: "Este campo é obrigatório",
                     }
                 }
-            },
+            },*/
             'numero_sus': {
                 validators: {
                     notEmpty: {
@@ -63,7 +63,7 @@ $(document).ready(function () {
                     }
                 }
             },
-            'numero_nis': {
+            /*'numero_nis': {
                 validators: {
                     notEmpty: {
                         message: "Este campo é obrigatório",
@@ -104,7 +104,7 @@ $(document).ready(function () {
                         message: "Este campo é obrigatório",
                     }
                 }
-            }
+            }*/
         }
     });
 });

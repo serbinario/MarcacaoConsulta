@@ -2,7 +2,9 @@
 
 namespace Seracademico\Services;
 
+use Seracademico\Entities\EspecialistaEspecialidade;
 use Seracademico\Repositories\EspecialistaRepository;
+use Seracademico\Repositories\EspecialistaEspecialidadeRepository;
 use Seracademico\Entities\Especialista;
 
 class EspecialistaService
@@ -13,11 +15,19 @@ class EspecialistaService
     private $repository;
 
     /**
-     * @param EspecialistaRepository $repository
+     * @var EspecialistaEspecialidadeRepository
      */
-    public function __construct(EspecialistaRepository $repository)
+    private $repositoryEspecialistaEspecialidade;
+
+    /**
+     * @param EspecialistaRepository $repository
+     * @param EspecialistaEspecialidadeRepository $repositoryEspecialistaEspecialidade
+     */
+    public function __construct(EspecialistaRepository $repository,
+                                EspecialistaEspecialidadeRepository $repositoryEspecialistaEspecialidade)
     {
         $this->repository = $repository;
+        $this->repositoryEspecialistaEspecialidade = $repositoryEspecialistaEspecialidade;
     }
 
     /**
@@ -97,7 +107,7 @@ class EspecialistaService
     {
         #Salvando o registro pincipal
         $especialista =  $this->repository->create($data);
-        $especialista->especialistaEspecialidade()->attach($data['operacoes']);
+        //$especialista->especialistaEspecialidade()->attach($data['operacoes']);
 
         #Verificando se foi criado no banco de dados
         if(!$especialista) {
@@ -117,8 +127,8 @@ class EspecialistaService
     {
         #Atualizando no banco de dados
         $especialista = $this->repository->update($data, $id);
-        $especialista->especialistaEspecialidade()->detach();
-        $especialista->especialistaEspecialidade()->attach($data['operacoes']);
+        //$especialista->especialistaEspecialidade()->detach();
+        //$especialista->especialistaEspecialidade()->attach($data['operacoes']);
 
         #Verificando se foi atualizado no banco de dados
         if(!$especialista) {
@@ -127,6 +137,70 @@ class EspecialistaService
 
         #Retorno
         return $especialista;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function storeEspecialidade(array $data) : EspecialistaEspecialidade
+    {
+
+        //dd($data);
+        #Salvando o registro pincipal
+        $especialidade =  $this->repositoryEspecialistaEspecialidade->create($data);
+
+        #Verificando se foi criado no banco de dados
+        if(!$especialidade) {
+            throw new \Exception('Ocorreu um erro ao cadastrar!');
+        }
+
+        #Retorno
+        return $especialidade;
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     * @throws \Exception
+     */
+    public function destroyEspecialidade(int $id)
+    {
+        #deletando o curso
+        $result = $this->repositoryEspecialistaEspecialidade->delete($id);
+
+        # Verificando se a execução foi bem sucessida
+        if(!$result) {
+            throw new \Exception('Ocorreu um erro ao tentar remover a especialidade!');
+        }
+
+        #retorno
+        return true;
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     * @throws \Exception
+     */
+    public function findEspecialistaEspecialidade($id)
+    {
+
+        $relacionamentos = [
+            'calendarioUm',
+            'calendarioDois',
+        ];
+
+        #Recuperando o registro no banco de dados
+        $especialidade = $this->repositoryEspecialistaEspecialidade->with($relacionamentos)->find($id);
+
+        #Verificando se o registro foi encontrado
+        if(!$especialidade) {
+            throw new \Exception('Empresa não encontrada!');
+        }
+
+        #retorno
+        return $especialidade;
     }
 
     /**

@@ -80,9 +80,12 @@
             </div>
         </div>
     </section>
+    @include('especialista.modal_adicionar_especialidades')
 @stop
 
 @section('javascript')
+    <script type="text/javascript" src="{{ asset('/script-especialista/modal_adicionar_especialidades.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/script-especialista/loadFields.js') }}"></script>
     <script type="text/javascript">
 
         function format(d) {
@@ -135,24 +138,26 @@
             }
         });
 
-        /*//Seleciona uma linha
-         $('#crud-grid tbody').on( 'click', 'tr', function () {
-         if ( $(this).hasClass('selected') ) {
-         $(this).removeClass('selected');
-         }
-         else {
-         table.$('tr.selected').removeClass('selected');
-         $(this).addClass('selected');
-         }
-         } );
+        //Global idServidor
+        var idEspecialista;
 
-         //Retonra o id do registro
-         $('#crud-grid tbody').on( 'click', 'tr', function () {
+        // Evento para abrir o modal de telefones
+        $(document).on("click", "#btnModalAdicionarEspecialidades", function () {
 
-         var rows = table.row( this ).data()
+            // Recuperando o id do servidor
+            idEspecialista = table.row($(this).parents('tr')).data().id;
 
-         console.log( rows.id );
-         } );*/
+            // Recuperando o nome e matrícula
+            var nome    = table.row($(this).parents('tr')).data().nome;
+            var crm   = table.row($(this).parents('tr')).data().crm;
+
+            // prenchendo o titulo do nome e matrícula do servidor
+            $('.Nome').text(nome);
+            $('.CRM').text(crm);
+
+            // Executando o modal
+            runModalAdicionarEspecialidades(idEspecialista);
+        });
 
     </script>
 @stop

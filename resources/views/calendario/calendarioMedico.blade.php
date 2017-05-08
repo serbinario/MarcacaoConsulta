@@ -35,7 +35,6 @@
                                 <form method="post" id="form_agenda">
                                     <div class="col-md-10">
                                         <div class="row">
-
                                             <div class="form-group col-md-10">
                                                 <div class="fg-line">
                                                     {!! Form::label('localidades', 'Unidade de Atendimento') !!}
@@ -67,25 +66,33 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-10">
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-4">
                                                 <div class="fg-line">
                                                     {!! Form::label('hora', 'Hora Mapa 1') !!}
                                                     {!! Form::text('hora', '', array('class' => 'form-control hora input-sm', 'id' => 'hora')) !!}
                                                 </div>
                                             </div>
-                                            <div class="form-group col-md-10">
+                                            <div class="form-group col-md-6">
                                                 <div class="fg-line">
+                                                    {!! Form::label('especialidade_um', 'Especialidade') !!}
                                                     {!! Form::select('especialidade_um', array(), array(),array('class' => 'form-control input-sm', 'id' => 'especialidade_um')) !!}
                                                 </div>
                                             </div>
-                                            <div class="col-md-10">
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-4">
                                                 <div class="fg-line">
                                                     {!! Form::label('hora2', 'Hora Mapa 2') !!}
                                                     {!! Form::text('hora2', '', array('class' => 'form-control hora', 'id' => 'hora2', 'readonly' => 'readonly')) !!}
                                                 </div>
                                             </div>
-                                            <div class="form-group col-md-10">
+                                            <div class="form-group col-md-6">
                                                 <div class="fg-line">
+                                                    {!! Form::label('especialidade_dois', 'Especialidade') !!}
                                                     {!! Form::select('especialidade_dois', array(), array(),array('disabled' => 'disabled', 'class' => 'form-control input-sm', 'id' => 'especialidade_dois')) !!}
                                                 </div>
                                             </div>

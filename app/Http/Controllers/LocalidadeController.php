@@ -107,9 +107,6 @@ class LocalidadeController extends Controller
             #Recuperando a empresa
             $model = $this->service->find($id);
 
-            #Tratando as datas
-           // $aluno = $this->service->getAlunoWithDateFormatPtBr($aluno);
-
             #Carregando os dados para o cadastro
             $loadFields = $this->service->load($this->loadFields);
 
@@ -131,8 +128,11 @@ class LocalidadeController extends Controller
             #Recuperando os dados da requisição
             $data = $request->all();
 
+            #tratando as rules
+            $this->validator->replaceRules(ValidatorInterface::RULE_UPDATE, ":id", $id);
+
             #Validando a requisição
-            //$this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
+            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
 
             #Executando a ação
             $this->service->update($data, $id);

@@ -38,7 +38,7 @@
             <div class="form-group col-sm-2">
                 <div class="fg-line">
                     <label class="control-label" for="data">Data do cadastro *</label>
-                    {!! Form::text('data', Session::getOldInput('data') , array('class' => 'form-control input-sm date', 'placeholder' => 'Data do cadastro')) !!}
+                    {!! Form::text('data', Session::getOldInput('data') , array('class' => 'form-control input-sm dateTimePicker date', 'placeholder' => 'Data do cadastro')) !!}
                 </div>
             </div>
         </div>
@@ -52,14 +52,8 @@
             </div>
             <div class="form-group col-sm-2">
                 <div class="fg-line">
-                    <label class="control-label" for="cgm[numero_sus]">Número do SUS *</label>
-                    {!! Form::text('cgm[numero_sus]', Session::getOldInput('cgm[numero_sus]') , array('id' => 'numero_sus', 'class' => 'form-control input-sm', 'placeholder' => 'Número do SUS')) !!}
-                </div>
-            </div>
-            <div class="form-group col-sm-2">
-                <div class="fg-line">
-                    <label class="control-label" for="cgm[data_nascimento]">Data de Nascimento *</label>
-                    {!! Form::text('cgm[data_nascimento]', Session::getOldInput('cgm[data_nascimento]')  , array('class' => 'form-control input-sm date', 'id' => 'data_nascimento', 'placeholder' => 'Data de Nascimento')) !!}
+                    <label class="control-label" for="cgm[data_nascimento]">Data de Nascimento</label>
+                    {!! Form::text('cgm[data_nascimento]', Session::getOldInput('cgm[data_nascimento]')  , array('class' => 'form-control dateTimePicker input-sm date', 'id' => 'data_nascimento', 'placeholder' => 'Data de Nascimento')) !!}
                 </div>
             </div>
             <div class="form-group col-sm-2">
@@ -71,20 +65,26 @@
         </div>
         <div class="row">
             <div class="form-group col-sm-2">
+                <div class="fg-line">
+                    <label class="control-label" for="cgm[numero_sus]">Número do SUS *</label>
+                    {!! Form::text('cgm[numero_sus]', Session::getOldInput('cgm[numero_sus]') , array('id' => 'numero_sus', 'class' => 'form-control input-sm', 'placeholder' => 'Número do SUS')) !!}
+                </div>
+            </div>
+            <div class="form-group col-sm-2">
                 <div class=" fg-line">
-                    <label for="cgm[numero_nis]">Número NIS *</label>
+                    <label for="cgm[numero_nis]">Número NIS</label>
                     {!! Form::text('cgm[numero_nis]', Session::getOldInput('cgm[numero_nis]') , array('id' => 'numero_nis', 'class' => 'form-control input-sm', 'placeholder' => '')) !!}
                 </div>
             </div>
             <div class="form-group col-sm-2">
                 <div class=" fg-line">
-                    <label for="cpf_cnpj">CPF *</label>
+                    <label for="cpf_cnpj">CPF</label>
                     {!! Form::text('cgm[cpf_cnpj]', Session::getOldInput('cgm[cpf_cnpj]') , array('id' => 'cpf_cnpj', 'class' => 'form-control cpf input-sm', 'placeholder' => '')) !!}
                 </div>
             </div>
             <div class="form-group col-sm-2">
                 <div class=" fg-line">
-                    <label for="rg">RG *</label>
+                    <label for="rg">RG</label>
                     {!! Form::text('cgm[rg]', Session::getOldInput('cgm[rg]') , array('id' => 'rg', 'class' => 'form-control input-sm', 'placeholder' => '')) !!}
                 </div>
             </div>
@@ -93,7 +93,7 @@
         <div class="row">
             <div class="form-group col-sm-6">
                 <div class="fg-line">
-                    <label class="control-label" for="logradouro">Logradouro *</label>
+                    <label class="control-label" for="logradouro">Logradouro</label>
                     {!! Form::text('cgm[endereco][logradouro]', Session::getOldInput('cgm[endereco][logradouro]')  , array('class' => 'form-control input-sm', 'id' => 'logradouro',  'placeholder' => 'Logradouro')) !!}
                 </div>
             </div>
@@ -105,16 +105,16 @@
             </div>
             <div class="form-group col-sm-2">
                 <div class="fg-line">
-                    <label class="control-label" for="cgm[fone]">Telefone *</label>
+                    <label class="control-label" for="cgm[fone]">Telefone</label>
                     {!! Form::text('cgm[fone]', Session::getOldInput('cgm[fone]')  , array('class' => 'form-control telefone input-sm', 'id' => 'fone',  'placeholder' => 'Telefone')) !!}
                 </div>
             </div>
         </div>
         {{--#4--}}
         <div class="row">
-            <div class="form-group col-sm-3">
+            <div class="form-group col-sm-2">
                 <div class="fg-line">
-                    <label class="control-label" for="estado">UF *</label>
+                    <label class="control-label" for="estado">UF</label>
                     <div class="select">
                         @if(isset($model->cgm->endereco->bairros->cidade->estado->id))
                             {!! Form::select('estado', $loadFields['estado'], $model->cgm->endereco->bairros->cidade->estado->id, array('class' => 'form-control', 'id' => 'estado')) !!}
@@ -126,7 +126,7 @@
             </div>
             <div class="form-group col-sm-3">
                 <div class="fg-line">
-                    <label class="control-label" for="cidade">Cidade *</label>
+                    <label class="control-label" for="cidade">Cidade</label>
                     <div class="select">
                         @if(isset($model->cgm->endereco->bairros->cidade->id))
                             {!! Form::select('cidade', array($model->cgm->endereco->bairros->cidade->id => $model->cgm->endereco->bairros->cidade->nome), $model->cgm->endereco->bairros->cidade->id,array('class' => 'form-control', 'id' => 'cidade')) !!}
@@ -136,15 +136,23 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group col-sm-5">
+            <div class="form-group col-sm-3">
                 <div class="fg-line">
-                    <label class="control-label" for="bairro">Bairro *</label>
+                    <label class="control-label" for="bairro">Bairro</label>
                     <div class="select">
                         @if(isset($model->cgm->endereco->bairros->id))
                             {!! Form::select('cgm[endereco][bairro]', array($model->cgm->endereco->bairros->id => $model->cgm->endereco->bairros->nome), $model->cgm->endereco->bairros->id,array('class' => 'form-control', 'id' => 'bairro')) !!}
                         @else
                             {!! Form::select('cgm[endereco][bairro]', array(), Session::getOldInput('cgm[endereco][bairro]'),array('class' => 'form-control', 'id' => 'bairro')) !!}
                         @endif
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-sm-4">
+                <div class=" fg-line">
+                    <label for="posto_saude_id">PSF</label>
+                    <div class="select">
+                        {!! Form::select('posto_saude_id', (['' => 'Selecione um psf'] + $loadFields['postosaude']->toArray()), null, array('id' => 'psf', 'class'=> 'form-control')) !!}
                     </div>
                 </div>
             </div>

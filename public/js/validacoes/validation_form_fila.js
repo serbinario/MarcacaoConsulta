@@ -35,7 +35,7 @@ $(document).ready(function () {
                     }
                 }
             },
-            'cgm[cpf_cnpj]': {
+            /*'cgm[cpf_cnpj]': {
                 validators: {
                     notEmpty: {
                         message: "Este campo é obrigatório",
@@ -55,7 +55,7 @@ $(document).ready(function () {
                         message: "Este campo é obrigatório",
                     }
                 }
-            },
+            },*/
             'cgm[numero_sus]': {
                 validators: {
                     notEmpty: {
@@ -63,7 +63,7 @@ $(document).ready(function () {
                     }
                 }
             },
-            'cgm[data_nascimento]': {
+            /*'cgm[data_nascimento]': {
                 validators: {
                     notEmpty: {
                         message: "Este campo é obrigatório",
@@ -90,7 +90,7 @@ $(document).ready(function () {
                         message: "Este campo é obrigatório",
                     }
                 }
-            }
+            }*/
         }
     });
 });

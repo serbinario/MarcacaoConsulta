@@ -67,6 +67,9 @@ class FilaService
      */
     public function store(array $data) : Fila
     {
+
+        $data = $this->tratamentoCampos($data);
+
         if(isset($data['cgm_id']) && $data['cgm_id'] != "") {
 
             $cgmFind = $this->CGMRepository->find($data['cgm_id']);
@@ -115,6 +118,8 @@ class FilaService
     public function update(array $data, int $id) : Fila
     {
 
+        $data = $this->tratamentoCampos($data);
+
         $fila = $this->repository->update($data, $id);
 
         $cgmFind = $this->CGMRepository->find($fila->cgm_id);
@@ -161,5 +166,23 @@ class FilaService
 
         #retorno
         return $result;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function tratamentoCampos(array &$data)
+    {
+        # Tratamento de campos de chaves estrangeira
+        foreach ($data as $key => $value) {
+            $explodeKey = explode("_", $key);
+
+            if ($explodeKey[count($explodeKey) -1] == "id" && $value == null ) {
+                unset($data[$key]);
+            }
+        }
+        #Retorno
+        return $data;
     }
 }

@@ -36,7 +36,7 @@ class SerbinarioDateFormat
 
     /**
      * @param $dateText
-     * @param bool|false $time
+     * @param bool $type
      * @return null|string
      */
     public static function toUsa($dateText, $time = false)
