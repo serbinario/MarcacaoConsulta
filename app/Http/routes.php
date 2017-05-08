@@ -70,6 +70,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('byespecialidade', ['as' => 'byespecialidade', 'uses' => 'EspecialistaController@getByEspacialidade']);
             Route::post('especialidades', ['as' => 'especialidades', 'uses' => 'EspecialistaController@getEspecialidades']);
             Route::get('agenda/{id}', ['as' => 'agenda', 'uses' => 'CalendarioController@index']);
+
+            // Adicionar especialidades
+            Route::post('getTipoOperacao', ['as' => 'getTipoOperacao', 'uses' => 'EspecialistaController@getTipoOperacao']);
+            Route::get('gridEspecialidades/{id}', ['as' => 'gridEspecialidades', 'uses' => 'EspecialistaController@gridEspecialidades']);
+            Route::post('storeEspecialidade', ['as' => 'storeEspecialidade', 'uses' => 'EspecialistaController@storeEspecialidade']);
+            Route::post('destroyEspecialidade', ['as' => 'destroyEspecialidade', 'uses' => 'EspecialistaController@destroyEspecialidade']);
         });
 
         Route::group(['prefix' => 'agenda', 'as' => 'agenda.'], function () {
@@ -118,6 +124,17 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('update/{id}', ['as' => 'update', 'uses' => 'FilaController@update']);
 
             Route::post('getDadosPaciente', ['as' => 'getDadosPaciente', 'uses' => 'FilaController@getDadosDoPaciente']);
+        });
+
+
+        Route::group(['prefix' => 'operacao', 'as' => 'operacao.'], function () {
+            Route::get('index', ['as' => 'index', 'uses' => 'OperacoeController@index']);
+            Route::get('grid', ['as' => 'grid', 'uses' => 'OperacoeController@grid']);
+            Route::get('create', ['as' => 'create', 'uses' => 'OperacoeController@create']);
+            Route::post('store', ['as' => 'store', 'uses' => 'OperacoeController@store']);
+            Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'OperacoeController@edit']);
+            Route::post('update/{id}', ['as' => 'update', 'uses' => 'OperacoeController@update']);
+            Route::post('all', ['as' => 'all', 'uses' => 'OperacoeController@all']);
         });
 
         Route::group(['prefix' => 'user', 'as' => 'user.'], function () {

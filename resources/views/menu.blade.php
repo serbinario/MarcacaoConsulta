@@ -115,6 +115,7 @@
                         <li><a href="{{ route('serbinario.fila.index') }}">Fila de Espera</a></li>
                         <li><a href="{{ route('serbinario.localidade.index') }}">Unidade de Atendimento</a></li>
                         <li><a href="{{ route('serbinario.ps.index') }}">PSF</a></li>
+                        <li><a href="{{ route('serbinario.operacao.index') }}">Operações</a></li>
                         <li><a href="{{ route('serbinario.especialidade.index') }}">Especialidades</a></li>
                         <li><a href="{{ route('serbinario.especialista.index') }}">Especialistas</a></li>
                     </ul>

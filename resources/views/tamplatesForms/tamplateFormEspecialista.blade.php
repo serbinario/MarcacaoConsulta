@@ -5,36 +5,45 @@
 <div class="card">
     <div class="card-body card-padding">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-5">
                         <div class="fg-line">
-                            <label for="cgm">CGM</label>
-                            <select id="cgm" class="form-control input-sm" name="cgm">
-                                @if(isset($model->id) && $model->getCgm != null)
-                                    <option value="{{ $model->getCgm->id  }}" selected="selected">{{ $model->getCgm->nome }}</option>
-                                @endif
-                            </select>
+                            <label for="cgm">Especialista (CGM)</label>
+                            @if(isset($model))
+                                <select id="cgm" disabled class="form-control input-sm" name="cgm">
+                                    @if(isset($model->id) && $model->getCgm != null)
+                                        <option value="{{ $model->getCgm->id  }}" selected="selected">{{ $model->getCgm->nome }}</option>
+                                    @endif
+                                </select>
+                            @else
+                                <select id="cgm" class="form-control input-sm" name="cgm">
+                                    @if(isset($model->id) && $model->getCgm != null)
+                                        <option value="{{ $model->getCgm->id  }}" selected="selected">{{ $model->getCgm->nome }}</option>
+                                    @endif
+                                </select>
+                            @endif
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-3">
                         <div class="fg-line">
                             {!! Form::label('qtd_vagas', 'Quantidade de vagas') !!}
                             {!! Form::text('qtd_vagas', Session::getOldInput('qtd_vagas')  , array('class' => 'form-control input-sm')) !!}
                         </div>
                     </div>
 
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-3">
                         <div class="fg-line">
                             {!! Form::label('crm', 'CRM') !!}
                             {!! Form::text('crm', Session::getOldInput('crm')  , array('class' => 'form-control input-sm')) !!}
                         </div>
                     </div>
                 </div>
+                <div class="row">
+
+                </div>
             </div>
-            <div class="col-md-6">
+            {{--<div class="col-md-6">
                 <div class="row">
                     <div class="form-group col-md-4">
                         <div class="fg-line">
@@ -83,7 +92,7 @@
                         </table>
                     </div>
                 </div>
-            </div>
+            </div>--}}
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-12">
@@ -142,70 +151,29 @@
         });
 
         //Carregando as especialidades
-        $(document).on('change', "#tipo", function () {
-            //Removendo as Bairros
-            $('#operacao_id option').remove();
-
-            //Recuperando a cidade
-            var tipo = $(this).val();
-
-            if (tipo !== "") {
-                var dados = {
-                    'table' : 'grupo_operacoes',
-                    'field_search' : 'tipo_operacoes.id',
-                    'value_search': tipo,
-                    'tipo_search': "2"
-                };
-
-                jQuery.ajax({
-                    type: 'POST',
-                    url: '{{ route('serbinario.util.searchOperacoes')  }}',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{  csrf_token() }}'
-                    },
-                    data: dados,
-                    datatype: 'json'
-                }).done(function (json) {
-                    var option = "";
-
-                    for ( var i = 0; i < json.length; i++) {
-                        option += '<optgroup label="' + json[i]['text'] + '">';
-                        for (var j = 0; j < json[i]['children'].length; j++) {
-                            option += '<option value="' + json[i]['children'][j]['id'] + '">'+json[i]['children'][j]['text']+'</option>';
-                        }
-                        option += '</optgroup >';
-                    }
-
-                    $('#operacao_id optgroup').remove();
-                    $('#operacao_id').append(option);
-                });
-            }
-        });
-
-        //Carregando as especialidades
-        $(document).on('click', "#btnAdd", function () {
-
-            //Recuperando a cidade
-            var operacaoId = $('select[name=operacao_id] option:selected').val();
-            var operacaoNome = $('select[name=operacao_id] option:selected').text();
-            var tipo = $('select[name=tipo] option:selected').text();
-
-            var html = "";
-
-            html += '<tr>';
-            html += '<td>' + tipo + '</td>';
-            html += '<td>' + operacaoNome + '</td>';
-            html += "<td>" +
-                    "<button type='button' class='btn btn-danger waves-effect' title='Deletar' onclick='RemoveTableRow(this)'><i class='zmdi zmdi-close'></i></button></td>" +
-                    "<input type='hidden' name='operacoes[]' value='" + operacaoId + "'>";
-            html += '</tr>';
-
-            $('#especialidades tbody').append(html);
-
-        });
+//        $(document).on('click', "#btnAdd", function () {
+//
+//            //Recuperando a cidade
+//            var operacaoId = $('select[name=operacao_id] option:selected').val();
+//            var operacaoNome = $('select[name=operacao_id] option:selected').text();
+//            var tipo = $('select[name=tipo] option:selected').text();
+//
+//            var html = "";
+//
+//            html += '<tr>';
+//            html += '<td>' + tipo + '</td>';
+//            html += '<td>' + operacaoNome + '</td>';
+//            html += "<td>" +
+//                    "<button type='button' class='btn btn-danger waves-effect' title='Deletar' onclick='RemoveTableRow(this)'><i class='zmdi zmdi-close'></i></button></td>" +
+//                    "<input type='hidden' name='operacoes[]' value='" + operacaoId + "'>";
+//            html += '</tr>';
+//
+//            $('#especialidades tbody').append(html);
+//
+//        });
 
         //Excluir tr da tabela
-        (function ($) {
+        /*(function ($) {
             RemoveTableRow = function (handler) {
                 var tr = $(handler).closest('tr');
 
@@ -214,6 +182,6 @@
                 });
                 return false;
             };
-        })(jQuery);
+        })(jQuery);*/
     </script>
 @stop
