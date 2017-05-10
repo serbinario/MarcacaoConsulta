@@ -15,7 +15,7 @@ class Calendario extends Model implements Transformable
     protected $fillable = [ 
 		'data',
 		'hora',
-		'status',
+		'status_id',
 		'qtd_vagas',
 		'especialista_id',
 		'localidade_id',

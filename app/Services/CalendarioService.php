@@ -29,7 +29,7 @@ class CalendarioService
     public function find($id)
     {
         #Recuperando o registro no banco de dados
-        $calendario = $this->repository->with(['especialista', 'agendamento'])->find($id);
+        $calendario = $this->repository->find($id);
 
         #Verificando se o registro foi encontrado
         if(!$calendario) {
@@ -54,7 +54,9 @@ class CalendarioService
         if($data['mais_mapa'] == '1') {
             $data['qtd_vagas'] = $data['qtd_vagas'] * 2;
         }
+
         #Salvando o registro pincipal
+        $data['status_id'] = '1';
         $calendario =  $this->repository->create($data);
 
         #Verificando se foi criado no banco de dados
@@ -105,6 +107,73 @@ class CalendarioService
         return $calendario[0];
     }
 
+
+    /**
+     * @param $idEspecialista
+     * @return array
+     */
+    public function quadroCalendario($idEspecialista)
+    {
+        $calendarios = \DB::table('calendario')
+            ->join('especialista', 'especialista.id', '=', 'calendario.especialista_id')
+            ->join('cgm', 'cgm.id', '=', 'especialista.cgm')
+            ->join('localidade', 'localidade.id', '=', 'calendario.localidade_id')
+            ->leftJoin('agendamento', 'agendamento.calendario_id', '=', 'calendario.id')
+            ->leftJoin('status', 'status.id', '=', 'calendario.status_id')
+            ->where('calendario.especialista_id', '=', $idEspecialista)
+            ->select([
+                'calendario.id',
+                'calendario.hora',
+                'calendario.hora2',
+                'calendario.qtd_vagas',
+                'calendario.mais_mapa',
+                'status.nome as status',
+                \DB::raw('DATE_FORMAT(calendario.data,"%d/%m/%Y") as data'),
+                'cgm.nome',
+                'localidade.nome as localidade',
+            ])->get();
+
+        if(count($calendarios)) {
+
+            foreach ($calendarios as $chave => $valor) {
+
+                //Select dados mapa 1
+                $mapa1 = \DB::table('agendamento')
+                    ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
+                    ->leftJoin('especialista_especialidade', 'especialista_especialidade.id', '=', 'calendario.especialidade_id_um')
+                    ->leftJoin('especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
+                    ->leftJoin('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
+                    ->where('agendamento.hora', '=', $valor->hora)
+                    ->where('calendario.id', '=', $valor->id)
+                    ->select([
+                        \DB::raw('count(agendamento.id) as qtdAgendados'),
+                        'operacoes.nome as especialidade'
+                    ])->first();
+
+                //Select dados mapa 2
+                $mapa2 = \DB::table('agendamento')
+                    ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
+                    ->leftJoin('especialista_especialidade', 'especialista_especialidade.id', '=', 'calendario.especialidade_id_dois')
+                    ->leftJoin('especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
+                    ->leftJoin('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
+                    ->where('agendamento.hora', '=', $valor->hora2)
+                    ->where('calendario.id', '=', $valor->id)
+                    ->select([
+                        \DB::raw('count(agendamento.id) as qtdAgendados'),
+                        'operacoes.nome as especialidade'
+                    ])->first();
+
+                $arrayTemp = (array) $calendarios[$chave];
+                $calendarios[$chave] = (object) array_merge($arrayTemp, ['mapa1' => $mapa1, 'mapa2' => $mapa2]);
+            }
+
+        }
+
+
+        #retorno
+        return $calendarios;
+    }
+
     /**
      * @param $id
      * @return mixed
@@ -118,16 +187,19 @@ class CalendarioService
         $calendario = \DB::table('calendario')
             ->join('especialista', 'especialista.id', '=', 'calendario.especialista_id')
             ->leftJoin('agendamento', 'agendamento.calendario_id', '=', 'calendario.id')
+            ->leftJoin('status', 'status.id', '=', 'calendario.status_id')
             ->where('calendario.especialista_id', '=', $idEspecialista)
             ->where('calendario.localidade_id', '=', $idlocalidade)
             ->where('calendario.data', '=', $data)
+            ->where('calendario.status_id', '=', '1')
             ->select([
                 'calendario.id',
                 'calendario.hora',
                 'calendario.hora2',
                 'calendario.qtd_vagas',
                 'calendario.mais_mapa',
-                'calendario.status',
+                'status.id as status',
+                'status.nome as status_nome',
                 'calendario.data',
             ])->first()
         ;
