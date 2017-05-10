@@ -46,7 +46,7 @@ class FilaService
         $relacionamentos = [
             'cgm.endereco.bairros.cidade.estado',
             'prioridade',
-            'especialidade.operacao'
+            'especialidade.operacao.grupo.tipo'
         ];
 
         #Recuperando o registro no banco de dados
@@ -184,5 +184,24 @@ class FilaService
         }
         #Retorno
         return $data;
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     * @throws \Exception
+     */
+    public function destroy(int $id)
+    {
+        #deletando o curso
+        $result = $this->repository->delete($id);
+
+        # Verificando se a execução foi bem sucessida
+        if(!$result) {
+            throw new \Exception('Ocorreu um erro ao tentar remover o curso!');
+        }
+
+        #retorno
+        return true;
     }
 }

@@ -16,4 +16,12 @@ class Localidade extends Model implements Transformable
 		'nome',
 	];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function calendario()
+    {
+        return $this->hasMany(Calendario::class, 'localidade_id', 'id');
+    }
+
 }

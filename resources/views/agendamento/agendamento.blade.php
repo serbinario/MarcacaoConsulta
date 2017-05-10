@@ -130,13 +130,13 @@
                                                         <input type="hidden" id="id" name="id">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-7">
+                                                {{--<div class="col-md-7">
                                                     <div class="form-group">
                                                         <select class="form-control" name="posto_saude_is" id="psf">
                                                             <option value="">Selecione o posto de saúde</option>
                                                         </select>
                                                     </div>
-                                                </div>
+                                                </div>--}}
                                                 <div class="col-md-5">
                                                     <div class="form-group">
                                                         <select class="form-control" name="hora" id="hora">
