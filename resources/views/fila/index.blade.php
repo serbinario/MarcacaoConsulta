@@ -10,6 +10,23 @@
 
             <div class="card material-table">
                 <div class="card-header">
+
+                    @if(Session::has('message'))
+                        <div class="alert alert-success">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <em> {!! session('message') !!}</em>
+                        </div>
+                    @endif
+
+                    @if(Session::has('errors'))
+                        <div class="alert alert-danger">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            @foreach($errors->all() as $error)
+                                <div>{{ $error }}</div>
+                            @endforeach
+                        </div>
+                        @endif
+
                     <!-- Botão novo -->
                     <div class="row">
                         <div class="col-xs-12">
@@ -22,6 +39,7 @@
                     <!-- Botão novo -->
 
                     <div class="row" >
+                        <br />
                         {!! Form::open(['method' => "POST"]) !!}
                         <div class="col-md-12">
 
@@ -36,6 +54,15 @@
                                 <div class="fg-line">
                                     {!! Form::label('data_fim', 'Fim') !!}
                                     {!! Form::text('data_fim', null , array('class' => 'form-control dateTimePicker date', 'placeholder' => 'Data final')) !!}
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-2">
+                                <div class=" fg-line">
+                                    <label for="exame">Tipo</label>
+                                    <div class="select">
+                                        {!! Form::select('tipo', (['' => 'Selecione um tipo'] + $loadFields['tipooperacao']->toArray()), null, array('class' => 'form-control', 'id' => 'tipo')) !!}
+                                    </div>
                                 </div>
                             </div>
 
@@ -89,7 +116,7 @@
                             <thead>
                             <tr>
                                 <th>Cidadão</th>
-                                <th>Exame</th>
+                                <th>Especialidade</th>
                                 <th>Prioridade</th>
                                 <th>Data do cadastro</th>
                                 <th>Número do SUS</th>
@@ -100,7 +127,7 @@
                             <tfoot>
                             <tr>
                                 <th>Cidadão</th>
-                                <th>Exame</th>
+                                <th>Especialidade</th>
                                 <th>Prioridade</th>
                                 <th>Data do cadastro</th>
                                 <th>Número do SUS</th>
@@ -154,45 +181,60 @@
             e.preventDefault();
         });
 
-        //consulta via especialidade
-        $("#exame").select2({
-            allowClear: true,
-            placeholder: 'Selecione um exame',
-            minimumInputLength: 3,
-            width: 220,
-            ajax: {
-                type: 'POST',
-                url: "{{ route('serbinario.util.select2')  }}",
-                dataType: 'json',
-                delay: 250,
-                crossDomain: true,
-                data: function (params) {
-                    return {
-                        'search':     params.term, // search term
-                        'tableName':  'especialidade',
-                        'fieldName':  'nome',
-                        'joinTable':  'operacoes',
-                        'joinName':  'operacao_id',
-                        'page':       params.page
-                    };
-                },
-                processResults: function (data, params) {
-
-                    // parse the results into the format expected by Select2
-                    // since we are using custom formatting functions we do not need to
-                    // alter the remote JSON data, except to indicate that infinite
-                    // scrolling can be used
-                    params.page = params.page || 1;
-
-                    return {
-                        results: data,
-                        pagination: {
-                            more: (params.page * 30) < data.total_count
-                        }
-                    };
-                }
-            }
+        // Deletar fila
+        $(document).on('click', 'a.excluir', function (event) {
+            event.preventDefault();
+            var url = $(this).attr('href');
+            swal({
+                title: "Alerta",
+                text: "Tem certeza da exclusão do item?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sim!",
+            }).then(function(){
+                location.href = url;
+            });
         });
 
+        //Carregando os bairros
+        $(document).on('change', "#tipo", function () {
+            //Removendo as Bairros
+            $('#exame option').remove();
+
+            //Recuperando a cidade
+            var tipo = $(this).val();
+
+            if (tipo !== "") {
+                var dados = {
+                    'table' : 'grupo_operacoes',
+                    'field_search' : 'tipo_operacoes.id',
+                    'value_search': tipo,
+                    'tipo_search': "2"
+                };
+
+                jQuery.ajax({
+                    type: 'POST',
+                    url: '{{ route('serbinario.util.searchOperacoes')  }}',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{  csrf_token() }}'
+                    },
+                    data: dados,
+                    datatype: 'json'
+                }).done(function (json) {
+                    var option = "";
+
+                    for (var i = 0; i < json.length; i++) {
+                        option += '<optgroup label="' + json[i]['text'] + '">';
+                        for (var j = 0; j < json[i]['children'].length; j++) {
+                            option += '<option value="' + json[i]['children'][j]['id'] + '">'+json[i]['children'][j]['text']+'</option>';
+                        }
+                        option += '</optgroup >';
+                    }
+
+                    $('#exame optgroup').remove();
+                    $('#exame').append(option);
+                });
+            }
+        });
     </script>
 @stop

@@ -42,6 +42,23 @@
 
             <div class="card material-table">
                 <div class="card-header">
+
+                    @if(Session::has('message'))
+                        <div class="alert alert-success">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <em> {!! session('message') !!}</em>
+                        </div>
+                    @endif
+
+                    @if(Session::has('errors'))
+                        <div class="alert alert-danger">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            @foreach($errors->all() as $error)
+                                <div>{{ $error }}</div>
+                            @endforeach
+                        </div>
+                    @endif
+
                     <!-- Botão novo -->
                     <div class="row">
                         <div class="col-xs-12">
@@ -157,6 +174,21 @@
 
             // Executando o modal
             runModalAdicionarEspecialidades(idEspecialista);
+        });
+
+        // Deletar fila
+        $(document).on('click', 'a.excluir', function (event) {
+            event.preventDefault();
+            var url = $(this).attr('href');
+            swal({
+                title: "Alerta",
+                text: "Tem certeza da exclusão do item?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sim!",
+            }).then(function(){
+                location.href = url;
+            });
         });
 
     </script>

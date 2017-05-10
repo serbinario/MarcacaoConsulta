@@ -38,6 +38,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'LocalidadeController@edit']);
             Route::post('update/{id}', ['as' => 'update', 'uses' => 'LocalidadeController@update']);
             Route::post('all', ['as' => 'all', 'uses' => 'LocalidadeController@all']);
+            Route::get('destroy/{id}', ['as' => 'destroy', 'uses' => 'LocalidadeController@destroy']);
         });
 
         Route::group(['prefix' => 'ps', 'as' => 'ps.'], function () {
@@ -48,6 +49,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('store', ['as' => 'store', 'uses' => 'PostoSaudeController@store']);
             Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'PostoSaudeController@edit']);
             Route::post('update/{id}', ['as' => 'update', 'uses' => 'PostoSaudeController@update']);
+            Route::get('destroy/{id}', ['as' => 'destroy', 'uses' => 'PostoSaudeController@destroy']);
         });
 
         Route::group(['prefix' => 'especialidade', 'as' => 'especialidade.'], function () {
@@ -58,6 +60,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('store', ['as' => 'store', 'uses' => 'EspecialidadeController@store']);
             Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'EspecialidadeController@edit']);
             Route::post('update/{id}', ['as' => 'update', 'uses' => 'EspecialidadeController@update']);
+            Route::get('destroy/{id}', ['as' => 'destroy', 'uses' => 'EspecialidadeController@destroy']);
         });
 
         Route::group(['prefix' => 'especialista', 'as' => 'especialista.'], function () {
@@ -69,6 +72,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('update/{id}', ['as' => 'update', 'uses' => 'EspecialistaController@update']);
             Route::post('byespecialidade', ['as' => 'byespecialidade', 'uses' => 'EspecialistaController@getByEspacialidade']);
             Route::post('especialidades', ['as' => 'especialidades', 'uses' => 'EspecialistaController@getEspecialidades']);
+            Route::get('destroy/{id}', ['as' => 'destroy', 'uses' => 'EspecialistaController@destroy']);
             Route::get('agenda/{id}', ['as' => 'agenda', 'uses' => 'CalendarioController@index']);
 
             // Adicionar especialidades
@@ -125,6 +129,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('store', ['as' => 'store', 'uses' => 'FilaController@store']);
             Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'FilaController@edit']);
             Route::post('update/{id}', ['as' => 'update', 'uses' => 'FilaController@update']);
+            Route::get('destroy/{id}', ['as' => 'destroy', 'uses' => 'FilaController@destroy']);
 
             Route::post('getDadosPaciente', ['as' => 'getDadosPaciente', 'uses' => 'FilaController@getDadosDoPaciente']);
         });
@@ -137,6 +142,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'OperacoeController@edit']);
             Route::post('update/{id}', ['as' => 'update', 'uses' => 'OperacoeController@update']);
             Route::post('all', ['as' => 'all', 'uses' => 'OperacoeController@all']);
+            Route::get('destroy/{id}', ['as' => 'destroy', 'uses' => 'OperacoeController@destroy']);
         });
 
         Route::group(['prefix' => 'user', 'as' => 'user.'], function () {

@@ -26,6 +26,14 @@ class Especialidade extends Model implements Transformable
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function fila()
+    {
+        return $this->hasMany(Fila::class, 'especialidade_id', 'id');
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function especialistaEspecialidade()

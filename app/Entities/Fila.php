@@ -70,4 +70,12 @@ class Fila extends Model implements Transformable
     {
         return $this->belongsTo(PostoSaude::class, 'posto_saude_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function agendamento()
+    {
+        return $this->hasMany(Agendamento::class, 'fila_id', 'id');
+    }
 }

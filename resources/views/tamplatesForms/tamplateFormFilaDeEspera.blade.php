@@ -15,7 +15,29 @@
                     </div>
                 </div>
             @endif
-            <div class="form-group col-sm-3">
+                <div class="form-group col-sm-2">
+                    <div class="fg-line">
+                        <label class="control-label" for="tipo">Tipo *</label>
+                        @if(isset($model->especialidade->operacao->grupo->tipo->id))
+                            {!! Form::select('tipo', $loadFields['tipooperacao'], $model->especialidade->operacao->grupo->tipo->id, array('class' => 'form-control imput-sm', 'id' => 'tipo')) !!}
+                        @else
+                            {!! Form::select('tipo', (['' => 'Selecione um tipo'] + $loadFields['tipooperacao']->toArray()), null, array('class' => 'form-control imput-sm', 'id' => 'tipo')) !!}
+                        @endif
+                    </div>
+                </div>
+                <div class="form-group col-sm-3">
+                    <div class="fg-line">
+                        <label class="control-label" for="operacao_id">Operação *</label>
+                        <div class="select">
+                            @if(isset($model->especialidade->operacao->id))
+                                {!! Form::select('especialidade_id', array($model->especialidade->operacao->id => $model->especialidade->operacao->nome), $model->especialidade->operacao->id,array('class' => 'form-control', 'id' => 'especialidade')) !!}
+                            @else
+                                {!! Form::select('especialidade_id', array(), Session::getOldInput('especialidade_id'),array('class' => 'form-control', 'id' => 'especialidade')) !!}
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            {{--<div class="form-group col-sm-3">
                 <div class=" fg-line">
                     <label for="especialidade_id">Exame solicitado *</label>
                     <div class="select">
@@ -26,7 +48,7 @@
                         @endif
                     </div>
                 </div>
-            </div>
+            </div>--}}
             <div class="form-group col-sm-2">
                 <div class=" fg-line">
                     <label for="prioridade_id">Prioridade *</label>
@@ -35,16 +57,10 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group col-sm-2">
-                <div class="fg-line">
-                    <label class="control-label" for="data">Data do cadastro *</label>
-                    {!! Form::text('data', Session::getOldInput('data') , array('class' => 'form-control input-sm dateTimePicker date', 'placeholder' => 'Data do cadastro')) !!}
-                </div>
-            </div>
         </div>
         {{--#2--}}
         <div class="row">
-            <div class="form-group col-sm-6">
+            <div class="form-group col-sm-5">
                 <div class="fg-line">
                     <label class="control-label" for="cgm[nome]">Cidadão *</label>
                     {!! Form::text('cgm[nome]', Session::getOldInput('cgm[nome]')  , array('id' => 'nome', 'class' => 'form-control input-sm', 'placeholder' => 'Nome')) !!}
@@ -60,6 +76,12 @@
                 <div class="fg-line">
                     <label class="control-label" for="cgm[idade]">Idade</label>
                     {!! Form::text('cgm[idade]', Session::getOldInput('cgm[idade]')  , array('class' => 'form-control input-sm', 'id' => 'idade',  'placeholder' => 'Idade')) !!}
+                </div>
+            </div>
+            <div class="form-group col-sm-2">
+                <div class="fg-line">
+                    <label class="control-label" for="data">Data do cadastro *</label>
+                    {!! Form::text('data', Session::getOldInput('data') , array('class' => 'form-control input-sm dateTimePicker date', 'placeholder' => 'Data do cadastro')) !!}
                 </div>
             </div>
         </div>
@@ -212,7 +234,7 @@
         });
 
         //consulta via especialidade
-        $("#especialidade").select2({
+        /*$("#especialidade").select2({
             placeholder: 'Selecione uma especialidade',
             minimumInputLength: 3,
             width: 220,
@@ -251,7 +273,7 @@
                     };
                 }
             }
-        });
+        });*/
 
         //Carregando as cidades
         $(document).on('change', "#estado", function () {
@@ -380,6 +402,47 @@
                         $('#bairro').append(option);
                     }
 
+                });
+            }
+        });
+
+        //Carregando os bairros
+        $(document).on('change', "#tipo", function () {
+            //Removendo as Bairros
+            $('#especialidade option').remove();
+
+            //Recuperando a cidade
+            var tipo = $(this).val();
+
+            if (tipo !== "") {
+                var dados = {
+                    'table' : 'grupo_operacoes',
+                    'field_search' : 'tipo_operacoes.id',
+                    'value_search': tipo,
+                    'tipo_search': "2"
+                };
+
+                jQuery.ajax({
+                    type: 'POST',
+                    url: '{{ route('serbinario.util.searchOperacoes')  }}',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{  csrf_token() }}'
+                    },
+                    data: dados,
+                    datatype: 'json'
+                }).done(function (json) {
+                    var option = "";
+
+                    for (var i = 0; i < json.length; i++) {
+                        option += '<optgroup label="' + json[i]['text'] + '">';
+                        for (var j = 0; j < json[i]['children'].length; j++) {
+                            option += '<option value="' + json[i]['children'][j]['id'] + '">'+json[i]['children'][j]['text']+'</option>';
+                        }
+                        option += '</optgroup >';
+                    }
+
+                    $('#especialidade optgroup').remove();
+                    $('#especialidade').append(option);
                 });
             }
         });
