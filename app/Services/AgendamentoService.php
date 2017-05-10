@@ -85,7 +85,8 @@ class AgendamentoService
     public function getCalendarioByMedicoLocal($idMedico, $idLocal)
     {
         #Recuperando o registro no banco de dados
-        $calendarios = $this->repoCalendario->with(['especialista', 'agendamento'])->findWhere(['especialista_id' => $idMedico, 'localidade_id' => $idLocal]);
+        $calendarios = $this->repoCalendario->with(['especialista', 'agendamento'])
+            ->findWhere(['especialista_id' => $idMedico, 'localidade_id' => $idLocal, 'status_id' => '1']);
 
         $eventos = \DB::table('evento')
             ->join('agendamento', 'evento.agendamento_id', '=', 'agendamento.id')
@@ -115,7 +116,8 @@ class AgendamentoService
 
     /**
      * @param array $data
-     * @return array
+     * @return Agendamento
+     * @throws \Exception
      */
     public function store(array $data) : Agendamento
     {
@@ -146,8 +148,9 @@ class AgendamentoService
 
     /**
      * @param array $data
-     * @param int $id
-     * @return mixed
+     * @param $id
+     * @return Agendamento
+     * @throws \Exception
      */
     public function update(array $data, $id) : Agendamento
     {
@@ -165,9 +168,8 @@ class AgendamentoService
     }
 
     /**
-     * @param array $data
-     * @param int $id
-     * @return mixed
+     * @param $id
+     * @return bool
      */
     public function delete($id)
     {

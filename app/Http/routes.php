@@ -97,6 +97,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('calendarios/{id}', ['as' => 'calendarios', 'uses' => 'CalendarioController@getCalendarioByMedico']);
             Route::post('calendariodata', ['as' => 'calendariodata', 'uses' => 'CalendarioController@findCalendarioData']);
             Route::post('calendariodatamedico', ['as' => 'calendariodatamedico', 'uses' => 'CalendarioController@findCalendarioDataMedico']);
+
+            Route::get('fechar/{id}', ['as' => 'fechar', 'uses' => 'CalendarioController@fechar']);
+            Route::get('bloquear/{id}', ['as' => 'bloquear', 'uses' => 'CalendarioController@bloquear']);
         });
 
         Route::group(['prefix' => 'agendamento', 'as' => 'agendamento.'], function () {
@@ -125,7 +128,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
             Route::post('getDadosPaciente', ['as' => 'getDadosPaciente', 'uses' => 'FilaController@getDadosDoPaciente']);
         });
-
 
         Route::group(['prefix' => 'operacao', 'as' => 'operacao.'], function () {
             Route::get('index', ['as' => 'index', 'uses' => 'OperacoeController@index']);
