@@ -190,6 +190,13 @@
             var operacaoNome = $('select[name=operacao_id] option:selected').text();
             var tipo = $('select[name=tipo] option:selected').text();
 
+            if (!operacaoNome || !operacaoNome) {
+                swal('Tipo e/ou Operação não informado(s)');
+                return false;
+            }
+
+            swal('Adicionado com sucesso!');
+
             var html = "";
 
             html += '<tr>';
@@ -201,6 +208,8 @@
             html += '</tr>';
 
             $('#especialidades tbody').append(html);
+            $('#tipo').val("");
+            $('#operacao_id').val("");
 
         });
 
