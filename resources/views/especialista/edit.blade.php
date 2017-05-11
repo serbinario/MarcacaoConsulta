@@ -16,7 +16,7 @@
                     <div class="alert alert-danger">
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                         @foreach($errors->all() as $error)
-                            <div>{{ $error }}</div>
+                            <div>{{ utf8_encode($error) }}</div>
                         @endforeach
                     </div>
                 @endif
