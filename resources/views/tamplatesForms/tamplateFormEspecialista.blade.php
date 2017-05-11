@@ -11,17 +11,13 @@
                         <div class="fg-line">
                             <label for="cgm">Especialista (CGM)</label>
                             @if(isset($model))
-                                <select id="cgm" disabled class="form-control input-sm" name="cgm">
+                                <select class="form-control input-sm" name="cgm">
                                     @if(isset($model->id) && $model->getCgm != null)
                                         <option value="{{ $model->getCgm->id  }}" selected="selected">{{ $model->getCgm->nome }}</option>
                                     @endif
                                 </select>
                             @else
-                                <select id="cgm" class="form-control input-sm" name="cgm">
-                                    @if(isset($model->id) && $model->getCgm != null)
-                                        <option value="{{ $model->getCgm->id  }}" selected="selected">{{ $model->getCgm->nome }}</option>
-                                    @endif
-                                </select>
+                                <select id="cgm" class="form-control input-sm" name="cgm"></select>
                             @endif
                         </div>
                     </div>
