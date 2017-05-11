@@ -26,7 +26,9 @@ class OperacoeController extends Controller
     /**
     * @var array
     */
-    private $loadFields = [];
+    private $loadFields = [
+        'GrupoOperacao'
+    ];
 
     /**
     * @param OperacoeService $service
@@ -43,7 +45,7 @@ class OperacoeController extends Controller
      */
     public function index()
     {
-        return view('operacoe.index');
+        return view('operacao.index');
     }
 
     /**
@@ -52,11 +54,29 @@ class OperacoeController extends Controller
     public function grid()
     {
         #Criando a consulta
-        $rows = \DB::table('operacoes')->select(['id', 'nome']);
+        $rows = \DB::table('operacoes')
+            ->join('grupo_operacoes', 'grupo_operacoes.id', '=', 'operacoes.grupo_operaco_id')
+            ->select([
+                'operacoes.id',
+                'operacoes.nome',
+                'grupo_operacoes.nome as grupo'
+            ]);
 
         #Editando a grid
         return Datatables::of($rows)->addColumn('action', function ($row) {
-            return '<a href="edit/'.$row->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a>';
+
+            # Recuperando a calendario
+            $operacao = $this->service->find($row->id);
+
+            $html = "";
+            $html .= '<a href="edit/'.$row->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a> ';
+
+            if(count($operacao->especialidade) == 0) {
+                $html .= '<a href="destroy/'.$row->id.'" class="btn btn-xs btn-danger excluir"><i class="fa fa-edit"></i> Deletar</a>';
+            }
+
+            return $html;
+
         })->make(true);
     }
 
@@ -69,7 +89,7 @@ class OperacoeController extends Controller
         $loadFields = $this->service->load($this->loadFields);
 
         #Retorno para view
-        return view('operacoe.create', compact('loadFields'));
+        return view('operacao.create', compact('loadFields'));
     }
 
     /**
@@ -114,7 +134,7 @@ class OperacoeController extends Controller
             $loadFields = $this->service->load($this->loadFields);
 
             #retorno para view
-            return view('operacoe.edit', compact('model', 'loadFields'));
+            return view('operacao.edit', compact('model', 'loadFields'));
         } catch (\Throwable $e) {dd($e);
             return redirect()->back()->with('message', $e->getMessage());
         }
@@ -142,6 +162,24 @@ class OperacoeController extends Controller
         } catch (ValidatorException $e) {
             return redirect()->back()->withErrors($this->validator->errors())->withInput();
         } catch (\Throwable $e) { dd($e);
+            return redirect()->back()->with('message', $e->getMessage());
+        }
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy($id)
+    {
+        try {
+            #Executando a ação
+            $this->service->destroy($id);
+
+            #Retorno para a view
+            return redirect()->back()->with("message", "Remoção realizada com sucesso!");
+        } catch (\Throwable $e) {
+            dd($e);
             return redirect()->back()->with('message', $e->getMessage());
         }
     }

@@ -30,4 +30,13 @@ class Especialista extends Model implements Transformable
 	{
 		return $this->belongsToMany(Especialidade::class, 'especialista_especialidade', 'especialista_id', "especialidade_id");
 	}
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 *
+	 */
+	public function calendario()
+	{
+		return $this->hasMany(Calendario::class, 'especialista_id', 'id');
+	}
 }

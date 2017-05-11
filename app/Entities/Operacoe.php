@@ -17,9 +17,20 @@ class Operacoe extends Model implements Transformable
 		'grupo_operaco_id',
 	];
 
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 */
 	public function grupo()
 	{
 		return $this->belongsTo(GrupoOperacao::class, "grupo_operaco_id");
+	}
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function especialidade()
+	{
+		return $this->hasMany(Especialidade::class, 'operacao_id', 'id');
 	}
 
 }

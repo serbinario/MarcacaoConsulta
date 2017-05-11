@@ -1,109 +1,116 @@
 @extends('menu')
 
-
 @section('content')
+    <div class="container">
+        <section id="content">
+            {{-- Mensagem de alerta quando os dados não atendem as regras de validação que foramd efinidas no servidor --}}
+            <div class="ibox-content">
 
-    <div class="ibox float-e-margins">
-        <div class="ibox-title">
-            <h4>
-                <i class="fa fa-user"></i>
-                Agenda Médica - {{ $especialista['getCgm']['nome'] }}
-            </h4>
-        </div>
-        <div class="ibox-content">
+            </div>
 
-            @if(Session::has('message'))
-                <div class="alert alert-success">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    <em> {!! session('message') !!}</em>
-                </div>
-            @endif
+            <div class="block-header">
+                <h2>Agenda Médica - {{ $especialista['getCgm']['nome'] }}</h2>
+            </div>
 
-            @if(Session::has('errors'))
-                <div class="alert alert-danger">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    @foreach($errors->all() as $error)
-                        <div>{{ $error }}</div>
-                    @endforeach
-                </div>
-            @endif
-
-            <div class="row">
-                <div class="col-md-5 col-md-offset-1">
-                    <!-- define the calendar element -->
-
-                    <div id="my-calendar"></div>
-                </div>
-                <div class="col-md-6">
+            <div class="card">
+                <div class="card-body card-padding">
                     <div class="row">
-                        <form method="post" id="form_agenda">
-                            <div class="col-md-10">
+                        <div class="col-md-5 col-md-offset-1">
+                            <!-- define the calendar element -->
+                            <div class="row">
+                                <div id="my-calendar"></div>
+                            </div>
+                            <div class="row">
                                 <div class="row">
-                                    <div class="col-md-10">
-                                        <div class="form-group">
-                                            {!! Form::label('localidades', 'Unidade de Atendimento') !!}
-                                            {!! Form::select('localidade_id', array(), array(),array('class' => 'form-control', 'id' => 'localidades')) !!}
-                                            <input type="hidden" id="especialista_id" name="especialista_id" value="{{ $especialista['id'] }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <div class="form-group">
-                                            {!! Form::label('qtd_vagas', 'Quantidade de vagas') !!}
-                                            {!! Form::text('qtd_vagas', $especialista['qtd_vagas'] , array('class' => 'form-control', 'id' => 'qtd_vagas')) !!}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <div class="form-group">
-                                            {!! Form::label('data', 'Data') !!}
-                                            {!! Form::text('data', '', array('class' => 'form-control data', 'readonly' => 'readonly', 'id' => 'data')) !!}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="checkbox checkbox-primary">
-                                            {!! Form::checkbox('mais_mapa', 1, null, array('class' => 'form-control', 'id' => 'mapa')) !!}
-                                            {!! Form::label('mais_mapa', 'Possui mais de um mapa?', false) !!}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <div class="form-group">
-                                            {!! Form::label('hora', 'Hora Mapa 1') !!}
-                                            {!! Form::text('hora', '', array('class' => 'form-control hora', 'id' => 'hora')) !!}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <div class="form-group">
-                                            {!! Form::select('especialidade_um', array(), array(),array('class' => 'form-control', 'id' => 'especialidade_um')) !!}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <div class="form-group">
-                                            {!! Form::label('hora2', 'Hora Mapa 2') !!}
-                                            {!! Form::text('hora2', '', array('class' => 'form-control hora', 'id' => 'hora2', 'readonly' => 'readonly')) !!}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <div class="form-group">
-                                            {!! Form::select('especialidade_dois', array(), array(),array('disabled' => 'disabled', 'class' => 'form-control', 'id' => 'especialidade_dois')) !!}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        {!! Form::submit('Salvar', array('class' => 'btn btn-primary', 'disabled' => 'disabled', 'id' => 'save')) !!}
-                                        {!! Form::submit('Editar', array('class' => 'btn btn-success', 'disabled' => 'disabled', 'id' => 'edit')) !!}
-                                        <a href="{{route('serbinario.especialista.index')}}" class="btn btn-default">Voltar</a>
+                                    <div class="form-group col-md-10">
+                                        <button type="button" id="save" disabled class="btn btn-primary btn-sm m-t-10">Salvar</button>
+                                        <button type="button" id="edit" disabled class="btn btn-success btn-sm m-t-10">Editar</button>
+                                        <a href="{{route('serbinario.especialista.index')}}" class="btn btn-default btn-sm m-t-10">Voltar</a>
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <form method="post" id="form_agenda">
+                                    <div class="col-md-10">
+                                        <div class="row">
+                                            <div class="form-group col-md-10">
+                                                <div class="fg-line">
+                                                    {!! Form::label('localidades', 'Unidade de Atendimento') !!}
+                                                    {!! Form::select('localidade_id', array(), array(),array('class' => 'form-control input-sm', 'id' => 'localidades')) !!}
+                                                    <input type="hidden" id="especialista_id" name="especialista_id" value="{{ $especialista['id'] }}">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group col-md-10">
+                                                <div class="fg-line">
+                                                    {!! Form::label('qtd_vagas', 'Quantidade de vagas') !!}
+                                                    {!! Form::text('qtd_vagas', $especialista['qtd_vagas'] , array('class' => 'form-control input-sm', 'id' => 'qtd_vagas')) !!}
+                                                </div>
+                                            </div>
+                                            <div class=" col-md-10">
+                                                <div class="fg-line">
+                                                    {!! Form::label('data', 'Data') !!}
+                                                    {!! Form::text('data', '', array('class' => 'form-control data input-sm', 'readonly' => 'readonly', 'id' => 'data')) !!}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <div class="fg-line">
+                                                    <div class="checkbox m-b-15">
+                                                        <label>
+                                                            <input type="checkbox" name="mais_mapa" id="mapa" value=""><i class="input-helper"></i>
+                                                            Possui mais de um mapa?
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="fg-line">
+                                                    {!! Form::label('hora', 'Hora Mapa 1') !!}
+                                                    {!! Form::text('hora', '', array('class' => 'form-control hora input-sm', 'id' => 'hora')) !!}
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <div class="fg-line">
+                                                    {!! Form::label('especialidade_um', 'Especialidade') !!}
+                                                    {!! Form::select('especialidade_um', array(), array(),array('class' => 'form-control input-sm', 'id' => 'especialidade_um')) !!}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="fg-line">
+                                                    {!! Form::label('hora2', 'Hora Mapa 2') !!}
+                                                    {!! Form::text('hora2', '', array('class' => 'form-control hora', 'id' => 'hora2', 'readonly' => 'readonly')) !!}
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <div class="fg-line">
+                                                    {!! Form::label('especialidade_dois', 'Especialidade') !!}
+                                                    {!! Form::select('especialidade_dois', array(), array(),array('disabled' => 'disabled', 'class' => 'form-control input-sm', 'id' => 'especialidade_dois')) !!}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
+@stop
 
-    @section('javascript')
-            <!-- initialize the calendar on ready -->
+@section('javascript')
+        <!-- initialize the calendar on ready -->
     <script type="application/javascript">
         $(document).ready(function () {
 
@@ -121,8 +128,8 @@
                 show_days: false,
                 weekstartson: 0,
                 nav_icon: {
-                    prev: '<i class="fa fa-chevron-circle-left"></i>',
-                    next: '<i class="fa fa-chevron-circle-right"></i>'
+                    prev: '<button class="btn btn-info  btn-xs waves-effect waves-circle"><i class="zmdi zmdi-arrow-back"></i> </button>',
+                    next: '<button class="btn btn-info  btn-xs waves-effect waves-circle"><i class="zmdi zmdi-arrow-forward"></i> </button>'
                 },
                 action: function () {
                     return myDateFunction(this.id, false);
@@ -193,6 +200,8 @@
                     $('#hora').val("");
                     $('#hora2').val("");
                     $('#hora2').prop('readonly', true);
+                    $('#especialidade_dois').prop('disabled', true);
+                    $('#especialidade_dois option').remove();
                     $('#mapa').prop('checked', false);
 
                     $('#data').prop('readonly', true);
@@ -370,5 +379,4 @@
             }
         });
     </script>
-@stop
 @stop

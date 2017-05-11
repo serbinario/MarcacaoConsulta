@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <section id="content">
-            {{-- Mensagem de alerta quando os dados n√£o atendem as regras de valida√ß√£o que foramd efinidas no servidor --}}
+            {{-- Mensagem de alerta quando os dados n„o atendem as regras de validaÁ„o que foramd efinidas no servidor --}}
             <div class="ibox-content">
                 @if(Session::has('message'))
                     <div class="alert alert-success">
@@ -23,11 +23,10 @@
             </div>
             {{-- Fim mensagem de alerta --}}
             {{--Formulario--}}
-            {!! Form::open(['route'=>'serbinario.ps.store', 'method' => "POST", 'id' => 'formPS']) !!}
-                @include('tamplatesForms.tamplateFormPostoSaude')
+            {!! Form::open(['route'=>'serbinario.operacao.store', 'method' => "POST", 'id' => 'formOperacao']) !!}
+            @include('tamplatesForms.tamplateFormOperacao')
             {!! Form::close() !!}
             {{--Fim formulario--}}
         </section>
     </div>
 @stop
-

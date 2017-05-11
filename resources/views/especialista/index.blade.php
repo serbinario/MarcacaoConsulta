@@ -42,6 +42,23 @@
 
             <div class="card material-table">
                 <div class="card-header">
+
+                    @if(Session::has('message'))
+                        <div class="alert alert-success">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <em> {!! session('message') !!}</em>
+                        </div>
+                    @endif
+
+                    @if(Session::has('errors'))
+                        <div class="alert alert-danger">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            @foreach($errors->all() as $error)
+                                <div>{{ $error }}</div>
+                            @endforeach
+                        </div>
+                    @endif
+
                     <!-- Botão novo -->
                     <div class="row">
                         <div class="col-xs-12">
@@ -80,9 +97,12 @@
             </div>
         </div>
     </section>
+    @include('especialista.modal_adicionar_especialidades')
 @stop
 
 @section('javascript')
+    <script type="text/javascript" src="{{ asset('/script-especialista/modal_adicionar_especialidades.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/script-especialista/loadFields.js') }}"></script>
     <script type="text/javascript">
 
         function format(d) {
@@ -135,24 +155,41 @@
             }
         });
 
-        /*//Seleciona uma linha
-         $('#crud-grid tbody').on( 'click', 'tr', function () {
-         if ( $(this).hasClass('selected') ) {
-         $(this).removeClass('selected');
-         }
-         else {
-         table.$('tr.selected').removeClass('selected');
-         $(this).addClass('selected');
-         }
-         } );
+        //Global idServidor
+        var idEspecialista;
 
-         //Retonra o id do registro
-         $('#crud-grid tbody').on( 'click', 'tr', function () {
+        // Evento para abrir o modal de telefones
+        $(document).on("click", "#btnModalAdicionarEspecialidades", function () {
 
-         var rows = table.row( this ).data()
+            // Recuperando o id do servidor
+            idEspecialista = table.row($(this).parents('tr')).data().id;
 
-         console.log( rows.id );
-         } );*/
+            // Recuperando o nome e matrícula
+            var nome    = table.row($(this).parents('tr')).data().nome;
+            var crm   = table.row($(this).parents('tr')).data().crm;
+
+            // prenchendo o titulo do nome e matrícula do servidor
+            $('.Nome').text(nome);
+            $('.CRM').text(crm);
+
+            // Executando o modal
+            runModalAdicionarEspecialidades(idEspecialista);
+        });
+
+        // Deletar fila
+        $(document).on('click', 'a.excluir', function (event) {
+            event.preventDefault();
+            var url = $(this).attr('href');
+            swal({
+                title: "Alerta",
+                text: "Tem certeza da exclusão do item?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sim!",
+            }).then(function(){
+                location.href = url;
+            });
+        });
 
     </script>
 @stop

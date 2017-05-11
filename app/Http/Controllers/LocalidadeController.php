@@ -56,7 +56,19 @@ class LocalidadeController extends Controller
 
         #Editando a grid
         return Datatables::of($rows)->addColumn('action', function ($row) {
-            return '<a href="edit/'.$row->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a>';
+
+            # Recuperando a calendario
+            $localidade = $this->service->find($row->id);
+
+            $html = "";
+            $html .= '<a href="edit/'.$row->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a> ';
+
+            if(count($localidade->calendario) == 0) {
+                $html .= '<a href="destroy/'.$row->id.'" class="btn btn-xs btn-danger excluir"><i class="fa fa-edit"></i> Deletar</a>';
+            }
+
+            return $html;
+
         })->make(true);
     }
 
@@ -107,9 +119,6 @@ class LocalidadeController extends Controller
             #Recuperando a empresa
             $model = $this->service->find($id);
 
-            #Tratando as datas
-           // $aluno = $this->service->getAlunoWithDateFormatPtBr($aluno);
-
             #Carregando os dados para o cadastro
             $loadFields = $this->service->load($this->loadFields);
 
@@ -131,8 +140,11 @@ class LocalidadeController extends Controller
             #Recuperando os dados da requisição
             $data = $request->all();
 
+            #tratando as rules
+            $this->validator->replaceRules(ValidatorInterface::RULE_UPDATE, ":id", $id);
+
             #Validando a requisição
-            //$this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
+            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
 
             #Executando a ação
             $this->service->update($data, $id);
@@ -142,6 +154,24 @@ class LocalidadeController extends Controller
         } catch (ValidatorException $e) {
             return redirect()->back()->withErrors($this->validator->errors())->withInput();
         } catch (\Throwable $e) { dd($e);
+            return redirect()->back()->with('message', $e->getMessage());
+        }
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy($id)
+    {
+        try {
+            #Executando a ação
+            $this->service->destroy($id);
+
+            #Retorno para a view
+            return redirect()->back()->with("message", "Remoção realizada com sucesso!");
+        } catch (\Throwable $e) {
+            dd($e);
             return redirect()->back()->with('message', $e->getMessage());
         }
     }

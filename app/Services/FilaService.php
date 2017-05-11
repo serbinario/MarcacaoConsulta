@@ -46,7 +46,7 @@ class FilaService
         $relacionamentos = [
             'cgm.endereco.bairros.cidade.estado',
             'prioridade',
-            'especialidade.operacao'
+            'especialidade.operacao.grupo.tipo'
         ];
 
         #Recuperando o registro no banco de dados
@@ -67,6 +67,9 @@ class FilaService
      */
     public function store(array $data) : Fila
     {
+
+        $data = $this->tratamentoCampos($data);
+
         if(isset($data['cgm_id']) && $data['cgm_id'] != "") {
 
             $cgmFind = $this->CGMRepository->find($data['cgm_id']);
@@ -115,6 +118,8 @@ class FilaService
     public function update(array $data, int $id) : Fila
     {
 
+        $data = $this->tratamentoCampos($data);
+
         $fila = $this->repository->update($data, $id);
 
         $cgmFind = $this->CGMRepository->find($fila->cgm_id);
@@ -161,5 +166,42 @@ class FilaService
 
         #retorno
         return $result;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function tratamentoCampos(array &$data)
+    {
+        # Tratamento de campos de chaves estrangeira
+        foreach ($data as $key => $value) {
+            $explodeKey = explode("_", $key);
+
+            if ($explodeKey[count($explodeKey) -1] == "id" && $value == null ) {
+                unset($data[$key]);
+            }
+        }
+        #Retorno
+        return $data;
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     * @throws \Exception
+     */
+    public function destroy(int $id)
+    {
+        #deletando o curso
+        $result = $this->repository->delete($id);
+
+        # Verificando se a execução foi bem sucessida
+        if(!$result) {
+            throw new \Exception('Ocorreu um erro ao tentar remover o curso!');
+        }
+
+        #retorno
+        return true;
     }
 }

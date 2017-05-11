@@ -38,6 +38,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'LocalidadeController@edit']);
             Route::post('update/{id}', ['as' => 'update', 'uses' => 'LocalidadeController@update']);
             Route::post('all', ['as' => 'all', 'uses' => 'LocalidadeController@all']);
+            Route::get('destroy/{id}', ['as' => 'destroy', 'uses' => 'LocalidadeController@destroy']);
         });
 
         Route::group(['prefix' => 'ps', 'as' => 'ps.'], function () {
@@ -48,6 +49,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('store', ['as' => 'store', 'uses' => 'PostoSaudeController@store']);
             Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'PostoSaudeController@edit']);
             Route::post('update/{id}', ['as' => 'update', 'uses' => 'PostoSaudeController@update']);
+            Route::get('destroy/{id}', ['as' => 'destroy', 'uses' => 'PostoSaudeController@destroy']);
         });
 
         Route::group(['prefix' => 'especialidade', 'as' => 'especialidade.'], function () {
@@ -58,6 +60,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('store', ['as' => 'store', 'uses' => 'EspecialidadeController@store']);
             Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'EspecialidadeController@edit']);
             Route::post('update/{id}', ['as' => 'update', 'uses' => 'EspecialidadeController@update']);
+            Route::get('destroy/{id}', ['as' => 'destroy', 'uses' => 'EspecialidadeController@destroy']);
         });
 
         Route::group(['prefix' => 'especialista', 'as' => 'especialista.'], function () {
@@ -69,7 +72,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('update/{id}', ['as' => 'update', 'uses' => 'EspecialistaController@update']);
             Route::post('byespecialidade', ['as' => 'byespecialidade', 'uses' => 'EspecialistaController@getByEspacialidade']);
             Route::post('especialidades', ['as' => 'especialidades', 'uses' => 'EspecialistaController@getEspecialidades']);
+            Route::get('destroy/{id}', ['as' => 'destroy', 'uses' => 'EspecialistaController@destroy']);
             Route::get('agenda/{id}', ['as' => 'agenda', 'uses' => 'CalendarioController@index']);
+
+            // Adicionar especialidades
+            Route::post('getTipoOperacao', ['as' => 'getTipoOperacao', 'uses' => 'EspecialistaController@getTipoOperacao']);
+            Route::get('gridEspecialidades/{id}', ['as' => 'gridEspecialidades', 'uses' => 'EspecialistaController@gridEspecialidades']);
+            Route::post('storeEspecialidade', ['as' => 'storeEspecialidade', 'uses' => 'EspecialistaController@storeEspecialidade']);
+            Route::post('destroyEspecialidade', ['as' => 'destroyEspecialidade', 'uses' => 'EspecialistaController@destroyEspecialidade']);
         });
 
         Route::group(['prefix' => 'agenda', 'as' => 'agenda.'], function () {
@@ -91,6 +101,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('calendarios/{id}', ['as' => 'calendarios', 'uses' => 'CalendarioController@getCalendarioByMedico']);
             Route::post('calendariodata', ['as' => 'calendariodata', 'uses' => 'CalendarioController@findCalendarioData']);
             Route::post('calendariodatamedico', ['as' => 'calendariodatamedico', 'uses' => 'CalendarioController@findCalendarioDataMedico']);
+
+            Route::get('fechar/{id}', ['as' => 'fechar', 'uses' => 'CalendarioController@fechar']);
+            Route::get('bloquear/{id}', ['as' => 'bloquear', 'uses' => 'CalendarioController@bloquear']);
         });
 
         Route::group(['prefix' => 'agendamento', 'as' => 'agendamento.'], function () {
@@ -111,13 +124,25 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         Route::group(['prefix' => 'fila', 'as' => 'fila.'], function () {
             Route::get('index', ['as' => 'index', 'uses' => 'FilaController@index']);
             Route::post('all', ['as' => 'all', 'uses' => 'FilaController@all']);
-            Route::get('grid', ['as' => 'grid', 'uses' => 'FilaController@grid']);
+            Route::post('grid', ['as' => 'grid', 'uses' => 'FilaController@grid']);
             Route::get('create', ['as' => 'create', 'uses' => 'FilaController@create']);
             Route::post('store', ['as' => 'store', 'uses' => 'FilaController@store']);
             Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'FilaController@edit']);
             Route::post('update/{id}', ['as' => 'update', 'uses' => 'FilaController@update']);
+            Route::get('destroy/{id}', ['as' => 'destroy', 'uses' => 'FilaController@destroy']);
 
             Route::post('getDadosPaciente', ['as' => 'getDadosPaciente', 'uses' => 'FilaController@getDadosDoPaciente']);
+        });
+
+        Route::group(['prefix' => 'operacao', 'as' => 'operacao.'], function () {
+            Route::get('index', ['as' => 'index', 'uses' => 'OperacoeController@index']);
+            Route::get('grid', ['as' => 'grid', 'uses' => 'OperacoeController@grid']);
+            Route::get('create', ['as' => 'create', 'uses' => 'OperacoeController@create']);
+            Route::post('store', ['as' => 'store', 'uses' => 'OperacoeController@store']);
+            Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'OperacoeController@edit']);
+            Route::post('update/{id}', ['as' => 'update', 'uses' => 'OperacoeController@update']);
+            Route::post('all', ['as' => 'all', 'uses' => 'OperacoeController@all']);
+            Route::get('destroy/{id}', ['as' => 'destroy', 'uses' => 'OperacoeController@destroy']);
         });
 
         Route::group(['prefix' => 'user', 'as' => 'user.'], function () {

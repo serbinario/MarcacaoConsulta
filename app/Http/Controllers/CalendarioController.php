@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Seracademico\Entities\Especialista;
 use Seracademico\Http\Requests;
+use Seracademico\Repositories\CalendarioRepository;
 use Seracademico\Services\CalendarioService;
 use Seracademico\Services\EspecialistaService;
 use Yajra\Datatables\Datatables;
@@ -31,6 +32,11 @@ class CalendarioController extends Controller
     private $espSservice;
 
     /**
+     * @var CalendarioRepository
+     */
+    private $repository;
+
+    /**
     * @var array
     */
     private $loadFields = [];
@@ -39,11 +45,14 @@ class CalendarioController extends Controller
     * @param CalendarioService $service
     * @param CalendarioValidator $validator
     */
-    public function __construct(CalendarioService $service, CalendarioValidator $validator, EspecialistaService $espSservice)
+    public function __construct(CalendarioService $service,
+                                CalendarioValidator $validator,
+                                EspecialistaService $espSservice, CalendarioRepository $repository)
     {
         $this->service   =  $service;
         $this->validator =  $validator;
         $this->espSservice =  $espSservice;
+        $this->repository =  $repository;
     }
 
     /**
@@ -51,9 +60,12 @@ class CalendarioController extends Controller
      */
     public function index($id)
     {
+        #Executando a ação
+        $calendarios = $this->service->quadroCalendario($id);
+
         $especialista = $this->espSservice->find($id);
 
-        return view('calendario.calendarioMedico', compact('especialista'));
+        return view('calendario.calendarioMedico', compact('especialista', 'calendarios'));
     }
 
     /**
@@ -92,11 +104,52 @@ class CalendarioController extends Controller
             #Recuperando os dados da requisição
             $data = $request->all();
 
-            #Validando a requisição
-            //$this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
-
             #Executando a ação
             $this->service->update($data['calendario'], $id);
+
+            #Retorno para a view
+            return array('msg' => 'sucesso');
+        } catch (ValidatorException $e) {
+            return $this->validator->errors();
+        } catch (\Throwable $e) { dd($e);
+            return $e->getMessage();
+        }
+    }
+
+    /**
+     * @param $id
+     * @return array|string
+     */
+    public function fechar($id)
+    {
+        try {
+
+            #Executando a ação
+            $calendario = $this->repository->find($id);
+            $calendario->status_id = '2';
+            $calendario->save();
+
+            #Retorno para a view
+            return array('msg' => 'sucesso');
+        } catch (ValidatorException $e) {
+            return $this->validator->errors();
+        } catch (\Throwable $e) { dd($e);
+            return $e->getMessage();
+        }
+    }
+
+    /**
+     * @param $id
+     * @return array|string
+     */
+    public function bloquear($id)
+    {
+        try {
+
+            #Executando a ação
+            $calendario = $this->repository->find($id);
+            $calendario->status_id = '3';
+            $calendario->save();
 
             #Retorno para a view
             return array('msg' => 'sucesso');
@@ -110,6 +163,7 @@ class CalendarioController extends Controller
 
     /**
      * @param $id
+     * @return array
      * @throws \Exception
      */
     public function getCalendarioByMedico($id)
@@ -122,6 +176,15 @@ class CalendarioController extends Controller
         foreach($dados as $dado) {
             $calendarios[$count]['date'] = $dado['data'];
             $calendarios[$count]['badge'] = true;
+
+            if($dado['status_id'] == '1') {
+                $calendarios[$count]['classname'] = 'aberto';
+            } else if ($dado['status_id'] == '2') {
+                $calendarios[$count]['classname'] = 'fechado';
+            } else if ($dado['status_id'] == '3') {
+                $calendarios[$count]['classname'] = 'bloqueado';
+            }
+
             $count++;
         }
 
@@ -129,7 +192,7 @@ class CalendarioController extends Controller
     }
 
     /**
-     * @param $data
+     * @param Request $request
      * @return array
      * @throws \Exception
      */
@@ -143,9 +206,8 @@ class CalendarioController extends Controller
     }
 
     /**
-     * @param $data
+     * @param Request $request
      * @return array
-     * @throws \Exception
      */
     public function findCalendarioDataMedico(Request $request)
     {

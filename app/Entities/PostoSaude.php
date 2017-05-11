@@ -17,7 +17,14 @@ class PostoSaude extends Model implements Transformable
         'cnes',
         'endereco',
         'numero',
-        'bairro',
+        'bairro_id',
 	];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function fila()
+    {
+        return $this->hasMany(Fila::class, 'posto_saude_id', 'id');
+    }
 }

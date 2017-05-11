@@ -1,39 +1,49 @@
 <div class="block-header">
     <h2>Cadastro de Especialista</h2>
 </div>
+
 <div class="card">
     <div class="card-body card-padding">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-5">
                         <div class="fg-line">
-                            <label for="cgm">CGM</label>
-                            <select id="cgm" class="form-control input-sm" name="cgm">
-                                @if(isset($model->id) && $model->getCgm != null)
-                                    <option value="{{ $model->getCgm->id  }}" selected="selected">{{ $model->getCgm->nome }}</option>
-                                @endif
-                            </select>
+                            <label for="cgm">Especialista (CGM)</label>
+                            @if(isset($model))
+                                <select id="cgm" disabled class="form-control input-sm" name="cgm">
+                                    @if(isset($model->id) && $model->getCgm != null)
+                                        <option value="{{ $model->getCgm->id  }}" selected="selected">{{ $model->getCgm->nome }}</option>
+                                    @endif
+                                </select>
+                            @else
+                                <select id="cgm" class="form-control input-sm" name="cgm">
+                                    @if(isset($model->id) && $model->getCgm != null)
+                                        <option value="{{ $model->getCgm->id  }}" selected="selected">{{ $model->getCgm->nome }}</option>
+                                    @endif
+                                </select>
+                            @endif
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-3">
                         <div class="fg-line">
                             {!! Form::label('qtd_vagas', 'Quantidade de vagas') !!}
                             {!! Form::text('qtd_vagas', Session::getOldInput('qtd_vagas')  , array('class' => 'form-control input-sm')) !!}
                         </div>
                     </div>
 
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-3">
                         <div class="fg-line">
                             {!! Form::label('crm', 'CRM') !!}
                             {!! Form::text('crm', Session::getOldInput('crm')  , array('class' => 'form-control input-sm')) !!}
                         </div>
                     </div>
                 </div>
+                <div class="row">
+
+                </div>
             </div>
-            <div class="col-md-6">
+            {{--<div class="col-md-6">
                 <div class="row">
                     <div class="form-group col-md-4">
                         <div class="fg-line">
@@ -82,7 +92,7 @@
                         </table>
                     </div>
                 </div>
-            </div>
+            </div>--}}
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-12">
@@ -94,10 +104,9 @@
         </div>
     </div>
 </div>
-</div>
 
 @section('javascript')
-    <script src="{{ asset('/js/validacoes/validation_form_especialista.js')}}"></script>
+    {{--<script src="{{ asset('/js/validacoes/validation_form_especialista.js')}}"></script>--}}
     <script type="text/javascript">
         //consulta via select2 cgm
         $("#cgm").select2({
@@ -142,6 +151,7 @@
         });
 
         //Carregando as especialidades
+<<<<<<< HEAD
         $(document).on('change', "#tipo", function () {
             //Removendo as Bairros
             $('#operacao_id option').remove();
@@ -212,9 +222,31 @@
             $('#operacao_id').val("");
 
         });
+=======
+//        $(document).on('click', "#btnAdd", function () {
+//
+//            //Recuperando a cidade
+//            var operacaoId = $('select[name=operacao_id] option:selected').val();
+//            var operacaoNome = $('select[name=operacao_id] option:selected').text();
+//            var tipo = $('select[name=tipo] option:selected').text();
+//
+//            var html = "";
+//
+//            html += '<tr>';
+//            html += '<td>' + tipo + '</td>';
+//            html += '<td>' + operacaoNome + '</td>';
+//            html += "<td>" +
+//                    "<button type='button' class='btn btn-danger waves-effect' title='Deletar' onclick='RemoveTableRow(this)'><i class='zmdi zmdi-close'></i></button></td>" +
+//                    "<input type='hidden' name='operacoes[]' value='" + operacaoId + "'>";
+//            html += '</tr>';
+//
+//            $('#especialidades tbody').append(html);
+//
+//        });
+>>>>>>> 35f8216f5d41163b4393334764d2a78d12b12ac9
 
         //Excluir tr da tabela
-        (function ($) {
+        /*(function ($) {
             RemoveTableRow = function (handler) {
                 var tr = $(handler).closest('tr');
 
@@ -223,6 +255,6 @@
                 });
                 return false;
             };
-        })(jQuery);
+        })(jQuery);*/
     </script>
 @stop

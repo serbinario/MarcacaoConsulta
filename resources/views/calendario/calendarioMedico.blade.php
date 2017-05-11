@@ -1,5 +1,19 @@
 @extends('menu')
 
+@section('css')
+    <style type="text/css" class="init">
+        .aberto {
+            background-color: #caebd7;
+        }
+        .fechado {
+            background-color: #eeb5ba;
+        }
+        .bloqueado {
+            background-color: #f7d2a4;
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="container">
         <section id="content">
@@ -15,85 +29,177 @@
             <div class="card">
                 <div class="card-body card-padding">
                     <div class="row">
-                        <div class="col-md-5 col-md-offset-1">
-                            <!-- define the calendar element -->
-                            <div class="row">
-                                <div id="my-calendar"></div>
-                            </div>
-                            <div class="row">
-                                <div class="row">
-                                    <div class="form-group col-md-10">
-                                        <button type="button" id="save" disabled class="btn btn-primary btn-sm m-t-10">Salvar</button>
-                                        <button type="button" id="edit" disabled class="btn btn-success btn-sm m-t-10">Editar</button>
-                                        <a href="{{route('serbinario.especialista.index')}}" class="btn btn-default btn-sm m-t-10">Voltar</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <form method="post" id="form_agenda">
-                                    <div class="col-md-10">
-                                        <div class="row">
+                        <div role="tabpanel" class="tab">
 
-                                            <div class="form-group col-md-10">
-                                                <div class="fg-line">
-                                                    {!! Form::label('localidades', 'Unidade de Atendimento') !!}
-                                                    {!! Form::select('localidade_id', array(), array(),array('class' => 'form-control input-sm', 'id' => 'localidades')) !!}
-                                                    <input type="hidden" id="especialista_id" name="especialista_id" value="{{ $especialista['id'] }}">
-                                                </div>
-                                            </div>
+                            <ul class="tab-nav" role="tablist">
+                                <li class="active"><a href="#calendario" aria-controls="calendario" role="tab" data-toggle="tab"
+                                                      aria-expanded="true">Criação do Calendário</a></li>
+                                <li role="presentation" class=""><a href="#quadro" aria-controls="quadro" role="tab" data-toggle="tab"
+                                                                    aria-expanded="false">Quadro do Calendário</a></li>
+                            </ul>
 
+                            <div class="tab-content">
 
-                                            <div class="form-group col-md-10">
-                                                <div class="fg-line">
-                                                    {!! Form::label('qtd_vagas', 'Quantidade de vagas') !!}
-                                                    {!! Form::text('qtd_vagas', $especialista['qtd_vagas'] , array('class' => 'form-control input-sm', 'id' => 'qtd_vagas')) !!}
-                                                </div>
+                                <div role="tabpanel" class="tab-pane animated fadeInRight active" id="calendario">
+
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-5 col-md-offset-1">
+                                            <!-- define the calendar element -->
+                                            <div class="row">
+                                                <div id="my-calendar"></div>
                                             </div>
-                                            <div class=" col-md-10">
-                                                <div class="fg-line">
-                                                    {!! Form::label('data', 'Data') !!}
-                                                    {!! Form::text('data', '', array('class' => 'form-control data input-sm', 'readonly' => 'readonly', 'id' => 'data')) !!}
-                                                </div>
-                                            </div>
-                                            <div class="col-md-10">
-                                                <div class="fg-line">
-                                                    <div class="checkbox m-b-15">
-                                                        <label>
-                                                            <input type="checkbox" name="mais_mapa" id="mapa" value=""><i class="input-helper"></i>
-                                                            Possui mais de um mapa?
-                                                        </label>
+                                            <div class="row">
+                                                <div class="row">
+                                                    <div class="form-group col-md-10">
+                                                        <button type="button" id="save" disabled class="btn btn-primary btn-sm m-t-10">Salvar</button>
+                                                        <button type="button" id="edit" disabled class="btn btn-success btn-sm m-t-10">Editar</button>
+                                                        <button type="button" id="fechar" disabled class="btn btn-danger btn-sm m-t-10">Fechar</button>
+                                                        <button type="button" id="bloquear" disabled class="btn btn-warning btn-sm m-t-10">Bloquear</button>
+                                                        <a href="{{route('serbinario.especialista.index')}}" class="btn btn-default btn-sm m-t-10">Voltar</a>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-10">
-                                                <div class="fg-line">
-                                                    {!! Form::label('hora', 'Hora Mapa 1') !!}
-                                                    {!! Form::text('hora', '', array('class' => 'form-control hora input-sm', 'id' => 'hora')) !!}
-                                                </div>
-                                            </div>
-                                            <div class="form-group col-md-10">
-                                                <div class="fg-line">
-                                                    {!! Form::select('especialidade_um', array(), array(),array('class' => 'form-control input-sm', 'id' => 'especialidade_um')) !!}
-                                                </div>
-                                            </div>
-                                            <div class="col-md-10">
-                                                <div class="fg-line">
-                                                    {!! Form::label('hora2', 'Hora Mapa 2') !!}
-                                                    {!! Form::text('hora2', '', array('class' => 'form-control hora', 'id' => 'hora2', 'readonly' => 'readonly')) !!}
-                                                </div>
-                                            </div>
-                                            <div class="form-group col-md-10">
-                                                <div class="fg-line">
-                                                    {!! Form::select('especialidade_dois', array(), array(),array('disabled' => 'disabled', 'class' => 'form-control input-sm', 'id' => 'especialidade_dois')) !!}
-                                                </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <form method="post" id="form_agenda">
+                                                    <div class="col-md-10">
+                                                        <div class="row">
+                                                            <div class="form-group col-md-10">
+                                                                <div class="fg-line">
+                                                                    {!! Form::label('localidades', 'Unidade de Atendimento') !!}
+                                                                    {!! Form::select('localidade_id', array(), array(),array('class' => 'form-control input-sm', 'id' => 'localidades')) !!}
+                                                                    <input type="hidden" id="especialista_id" name="especialista_id" value="{{ $especialista['id'] }}">
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="form-group col-md-10">
+                                                                <div class="fg-line">
+                                                                    {!! Form::label('qtd_vagas', 'Quantidade de vagas') !!}
+                                                                    {!! Form::text('qtd_vagas', $especialista['qtd_vagas'] , array('class' => 'form-control input-sm', 'id' => 'qtd_vagas')) !!}
+                                                                </div>
+                                                            </div>
+                                                            <div class=" col-md-10">
+                                                                <div class="fg-line">
+                                                                    {!! Form::label('data', 'Data') !!}
+                                                                    {!! Form::text('data', '', array('class' => 'form-control data input-sm', 'readonly' => 'readonly', 'id' => 'data')) !!}
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-10">
+                                                                <div class="fg-line">
+                                                                    <div class="checkbox m-b-15">
+                                                                        <label>
+                                                                            <input type="checkbox" name="mais_mapa" id="mapa" value=""><i class="input-helper"></i>
+                                                                            Possui mais de um mapa?
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <div class="fg-line">
+                                                                    {!! Form::label('hora', 'Hora Mapa 1') !!}
+                                                                    {!! Form::text('hora', '', array('class' => 'form-control hora input-sm', 'id' => 'hora')) !!}
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <div class="fg-line">
+                                                                    {!! Form::label('especialidade_um', 'Especialidade') !!}
+                                                                    {!! Form::select('especialidade_um', array(), array(),array('class' => 'form-control input-sm', 'id' => 'especialidade_um')) !!}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <div class="fg-line">
+                                                                    {!! Form::label('hora2', 'Hora Mapa 2') !!}
+                                                                    {!! Form::text('hora2', '', array('class' => 'form-control hora', 'id' => 'hora2', 'readonly' => 'readonly')) !!}
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <div class="fg-line">
+                                                                    {!! Form::label('especialidade_dois', 'Especialidade') !!}
+                                                                    {!! Form::select('especialidade_dois', array(), array(),array('disabled' => 'disabled', 'class' => 'form-control input-sm', 'id' => 'especialidade_dois')) !!}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
-
                                     </div>
-                                </form>
+
+                                </div>
+
+                                <div role="tabpanel" class="tab-pane animated fadeInRight" id="quadro">
+                                    <br />
+
+                                    <table class="table" style="width: 100%">
+                                        <thead>
+                                            <tr style="background-color: dimgrey">
+                                                <th>Especialista</th>
+                                                <th>Data</th>
+                                                <th>Local</th>
+                                                <th>Mapas</th>
+                                                <th>Especialidades</th>
+                                                <th>Vagas</th>
+                                                <th>Vaga total</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($calendarios as $calendario)
+                                                <tr>
+                                                    <td>{{$calendario->nome}}</td>
+                                                    <td>{{$calendario->data}}</td>
+                                                    <td>{{$calendario->localidade}}</td>
+                                                    <td>
+                                                        @if($calendario->mais_mapa == '1')
+                                                            {{$calendario->hora}}<br />
+                                                            {{$calendario->hora2}}<br />
+                                                        @else
+                                                            {{$calendario->hora}}
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if($calendario->mais_mapa == '1')
+                                                            <span>Mapa1: </span>{{$calendario->mapa1->especialidade}}<br />
+                                                            <span>Mapa2: </span>{{$calendario->mapa2->especialidade}}<br />
+                                                        @else
+                                                            {{$calendario->mapa1->especialidade}}
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if($calendario->mais_mapa == '1')
+                                                            <span>Mapa1: </span>{{$calendario->mapa1->qtdAgendados}}<br />
+                                                            <span>Mapa2: </span>{{$calendario->mapa2->qtdAgendados}}<br />
+                                                        @else
+                                                            {{$calendario->mapa1->qtdAgendados}}
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if($calendario->mais_mapa == '1')
+                                                            <span>Mapa1: </span>{{$calendario->qtd_vagas / 2}}<br />
+                                                            <span>Mapa2: </span>{{$calendario->qtd_vagas / 2}}<br />
+                                                        @else
+                                                            {{$calendario->qtd_vagas}}
+                                                        @endif
+                                                    </td>
+                                                    <td>{{$calendario->status}}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -134,11 +240,13 @@
 
             //Pega o evento da data
             function myDateFunction(id) {
+
                 var date = $("#" + id).data("date");
                 var hasEvent = $("#" + id).data("hasEvent");
                 $('.data').val(toDate(date));
 
                 if(hasEvent) {
+
                     var dados = {
                         'date' : date
                     };
@@ -160,6 +268,8 @@
                         $('#hora2').val(json['calendario']['hora2']);
                         json['calendario']['mais_mapa'] == '1' ? $('#mapa').prop('checked', true) : $('#mapa').attr('checked', false);
                         idCalendario = json['calendario']['id'];
+                        var status = json['calendario']['status'];
+
 
                         var qtdVagas = 0;
                         if(json['calendario']['mais_mapa'] == '1') {
@@ -184,6 +294,8 @@
 
                         $('#data').prop('readonly', false);
                         $('#edit').attr('disabled', false);
+                        $('#fechar').attr('disabled', false);
+                        $('#bloquear').attr('disabled', false);
                         $('#save').attr('disabled', true);
                     });
                 } else {
@@ -291,6 +403,52 @@
                     });
                 }
 
+            });
+
+            // Fechar uma data do calendário
+            $(document).on('click', '#fechar', function (event) {
+                event.preventDefault();
+                swal({
+                    title: "Alerta",
+                    text: "Tem certeza que deseja fechar o dia?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Sim!",
+                }).then(function(){
+
+                    $.ajax({
+                        url: '/serbinario/calendario/fechar/'+idCalendario,
+                        dataType: "json",
+                        type: "GET",
+                        success: function(data){
+                            swal('Dia fechado com sucesso!', "Click no botão abaixo!", 'success');
+                            location.href = "{{ route('serbinario.calendario.index', ['id' => $especialista['id']])  }}";
+                        }
+                    });
+                });
+            });
+
+            // Fechar uma data do calendário
+            $(document).on('click', '#bloquear', function (event) {
+                event.preventDefault();
+                swal({
+                    title: "Alerta",
+                    text: "Tem certeza que deseja bloquear o dia?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Sim!",
+                }).then(function(){
+
+                    $.ajax({
+                        url: '/serbinario/calendario/bloquear/'+idCalendario,
+                        dataType: "json",
+                        type: "GET",
+                        success: function(data){
+                            swal('Dia bloqueado com sucesso!', "Click no botão abaixo!", 'success');
+                            location.href = "{{ route('serbinario.calendario.index', ['id' => $especialista['id']])  }}";
+                        }
+                    });
+                });
             });
 
             //Função para listar as localidades
