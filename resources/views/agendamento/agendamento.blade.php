@@ -358,7 +358,7 @@
                     var calendarMonth = calendarDate.month();
 
                     //Set data attribute for header. This is used to switch header images using css
-                    $('#calendar .fc-toolbar').attr('data-calendar-month', calendarMonth);
+                    $('#calendar . fc-toolbar').attr('data-calendar-month', calendarMonth);
 
                     //Set title in page header
                     $('.block-header-calendar > h2 > span').html(view.title);
