@@ -151,6 +151,78 @@
         });
 
         //Carregando as especialidades
+<<<<<<< HEAD
+        $(document).on('change', "#tipo", function () {
+            //Removendo as Bairros
+            $('#operacao_id option').remove();
+
+            //Recuperando a cidade
+            var tipo = $(this).val();
+
+            if (tipo !== "") {
+                var dados = {
+                    'table' : 'grupo_operacoes',
+                    'field_search' : 'tipo_operacoes.id',
+                    'value_search': tipo,
+                    'tipo_search': "2"
+                };
+
+                jQuery.ajax({
+                    type: 'POST',
+                    url: '{{ route('serbinario.util.searchOperacoes')  }}',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{  csrf_token() }}'
+                    },
+                    data: dados,
+                    datatype: 'json'
+                }).done(function (json) {
+                    var option = "";
+
+                    for ( var i = 0; i < json.length; i++) {
+                        option += '<optgroup label="' + json[i]['text'] + '">';
+                        for (var j = 0; j < json[i]['children'].length; j++) {
+                            option += '<option value="' + json[i]['children'][j]['id'] + '">'+json[i]['children'][j]['text']+'</option>';
+                        }
+                        option += '</optgroup >';
+                    }
+
+                    $('#operacao_id optgroup').remove();
+                    $('#operacao_id').append(option);
+                });
+            }
+        });
+
+        //Carregando as especialidades
+        $(document).on('click', "#btnAdd", function () {
+
+            //Recuperando a cidade
+            var operacaoId = $('select[name=operacao_id] option:selected').val();
+            var operacaoNome = $('select[name=operacao_id] option:selected').text();
+            var tipo = $('select[name=tipo] option:selected').text();
+
+            if (!operacaoNome || !operacaoNome) {
+                swal('Tipo e/ou Operação não informado(s)');
+                return false;
+            }
+
+            swal('Adicionado com sucesso!');
+
+            var html = "";
+
+            html += '<tr>';
+            html += '<td>' + tipo + '</td>';
+            html += '<td>' + operacaoNome + '</td>';
+            html += "<td>" +
+                    "<button type='button' class='btn btn-danger waves-effect' title='Deletar' onclick='RemoveTableRow(this)'><i class='zmdi zmdi-close'></i></button></td>" +
+                    "<input type='hidden' name='operacoes[]' value='" + operacaoId + "'>";
+            html += '</tr>';
+
+            $('#especialidades tbody').append(html);
+            $('#tipo').val("");
+            $('#operacao_id').val("");
+
+        });
+=======
 //        $(document).on('click', "#btnAdd", function () {
 //
 //            //Recuperando a cidade
@@ -171,6 +243,7 @@
 //            $('#especialidades tbody').append(html);
 //
 //        });
+>>>>>>> 35f8216f5d41163b4393334764d2a78d12b12ac9
 
         //Excluir tr da tabela
         /*(function ($) {

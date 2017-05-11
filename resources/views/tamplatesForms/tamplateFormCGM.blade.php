@@ -34,8 +34,12 @@
                         </div>
                         <div class="form-group col-sm-2">
                             <div class=" fg-line">
+<<<<<<< HEAD
+                                <label for="sexo">Sexo *</label>
+=======
                                 <label for="sexo">Sexo</label>
 
+>>>>>>> 35f8216f5d41163b4393334764d2a78d12b12ac9
                                 <div class="select">
                                     {!! Form::select('sexo', $loadFields['sexo'], null, array('class'=> 'form-control')) !!}
                                 </div>

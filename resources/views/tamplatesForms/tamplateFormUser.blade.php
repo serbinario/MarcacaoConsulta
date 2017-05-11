@@ -114,7 +114,7 @@
 					<ul>
 						@if(isset($loadFields['role']))
 							@foreach($loadFields['role'] as $id => $role)
-								<li><input type="checkbox" name="role[]" value="{{ $id  }}"> {{ $role }} </li>
+								<li><input type="checkbox" name="role[]" value="{{ $id  }}"> {{ $role }}</li>
 							@endforeach
 						@endif
 					</ul>
