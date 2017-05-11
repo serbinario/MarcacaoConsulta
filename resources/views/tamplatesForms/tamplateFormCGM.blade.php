@@ -35,7 +35,6 @@
                         <div class="form-group col-sm-2">
                             <div class=" fg-line">
                                 <label for="sexo">Sexo *</label>
-
                                 <div class="select">
                                     {!! Form::select('sexo', $loadFields['sexo'], null, array('class'=> 'form-control')) !!}
                                 </div>

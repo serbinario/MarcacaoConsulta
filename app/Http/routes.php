@@ -146,6 +146,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('select2FilaDeEspera', ['as' => 'select2FilaDeEspera', 'uses' => 'UtilController@queryByselect2FilaDeEspera']);
         });
 
+        Route::group(['prefix' => 'relatorio', 'as' => 'relatorio.'], function () {
+            Route::get('index', ['as' => 'index', 'uses' => 'RelatorioController@index']);
+            Route::get('reportByAgenda/{idEspecialista}', ['as' => 'reportByAgenda', 'uses' => 'RelatorioController@gridReportByAgenda']);
+        });
 
 //    Route::get('report/contratoAluno/{id}', ['as' => 'report.contratoAluno', 'uses' => 'ReportController@contratoAluno']);
 //    Route::get('user/save/', ['as' => 'user.save', 'uses' => 'UserController@save']);
