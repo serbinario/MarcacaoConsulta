@@ -5,7 +5,7 @@
         <div class="container">
 
             <div class="block-header">
-                <h2>Relatório por Agenda</h2>
+                <h2>Relatório Total de Atendimentos</h2>
             </div>
 
             <div class="card material-table">
@@ -14,9 +14,9 @@
                     <div class="row">
                         <div class="form-group col-sm-4">
                             <div class=" fg-line">
-                                <label for="sexo">Especialistas</label>
+                                <label for="data">Data</label>
                                 <div class="select">
-                                    {!! Form::select('Especialistas', ["" => 'Selecione um especialista'] + $especialistas, null, array('id' => 'selectEspecialista', 'class'=> 'form-control')) !!}
+                                    {!! Form::select('data', ["" => 'Selecione uma data'] + $especialistas, null, array('id' => 'selectEspecialista', 'class'=> 'form-control')) !!}
                                 </div>
                             </div>
                         </div>

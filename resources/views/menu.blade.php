@@ -129,8 +129,8 @@
                 <li class="sub-menu">
                     <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-calendar"></i>Ralatório</a>
                     <ul>
-                        <li><a href="{{ route('serbinario.relatorio.reportByAgenda') }}">Por Agenda</a></li>
-                        <li><a href="">Pela Quantidade de Atendimentos Diário</a></li>
+                        <li><a href="{{ route('serbinario.relatorio.byAgenda') }}">Por Agenda</a></li>
+                        <li><a href="{{ route('serbinario.relatorio.byQuantidade') }}">Pela Quantidade de Atendimentos Diário</a></li>
                         <li><a href="">Por Quantidade de Atendimentos pela Especialidade</a></li>
                     </ul>
                 </li>

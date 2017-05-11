@@ -172,7 +172,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         });
 
         Route::group(['prefix' => 'relatorio', 'as' => 'relatorio.'], function () {
-            Route::get('index', ['as' => 'index', 'uses' => 'RelatorioController@index']);
+            Route::get('byAgenda', ['as' => 'byAgenda', 'uses' => 'RelatorioController@indexByAgenda']);
+            Route::get('byQuantidade', ['as' => 'byQuantidade', 'uses' => 'RelatorioController@index']);
             Route::get('reportByAgenda/{idEspecialista}', ['as' => 'reportByAgenda', 'uses' => 'RelatorioController@gridReportByAgenda']);
         });
 
