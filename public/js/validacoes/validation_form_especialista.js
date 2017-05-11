@@ -27,13 +27,6 @@ $(document).ready(function () {
                         message: "Este campo é obrigatório",
                     }
                 }
-            },
-            'operacoes[]': {
-                validators: {
-                    notEmpty: {
-                        message: "Este campo é obrigatório",
-                    }
-                }
             }
         }
     });

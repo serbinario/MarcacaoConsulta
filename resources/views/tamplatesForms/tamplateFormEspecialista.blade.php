@@ -102,7 +102,7 @@
 </div>
 
 @section('javascript')
-    {{--<script src="{{ asset('/js/validacoes/validation_form_especialista.js')}}"></script>--}}
+    <script src="{{ asset('/js/validacoes/validation_form_especialista.js')}}"></script>
     <script type="text/javascript">
         //consulta via select2 cgm
         $("#cgm").select2({

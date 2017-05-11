@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <section id="content">
-            {{-- Mensagem de alerta quando os dados não atendem as regras de validação que foramd efinidas no servidor --}}
+            {{-- Mensagem de alerta quando os dados nï¿½o atendem as regras de validaï¿½ï¿½o que foramd efinidas no servidor --}}
             <div class="ibox-content">
                 @if(Session::has('message'))
                     <div class="alert alert-success">
