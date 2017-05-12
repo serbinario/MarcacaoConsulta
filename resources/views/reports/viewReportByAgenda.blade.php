@@ -20,8 +20,11 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-xs-1">
+                            <a style="margin-right: 5px;" id="btnPesquisar" class="btn btn-primary btn-sm m-t-10">Pesquisar</a>
+                        </div>
                         <div class="col-xs-2">
-                            <a id="btnPesquisar" class="btn btn-primary btn-sm m-t-10">Pesquisar</a>
+                            <a style="margin-left: 5px;" id="btnPesquisarGerarPdf" class="btn bgm-orange btn-sm m-t-10">Gerar PDF</a>
                         </div>
                     </div>
                     <!-- Botão novo -->
@@ -32,12 +35,20 @@
                         <table id="report-grid" class="display table table-bordered compact" cellspacing="0" width="100%">
                             <thead>
                             <tr>
-                                <th>Nome</th>
+                                <th>Paciente</th>
+                                <th>Nº SUS</th>
+                                <th>Horário do Agendamento</th>
+                                <th>Especialidade</th>
+                                <th>Localidade</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
-                                <th>Nome</th>
+                                <th>Paciente</th>
+                                <th>Nº SUS</th>
+                                <th>Horário do Agendamento</th>
+                                <th>Especialidade</th>
+                                <th>Localidade</th>
                             </tr>
                             </tfoot>
                         </table>
@@ -58,9 +69,13 @@
             var table = $('#report-grid').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '/MarcacaoConsulta/public/index.php/serbinario/relatorio/reportByAgenda/' + idEspecialista,
+                ajax: '/index.php/serbinario/relatorio/reportByAgenda/' + idEspecialista,
                 columns: [
-                    {data: 'nome', name: 'cgm.nome'}
+                    {data: 'nomePaciente', name: 'cgm.nomePaciente'},
+                    {data: 'numero_sus', name: 'cgm.numero_sus'},
+                    {data: 'localidade', name: 'agendamento.localidade'},
+                    {data: 'hora', name: 'agendamento.hora'},
+                    {data: 'especialidade', name: 'operacoes.especialidade'}
                 ]
             })
         });

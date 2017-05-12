@@ -15,9 +15,7 @@
                         <div class="form-group col-sm-4">
                             <div class=" fg-line">
                                 <label for="data">Data</label>
-                                <div class="select">
-                                    {!! Form::select('data', ["" => 'Selecione uma data'] + $especialistas, null, array('id' => 'selectEspecialista', 'class'=> 'form-control')) !!}
-                                </div>
+                                    {!! Form::text('data', Session::getOldInput('data'), array('class' => 'date-picker form-control', 'placeholder' => 'Selecione uma data')) !!}
                             </div>
                         </div>
                         <div class="col-xs-2">

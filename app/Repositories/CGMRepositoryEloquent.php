@@ -24,7 +24,6 @@ class CGMRepositoryEloquent extends BaseRepository implements CGMRepository
         return CGM::class;
     }
 
-
     /**
      * Boot up the repository, pushing criteria
      */
