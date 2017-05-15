@@ -61,7 +61,8 @@
 
 @section('javascript')
     <script type="text/javascript">
-        //Enviando id da agenda como paramentro para o select
+
+        //Enviando id do especialista como paramentro para o select no servidor (Botão pesquisar)
         $(document).on('click', '#btnPesquisar', function () {
 
             var idEspecialista = $('#selectEspecialista').val();
@@ -77,6 +78,21 @@
                     {data: 'hora', name: 'agendamento.hora'},
                     {data: 'especialidade', name: 'operacoes.especialidade'}
                 ]
+            })
+        });
+
+        //Enviando id do especialista como paramentro para o select no servidor(Botão gerar pdf)
+        $(document).on('click', '#btnPesquisarGerarPdf', function () {
+
+            var idEspecialista = $('#selectEspecialista').val();
+
+            //Buscando dados cliente pelo CPF
+            $.ajax({
+                type: 'GET',
+                url: '/index.php/serbinario/relatorio/reportPdfByAgenda/' + idEspecialista,
+                datatype: 'json'
+            }).done(function (json) {
+
             })
         });
     </script>

@@ -67,7 +67,7 @@ class CGMService
 
         #Criando no banco de dados
         $endereco = $this->enderecoRepository->create($data['endereco']);
-
+        //dd('aa');
         #setando o endereco
         $data['endereco_cgm'] = $endereco->id;
 

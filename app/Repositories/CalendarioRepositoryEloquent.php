@@ -29,11 +29,11 @@ class CalendarioRepositoryEloquent extends BaseRepository implements CalendarioR
     *
     * @return mixed
     */
-    public function validator()
+    /*public function validator()
     {
 
          return CalendarioValidator::class;
-    }
+    }*/
 
 
 

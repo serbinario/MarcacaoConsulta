@@ -1,10 +1,11 @@
 /**
  * Created by Fabio Aguiar on 28/04/2017.
  */
-//Ações do formulário
+//AÃ§Ãµes do formulÃ¡rio
 $(document).ready(function () {
-    //Salvar formulário da marcação de consulta
+    //Salvar formulÃ¡rio da marcaÃ§Ã£o de consulta
     $("#save").click(function (event) {
+
         event.preventDefault();
 
         var especialidade = $('#grupo_operacao').val();
@@ -34,7 +35,7 @@ $(document).ready(function () {
         });
     });
 
-    //editar formulário da marcação de consulta
+    //editar formulï¿½rio da marcaï¿½ï¿½o de consulta
     /*$("#edit").click(function (event) {
         event.preventDefault();
 
@@ -61,7 +62,7 @@ $(document).ready(function () {
         });
     });*/
 
-    //deletar formulário da marcação de consulta
+    //deletar formulï¿½rio da marcaï¿½ï¿½o de consulta
     $("#delete").click(function (event) {
         event.preventDefault();
 

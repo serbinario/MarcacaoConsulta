@@ -130,8 +130,9 @@
                     <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-calendar"></i>Ralatório</a>
                     <ul>
                         <li><a href="{{ route('serbinario.relatorio.byAgenda') }}">Por Agenda</a></li>
-                        <li><a href="{{ route('serbinario.relatorio.byQuantidade') }}">Quantidade de Atendimentos Diário</a></li>
-                        <li><a href="">Quantidade de Atendimentos pela Especialidade</a></li>
+                        <li><a href="{{ route('serbinario.relatorio.reportPdf') }}">View pdf</a></li>
+                        {{--<li><a href="{{ route('serbinario.relatorio.byQuantidade') }}">Quantidade de Atendimentos Diário</a></li>
+                        <li><a href="">Quantidade de Atendimentos pela Especialidade</a></li>--}}
                     </ul>
                 </li>
                 <li class="sub-menu">
