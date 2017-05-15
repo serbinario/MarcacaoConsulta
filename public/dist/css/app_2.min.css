@@ -1932,12 +1932,13 @@ hr.fc-divider {
 }
 
 #calendar .fc-toolbar {
-    height: 250px;
+    display: none
+    /*height: 250px;
     background-color: #fff;
     border-radius: 2px 2px 0 0;
     position: relative;
     margin-bottom: -2px;
-    z-index: 2
+    z-index: 2*/
 }
 
 @media (max-width:767px) {
