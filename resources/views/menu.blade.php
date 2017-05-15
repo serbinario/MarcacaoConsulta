@@ -19,8 +19,11 @@
         <link type="text/css" rel="stylesheet" href="{{ asset('/dist/js/krajee/css/fileinput.css')}}" rel="stylesheet"/>
         <link type="text/css" rel="stylesheet" href="{{ asset('/lib/select2/dist/css/select2.css')}}" rel="stylesheet"/>
         <link rel="stylesheet" href="{{asset('/css/zabuto_calendar.min.css')}}" />
-        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/bower_components/fullcalendar/dist/fullcalendar.css') }}" />
-        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') }}" />
+        {{-- --}}
+        {{--<link type="text/css" rel="stylesheet" href="{{ asset('/dist/bower_components/fullcalendar/dist/fullcalendar.css') }}" />--}}
+        {{--<link type="text/css" rel="stylesheet" href="{{ asset('/dist/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') }}" />--}}
+        <link type="text/css" rel="stylesheet" href="{{ asset('/lib/fullcalendar/dist/fullcalendar.css') }}" />
+        <link type="text/css" rel="stylesheet" href="{{ asset('/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css') }}" />
 
         <!-- Animação de loading em consultas ajax -->
         <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/load.css')}}" rel="stylesheet"/>
@@ -130,8 +133,9 @@
                     <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-calendar"></i>Ralatório</a>
                     <ul>
                         <li><a href="{{ route('serbinario.relatorio.byAgenda') }}">Por Agenda</a></li>
-                        <li><a href="{{ route('serbinario.relatorio.byQuantidade') }}">Quantidade de Atendimentos Diário</a></li>
-                        <li><a href="">Quantidade de Atendimentos pela Especialidade</a></li>
+                        <li><a href="{{ route('serbinario.relatorio.reportPdf') }}">View pdf</a></li>
+                        {{--<li><a href="{{ route('serbinario.relatorio.byQuantidade') }}">Quantidade de Atendimentos Diário</a></li>
+                        <li><a href="">Quantidade de Atendimentos pela Especialidade</a></li>--}}
                     </ul>
                 </li>
                 <li class="sub-menu">
@@ -190,12 +194,15 @@
     <script src="{{ asset('/lib/jquery-mask-plugin/dist/jquery.mask.js') }}"></script>
     <script src="{{ asset('/lib/select2/dist/js/select2.full.js') }}"></script>
     <script src="{{ asset('/js/bootstrapvalidator.js')}}" type="text/javascript"></script>
-
-
     <script type="text/javascript" src="{{asset('/js/zabuto_calendar.min.js')}}"></script>
-    <script src="{{ asset('/dist/bower_components/moment/min/moment.min.js')}}" type="text/javascript"></script>
-    <script type="text/javascript" src="{{asset('/dist/bower_components/fullcalendar/dist/fullcalendar.js')}}"></script>
-    <script type="text/javascript" src="{{asset('/dist/bower_components/fullcalendar/dist/locale/pt-br.js')}}"></script>
+
+    {{-- SÓ REMOVER SE NÃO EXISTIREM ERROS --}}
+    {{--<script type="text/javascript" src="{{asset('/dist/bower_components/fullcalendar/dist/locale/pt-br.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('/dist/bower_components/moment/min/moment.min.js')}}" ></script>
+    <script type="text/javascript" src="{{asset('/dist/bower_components/fullcalendar/dist/fullcalendar.js')}}"></script>--}}
+    <script type="text/javascript" src="{{ asset('/lib/moment/min/moment.min.js')}}" ></script>
+    <script type="text/javascript" src="{{asset('/lib/fullcalendar/dist/fullcalendar.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/lib/fullcalendar/dist/locale/pt-br.js')}}"></script>
 
     <!-- Placeholder for IE9 -->
     <!--[if IE 9 ]-->

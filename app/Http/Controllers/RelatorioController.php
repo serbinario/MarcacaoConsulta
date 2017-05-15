@@ -4,6 +4,7 @@ namespace Seracademico\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\App;
 use Seracademico\Http\Requests;
 use Seracademico\Http\Controllers\Controller;
 use Yajra\Datatables\Datatables;
@@ -49,6 +50,15 @@ class RelatorioController extends Controller
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
+    public function reportPdf()
+    {
+        #Retorno para view
+        return view('reports.viewPdfReportByAgenda');
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function indexByQuantidade()
     {
         #Retorno para view
@@ -56,8 +66,8 @@ class RelatorioController extends Controller
     }
 
     /**
-     * @param $idEspecialista
-     * @return string
+     *  Dados que alimentam a grid de relatório de acordo com o especialista selecionado
+     *  Menu > relatorios > por agenda > pesquisar
      */
     public function gridReportByAgenda($idEspecialista)
     {
@@ -86,6 +96,51 @@ class RelatorioController extends Controller
             return Datatables::of($rows)->addColumn('action', function ($row) {
                 //return '<a href="edit/'.$row->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a>';
             })->make(true);
+
+        } catch (\Throwable $e) {
+            return $e->getMessage();
+        }
+    }
+
+    /**
+     *  Dados que irão preencher o relatório gerado em pdf
+     *  Menu > relatorios > por agenda > gerar pdf
+     */
+    public function getReportByAgenda($idEspecialista)
+    {
+        try {
+            #Criando a consulta
+            $rows = \DB::table('agendamento')
+                ->join('fila', 'fila.id', '=', 'agendamento.fila_id')
+                ->join('especialidade', 'especialidade.id', '=', 'fila.especialidade_id')
+                ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
+                ->join('cgm', 'cgm.id', '=', 'fila.cgm_id')
+                ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
+                ->join('localidade', 'localidade.id', '=', 'calendario.localidade_id')
+                ->join('especialista', 'especialista.id', '=', 'calendario.especialista_id')
+                ->join('especialista_especialidade', 'especialista.id', '=', 'especialista_especialidade.especialista_id')
+                ->select([
+                    'agendamento.id',
+                    'agendamento.hora',
+                    'localidade.nome as localidade',
+                    'cgm.nome as nomePaciente',
+                    'cgm.numero_sus',
+                    'operacoes.nome as especialidade'
+                ])
+                ->where('agendamento.id', '=', $idEspecialista);
+
+            $relatorio = $rows->get();
+
+            # Recuperando o serviço de pdf / dompdf
+            $PDF = App::make('dompdf.wrapper');
+
+            # Carregando a página
+            $PDF->loadView('reports.viewPdfReportByAgenda', $relatorio);
+
+            # Retornando para página
+            return $PDF->stream();
+
+            //return view('reports.viewPdfReportByAgenda', compact('relatorio'));
 
         } catch (\Throwable $e) {
             return $e->getMessage();

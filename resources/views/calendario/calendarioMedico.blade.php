@@ -142,58 +142,58 @@
 
                                     <table class="table" style="width: 100%">
                                         <thead>
-                                            <tr style="background-color: dimgrey">
-                                                <th>Especialista</th>
-                                                <th>Data</th>
-                                                <th>Local</th>
-                                                <th>Mapas</th>
-                                                <th>Especialidades</th>
-                                                <th>Vagas</th>
-                                                <th>Vaga total</th>
-                                                <th>Status</th>
-                                            </tr>
+                                        <tr style="background-color: dimgrey">
+                                            <th>Especialista</th>
+                                            <th>Data</th>
+                                            <th>Local</th>
+                                            <th>Mapas</th>
+                                            <th>Especialidades</th>
+                                            <th>Vagas</th>
+                                            <th>Vaga total</th>
+                                            <th>Status</th>
+                                        </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($calendarios as $calendario)
-                                                <tr>
-                                                    <td>{{$calendario->nome}}</td>
-                                                    <td>{{$calendario->data}}</td>
-                                                    <td>{{$calendario->localidade}}</td>
-                                                    <td>
-                                                        @if($calendario->mais_mapa == '1')
-                                                            {{$calendario->hora}}<br />
-                                                            {{$calendario->hora2}}<br />
-                                                        @else
-                                                            {{$calendario->hora}}
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        @if($calendario->mais_mapa == '1')
-                                                            <span>Mapa1: </span>{{$calendario->mapa1->especialidade}}<br />
-                                                            <span>Mapa2: </span>{{$calendario->mapa2->especialidade}}<br />
-                                                        @else
-                                                            {{$calendario->mapa1->especialidade}}
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        @if($calendario->mais_mapa == '1')
-                                                            <span>Mapa1: </span>{{$calendario->mapa1->qtdAgendados}}<br />
-                                                            <span>Mapa2: </span>{{$calendario->mapa2->qtdAgendados}}<br />
-                                                        @else
-                                                            {{$calendario->mapa1->qtdAgendados}}
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        @if($calendario->mais_mapa == '1')
-                                                            <span>Mapa1: </span>{{$calendario->qtd_vagas / 2}}<br />
-                                                            <span>Mapa2: </span>{{$calendario->qtd_vagas / 2}}<br />
-                                                        @else
-                                                            {{$calendario->qtd_vagas}}
-                                                        @endif
-                                                    </td>
-                                                    <td>{{$calendario->status}}</td>
-                                                </tr>
-                                            @endforeach
+                                        @foreach($calendarios as $calendario)
+                                            <tr>
+                                                <td>{{$calendario->nome}}</td>
+                                                <td>{{$calendario->data}}</td>
+                                                <td>{{$calendario->localidade}}</td>
+                                                <td>
+                                                    @if($calendario->mais_mapa == '1')
+                                                        {{$calendario->hora}}<br />
+                                                        {{$calendario->hora2}}<br />
+                                                    @else
+                                                        {{$calendario->hora}}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if($calendario->mais_mapa == '1')
+                                                        <span>Mapa1: </span>{{$calendario->mapa1->especialidade}}<br />
+                                                        <span>Mapa2: </span>{{$calendario->mapa2->especialidade}}<br />
+                                                    @else
+                                                        {{$calendario->mapa1->especialidade}}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if($calendario->mais_mapa == '1')
+                                                        <span>Mapa1: </span>{{$calendario->mapa1->qtdAgendados}}<br />
+                                                        <span>Mapa2: </span>{{$calendario->mapa2->qtdAgendados}}<br />
+                                                    @else
+                                                        {{$calendario->mapa1->qtdAgendados}}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if($calendario->mais_mapa == '1')
+                                                        <span>Mapa1: </span>{{$calendario->qtd_vagas / 2}}<br />
+                                                        <span>Mapa2: </span>{{$calendario->qtd_vagas / 2}}<br />
+                                                    @else
+                                                        {{$calendario->qtd_vagas}}
+                                                    @endif
+                                                </td>
+                                                <td>{{$calendario->status}}</td>
+                                            </tr>
+                                        @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -206,10 +206,10 @@
             </div>
         </section>
     </div>
-@stop
+    @stop
 
-@section('javascript')
-        <!-- initialize the calendar on ready -->
+    @section('javascript')
+    <!-- initialize the calendar on ready -->
     <script type="application/javascript">
         $(document).ready(function () {
 
@@ -348,10 +348,10 @@
 
                 if(!$('#mapa').is(":checked") && (!$('#localidades').val() || !$('#especialista_id').val() || !$('#qtd_vagas').val()
                         || !$('#data').val() || !$('#hora').val() || !$('#especialidade_um').val())) {
-                    alert("O preenchimento de todos os campos são obrigatórios")
+                    swal("O preenchimento de todos os campos são obrigatórios");
                 } else if ($('#mapa').is(":checked") && (!$('#localidades').val() || !$('#especialista_id').val() || !$('#qtd_vagas').val() || !$('#data').val()
                         || !$('#hora').val() || !$('#especialidade_um').val() || !$('#hora2').val() || !$('#especialidade_dois').val())) {
-                    alert('O preenchimento de todos os campos são obrigatórios');
+                    swal("O preenchimento de todos os campos são obrigatórios")
                 } else {
                     $.ajax({
                         url: "{{route('serbinario.calendario.store')}}",
@@ -359,7 +359,7 @@
                         dataType: "json",
                         type: "POST",
                         success: function(data){
-                            alert(data['msg']);
+                            //alert(data['msg']);
                             location.href = "{{ route('serbinario.calendario.index', ['id' => $especialista['id']])  }}";
                         }
                     });
@@ -386,10 +386,10 @@
 
                 if(!$('#mapa').is(":checked") && (!$('#localidades').val() || !$('#especialista_id').val() || !$('#qtd_vagas').val()
                         || !$('#data').val() || !$('#hora').val() || !$('#especialidade_um').val())) {
-                    alert("O preenchimento de todos os campos são obrigatórios")
+                    swal("O preenchimento de todos os campos são obrigatórios")
                 } else if ($('#mapa').is(":checked") && (!$('#localidades').val() || !$('#especialista_id').val() || !$('#qtd_vagas').val() || !$('#data').val()
                         || !$('#hora').val() || !$('#especialidade_um').val() || !$('#hora2').val() || !$('#especialidade_dois').val())) {
-                    alert('O preenchimento de todos os campos são obrigatórios');
+                    swal('O preenchimento de todos os campos são obrigatórios');
                 } else {
                     $.ajax({
                         url: "/index.php/serbinario/calendario/update/" + idCalendario,
@@ -397,7 +397,7 @@
                         dataType: "json",
                         type: "POST",
                         success: function(data){
-                            alert(data['msg']);
+                            //alert(data['msg']);
                             location.href = "{{ route('serbinario.calendario.index', ['id' => $especialista['id']])  }}";
                         }
                     });

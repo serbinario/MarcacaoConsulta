@@ -6,7 +6,7 @@
 function localidade(id) {
     jQuery.ajax({
         type: 'POST',
-        url: "/serbinario/localidade/all",
+        url: "/index.php/serbinario/localidade/all",
         datatype: 'json',
     }).done(function (json) {
         var option = '';
@@ -29,7 +29,7 @@ function localidade(id) {
 function especialidade(id) {
     jQuery.ajax({
         type: 'POST',
-        url: "/serbinario/especialidade/all",
+        url: "/index.php/serbinario/especialidade/all",
         datatype: 'json'
     }).done(function (json) {
         var option = '';
@@ -53,7 +53,7 @@ function psfs(id) {
 
     jQuery.ajax({
         type: 'POST',
-        url: "/serbinario/ps/all",
+        url: "/index.php/serbinario/ps/all",
         datatype: 'json',
     }).done(function (json) {
         var option = '';
@@ -112,7 +112,7 @@ $(document).on('change', "#grupo_operacao", function () {
 
         jQuery.ajax({
             type: 'POST',
-            url: "/serbinario/especialista/byespecialidade",
+            url: "/index.php/serbinario/especialista/byespecialidade",
             datatype: 'json',
             data: {
                 'especialidade': idEspecialidade
@@ -140,7 +140,7 @@ function tipoOperacoes(id) {
 
     jQuery.ajax({
         type: 'POST',
-        url: "/serbinario/agendamento/getTipoOperacao",
+        url: "/index.php/serbinario/agendamento/getTipoOperacao",
         datatype: 'json',
     }).done(function (json) {
         var option = '';
@@ -177,7 +177,7 @@ $(document).on('change', "#tipo_operacao", function () {
 
         jQuery.ajax({
             type: 'POST',
-            url: "/serbinario/util/searchOperacoes",
+            url: "/index.php/serbinario/util/searchOperacoes",
             data: dados,
             datatype: 'json'
         }).done(function (json) {
@@ -203,7 +203,7 @@ function paciente(id, especialidade) {
 
     jQuery.ajax({
         type: 'POST',
-        url: "/serbinario/agendamento/getPacientes",
+        url: "/index.php/serbinario/agendamento/getPacientes",
         datatype: 'json',
         data: {'especialidade' : especialidade}
     }).done(function (json) {
