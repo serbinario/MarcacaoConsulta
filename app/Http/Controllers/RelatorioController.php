@@ -47,8 +47,17 @@ class RelatorioController extends Controller
     }
 
     /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function indexByQuantidade()
+    {
+        #Retorno para view
+        return view('reports.viewReportByQuantidade');
+    }
+
+    /**
      * @param $idEspecialista
-     * @return mixed
+     * @return string
      */
     public function gridReportByAgenda($idEspecialista)
     {
@@ -56,10 +65,20 @@ class RelatorioController extends Controller
             #Criando a consulta
             $rows = \DB::table('agendamento')
                 ->join('fila', 'fila.id', '=', 'agendamento.fila_id')
+                ->join('especialidade', 'especialidade.id', '=', 'fila.especialidade_id')
+                ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
                 ->join('cgm', 'cgm.id', '=', 'fila.cgm_id')
+                ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
+                ->join('localidade', 'localidade.id', '=', 'calendario.localidade_id')
+                ->join('especialista', 'especialista.id', '=', 'calendario.especialista_id')
+                ->join('especialista_especialidade', 'especialista.id', '=', 'especialista_especialidade.especialista_id')
                 ->select([
                     'agendamento.id',
-                    'cgm.nome'
+                    'agendamento.hora',
+                    'localidade.nome as localidade',
+                    'cgm.nome as nomePaciente',
+                    'cgm.numero_sus',
+                    'operacoes.nome as especialidade'
                 ])
                 ->where('agendamento.id', '=', $idEspecialista);
 
