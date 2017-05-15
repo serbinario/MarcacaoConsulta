@@ -141,7 +141,7 @@ return [
         * Gerador de PDF
         */
         Barryvdh\Snappy\ServiceProvider::class,
-//        Barryvdh\DomPDF\ServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
         //Form
        //Illuminate\Html\HtmlServiceProvider::class,
