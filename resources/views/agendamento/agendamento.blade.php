@@ -219,7 +219,7 @@
                             data: dados
                         },
                         success: function (doc) {
-
+                            console.log(doc);
                             var events = [];
                             if (!!doc) {
                                 $.map(doc, function (r) {
