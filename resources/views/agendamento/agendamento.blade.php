@@ -219,7 +219,6 @@
                             data: dados
                         },
                         success: function (doc) {
-                            console.log(doc);
                             var events = [];
                             if (!!doc) {
                                 $.map(doc, function (r) {
@@ -235,7 +234,6 @@
                                     });
                                 });
                             }
-                            console.log(doc);
                             callback(events);
                         }
                     });
@@ -329,7 +327,7 @@
                     var calendarDate = $("#calendar").fullCalendar('getDate');
                     var calendarMonth = calendarDate.month();
                     //Set data attribute for header. This is used to switch header images using css
-                    $('#calendar . fc-toolbar').attr('data-calendar-month', calendarMonth);
+                    //$('#calendar . fc-toolbar').attr('data-calendar-month', calendarMonth);
                     //Set title in page header
                     $('.block-header-calendar > h2 > span').html(view.title);
                 },
