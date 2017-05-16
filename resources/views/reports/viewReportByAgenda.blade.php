@@ -91,6 +91,11 @@
 
             var idEspecialista = $('#selectEspecialista').val();
 
+            if (!idEspecialista) {
+                swal('Por favor, selecione um especialista.');
+                return false;
+            }
+
             window.open('/index.php/serbinario/relatorio/reportPdfByAgenda/' + idEspecialista, '_blank');
         });
     </script>

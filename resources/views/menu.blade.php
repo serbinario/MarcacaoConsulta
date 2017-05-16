@@ -26,7 +26,7 @@
         <link type="text/css" rel="stylesheet" href="{{ asset('/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css') }}" />
 
         <!-- Animação de loading em consultas ajax -->
-        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/load.css')}}" rel="stylesheet"/>
+        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/load.css')}}"/>
         <link href="{{ asset('/lib/chosen/chosen.css') }}" rel="stylesheet">
         <link href="{{ asset('/lib/summernote/dist/summernote.css') }}" rel="stylesheet">
         <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/app_1.min.css') }}"  media="screen,projection"/>
@@ -133,9 +133,6 @@
                     <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-calendar"></i>Ralatório</a>
                     <ul>
                         <li><a href="{{ route('serbinario.relatorio.byAgenda') }}">Por Agenda</a></li>
-                        <li><a href="{{ route('serbinario.relatorio.reportPdf') }}">View pdf</a></li>
-                        {{--<li><a href="{{ route('serbinario.relatorio.byQuantidade') }}">Quantidade de Atendimentos Diário</a></li>
-                        <li><a href="">Quantidade de Atendimentos pela Especialidade</a></li>--}}
                     </ul>
                 </li>
                 <li class="sub-menu">
