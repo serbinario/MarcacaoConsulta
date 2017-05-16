@@ -71,7 +71,7 @@
 
 				jQuery.ajax({
 					type: 'POST',
-					url: '{{ route('serbinario.util.searchOperacoes')  }}',
+					url: '/index.php/serbinario/util/searchOperacoes',
 					headers: {
 						'X-CSRF-TOKEN': '{{  csrf_token() }}'
 					},

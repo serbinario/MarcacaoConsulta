@@ -29,11 +29,11 @@ class EventoRepositoryEloquent extends BaseRepository implements EventoRepositor
     *
     * @return mixed
     */
-    public function validator()
+    /*public function validator()
     {
 
          return EventoValidator::class;
-    }
+    }*/
 
 
 

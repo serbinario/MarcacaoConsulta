@@ -29,11 +29,11 @@ class CGMMunicipioRepositoryEloquent extends BaseRepository implements CGMMunici
     *
     * @return mixed
     */
-    public function validator()
+    /*public function validator()
     {
 
          return CGMMunicipioValidator::class;
-    }
+    }*/
 
 
 

@@ -6,7 +6,7 @@
 function localidade(id) {
     jQuery.ajax({
         type: 'POST',
-        url: "/index.php/serbinario/localidade/all",
+        url: "/serbinario/localidade/all",
         datatype: 'json',
     }).done(function (json) {
         var option = '';

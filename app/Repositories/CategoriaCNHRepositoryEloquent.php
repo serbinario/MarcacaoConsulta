@@ -29,11 +29,11 @@ class CategoriaCNHRepositoryEloquent extends BaseRepository implements Categoria
     *
     * @return mixed
     */
-    public function validator()
+    /*public function validator()
     {
 
          return CategoriaCNHValidator::class;
-    }
+    }*/
 
 
 

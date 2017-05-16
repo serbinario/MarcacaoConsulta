@@ -29,11 +29,11 @@ class EspecialistaRepositoryEloquent extends BaseRepository implements Especiali
     *
     * @return mixed
     */
-    public function validator()
+    /*public function validator()
     {
 
          return EspecialistaValidator::class;
-    }
+    }*/
 
 
 

@@ -10,7 +10,7 @@ function loadTableEspecialidades (idEspecialista) {
         bLengthChange: false,
         bFilter: false,
         autoWidth: false,
-        ajax: "/serbinario/especialista/gridEspecialidades/"+idEspecialista,
+        ajax: "/index.php/serbinario/especialista/gridEspecialidades/"+idEspecialista,
         columns: [
             {data: 'tipo', name: 'tipo_operacoes.nome'},
             {data: 'especialidade', name: 'operacoes.nome'},
@@ -27,7 +27,7 @@ function runModalAdicionarEspecialidades(idEspecialista)
 {
     //Carregando as grids de situações
     if(tableEspecialidades) {
-        loadTableEspecialidades(idEspecialista).ajax.url("/serbinario/especialista/gridEspecialidades/"+idEspecialista).load();
+        loadTableEspecialidades(idEspecialista).ajax.url("/index.php/serbinario/especialista/gridEspecialidades/"+idEspecialista).load();
     } else {
         loadTableEspecialidades(idEspecialista);
     }
@@ -64,7 +64,7 @@ $(document).on('click', '#addEspecialidade', function (event) {
     // Requisição Ajax
     jQuery.ajax({
         type: 'POST',
-        url: "/serbinario/especialista/storeEspecialidade",
+        url: "/index.php/serbinario/especialista/storeEspecialidade",
         data: dados,
         datatype: 'json'
     }).done(function (json) {
@@ -91,7 +91,7 @@ $(document).on('click', '#deleteEspecialidade', function () {
     // Requisição Ajax
     jQuery.ajax({
         type: 'POST',
-        url: "/serbinario/especialista/destroyEspecialidade",
+        url: "/index.php/serbinario/especialista/destroyEspecialidade",
         data: dados,
         datatype: 'json'
     }).done(function (retorno) {
