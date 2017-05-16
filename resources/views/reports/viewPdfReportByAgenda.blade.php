@@ -1,4 +1,4 @@
-{{--{{dd($relatorio)}}--}}
+{{--{{dd($dados)}}--}}
 <html>
 <head>
     <meta charset="UTF-8" />
@@ -45,13 +45,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th>Francisco Alves da Silva Salto</th>
-                <th>1234984</th>
-                <th>08:00:00</th>
-                <th>SPA</th>
-                <th>Hospital das Clinicas</th>
-            </tr>
+            @foreach ($pacientes as $paciente)
+                <tr>
+                    <th>{{ $paciente->nomePaciente }}</th>
+                    <th>{{ $paciente->numero_sus }}</th>
+                    <th>{{ $paciente->hora }}</th>
+                    <th>{{ $paciente->especialidade }}</th>
+                    <th>{{ $paciente->localidade }}</th>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 

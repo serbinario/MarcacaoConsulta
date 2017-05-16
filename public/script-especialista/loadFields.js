@@ -6,7 +6,7 @@
 function tipoOperacoes(id) {
     jQuery.ajax({
         type: 'POST',
-        url: "/serbinario/especialista/getTipoOperacao",
+        url: "/index.php/serbinario/especialista/getTipoOperacao",
         datatype: 'json'
     }).done(function (json) {
         var option = '';
@@ -43,7 +43,7 @@ $(document).on('change', "#tipoOperacao", function () {
 
         jQuery.ajax({
             type: 'POST',
-            url: "/serbinario/util/searchOperacoes",
+            url: "/index.php/serbinario/util/searchOperacoes",
             data: dados,
             datatype: 'json'
         }).done(function (json) {

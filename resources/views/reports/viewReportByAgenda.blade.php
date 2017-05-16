@@ -67,6 +67,11 @@
 
             var idEspecialista = $('#selectEspecialista').val();
 
+            if (!idEspecialista) {
+                swal('Por favor, selecione um especialista.');
+                return false;
+            }
+
             var table = $('#report-grid').DataTable({
                 processing: true,
                 serverSide: true,
@@ -86,14 +91,7 @@
 
             var idEspecialista = $('#selectEspecialista').val();
 
-            //Buscando dados cliente pelo CPF
-            $.ajax({
-                type: 'GET',
-                url: '/index.php/serbinario/relatorio/reportPdfByAgenda/' + idEspecialista,
-                datatype: 'json'
-            }).done(function (json) {
-
-            })
+            window.open('/index.php/serbinario/relatorio/reportPdfByAgenda/' + idEspecialista, '_blank');
         });
     </script>
 @stop

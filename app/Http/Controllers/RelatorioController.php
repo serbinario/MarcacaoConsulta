@@ -129,18 +129,16 @@ class RelatorioController extends Controller
                 ])
                 ->where('agendamento.id', '=', $idEspecialista);
 
-            $relatorio = $rows->get();
+            $pacientes = $rows->get();
 
             # Recuperando o serviço de pdf / dompdf
             $PDF = App::make('dompdf.wrapper');
 
             # Carregando a página
-            $PDF->loadView('reports.viewPdfReportByAgenda', $relatorio);
+            $PDF->loadView('reports.viewPdfReportByAgenda', ['pacientes' => $pacientes]);
 
             # Retornando para página
             return $PDF->stream();
-
-            //return view('reports.viewPdfReportByAgenda', compact('relatorio'));
 
         } catch (\Throwable $e) {
             return $e->getMessage();

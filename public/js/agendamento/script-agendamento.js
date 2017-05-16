@@ -21,7 +21,7 @@ $(document).ready(function () {
         };
 
         $.ajax({
-            url: "/serbinario/agendamento/store",
+            url: "/index.php/serbinario/agendamento/store",
             data: {dados: dados},
             dataType: "json",
             type: "POST",
@@ -70,7 +70,7 @@ $(document).ready(function () {
 
         jQuery.ajax({
             type: 'POST',
-            url: "/serbinario/agendamento/delete/"+$('#id').val(),
+            url: "/index.php/serbinario/agendamento/delete/"+$('#id').val(),
             datatype: 'json'
         }).done(function (retorno) {
             alert(retorno['msg']);

@@ -29,11 +29,11 @@ class AgendamentoRepositoryEloquent extends BaseRepository implements Agendament
     *
     * @return mixed
     */
-    public function validator()
+    /*public function validator()
     {
 
          return AgendamentoValidator::class;
-    }
+    }*/
 
 
 
