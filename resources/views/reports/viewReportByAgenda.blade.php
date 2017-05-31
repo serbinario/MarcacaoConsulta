@@ -75,6 +75,7 @@
             var table = $('#report-grid').DataTable({
                 processing: true,
                 serverSide: true,
+                retrieve: true,
                 ajax: '/index.php/serbinario/relatorio/reportByAgenda/' + idEspecialista,
                 columns: [
                     {data: 'nomePaciente', name: 'cgm.nomePaciente'},
