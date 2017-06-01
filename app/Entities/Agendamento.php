@@ -19,6 +19,8 @@ class Agendamento extends Model implements Transformable
 		'calendario_id',
 		'fila_id',
 		'hora',
+		'agendamento_id',
+		'status_agendamento_id'
 	];
 
 	public function fila()

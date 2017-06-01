@@ -32,7 +32,6 @@
                         <div class="col-xs-12">
                             <div class="text-right">
                                 <a class="btn btn-primary btn-sm m-t-10" href="{{ route('serbinario.fila.create')  }}">Adicionar à Fila</a>
-                                <a class="btn btn-success btn-sm m-t-10" href="{{ route('serbinario.agendamento.index')  }}">Agenda</a>
                             </div>
                         </div>
                     </div>
@@ -111,6 +110,13 @@
                 </div>
 
                 <div class="card-body card-padding">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="text-right">
+                                <a class="btn btn-success btn-sm m-t-10" href="{{ route('serbinario.agendamento.index')  }}">Agenda</a>
+                            </div>
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table id="fila-grid" class="display table table-bordered compact" cellspacing="0" width="100%">
                             <thead>
