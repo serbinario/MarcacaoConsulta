@@ -100,6 +100,29 @@ class EspecialistaService
     }
 
     /**
+     * @param $id
+     * @return mixed
+     * @throws \Exception
+     */
+    public function findEspecialidadesEspecificas($idEspecialista, $idEspecialidade)
+    {
+
+        #Recuperando o registro no banco de dados
+        $especialidades = \DB::table('especialidade')
+            ->join('especialista_especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
+            ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
+            ->where('especialista_especialidade.especialista_id', '=', $idEspecialista)
+            ->where('especialista_especialidade.especialidade_id', '=', $idEspecialidade)
+            ->select([
+                'especialista_especialidade.id',
+                'operacoes.nome'
+            ])->get();
+
+        #retorno
+        return $especialidades;
+    }
+
+    /**
      * @param array $data
      * @return array
      */

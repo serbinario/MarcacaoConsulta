@@ -181,13 +181,11 @@ class EspecialistaController extends Controller
      * @return array
      * @throws \Exception
      */
-    public function getByEspacialidade(Request $request)
+    public function getByEspacialidade($id)
     {
-        $data = $request->all();
+        $especialistas = $this->service->findByEspecialidade($id);
 
-        $especialistas = $this->service->findByEspecialidade($data['especialidade']);
-
-        return compact('especialistas');
+        return $especialistas;
     }
 
     /**
@@ -200,6 +198,19 @@ class EspecialistaController extends Controller
         $especialidades = $this->service->findEspecialidades($request->get('idEspecialista'));
 
         return compact('especialidades');
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     * @throws \Exception
+     */
+    public function getEspecialidadesEspecificas(Request $request)
+    {
+
+        $especialidades = $this->service->findEspecialidadesEspecificas($request->get('idEspecialista'), $request->get('idEspecialidade'));
+
+        return $especialidades;
     }
 
     /**

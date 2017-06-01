@@ -76,21 +76,18 @@ function psfs(id) {
 function especialistas(idEspecialidade, id) {
 
     jQuery.ajax({
-        type: 'POST',
-        url: "/serbinario/especialista/byespecialidade",
+        type: 'GET',
+        url: "/serbinario/especialista/byespecialidade/"+idEspecialidade,
         datatype: 'json',
-        data: {
-            'especialidade': idEspecialidade
-        }
     }).done(function (json) {
         var option = '';
 
         option += '<option value="">Selecione o especialista</option>';
-        for (var i = 0; i < json['especialistas'].length; i++) {
-            if (json['especialistas'][i]['id'] == id) {
-                option += '<option selected value="' + json['especialistas'][i]['id'] + '">' + json['especialistas'][i]['get_cgm']['nome'] + '</option>';
+        for (var i = 0; i < json.length; i++) {
+            if (json[i]['id'] == id) {
+                option += '<option selected value="' + json[i]['id'] + '">' + json[i]['get_cgm']['nome'] + '</option>';
             } else {
-                option += '<option value="' + json['especialistas'][i]['id'] + '">' + json['especialistas'][i]['get_cgm']['nome'] + '</option>';
+                option += '<option value="' + json[i]['id'] + '">' + json[i]['get_cgm']['nome'] + '</option>';
             }
         }
 
@@ -111,21 +108,18 @@ $(document).on('change', "#grupo_operacao", function () {
     if (idEspecialidade !== "") {
 
         jQuery.ajax({
-            type: 'POST',
-            url: "/index.php/serbinario/especialista/byespecialidade",
+            type: 'GET',
+            url: "/index.php/serbinario/especialista/byespecialidade/"+idEspecialidade,
             datatype: 'json',
-            data: {
-                'especialidade': idEspecialidade
-            }
         }).done(function (json) {
             var option = '';
 
             option += '<option value="">Selecione o especialista</option>';
-            for (var i = 0; i < json['especialistas'].length; i++) {
-                if (json['especialistas'][i]['id'] == id) {
-                    option += '<option selected value="' + json['especialistas'][i]['id'] + '">' + json['especialistas'][i]['nome'] + '</option>';
+            for (var i = 0; i < json.length; i++) {
+                if (json[i]['id'] == id) {
+                    option += '<option selected value="' + json[i]['id'] + '">' + json[i]['nome'] + '</option>';
                 } else {
-                    option += '<option value="' + json['especialistas'][i]['id'] + '">' + json['especialistas'][i]['nome'] + '</option>';
+                    option += '<option value="' + json[i]['id'] + '">' + json[i]['nome'] + '</option>';
                 }
             }
 

@@ -70,8 +70,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('store', ['as' => 'store', 'uses' => 'EspecialistaController@store']);
             Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'EspecialistaController@edit']);
             Route::post('update/{id}', ['as' => 'update', 'uses' => 'EspecialistaController@update']);
-            Route::post('byespecialidade', ['as' => 'byespecialidade', 'uses' => 'EspecialistaController@getByEspacialidade']);
+            Route::get('byespecialidade/{id}', ['as' => 'byespecialidade', 'uses' => 'EspecialistaController@getByEspacialidade']);
             Route::post('especialidades', ['as' => 'especialidades', 'uses' => 'EspecialistaController@getEspecialidades']);
+            Route::post('especialidadesEspecificas', ['as' => 'especialidadesEspecificas', 'uses' => 'EspecialistaController@getEspecialidadesEspecificas']);
             Route::get('destroy/{id}', ['as' => 'destroy', 'uses' => 'EspecialistaController@destroy']);
             Route::get('agenda/{id}', ['as' => 'agenda', 'uses' => 'CalendarioController@index']);
 
@@ -101,9 +102,16 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('calendarios/{id}', ['as' => 'calendarios', 'uses' => 'CalendarioController@getCalendarioByMedico']);
             Route::post('calendariodata', ['as' => 'calendariodata', 'uses' => 'CalendarioController@findCalendarioData']);
             Route::post('calendariodatamedico', ['as' => 'calendariodatamedico', 'uses' => 'CalendarioController@findCalendarioDataMedico']);
+            Route::post('calendarioEspecialista', ['as' => 'calendarioEspecialista', 'uses' => 'CalendarioController@getCalendarioEspecialista']);
+            Route::post('getCalendario', ['as' => 'getCalendario', 'uses' => 'CalendarioController@getCalendario']);
+            Route::post('getVagasByMapa', ['as' => 'getVagasByMapa', 'uses' => 'CalendarioController@getVagasByMapa']);
+            Route::post('reagendamento', ['as' => 'reagendamento', 'uses' => 'CalendarioController@reagendamento']);
 
             Route::get('fechar/{id}', ['as' => 'fechar', 'uses' => 'CalendarioController@fechar']);
             Route::get('bloquear/{id}', ['as' => 'bloquear', 'uses' => 'CalendarioController@bloquear']);
+
+            // Pacientes e remarcações
+            Route::get('gridPacientes/{id}', ['as' => 'gridPacientes', 'uses' => 'CalendarioController@gridPacientes']);
         });
 
         Route::group(['prefix' => 'agendamento', 'as' => 'agendamento.'], function () {

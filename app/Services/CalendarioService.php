@@ -2,8 +2,10 @@
 
 namespace Seracademico\Services;
 
+use Seracademico\Repositories\AgendamentoRepository;
 use Seracademico\Repositories\CalendarioRepository;
 use Seracademico\Entities\Calendario;
+use Seracademico\Repositories\EventoRepository;
 use Yajra\Datatables\Datatables;
 
 class CalendarioService
@@ -14,11 +16,25 @@ class CalendarioService
     private $repository;
 
     /**
+     * @var AgendamentoRepository
+     */
+    private $repositoryAgendamento;
+
+    /**
+     * @var EventoRepository
+     */
+    private $repoEvento;
+
+    /**
      * @param CalendarioRepository $repository
      */
-    public function __construct(CalendarioRepository $repository)
+    public function __construct(CalendarioRepository $repository,
+                                AgendamentoRepository $repositoryAgendamento,
+                                EventoRepository $repoEvento)
     {
         $this->repository = $repository;
+        $this->repositoryAgendamento = $repositoryAgendamento;
+        $this->repoEvento = $repoEvento;
     }
 
     /**
@@ -66,6 +82,55 @@ class CalendarioService
 
         #Retorno
         return $calendario;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function reagendamento(array $data)
+    {
+        // Tratando os agendamentos dos pacientes
+        foreach ($data['pacientes'] as $paciente) {
+
+            // Recupenando o agendamento atual do paciente
+            $agendaAtual = $this->repositoryAgendamento->find($paciente);
+            $agendaAtual['status_agendamento_id'] = '2';
+            $agendaAtual->save();
+
+            // Preenchendo os campos para o novo agendamento do paciente
+            $dados['status']                = '1';
+            $dados['calendario_id']         = $data['calendario_id'];
+            $dados['hora']                  = $data['mapa'];
+            $dados['fila_id']               = $agendaAtual['fila_id'];
+            $dados['agendamento_id']        = $agendaAtual['id'];
+            $dados['status_agendamento_id'] = '1';
+
+            // Registrando o novo agendamento
+            $agendamento = $this->repositoryAgendamento->create($dados);
+
+            // Pegando o agendamendo armazenado para cria um evento para o mesmo
+            $agendamentoFind = $this->repositoryAgendamento->with(['fila.cgm', 'calendario'])->find($agendamento->id);
+
+            // Setando os dados do evento
+            $evento = [
+                'title' => $agendamentoFind['fila']['cgm']['nome'],
+                'start' => $agendamentoFind['calendario']['data'],
+                'agendamento_id' => $agendamento->id,
+            ];
+
+            // Salvando o evento
+            $this->repoEvento->create($evento);
+
+        }
+
+        #Verificando se foi criado no banco de dados
+        if($agendamento) {
+            throw new \Exception('Ocorreu um erro ao cadastrar!');
+        }
+
+        #Retorno
+        return $agendamento;
     }
 
 
