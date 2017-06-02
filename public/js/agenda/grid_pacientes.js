@@ -42,6 +42,7 @@ function loadTablePaciente (idCalendario) {
         // Array que armazenará os ids dos pacientes
         var arrayId   = [];
         var aux;
+        var auxHabilitarBotaoReagendar;
 
         // Varrendo as linhas
         $("#pacientes-grid tbody tr.selected").each(function (index, value) {
@@ -52,12 +53,19 @@ function loadTablePaciente (idCalendario) {
 
             // Validando e pegando os paciente do mesmo exame
             if(arrayId.length == 1) {
+
                 especialidadeId = tablePacientes.row($(value).index()).data().exame_id; // Pegando o id da especialidade
                 aux  = tablePacientes.row($(value).index()).data().exame_id;
+                auxHabilitarBotaoReagendar = true;
+
             } else if (arrayId.length > 1 && aux == tablePacientes.row($(value).index()).data().exame_id) {
+
                 especialidadeId = tablePacientes.row($(value).index()).data().exame_id; // Pegando o id da especialidade
                 aux = tablePacientes.row($(value).index()).data().exame_id;
+                auxHabilitarBotaoReagendar = true;
+
             } else if (arrayId.length > 1 && aux != tablePacientes.row($(value).index()).data().exame_id) {
+                auxHabilitarBotaoReagendar = false;
                 swal("Oops...", "Você selecionou paciente com exames diferentes. Selecione paciente com o mesmo exame!", "error");
                 return false;
             }
@@ -65,7 +73,7 @@ function loadTablePaciente (idCalendario) {
         });
 
         // Habilitando e desabilitando o botão de reagendamento
-        if(arrayId.length > 0) {
+        if(arrayId.length > 0 && auxHabilitarBotaoReagendar) {
             $('#reagendarPaciente').prop('disabled', false);
         } else {
             $('#reagendarPaciente').prop('disabled', true);
@@ -73,8 +81,6 @@ function loadTablePaciente (idCalendario) {
 
         // Armazenando os ids dos paciente em um array global
         idsPacientes = arrayId;
-
-        console.log(idsPacientes);
 
     });
 

@@ -407,6 +407,25 @@ class CalendarioController extends Controller
     }
 
     /**
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function agendamento(Request $request)
+    {
+        try {
+            #Recuperando os dados da requisição
+            $data = $request->all();
+
+            #Executando a ação
+            $this->service->agendamento($data);
+
+            # Retorno
+            return \Illuminate\Support\Facades\Response::json(['success' => true]);
+        } catch (\Throwable $e) {
+            return \Illuminate\Support\Facades\Response::json(['error' => $e->getMessage()]);
+        }
+    }
+
+    /**
      * @param $row
      * @return array
      */
