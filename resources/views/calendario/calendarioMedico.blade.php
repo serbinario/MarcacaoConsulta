@@ -191,63 +191,82 @@
 
                                 <div role="tabpanel" class="tab-pane animated fadeInRight" id="quadro">
                                     <br/>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <form role="form">
 
-                                    <table class="table" style="width: 100%">
-                                        <thead>
-                                        <tr style="background-color: dimgrey">
-                                            <th>Especialista</th>
-                                            <th>Data</th>
-                                            <th>Local</th>
-                                            <th>Mapas</th>
-                                            <th>Especialidades</th>
-                                            <th>Vagas</th>
-                                            <th>Vaga total</th>
-                                            <th>Status</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($calendarios as $calendario)
-                                            <tr>
-                                                <td>{{$calendario->nome}}</td>
-                                                <td>{{$calendario->data}}</td>
-                                                <td>{{$calendario->localidade}}</td>
-                                                <td>
-                                                    @if($calendario->mais_mapa == '1')
-                                                        {{$calendario->hora}}<br/>
-                                                        {{$calendario->hora2}}<br/>
-                                                    @else
-                                                        {{$calendario->hora}}
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if($calendario->mais_mapa == '1')
-                                                        <span>Mapa1: </span>{{$calendario->mapa1->especialidade}}<br/>
-                                                        <span>Mapa2: </span>{{$calendario->mapa2->especialidade}}<br/>
-                                                    @else
-                                                        {{$calendario->mapa1->especialidade}}
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if($calendario->mais_mapa == '1')
-                                                        <span>Mapa1: </span>{{$calendario->mapa1->qtdAgendados}}<br/>
-                                                        <span>Mapa2: </span>{{$calendario->mapa2->qtdAgendados}}<br/>
-                                                    @else
-                                                        {{$calendario->mapa1->qtdAgendados}}
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if($calendario->mais_mapa == '1')
-                                                        <span>Mapa1: </span>{{$calendario->qtd_vagas / 2}}<br/>
-                                                        <span>Mapa2: </span>{{$calendario->qtd_vagas / 2}}<br/>
-                                                    @else
-                                                        {{$calendario->qtd_vagas}}
-                                                    @endif
-                                                </td>
-                                                <td>{{$calendario->status}}</td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
+                                                <div class="form-group col-md-2">
+                                                    <div class="fg-line">
+                                                        <?php $data = new \DateTime('now') ?>
+                                                        {!! Form::label('data_inicio', 'Início') !!}
+                                                        {!! Form::text('data_inicio', null , array('class' => 'form-control dateTimePicker date', 'placeholder' => 'Data inicial')) !!}
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <div class="fg-line">
+                                                        {!! Form::label('data_fim', 'Fim') !!}
+                                                        {!! Form::text('data_fim', null , array('class' => 'form-control dateTimePicker date', 'placeholder' => 'Data final')) !!}
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-sm-3">
+                                                    <div class=" fg-line">
+                                                        <label for="especialidade-grid">Especialidade</label>
+                                                        <div class="select">
+                                                            {!! Form::select('especialidade-grid', array(), null, array('class' => 'form-control', 'id' => 'especialidade-grid')) !!}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-sm-2">
+                                                    <div class=" fg-line">
+                                                        <label for="status">Status</label>
+                                                        <div class="select">
+                                                            {!! Form::select('status', (['' => 'Selecione'] + $loadFields['status']->toArray()), null, array('class' => 'form-control', 'id' => 'status')) !!}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-2">
+                                                    <button type="submit" style="margin-top: 28px" id="search" class="btn-primary btn input-sm">Consultar</button>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="table-responsive">
+                                                <table id="grid-calendario-especialista" class="table" style="width: 100%">
+                                                    <thead>
+                                                    <tr style="background-color: dimgrey">
+                                                        <th>Data</th>
+                                                        <th>Local</th>
+                                                        <th>Mapas</th>
+                                                        <th>Especialidades</th>
+                                                        <th>Agendamentos</th>
+                                                        <th>Vaga total</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                    </tbody>
+                                                    <tfoot>
+                                                    <tr>
+                                                        <td>Data</td>
+                                                        <td>Local</td>
+                                                        <td>Mapas</td>
+                                                        <td>Especialidades</td>
+                                                        <td>Agendamentos</td>
+                                                        <td>Vaga total</td>
+                                                        <td>Status</td>
+                                                    </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>
@@ -268,6 +287,7 @@
     <script type="text/javascript" src="{{asset('/js/agenda/grid_pacientes.js')}}"></script>
     <script type="text/javascript" src="{{asset('/js/agenda/loadFields_reagendamento.js')}}"></script>
     <script type="text/javascript" src="{{asset('/js/agenda/modal_reagendamento.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/js/agenda/grid_calendario.js')}}"></script>
 
     <!-- initialize the calendar on ready -->
     <script type="application/javascript">
@@ -283,9 +303,13 @@
 
             idEspecialista = "{{$especialista['id']}}";
 
+            // Carregando grid quadro do calendário so especialista
+            loadTableCalendario(idEspecialista);
+
             //Carregando as localidades
             localidade();
             especialidadesUm("", idEspecialista);
+            especialidadesSearchGrid("", idEspecialista);
 
             //Calendário
             $("#my-calendar").zabuto_calendar({

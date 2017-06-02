@@ -13,6 +13,7 @@ use Yajra\Datatables\Datatables;
 use Prettus\Validator\Exceptions\ValidatorException;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Seracademico\Validators\CalendarioValidator;
+use Seracademico\Uteis\SerbinarioDateFormat;
 
 class CalendarioController extends Controller
 {
@@ -39,7 +40,9 @@ class CalendarioController extends Controller
     /**
     * @var array
     */
-    private $loadFields = [];
+    private $loadFields = [
+        'Status'
+    ];
 
     /**
     * @param CalendarioService $service
@@ -60,12 +63,122 @@ class CalendarioController extends Controller
      */
     public function index($id)
     {
-        #Executando a ação
-        $calendarios = $this->service->quadroCalendario($id);
+
+        #Carregando os dados para o cadastro
+        $loadFields = $this->service->load($this->loadFields);
 
         $especialista = $this->espSservice->find($id);
 
-        return view('calendario.calendarioMedico', compact('especialista', 'calendarios'));
+        return view('calendario.calendarioMedico', compact('especialista', 'loadFields'));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function gridCalendario(Request $request, $id)
+    {
+
+        //Tratando as datas
+        $dataIni = SerbinarioDateFormat::toUsa($request->get('data_inicio'));
+        $dataFim = SerbinarioDateFormat::toUsa($request->get('data_fim'));
+
+        $rows = \DB::table('calendario')
+            ->join('especialista', 'especialista.id', '=', 'calendario.especialista_id')
+            ->join('cgm', 'cgm.id', '=', 'especialista.cgm')
+            ->join('localidade', 'localidade.id', '=', 'calendario.localidade_id')
+            ->leftJoin('status', 'status.id', '=', 'calendario.status_id')
+            ->where('calendario.especialista_id', '=', $id)
+            ->select([
+                'calendario.id',
+                'calendario.hora',
+                'calendario.hora2',
+                'calendario.qtd_vagas',
+                'calendario.mais_mapa',
+                'status.nome as status',
+                \DB::raw('DATE_FORMAT(calendario.data,"%d/%m/%Y") as data'),
+                'cgm.nome',
+                'localidade.nome as localidade',
+                'calendario.especialidade_id_um',
+                'calendario.especialidade_id_dois'
+            ]);
+
+        // Por período de data
+        if($dataIni && $dataFim) {
+            $rows->whereBetween('calendario.data', array($dataIni, $dataFim));
+        }
+
+        // Filtrar por especialidade
+        if($request->has('especialidade') && $request->get('especialidade') != "") {
+            $rows->leftJoin('especialista_especialidade as especialidade_um', 'especialidade_um.id', '=', 'calendario.especialidade_id_um');
+            $rows->leftJoin('especialista_especialidade as especialidade_dois', 'especialidade_dois.id', '=', 'calendario.especialidade_id_dois');
+
+            $rows->where(function ($query) use ($request) {
+                $query->orWhere('especialidade_um.id', '=', $request->get('especialidade'))
+                    ->orWhere('especialidade_dois.id', '=', $request->get('especialidade'));
+            });
+        }
+
+        // Filtrar por status
+        if($request->has('status') && $request->get('status') != "") {
+            $rows->where('status.id', $request->get('status'));
+        }
+
+        #Editando a grid
+        return Datatables::of($rows)->addColumn('mapas', function ($row) {
+
+            if ($row->mais_mapa) {
+                return $row->hora . "<br />" . $row->hora2;
+            } else {
+                return $row->hora;
+            }
+
+        })->addColumn('especialidades', function ($row) {
+
+            $retorno = $this->especialidadesDoCalendario($row);
+
+            if ($row->mais_mapa) {
+                return "Mapa 1: " . $retorno['especialidade_um']->nome . "<br />" . "Mapa 2: " . $retorno['especialidade_dois']->nome;
+            } else {
+                return $retorno['especialidade_um']->nome;
+            }
+
+        })->addColumn('agendamentos', function ($row) {
+
+            //Select dados mapa 1
+            $mapa1 = \DB::table('agendamento')
+                ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
+                ->where('agendamento.hora', '=', $row->hora)
+                ->where('calendario.id', '=', $row->id)
+                ->select([
+                    \DB::raw('count(agendamento.id) as qtdAgendados'),
+                ])->first();
+
+            //Select dados mapa 2
+            $mapa2 = \DB::table('agendamento')
+                ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
+                ->where('agendamento.hora', '=', $row->hora2)
+                ->where('calendario.id', '=', $row->id)
+                ->select([
+                    \DB::raw('count(agendamento.id) as qtdAgendados'),
+                ])->first();
+
+            if ($row->mais_mapa) {
+                return "Mapa 1: " . $mapa1->qtdAgendados . "<br />" . "Mapa 2: " . $mapa2->qtdAgendados;
+            } else {
+                return $mapa1->qtdAgendados;
+            }
+
+
+        })->addColumn('vagas', function ($row) {
+
+            if($row->mais_mapa) {
+                $vagas = $row->qtd_vagas / 2;
+                return "Mapa 1: ".$vagas."<br />"."Mapa 2: ".$vagas;
+            } else {
+                return $row->qtd_vagas;
+            }
+
+        })->make(true);
     }
 
     /**
@@ -272,7 +385,7 @@ class CalendarioController extends Controller
 
             })->addColumn('exame', function ($row) {
 
-                $retorno = $this->exameDoPacienteAgendado($row);
+                $retorno = $this->especialidadesDoCalendario($row);
 
                 // Validade de qual mapa o paciente pertence e pega a especialidade ao foi agendado
                 if($row->hora == $row->hora_mapa1) {
@@ -285,7 +398,7 @@ class CalendarioController extends Controller
 
         })->addColumn('exame_id', function ($row) {
 
-                $retorno = $this->exameDoPacienteAgendado($row);
+                $retorno = $this->especialidadesDoCalendario($row);
 
                 // Validade de qual mapa o paciente pertence e pega a especialidade ao foi agendado
                 if($row->hora == $row->hora_mapa1) {
@@ -429,7 +542,7 @@ class CalendarioController extends Controller
      * @param $row
      * @return array
      */
-    private function exameDoPacienteAgendado($row) {
+    private function especialidadesDoCalendario($row) {
 
         // Pega a especilidade do primeiro mapa
         $especialidadeUm = \DB::table('especialista_especialidade')
