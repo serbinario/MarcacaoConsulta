@@ -377,6 +377,8 @@
                     $('#especialidade_dois option').remove();
                     $('#mapa').prop('checked', false);
 
+                    runModalAdicionarPacientes(0);
+
                     $('#data').prop('readonly', true);
                     $('#save').attr('disabled', false);
                     $('#edit').attr('disabled', true);

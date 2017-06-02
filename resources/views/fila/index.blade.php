@@ -113,7 +113,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="text-right">
-                                <a class="btn btn-success btn-sm m-t-10" href="{{ route('serbinario.agendamento.index')  }}">Agenda</a>
+                                <button type="button" disabled id="agendarPaciente" class="btn btn-success btn-sm m-t-10">Agendar</button>
                             </div>
                         </div>
                     </div>
@@ -147,44 +147,21 @@
             </div>
         </div>
     </section>
+
+    @include('fila.modal_agendamento')
 @stop
 
 @section('javascript')
+    <script type="text/javascript" src="{{asset('/js/fila/grid_fila.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/js/fila/loadFields_agendamento.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/js/fila/modal_agendamento.js')}}"></script>
     <script type="text/javascript">
-        var table = $('#fila-grid').DataTable({
-            processing: true,
-            serverSide: true,
-            bFilter: false,
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json'
-            },
-            ajax: {
-                url: "{!! route('serbinario.fila.grid') !!}",
-                method: 'POST',
-                data: function (d) {
-                    d.data_inicio = $('input[name=data_inicio]').val();
-                    d.data_fim = $('input[name=data_fim]').val();
-                    d.exame = $('select[name=exame] option:selected').val();
-                    d.prioridade = $('select[name=prioridade] option:selected').val();
-                    d.psf = $('select[name=psf] option:selected').val();
-                    d.globalSearch = $('input[name=globalSearch]').val();
-                }
-            },
-            columns: [
-                {data: 'nome', name: 'cgm.nome'},
-                {data: 'especialidade', name: 'operacoes.nome'},
-                {data: 'prioridade', name: 'prioridade.nome'},
-                {data: 'data_cadastro', name: 'fila.data'},
-                {data: 'numero_sus', name: 'cgm.numero_sus'},
-                {data: 'psf', name: 'posto_saude.nome'},
-                {data: 'action', name: 'action', orderable: false, searchable: false}
-            ]
-        });
 
-        //Função do submit do search da grid principal
-        $('#search').click(function(e) {
-            table.draw();
-            e.preventDefault();
+        // Evento para abrir o modal de telefones
+        $(document).on("click", "#agendarPaciente", function () {
+
+            // Executando o modal
+            runModalAgendarPacientes(especialidadeId, idsPacientes);
         });
 
         // Deletar fila

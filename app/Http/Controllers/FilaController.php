@@ -82,7 +82,8 @@ class FilaController extends Controller
                 'operacoes.nome as especialidade',
                 'prioridade.nome as prioridade',
                 'posto_saude.nome as psf',
-                \DB::raw('DATE_FORMAT(fila.data,"%d/%m/%Y") as data_cadastro')
+                \DB::raw('DATE_FORMAT(fila.data,"%d/%m/%Y") as data_cadastro'),
+                'especialidade.id as exame'
             ]);
 
         if($dataIni && $dataFim) {

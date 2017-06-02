@@ -2,37 +2,35 @@
 
 
 // Função de execução
-function runModalReagendarPacientes(especialidadeId, idsPacientes, especialistaNome, CRM)
+function runModalAgendarPacientes(especialidadeId, idsPacientes)
 {
 
     // prenchendo o nome e CRM do especialista
-    $('.Nome').text(especialistaNome);
-    $('.CRM').text(CRM);
     $('.qtdPacientes').text(idsPacientes.length);
 
     // Carregando os especialistas
     especialistas(especialidadeId);
 
-    // Desabilitando o botão de reagendas
-    $('#reagendar').prop('disabled', true);
+    // Desabilitando o botão de reagendar
+    $('#agendar').prop('disabled', true);
 
     // Deixando oculto a mensagem de alerta para limite de vagas
     $('.msg').hide();
 
     // Exibindo o modal
-    $('#modal-reagendamento').modal({'show' : true});
+    $('#modal-agendamento').modal({'show' : true});
 }
 
 // Id do telefone
 var idEspecialidade;
 
-//Evento do click no botão adicionar período
-$(document).on('click', '#reagendar', function (event) {
+//Evento do click no botão para agendar
+$(document).on('click', '#agendar', function (event) {
 
     //Recuperando os valores dos campos do fomulário
     var especialista    = $('#especialista').val();
-    var calendario      = $('#calendario-reagendar').val();
-    var mapa            = $('#mapa-reagendar').val();
+    var calendario      = $('#calendario-agendar').val();
+    var mapa            = $('#mapa-agendar').val();
     var pacientes       = idsPacientes;
     var vagaRestante    = vagasRestantes;
 
@@ -44,7 +42,7 @@ $(document).on('click', '#reagendar', function (event) {
 
     // Validando se o mapa possui vagas suficientes
     if(vagaRestante <= idsPacientes.length) {
-        swal("Oops...", "O mapa selecioando não possui vaga suficiente para este reagendamento!", "error");
+        swal("Oops...", "O mapa selecioando não possui vaga suficiente para este agendamento!", "error");
         return false;
     }
 
@@ -58,13 +56,13 @@ $(document).on('click', '#reagendar', function (event) {
     // Requisição Ajax
     jQuery.ajax({
         type: 'POST',
-        url: "/serbinario/calendario/reagendamento",
+        url: "/serbinario/calendario/agendamento",
         data: dados,
         datatype: 'json'
     }).done(function (json) {
-        swal("Paciente(s) reagendado(s) com sucesso!", "Click no botão abaixo!", "success");
-        tablePacientes.ajax.reload();
-        $('#modal-reagendamento').modal('toggle');
+        swal("Paciente(s) agendado(s) com sucesso!", "Click no botão abaixo!", "success");
+        table.ajax.reload();
+        $('#modal-agendamento').modal('toggle');
 
         //Limpar os campos do formulário
         limparCamposFormulario();
@@ -74,8 +72,8 @@ $(document).on('click', '#reagendar', function (event) {
 //Limpar os campos do formulário
 function limparCamposFormulario()
 {
-    $('#calendario-reagendar option').remove();
-    $('#mapa-reagendar option').remove();
+    $('#calendario-agendar option').remove();
+    $('#mapa-agendar option').remove();
     $('#total-vagas').val("");
     $('#vagas-restantes').val("");
 }
