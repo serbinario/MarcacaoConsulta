@@ -72,3 +72,27 @@ function especialidadesDois(id, idEspecialista) {
         $('#especialidade_dois').append(option);
     });
 }
+
+//Função para listar as especialidades do mapa 1
+function especialidadesSearchGrid(id, idEspecialista) {
+    jQuery.ajax({
+        type: 'POST',
+        url: "/serbinario/especialista/especialidades",
+        datatype: 'json',
+        data: {'idEspecialista': idEspecialista}
+    }).done(function (json) {
+        var option = '';
+
+        option += '<option value="">Selecione uma especialidade</option>';
+        for (var i = 0; i < json['especialidades'].length; i++) {
+            if (json['especialidades'][i]['id'] == id) {
+                option += '<option selected value="' + json['especialidades'][i]['id'] + '">' + json['especialidades'][i]['nome'] + '</option>';
+            } else {
+                option += '<option value="' + json['especialidades'][i]['id'] + '">' + json['especialidades'][i]['nome'] + '</option>';
+            }
+        }
+
+        $('#especialidade-grid option').remove();
+        $('#especialidade-grid').append(option);
+    });
+}

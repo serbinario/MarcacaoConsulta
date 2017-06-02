@@ -107,6 +107,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('getVagasByMapa', ['as' => 'getVagasByMapa', 'uses' => 'CalendarioController@getVagasByMapa']);
             Route::post('reagendamento', ['as' => 'reagendamento', 'uses' => 'CalendarioController@reagendamento']);
             Route::post('agendamento', ['as' => 'agendamento', 'uses' => 'CalendarioController@agendamento']);
+            Route::POST('gridCalendario/{id}', ['as' => 'gridCalendario', 'uses' => 'CalendarioController@gridCalendario']);
 
             Route::get('fechar/{id}', ['as' => 'fechar', 'uses' => 'CalendarioController@fechar']);
             Route::get('bloquear/{id}', ['as' => 'bloquear', 'uses' => 'CalendarioController@bloquear']);
