@@ -257,7 +257,7 @@ class FilaController extends Controller
     {
 
         $cidadao = \DB::table('cgm')
-            ->join('endereco_cgm', 'endereco_cgm.id', '=', 'cgm.endereco_cgm')
+            ->leftJoin('endereco_cgm', 'endereco_cgm.id', '=', 'cgm.endereco_cgm')
             ->leftJoin('bairros', 'bairros.id', '=', 'endereco_cgm.bairro')
             ->leftJoin('cidades', 'cidades.id', '=', 'bairros.cidades_id')
             ->leftJoin('estados', 'estados.id', '=', 'cidades.estados_id')
