@@ -1,5 +1,35 @@
 @extends('menu')
 
+@section('css')
+    <style type="text/css" class="init">
+        .modal {
+            display:    none;
+            position:   fixed;
+            z-index:    1000;
+            top:        0;
+            left:       0;
+            height:     100%;
+            width:      100%;
+            background: rgba( 255, 255, 255, .8 )
+            /*url('http://i.stack.imgur.com/FhHRx.gif')*/
+            50% 50%
+            no-repeat;
+        }
+
+        /* enquanto estiver carregando, o scroll da página estará desativado */
+        body.loading {
+            overflow: hidden;
+        }
+
+        /* a partir do momento em que o body estiver com a classe loading,  o modal aparecerá */
+        body.loading .modal {
+            display: block;
+        }
+
+    </style>
+@endsection
+
+
 @section('content')
     <div class="container">
         <section id="content">
@@ -10,7 +40,7 @@
             {{--<div class="block-header">
                 <h2>Agendamento</h2>
             </div>--}}
-
+            <div class="modal"></div>
             <div class="card">
                 <div class="card-body card-padding">
                     <div class="row">
@@ -174,6 +204,7 @@
             var m = date.getMonth();
             var y = date.getFullYear();
             var target = $('#calendar');
+
             // Campos da pesquisa zerados para carregamento inicial do calendáriowq
             var dados = {
                 'idLocalidade': "",
@@ -209,6 +240,10 @@
                 selectHelper: true,
                 editable: true,
                 events: function (start, end, timezone, callback) {
+
+                    // Adicionando o loading da requisição
+                    $('body').addClass("loading");
+
                     jQuery.ajax({
                         url: '{{ route('serbinario.agendamento.loadCalendar') }}',
                         type: 'POST',
@@ -219,6 +254,10 @@
                             data: dados
                         },
                         success: function (doc) {
+
+                            // Removendo o loading da requisição
+                            $('body').removeClass("loading");
+
                             var events = [];
                             if (!!doc) {
                                 $.map(doc, function (r) {
@@ -237,6 +276,8 @@
                             callback(events);
                         }
                     });
+
+
                 },
                 dayClick: function (date, allDay, jsEvent, view, resourceObj) {
                     var idMedico        = $('#especialista').val();
@@ -345,18 +386,22 @@
                             $('#id').val(data['model']['id']);
                             $('#obs').text(data['model']['obs']);
                             psfs(data['model']['posto_saude_id']);
+
                             //paciente(data['model']['fila']['id'], data['model']['fila']['especialidade_id']);
                             var optionPaciente = '<option selected value="' + data['model']['fila']['id'] + '">' + data['model']['fila']['cgm']['nome'] + '</option>'
                             $('#paciente option').remove();
                             $('#paciente').append(optionPaciente);
+
                             //Combobox para hora
                             var option = "";
+
                             // Regra para marcar como selecioando a hora da consulta do paciente - primeiro mapa
                             if (data['model']['calendario']['hora'] == data['model']['hora']) {
                                 option += '<option selected value="' + data['model']['calendario']['hora'] + '">' + data['model']['calendario']['hora'] + '</option>';
                             } else {
                                 option += '<option value="' + data['model']['calendario']['hora'] + '">' + data['model']['calendario']['hora'] + '</option>';
                             }
+
                             // Validando se existe um segundo mapa de consulta
                             if (data['model']['calendario']['hora2']) {
                                 // Regra para marcar como selecioando a hora da consulta do paciente - segundo mapa
@@ -368,8 +413,10 @@
                             }
                             $('#hora option').remove();
                             $('#hora').prepend(option);
+
                             $('.div-hora1').hide();
                             $('.div-hora2').hide();
+
                             $('#save').attr('disabled', true);
                             $('#delete').attr('disabled', false);
                             $("#modalCGM").modal({show: true});

@@ -81,7 +81,7 @@
             <div class="form-group col-sm-2">
                 <div class="fg-line">
                     <label class="control-label" for="data">Data do cadastro *</label>
-                    {!! Form::text('data', Session::getOldInput('data') , array('class' => 'form-control input-sm dateTimePicker date', 'placeholder' => 'Data do cadastro')) !!}
+                    {!! Form::text('data', Session::getOldInput('data') , array('class' => 'form-control input-sm date', 'placeholder' => 'Data do cadastro')) !!}
                 </div>
             </div>
         </div>

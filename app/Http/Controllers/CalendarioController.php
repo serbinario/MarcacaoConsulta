@@ -255,13 +255,14 @@ class CalendarioController extends Controller
      * @param $id
      * @return array|string
      */
-    public function bloquear($id)
+    public function bloquear(Request $request)
     {
         try {
 
             #Executando a ação
-            $calendario = $this->repository->find($id);
+            $calendario = $this->repository->find($request->get('id'));
             $calendario->status_id = '3';
+            $calendario->comentario_bloqueio = $request->get('descricao');
             $calendario->save();
 
             #Retorno para a view
@@ -420,13 +421,17 @@ class CalendarioController extends Controller
     public function getCalendarioEspecialista(Request $request)
     {
 
+        $data = new \DateTime('now');
+
         #Recuperando o registro no banco de dados
         $calendarios = \DB::table('calendario')
             ->join('especialista', 'especialista.id', '=', 'calendario.especialista_id')
+            ->join('localidade', 'localidade.id', '=', 'calendario.localidade_id')
             ->leftJoin('especialista_especialidade as especialidade_um', 'especialidade_um.id', '=', 'calendario.especialidade_id_um')
             ->leftJoin('especialista_especialidade as especialidade_dois', 'especialidade_dois.id', '=', 'calendario.especialidade_id_dois')
             ->where('especialista.id', '=', $request->get('idEspecialista'))
             ->where('calendario.status_id', '=', '1')
+            ->where('calendario.data', '>=', $data->format('Y-m-d'))
             ->where(function ($query) use ($request) {
                 $query->orWhere('especialidade_um.id', '=', $request->get('idEspecialidade'))
                     ->orWhere('especialidade_dois.id', '=', $request->get('idEspecialidade'));
@@ -434,6 +439,7 @@ class CalendarioController extends Controller
             ->select([
                 'calendario.id',
                 \DB::raw('DATE_FORMAT(calendario.data,"%d/%m/%Y") as nome'),
+                'localidade.nome as localidade',
             ])->get();
 
         #retorno

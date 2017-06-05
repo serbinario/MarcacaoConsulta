@@ -279,6 +279,7 @@
     </div>
 
     @include('calendario.modal_reagendamento')
+    @include('calendario.modal_bloqueio')
 @stop
 
 @section('javascript')

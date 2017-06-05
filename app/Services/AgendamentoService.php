@@ -121,8 +121,11 @@ class AgendamentoService
      */
     public function store(array $data) : Agendamento
     {
+        $date = new \DateTime('now');
+
         #Salvando o registro pincipal
         $data['dados']['status_agendamento_id'] = '1';
+        $data['dados']['data'] = $date->format('Y-m-d');
         $agendamento =  $this->repository->create($data['dados']);
 
         $agendamentoFind = $this->repository->with(['fila.cgm', 'calendario'])->find($agendamento->id);

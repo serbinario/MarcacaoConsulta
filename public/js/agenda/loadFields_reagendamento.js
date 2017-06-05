@@ -51,7 +51,7 @@ $(document).on('change', "#especialista", function () {
 
                 option += '<option value="">Selecione</option>';
                 for (var i = 0; i < json.length; i++) {
-                    option += '<option value="' + json[i]['id'] + '">' + json[i]['nome'] + '</option>';
+                    option += '<option value="' + json[i]['id'] + '">' + json[i]['nome'] + " - " + json[i]['localidade'] + '</option>';
                 }
 
                 $('#calendario-reagendar option').remove();
@@ -127,7 +127,7 @@ $(document).on('change', "#mapa-reagendar", function () {
             totalVagas = json['totalVagas'];
             vagasRestantes = json['vagasRestantes'];
 
-            if (vagasRestantes <= idsPacientes.length) {
+            if (vagasRestantes < idsPacientes.length) {
                 // Desabilitando o botão de reagendas
                 $('#reagendar').prop('disabled', true);
 

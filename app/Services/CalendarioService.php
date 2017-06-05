@@ -148,6 +148,9 @@ class CalendarioService
      */
     public function agendamento(array $data)
     {
+
+        $date = new \DateTime('now');
+
         // Tratando os agendamentos dos pacientes
         foreach ($data['pacientes'] as $paciente) {
 
@@ -161,6 +164,7 @@ class CalendarioService
             $dados['calendario_id']         = $data['calendario_id'];
             $dados['hora']                  = $data['mapa'];
             $dados['fila_id']               = $paciente;
+            $dados['data']                  = $date->format('Y-m-d');
             $dados['status_agendamento_id'] = '1';
 
             // Registrando o novo agendamento

@@ -128,16 +128,37 @@ $(document).on('click', '#bloquear', function (event) {
         confirmButtonText: "Sim!",
     }).then(function () {
 
+        $('#modal-bloqueio').modal({'show' : true});
+
+
+    });
+});
+
+// Bloquear uma data da agenda
+$(document).on('click', '#confirmarBloqueio', function (event) {
+    event.preventDefault();
+
+    var descricao = $('#descricao-bloqueio').val();
+
+    if(descricao) {
+
         $.ajax({
-            url: '/serbinario/calendario/bloquear/' + idCalendario,
+            url: '/serbinario/calendario/bloquear',
             dataType: "json",
-            type: "GET",
+            type: "POST",
+            data: {'id' : idCalendario, 'descricao' : descricao},
             success: function (data) {
+                $('#modal-bloqueio').modal({'show': false});
                 swal('Dia bloqueado com sucesso!', "Click no botão abaixo!", 'success');
                 location.href = "/serbinario/calendario/index/" + idEspecialista;
             }
         });
-    });
+
+    } else {
+        swal('Informe o motivo do bloqueio!', "Click no botão abaixo!", 'success');
+    }
+
+
 });
 
 //converter data

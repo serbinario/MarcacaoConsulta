@@ -43,7 +43,7 @@ $(document).on('click', '#reagendar', function (event) {
     }
 
     // Validando se o mapa possui vagas suficientes
-    if(vagaRestante <= idsPacientes.length) {
+    if(vagaRestante < idsPacientes.length) {
         swal("Oops...", "O mapa selecioando não possui vaga suficiente para este reagendamento!", "error");
         return false;
     }

@@ -110,7 +110,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::POST('gridCalendario/{id}', ['as' => 'gridCalendario', 'uses' => 'CalendarioController@gridCalendario']);
 
             Route::get('fechar/{id}', ['as' => 'fechar', 'uses' => 'CalendarioController@fechar']);
-            Route::get('bloquear/{id}', ['as' => 'bloquear', 'uses' => 'CalendarioController@bloquear']);
+            Route::post('bloquear', ['as' => 'bloquear', 'uses' => 'CalendarioController@bloquear']);
 
             // Pacientes e remarcações
             Route::get('gridPacientes/{id}', ['as' => 'gridPacientes', 'uses' => 'CalendarioController@gridPacientes']);

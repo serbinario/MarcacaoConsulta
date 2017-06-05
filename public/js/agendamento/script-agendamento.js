@@ -20,13 +20,20 @@ $(document).ready(function () {
             'dataEvento' : $('#data').val()
         };
 
+        // Adicionando o loading da requisição
+        $('body').addClass("loading");
+
         $.ajax({
             url: "/index.php/serbinario/agendamento/store",
             data: {dados: dados},
             dataType: "json",
             type: "POST",
             success: function (data) {
-                alert(data['msg']);
+
+                // Removendo o loading da requisição
+                $('body').removeClass("loading");
+
+                swal("Paciente agendado com sucesso!", "Click no botão abaixo!", "success");
                 $("#calendar").fullCalendar("refetchEvents");
                 paciente("", especialidade);
                 $("#modalCGM").modal('hide');
@@ -35,7 +42,7 @@ $(document).ready(function () {
         });
     });
 
-    //editar formul�rio da marca��o de consulta
+    //editar formulário da marcação de consulta
     /*$("#edit").click(function (event) {
         event.preventDefault();
 
@@ -62,22 +69,40 @@ $(document).ready(function () {
         });
     });*/
 
-    //deletar formul�rio da marca��o de consulta
+    //deletar formulário da marcação de consulta
     $("#delete").click(function (event) {
         event.preventDefault();
 
-        var especialidade = $('#grupo_operacao').val();
+        swal({
+            title: "Alerta",
+            text: "Tem certeza que deseja deletar?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sim!"
+        }).then(function () {
 
-        jQuery.ajax({
-            type: 'POST',
-            url: "/index.php/serbinario/agendamento/delete/"+$('#id').val(),
-            datatype: 'json'
-        }).done(function (retorno) {
-            alert(retorno['msg']);
-            $("#calendar").fullCalendar("refetchEvents");
-            paciente("", especialidade);
-            $("#modalCGM").modal('hide');
+            var especialidade = $('#grupo_operacao').val();
+
+            // Adicionando o loading da requisição
+            $('body').addClass("loading");
+
+            jQuery.ajax({
+                type: 'POST',
+                url: "/index.php/serbinario/agendamento/delete/"+$('#id').val(),
+                datatype: 'json'
+            }).done(function (retorno) {
+
+                // Removendo o loading da requisição
+                $('body').removeClass("loading");
+
+                swal("Paciente deletado com sucesso!", "Click no botão abaixo!", "success");
+                $("#calendar").fullCalendar("refetchEvents");
+                paciente("", especialidade);
+                $("#modalCGM").modal('hide');
+            });
+
         });
+
     });
 
 });
