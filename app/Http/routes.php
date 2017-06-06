@@ -130,6 +130,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('getPacientes', ['as' => 'getPacientes', 'uses' => 'AgendamentoController@getPacientes']);
         });
 
+        Route::group(['prefix' => 'agendados', 'as' => 'agendados.'], function () {
+            Route::get('index', ['as' => 'index', 'uses' => 'AgendadosController@index']);
+            Route::post('grid', ['as' => 'grid', 'uses' => 'AgendadosController@grid']);
+            Route::post('alterarSituacao', ['as' => 'alterarSituacao', 'uses' => 'AgendadosController@alterarSituacao']);
+        });
+
 
         Route::group(['prefix' => 'fila', 'as' => 'fila.'], function () {
             Route::get('index', ['as' => 'index', 'uses' => 'FilaController@index']);
