@@ -34,8 +34,8 @@ table = $('#agendados-grid').DataTable({
         {data: 'hora', name: 'agendamento.hora'},
         {data: 'especialista', name: 'cgm_especialista.nome'},
         {data: 'psf', name: 'posto_saude.nome'},
-        {data: 'status', name: 'status_agendamento.nome'}
-        /* {data: 'action', name: 'action', orderable: false, searchable: false}*/
+        {data: 'status', name: 'status_agendamento.nome'},
+        {data: 'action', name: 'action', orderable: false, searchable: false}
     ]
 });
 

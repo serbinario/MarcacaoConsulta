@@ -360,9 +360,9 @@
                         $('#hora2').val(json['calendario']['hora2']);
                         json['calendario']['mais_mapa'] == '1' ? $('#mapa').prop('checked', true) : $('#mapa').attr('checked', false);
                         idCalendario = json['calendario']['id'];
-                        var status = json['calendario']['status'];
+                        var status = json['calendario']['status_id'];
 
-                        runModalAdicionarPacientes(idCalendario);
+                        runGridPacientes(idCalendario);
 
                         var qtdVagas = 0;
                         if (json['calendario']['mais_mapa'] == '1') {
@@ -372,6 +372,7 @@
                             $('#hora2').prop('readonly', false);
                             $('#especialidade_dois').prop('disabled', false);
                             especialidadesDois(json['calendario']['especialidade_id_dois'], idEspecialista);
+
                         } else {
                             qtdVagas = json['calendario']['qtd_vagas'];
 
@@ -385,13 +386,42 @@
                         $('#qtd_vagas').val(qtdVagas);
 
 
-                        $('#data').prop('readonly', false);
+                        // Habilitando os botões do calendário e desabilitando o de salvar
+                        $('#data').prop('readonly', true);
                         $('#edit').attr('disabled', false);
                         $('#fechar').attr('disabled', false);
                         $('#bloquear').attr('disabled', false);
                         $('#save').attr('disabled', true);
+
+                        // Caso o dia do calendário tenha sido bloqueado, nenhuma ação poderá ser feita no memso
+                        if(status == '3') {
+                            // Desabilitando os botões
+                            $('#edit').attr('disabled', true);
+                            $('#fechar').attr('disabled', true);
+                            $('#bloquear').attr('disabled', true);
+                            $('#save').attr('disabled', true);
+
+                            // Desabilitando os campos do formulário
+                            $('#qtd_vagas').prop('readonly', true);
+                            $('#hora').prop('readonly', true);
+                            $('#hora2').prop('readonly', true);
+                            $('#especialidade_um').prop('disabled', true);
+                            $('#especialidade_dois').prop('disabled', true);
+                            $('#localidades').prop('disabled', true);
+
+                        } else {
+
+                            // Desabilitando os campos do formulário
+                            $('#qtd_vagas').prop('readonly', false);
+                            $('#hora').prop('readonly', false);
+                            $('#especialidade_um').prop('disabled', false);
+                            $('#localidades').prop('disabled', false);
+
+                        }
+
                     });
                 } else {
+
                     localidade();
                     especialidadesUm("", idEspecialista);
                     $('#qtd_vagas').val({{$especialista['qtd_vagas']}});
@@ -402,11 +432,17 @@
                     $('#especialidade_dois option').remove();
                     $('#mapa').prop('checked', false);
 
-                    runModalAdicionarPacientes(0);
+                    runGridPacientes(0);
 
                     $('#data').prop('readonly', true);
                     $('#save').attr('disabled', false);
                     $('#edit').attr('disabled', true);
+
+                    // Desabilitando os campos do formulário
+                    $('#qtd_vagas').prop('readonly', false);
+                    $('#hora').prop('readonly', false);
+                    $('#especialidade_um').prop('disabled', false);
+                    $('#localidades').prop('disabled', false);
                 }
             };
 

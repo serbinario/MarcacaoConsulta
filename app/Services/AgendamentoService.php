@@ -183,9 +183,9 @@ class AgendamentoService
         // Atualizando o status do paciente na fila
         \DB::table('fila')->where('id', $agendamento['fila_id'])->update(['status' => '0']);
 
-        #Deletando no banco de dados
         // Deletando o evento
         \DB::table('evento')->where('agendamento_id', $id)->delete();
+
         // Deletando agendamento
         $this->repository->delete($id);
 

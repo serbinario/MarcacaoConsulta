@@ -134,6 +134,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('index', ['as' => 'index', 'uses' => 'AgendadosController@index']);
             Route::post('grid', ['as' => 'grid', 'uses' => 'AgendadosController@grid']);
             Route::post('alterarSituacao', ['as' => 'alterarSituacao', 'uses' => 'AgendadosController@alterarSituacao']);
+            Route::get('delete/{id}', ['as' => 'delete', 'uses' => 'AgendadosController@delete']);
         });
 
 

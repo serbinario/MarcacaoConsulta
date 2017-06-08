@@ -132,7 +132,7 @@ class AgendadosController extends Controller
         })->addColumn('action', function ($row) {
 
             $html = "";
-            $html .= '<a href="edit/'.$row->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a> ';
+            $html .= '<a href="delete/'.$row->id.'" class="btn btn-xs btn-danger excluir"><i class="glyphicon glyphicon-remove"></i></a> ';
 
             return $html;
 
@@ -165,4 +165,23 @@ class AgendadosController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function delete($id)
+    {
+        try {
+
+            #Executando a ação
+            $this->service->delete($id);
+
+            #Retorno para a view
+            return redirect()->back()->with("message", "Remoção realizada com sucesso!");
+        } catch (\Throwable $e) {
+            dd($e);
+            return redirect()->back()->with('message', $e->getMessage());
+        }
+    }
 }

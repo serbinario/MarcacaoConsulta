@@ -89,7 +89,7 @@ function loadTablePaciente (idCalendario) {
 
 
 // Função de execução
-function runModalAdicionarPacientes(idCalendario)
+function runGridPacientes(idCalendario)
 {
     //Carregando as grids de situações
     if(tablePacientes) {

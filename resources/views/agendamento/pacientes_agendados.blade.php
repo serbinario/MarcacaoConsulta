@@ -135,7 +135,7 @@
                                 <th>Especialista</th>
                                 <th>PSF</th>
                                 <th>Situação</th>
-                               {{-- <th>Ação</th>--}}
+                                <th>Ação</th>
                             </tr>
                             </thead>
                             <tfoot>
@@ -147,7 +147,7 @@
                                 <th>Especialista</th>
                                 <th>PSF</th>
                                 <th>Situação</th>
-                               {{-- <th style="width: 17%;">Acão</th>--}}
+                                <th style="width: 6%;">Acão</th>
                             </tr>
                             </tfoot>
                         </table>
@@ -212,6 +212,21 @@
                     $('#exame').append(option);
                 });
             }
+        });
+
+        // Deletar paciente
+        $(document).on('click', 'a.excluir', function (event) {
+            event.preventDefault();
+            var url = $(this).attr('href');
+            swal({
+                title: "Alerta",
+                text: "Tem certeza da exclusão do paciente?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sim!",
+            }).then(function(){
+                location.href = url;
+            });
         });
     </script>
 @stop
