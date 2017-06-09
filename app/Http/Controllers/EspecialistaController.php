@@ -197,7 +197,7 @@ class EspecialistaController extends Controller
     {
         $especialidades = $this->service->findEspecialidades($request->get('idEspecialista'));
 
-        return compact('especialidades');
+        return $especialidades;
     }
 
     /**

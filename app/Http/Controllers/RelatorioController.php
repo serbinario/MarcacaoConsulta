@@ -69,28 +69,50 @@ class RelatorioController extends Controller
      *  Dados que alimentam a grid de relatório de acordo com o especialista selecionado
      *  Menu > relatorios > por agenda > pesquisar
      */
-    public function gridReportByAgenda($idEspecialista)
+    public function gridReportByAgenda(Request $request)
     {
         try {
+
+            dd($request->request->all());
+
             #Criando a consulta
             $rows = \DB::table('agendamento')
                 ->join('fila', 'fila.id', '=', 'agendamento.fila_id')
+                ->join('cgm', 'cgm.id', '=', 'fila.cgm_id')
                 ->join('especialidade', 'especialidade.id', '=', 'fila.especialidade_id')
                 ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
-                ->join('cgm', 'cgm.id', '=', 'fila.cgm_id')
+                ->join('prioridade', 'prioridade.id', '=', 'fila.prioridade_id')
+                ->leftJoin('posto_saude', 'posto_saude.id', '=', 'fila.posto_saude_id')
                 ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
                 ->join('localidade', 'localidade.id', '=', 'calendario.localidade_id')
                 ->join('especialista', 'especialista.id', '=', 'calendario.especialista_id')
-                ->join('especialista_especialidade', 'especialista.id', '=', 'especialista_especialidade.especialista_id')
+                ->join('cgm as cgm_especialista', 'cgm_especialista.id', '=', 'especialista.cgm')
+                ->join('status_agendamento', 'status_agendamento.id', '=', 'agendamento.status_agendamento_id')
+                //->join('especialista_especialidade', 'especialista.id', '=', 'calendario.especialista_id')
                 ->select([
                     'agendamento.id',
                     'agendamento.hora',
                     'localidade.nome as localidade',
-                    'cgm.nome as nomePaciente',
+                    'cgm.nome as nome',
                     'cgm.numero_sus',
                     'operacoes.nome as especialidade'
-                ])
-                ->where('agendamento.id', '=', $idEspecialista);
+                ]);
+
+            if($request->has('especialista') && $request->get('especialista') != "") {
+                $rows->where('especialista.id', $request->get('especialista'));
+            }
+
+            if($request->has('localidade') && $request->get('localidade') != "") {
+                $rows->where('calendario.id', $request->get('localidade'));
+            }
+
+            if($request->has('horario') && $request->get('horario') != "") {
+                $rows->where(function ($query) use ($request) {
+                    $query->orWhere('calendario.hora', '=', $request->get('horario'))
+                        ->orWhere('calendario.hora2',  '=', $request->get('horario'));
+                });
+            }
+
 
             #Editando a grid
             return Datatables::of($rows)->addColumn('action', function ($row) {

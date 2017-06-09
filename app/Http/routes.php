@@ -196,8 +196,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         Route::group(['prefix' => 'relatorio', 'as' => 'relatorio.'], function () {
             Route::get('byAgenda', ['as' => 'byAgenda', 'uses' => 'RelatorioController@indexByAgenda']);
             Route::get('reportPdf', ['as' => 'reportPdf', 'uses' => 'RelatorioController@reportPdf']);
-            Route::get('reportByAgenda/{idEspecialista}', ['as' => 'reportByAgenda', 'uses' => 'RelatorioController@gridReportByAgenda']);
-            Route::get('reportPdfByAgenda/{idEspecialista}', ['as' => 'reportPdfByAgenda', 'uses' => 'RelatorioController@getReportByAgenda']);
+            Route::post('reportByAgenda', ['as' => 'reportByAgenda', 'uses' => 'RelatorioController@gridReportByAgenda']);
+            Route::get('reportPdfByAgenda/{idEspecialista}', ['as' => 'reportPdfByAgenda', 'uses' => 'RelatorioController@reportPdfByAgenda']);
         });
 
 //    Route::get('report/contratoAluno/{id}', ['as' => 'report.contratoAluno', 'uses' => 'ReportController@contratoAluno']);

@@ -14,17 +14,43 @@
                     <div class="row">
                         <div class="form-group col-sm-4">
                             <div class=" fg-line">
-                                <label for="sexo">Especialistas</label>
+                                <label for="especialista">Especialistas *</label>
                                 <div class="select">
-                                    {!! Form::select('Especialistas', ["" => 'Selecione um especialista'] + $especialistas, null, array('id' => 'selectEspecialista', 'class'=> 'form-control')) !!}
+                                    {!! Form::select('especialista', ["" => 'Selecione um especialista'] + $especialistas, null, array('id' => 'especialista', 'class'=> 'form-control')) !!}
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-1">
-                            <a style="margin-right: 5px;" id="btnPesquisar" class="btn btn-primary btn-sm m-t-10">Pesquisar</a>
+
+                        <div class="form-group col-md-2">
+                            <div class=" fg-line">
+                                <label for="especialidade">Especialidade *</label>
+                                <div class="select">
+                                    {!! Form::select("especialidade", array(), null, array('class'=> 'form-control', 'id' => 'especialidade')) !!}
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-xs-2">
-                            <a style="margin-left: 5px;" id="btnPesquisarGerarPdf" class="btn bgm-orange btn-sm m-t-10">Gerar PDF</a>
+
+                        <div class="form-group col-md-2">
+                            <div class=" fg-line">
+                                <label for="localidade">Localidade *</label>
+                                <div class="select">
+                                    {!! Form::select("localidade", array(), null, array('class'=> 'form-control', 'id' => 'localidade')) !!}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-2">
+                            <div class=" fg-line">
+                                <label for="horario">Horário *</label>
+                                <div class="select">
+                                    {!! Form::select("horario", array(), null, array('class'=> 'form-control', 'id' => 'horario')) !!}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <button id="btnPesquisar" class="btn btn-primary btn-sm m-t-10">Pesquisar</button>
+                            <button id="btnPesquisarGerarPdf" class="btn bgm-orange btn-sm m-t-10">Gerar PDF</button>
                         </div>
                     </div>
                     <!-- Botão novo -->
@@ -60,31 +86,38 @@
 @stop
 
 @section('javascript')
+    <script type="text/javascript" src="{{asset('/js/relatorio/loadFields_relatorio_por_agenda.js')}}"></script>
     <script type="text/javascript">
+
+        var table = $('#report-grid').DataTable({
+            processing: true,
+            serverSide: true,
+            retrieve: true,
+            ajax: {
+                url: "/serbinario/relatorio/reportByAgenda",
+                method: 'POST',
+                data: function (d) {
+                    d.especialista  = $('select[name=especialista] option:selected').val();
+                    d.especialidade = $('select[name=especialidade] option:selected').val();
+                    d.localidade    = $('select[name=localidade] option:selected').val();
+                    d.horario       = $('select[name=horario] option:selected').val();
+                }
+            },
+            columns: [
+                {data: 'nome', name: 'cgm.nome'},
+                {data: 'numero_sus', name: 'cgm.numero_sus'},
+                {data: 'localidade', name: 'agendamento.localidade'},
+                {data: 'hora', name: 'agendamento.hora'},
+                {data: 'especialidade', name: 'operacoes.especialidade'}
+            ]
+        });
 
         //Enviando id do especialista como paramentro para o select no servidor (Botão pesquisar)
         $(document).on('click', '#btnPesquisar', function () {
 
-            var idEspecialista = $('#selectEspecialista').val();
+            table.draw();
+            e.preventDefault();
 
-            if (!idEspecialista) {
-                swal('Por favor, selecione um especialista.');
-                return false;
-            }
-
-            var table = $('#report-grid').DataTable({
-                processing: true,
-                serverSide: true,
-                retrieve: true,
-                ajax: '/index.php/serbinario/relatorio/reportByAgenda/' + idEspecialista,
-                columns: [
-                    {data: 'nomePaciente', name: 'cgm.nomePaciente'},
-                    {data: 'numero_sus', name: 'cgm.numero_sus'},
-                    {data: 'localidade', name: 'agendamento.localidade'},
-                    {data: 'hora', name: 'agendamento.hora'},
-                    {data: 'especialidade', name: 'operacoes.especialidade'}
-                ]
-            })
         });
 
         //Enviando id do especialista como paramentro para o select no servidor(Botão gerar pdf)

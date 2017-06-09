@@ -65,6 +65,46 @@ $(document).on('change', "#especialista", function () {
 
 });
 
+//Carregando os dias do calendário
+$(document).on('change', "#especialista", function () {
+
+    var idEspecialista  = $(this).val();
+
+    if(idEspecialista) {
+
+        // Busca a especialidade do especialista por relacionamento especialista_especialidade
+        jQuery.ajax({
+            type: 'POST',
+            url: '/serbinario/especialista/especialidadesEspecificas',
+            datatype: 'json',
+            data    : {'idEspecialista' : idEspecialista, 'idEspecialidade' : especialidadeId}
+        }).done(function (json) {
+
+            // De acordo com a especialidade encontrada, é feito o carregamento dos dias do calendário
+            jQuery.ajax({
+                type: 'POST',
+                url: '/serbinario/calendario/calendarioEspecialista',
+                datatype: 'json',
+                data    : {'idEspecialista' : idEspecialista, 'idEspecialidade' : json[0]['id']}
+            }).done(function (json) {
+                var option = '';
+
+                option += '<option value="">Selecione</option>';
+                for (var i = 0; i < json.length; i++) {
+                    option += '<option value="' + json[i]['id'] + '">' + json[i]['nome'] + " - " + json[i]['localidade'] + '</option>';
+                }
+
+                $('#calendario-agendar option').remove();
+                $('#calendario-agendar').append(option);
+            });
+
+            $('#especialidade-agendar').val(json[0]['id']);
+        });
+
+    }
+
+});
+
 
 //Carregando os mapas
 $(document).on('change', "#calendario-agendar", function () {
