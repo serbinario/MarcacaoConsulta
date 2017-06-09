@@ -132,9 +132,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
         Route::group(['prefix' => 'agendados', 'as' => 'agendados.'], function () {
             Route::get('index', ['as' => 'index', 'uses' => 'AgendadosController@index']);
+            Route::get('indexDois', ['as' => 'indexDois', 'uses' => 'AgendadosController@indexDois']);
             Route::post('grid', ['as' => 'grid', 'uses' => 'AgendadosController@grid']);
             Route::post('alterarSituacao', ['as' => 'alterarSituacao', 'uses' => 'AgendadosController@alterarSituacao']);
             Route::get('delete/{id}', ['as' => 'delete', 'uses' => 'AgendadosController@delete']);
+
+            // Rotas para o a consulta de pacientes agendados com o uso do calendário
+            Route::get('indexDois', ['as' => 'indexDois', 'uses' => 'AgendadosController@indexDois']);
+            Route::post('loadCalendarParaConsulta', ['as' => 'loadCalendarParaConsulta', 'uses' => 'AgendamentoController@loadCalendarParaConsulta']);
         });
 
 

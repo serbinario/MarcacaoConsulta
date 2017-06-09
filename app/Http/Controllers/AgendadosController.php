@@ -33,7 +33,8 @@ class AgendadosController extends Controller
         'StatusAgendamento',
         'Prioridade',
         'PostoSaude',
-        'TipoOperacao'
+        'TipoOperacao',
+        'Localidade'
     ];
 
     /**
@@ -61,14 +62,29 @@ class AgendadosController extends Controller
     }
 
     /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function indexDois()
+    {
+        #Carregando os dados para o cadastro
+        $loadFields = $this->service->load($this->loadFields);
+
+        #Carregando a situação do agendamento
+        $situacoes = \DB::table('status_agendamento')->select()->get();
+
+        return view('agendamento.pacientes_agendados_calendario', compact('loadFields', 'situacoes'));
+    }
+
+    /**
      * @return mixed
      */
     public function grid(Request $request)
     {
 
         //Tratando as datas
-        $dataIni = SerbinarioDateFormat::toUsa($request->get('data_inicio'));
-        $dataFim = SerbinarioDateFormat::toUsa($request->get('data_fim'));
+        $dataIni    = SerbinarioDateFormat::toUsa($request->get('data_inicio'));
+        $dataFim    = SerbinarioDateFormat::toUsa($request->get('data_fim'));
+        //$dataUnica  = SerbinarioDateFormat::toUsa($request->get('data_unica'));
 
         #Criando a consulta
         $rows = \DB::table('agendamento')
@@ -79,9 +95,12 @@ class AgendadosController extends Controller
             ->join('prioridade', 'prioridade.id', '=', 'fila.prioridade_id')
             ->leftJoin('posto_saude', 'posto_saude.id', '=', 'fila.posto_saude_id')
             ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
+            ->join('localidade', 'localidade.id', '=', 'calendario.localidade_id')
             ->join('especialista', 'especialista.id', '=', 'calendario.especialista_id')
             ->join('cgm as cgm_especialista', 'cgm_especialista.id', '=', 'especialista.cgm')
             ->join('status_agendamento', 'status_agendamento.id', '=', 'agendamento.status_agendamento_id')
+            //->leftJoin('especialista_especialidade as especialidade_um', 'especialidade_um.id', '=', 'calendario.especialidade_id_um')
+            //->leftJoin('especialista_especialidade as especialidade_dois', 'especialidade_dois.id', '=', 'calendario.especialidade_id_dois')
             ->select([
                 'agendamento.id',
                 'cgm.nome',
@@ -99,6 +118,10 @@ class AgendadosController extends Controller
             $rows->whereBetween('calendario.data', array($dataIni, $dataFim));
         }
 
+        if($request->has('data_unica') && $request->get('data_unica') != "") {
+            $rows->where('calendario.data', '=', $request->get('data_unica'));
+        }
+
         if($request->has('exame') && $request->get('exame') != "") {
             $rows->where('especialidade.id', $request->get('exame'));
         }
@@ -114,6 +137,21 @@ class AgendadosController extends Controller
         if($request->has('situacao') && $request->get('situacao') != "") {
             $rows->where('status_agendamento.id', $request->get('situacao'));
         }
+
+        if($request->has('localidade') && $request->get('localidade') != "") {
+            $rows->where('localidade.id', $request->get('localidade'));
+        }
+
+        if($request->has('especialista') && $request->get('especialista') != "") {
+            $rows->where('especialista.id', $request->get('especialista'));
+        }
+
+        /*if($request->has('especialidade') && $request->get('especialidade') != "") {
+            $rows->where(function ($query) use ($request) {
+                $query->orWhere('especialidade_um.id', '=', $request->get('especialidade'))
+                    ->orWhere('especialidade_dois.id', '=', $request->get('especialidade'));
+            });
+        }*/
 
         #Editando a grid
         return Datatables::of($rows)->filter(function ($query) use ($request) {
@@ -183,7 +221,7 @@ class AgendadosController extends Controller
             $this->service->delete($id);
 
             #Retorno para a view
-            return redirect()->back()->with("message", "Remoção realizada com sucesso!");
+            return redirect()->back()->with("message", "Paciente deletado com sucesso!");
         } catch (\Throwable $e) {
             dd($e);
             return redirect()->back()->with('message', $e->getMessage());

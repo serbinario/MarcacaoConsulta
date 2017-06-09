@@ -128,6 +128,7 @@
                     <ul>
                         <li><a href="{{ route('serbinario.agendamento.index') }}">Agenda</a></li>
                         <li><a href="{{ route('serbinario.agendados.index') }}">Pacientes agendados</a></li>
+                        <li><a href="{{ route('serbinario.agendados.indexDois') }}">Pacientes agendados (Calendário)</a></li>
                     </ul>
                 </li>
                 <li class="sub-menu">

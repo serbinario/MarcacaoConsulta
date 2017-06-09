@@ -114,11 +114,42 @@ class AgendamentoController extends Controller
             $count++;
         }
 
-        //dd($calendarios);
-
         return $calendarios;
     }
 
+    /**
+     * @param Request $request
+     * @return array
+     */
+    public function loadCalendarParaConsulta(Request $request)
+    {
+        $request = $request->all();
+
+        $idEspecialista = isset($request['data']['idEspecialista']) ? $request['data']['idEspecialista'] : "0";
+        $idLocalidade   = isset( $request['data']['idLocalidade']) ?  $request['data']['idLocalidade'] : "0";
+
+        $dados = $this->service->getCalendarioByMedicoLocal($idEspecialista, $idLocalidade);
+
+        $calendarios = array();
+        $count = 0;
+
+        // Carregando apenas os dias de atendimento do especialista sem os eventos (pacientes)
+        foreach($dados['calendarios'] as $dado) {
+            $calendarios[$count]['date_start'] = $dado['data'];
+            $calendarios[$count]['overlap']     = false;
+            $calendarios[$count]['rendering']   = "background";
+            $vagasRestantes = $dado['qtd_vagas'] - count($dado['agendamento']);
+            if($vagasRestantes <= 0) {
+                $calendarios[$count]['color']       = "#ff9f89";
+            } else {
+                $calendarios[$count]['color']       = "#2be135";
+            }
+            $calendarios[$count]['id']          = $dado['id'];
+            $count++;
+        }
+
+        return $calendarios;
+    }
 
     /**
      * @param Request $request
