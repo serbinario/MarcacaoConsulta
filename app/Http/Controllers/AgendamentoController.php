@@ -186,9 +186,6 @@ class AgendamentoController extends Controller
             #Recuperando os dados da requisição
             $data = $request->all();
 
-            #Validando a requisição
-            //$this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
-
             #Executando a ação
             $this->service->update($data['dados'], $id);
 
@@ -211,13 +208,13 @@ class AgendamentoController extends Controller
         try {
 
             #Executando a ação
-            $this->service->delete($id);
+            $retorno = $this->service->delete($id);
 
             #Retorno para a view
-            return array('msg' => 'sucesso');
+            return array('retorno' => $retorno);
         } catch (ValidatorException $e) {
             return $this->validator->errors();
-        } catch (\Throwable $e) {;
+        } catch (\Throwable $e) {
             return $e->getMessage();
         }
     }

@@ -91,11 +91,12 @@ class AgendadosController extends Controller
                 \DB::raw('DATE_FORMAT(calendario.data,"%d/%m/%Y") as data'),
                 'agendamento.hora',
                 'cgm_especialista.nome as especialista',
-                'status_agendamento.nome as status'
+                'status_agendamento.nome as status',
+                'status_agendamento.id as status_id'
             ]);
 
         if($dataIni && $dataFim) {
-            $rows->whereBetween('fila.data', array($dataIni, $dataFim));
+            $rows->whereBetween('calendario.data', array($dataIni, $dataFim));
         }
 
         if($request->has('exame') && $request->get('exame') != "") {
@@ -132,7 +133,11 @@ class AgendadosController extends Controller
         })->addColumn('action', function ($row) {
 
             $html = "";
-            $html .= '<a href="delete/'.$row->id.'" class="btn btn-xs btn-danger excluir"><i class="glyphicon glyphicon-remove"></i></a> ';
+
+            # Habilita a opção de deletar apenas se o paciente estiver com status de (aguardando atendimento)
+            if($row->status_id == '1') {
+                $html .= '<a href="delete/'.$row->id.'" class="btn btn-xs btn-danger excluir"><i class="glyphicon glyphicon-remove"></i></a> ';
+            }
 
             return $html;
 

@@ -88,17 +88,23 @@ $(document).ready(function () {
 
             jQuery.ajax({
                 type: 'POST',
-                url: "/index.php/serbinario/agendamento/delete/"+$('#id').val(),
+                url: "/serbinario/agendamento/delete/"+$('#id').val(),
                 datatype: 'json'
             }).done(function (retorno) {
 
                 // Removendo o loading da requisição
                 $('body').removeClass("loading");
 
-                swal("Paciente deletado com sucesso!", "Click no botão abaixo!", "success");
-                $("#calendar").fullCalendar("refetchEvents");
-                paciente("", especialidade);
-                $("#modalCGM").modal('hide');
+                // Valida se caso o retorno for positivo para deletar ou negativo
+                if (retorno['retorno']) {
+                    swal("Paciente deletado com sucesso!", "Click no botão abaixo!", "success");
+                    $("#calendar").fullCalendar("refetchEvents");
+                    paciente("", especialidade);
+                    $("#modalCGM").modal('hide');
+                } else {
+                    swal("O paciente só poderar se deletado se estiver com situação de (aguardando atendimento)!", "Click no botão abaixo!", "error");
+                }
+
             });
 
         });

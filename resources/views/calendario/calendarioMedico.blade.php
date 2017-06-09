@@ -340,14 +340,15 @@
                 if (hasEvent) {
 
                     var dados = {
-                        'date': date
+                        'data': date,
+                        'especialista' : idEspecialista
                     };
 
                     jQuery.ajax({
                         type: 'POST',
                         url: '{{route('serbinario.calendario.calendariodata')}}',
                         datatype: 'json',
-                        data: dados,
+                        data: dados
                     }).done(function (json) {
 
                         // Carregando os selectes
@@ -394,12 +395,22 @@
                         $('#save').attr('disabled', true);
 
                         // Caso o dia do calendário tenha sido bloqueado, nenhuma ação poderá ser feita no memso
-                        if(status == '3') {
+                        if(status == '3' || status == '2' || json['qtdAgendado'] > 0) {
+
                             // Desabilitando os botões
-                            $('#edit').attr('disabled', true);
-                            $('#fechar').attr('disabled', true);
-                            $('#bloquear').attr('disabled', true);
                             $('#save').attr('disabled', true);
+
+                            // Desabilita apenas os botões de bloquear e fechar se caso o status for de fechado ou bloqueado
+                            if(status == '3' || status == '2') {
+                                $('#fechar').attr('disabled', true);
+                                $('#bloquear').attr('disabled', true);
+                                $('#edit').attr('disabled', true);
+                            } else if (json['qtdAgendado'] > 0) {
+                                $('#fechar').attr('disabled', false);
+                                $('#bloquear').attr('disabled', false);
+                                $('#edit').attr('disabled', true);
+                            }
+
 
                             // Desabilitando os campos do formulário
                             $('#qtd_vagas').prop('readonly', true);

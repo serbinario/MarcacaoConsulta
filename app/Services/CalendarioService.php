@@ -221,7 +221,7 @@ class CalendarioService
     public function findCalendarioData($data)
     {
         #Recuperando o registro no banco de dados
-        $calendario = $this->repository->findWhere(['data' => $data]);
+        $calendario = $this->repository->with(['agendamento'])->findWhere(['data' => $data['data'], 'especialista_id' => $data['especialista']]);
 
         #Verificando se o registro foi encontrado
         if(count($calendario) <= 0) {

@@ -314,9 +314,10 @@ class CalendarioController extends Controller
     {
         $data = $request->all();
 
-        $calendario = $this->service->findCalendarioData($data['date']);
+        $calendario = $this->service->findCalendarioData($data);
+        $qtdAgendado = count($calendario->agendamento);
 
-        return compact('calendario');
+        return compact('calendario', 'qtdAgendado');
     }
 
     /**
