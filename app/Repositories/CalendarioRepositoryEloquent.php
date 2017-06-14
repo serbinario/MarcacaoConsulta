@@ -24,18 +24,6 @@ class CalendarioRepositoryEloquent extends BaseRepository implements CalendarioR
         return Calendario::class;
     }
 
-    /**
-    * Specify Validator class name
-    *
-    * @return mixed
-    */
-    /*public function validator()
-    {
-
-         return CalendarioValidator::class;
-    }*/
-
-
 
     /**
      * Boot up the repository, pushing criteria

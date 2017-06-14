@@ -24,18 +24,6 @@ class OperacoeRepositoryEloquent extends BaseRepository implements OperacoeRepos
         return Operacoe::class;
     }
 
-    /**
-    * Specify Validator class name
-    *
-    * @return mixed
-    */
-    public function validator()
-    {
-
-         return OperacoeValidator::class;
-    }
-
-
 
     /**
      * Boot up the repository, pushing criteria

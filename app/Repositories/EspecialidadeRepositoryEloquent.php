@@ -24,18 +24,6 @@ class EspecialidadeRepositoryEloquent extends BaseRepository implements Especial
         return Especialidade::class;
     }
 
-    /**
-    * Specify Validator class name
-    *
-    * @return mixed
-    */
-    /*public function validator()
-    {
-
-         return EspecialidadeValidator::class;
-    }*/
-
-
 
     /**
      * Boot up the repository, pushing criteria

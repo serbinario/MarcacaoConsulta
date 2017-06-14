@@ -25,19 +25,6 @@ class PostoSaudeRepositoryEloquent extends BaseRepository implements PostoSaudeR
     }
 
     /**
-    * Specify Validator class name
-    *
-    * @return mixed
-    */
-    public function validator()
-    {
-
-         return PostoSaudeValidator::class;
-    }
-
-
-
-    /**
      * Boot up the repository, pushing criteria
      */
     public function boot()

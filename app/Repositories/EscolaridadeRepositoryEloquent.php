@@ -25,19 +25,6 @@ class EscolaridadeRepositoryEloquent extends BaseRepository implements Escolarid
     }
 
     /**
-    * Specify Validator class name
-    *
-    * @return mixed
-    */
-    public function validator()
-    {
-
-         return EscolaridadeValidator::class;
-    }
-
-
-
-    /**
      * Boot up the repository, pushing criteria
      */
     public function boot()

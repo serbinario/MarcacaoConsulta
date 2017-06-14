@@ -24,18 +24,6 @@ class LocalidadeRepositoryEloquent extends BaseRepository implements LocalidadeR
         return Localidade::class;
     }
 
-    /**
-    * Specify Validator class name
-    *
-    * @return mixed
-    */
-    public function validator()
-    {
-
-         return LocalidadeValidator::class;
-    }
-
-
 
     /**
      * Boot up the repository, pushing criteria

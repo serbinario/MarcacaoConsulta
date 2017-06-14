@@ -36,11 +36,11 @@ function especialidadesUm(id, idEspecialista) {
         var option = '';
 
         option += '<option value="">Selecione uma especialidade</option>';
-        for (var i = 0; i < json['especialidades'].length; i++) {
-            if (json['especialidades'][i]['id'] == id) {
-                option += '<option selected value="' + json['especialidades'][i]['id'] + '">' + json['especialidades'][i]['nome'] + '</option>';
+        for (var i = 0; i < json.length; i++) {
+            if (json[i]['id'] == id) {
+                option += '<option selected value="' + json[i]['id'] + '">' + json[i]['nome'] + '</option>';
             } else {
-                option += '<option value="' + json['especialidades'][i]['id'] + '">' + json['especialidades'][i]['nome'] + '</option>';
+                option += '<option value="' + json[i]['id'] + '">' + json[i]['nome'] + '</option>';
             }
         }
 
@@ -60,11 +60,11 @@ function especialidadesDois(id, idEspecialista) {
         var option = '';
 
         option += '<option value="">Selecione uma especialidade</option>';
-        for (var i = 0; i < json['especialidades'].length; i++) {
-            if (json['especialidades'][i]['id'] == id) {
-                option += '<option selected value="' + json['especialidades'][i]['id'] + '">' + json['especialidades'][i]['nome'] + '</option>';
+        for (var i = 0; i < json.length; i++) {
+            if (json[i]['id'] == id) {
+                option += '<option selected value="' + json[i]['id'] + '">' + json[i]['nome'] + '</option>';
             } else {
-                option += '<option value="' + json['especialidades'][i]['id'] + '">' + json['especialidades'][i]['nome'] + '</option>';
+                option += '<option value="' + json[i]['id'] + '">' + json[i]['nome'] + '</option>';
             }
         }
 
@@ -84,7 +84,7 @@ function especialidadesSearchGrid(id, idEspecialista) {
         var option = '';
 
         option += '<option value="">Selecione uma especialidade</option>';
-        for (var i = 0; i < json['especialidades'].length; i++) {
+        for (var i = 0; i < json.length; i++) {
             if (json['especialidades'][i]['id'] == id) {
                 option += '<option selected value="' + json['especialidades'][i]['id'] + '">' + json['especialidades'][i]['nome'] + '</option>';
             } else {

@@ -24,18 +24,6 @@ class EspecialistaRepositoryEloquent extends BaseRepository implements Especiali
         return Especialista::class;
     }
 
-    /**
-    * Specify Validator class name
-    *
-    * @return mixed
-    */
-    /*public function validator()
-    {
-
-         return EspecialistaValidator::class;
-    }*/
-
-
 
     /**
      * Boot up the repository, pushing criteria

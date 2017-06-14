@@ -24,18 +24,6 @@ class CGMMunicipioRepositoryEloquent extends BaseRepository implements CGMMunici
         return CGMMunicipio::class;
     }
 
-    /**
-    * Specify Validator class name
-    *
-    * @return mixed
-    */
-    /*public function validator()
-    {
-
-         return CGMMunicipioValidator::class;
-    }*/
-
-
 
     /**
      * Boot up the repository, pushing criteria
