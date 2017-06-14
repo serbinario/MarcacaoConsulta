@@ -90,16 +90,12 @@ class CalendarioController extends Controller
             ->where('calendario.especialista_id', '=', $id)
             ->select([
                 'calendario.id',
-                'calendario.hora',
-                'calendario.hora2',
                 'calendario.qtd_vagas',
                 'calendario.mais_mapa',
                 'status.nome as status',
                 \DB::raw('DATE_FORMAT(calendario.data,"%d/%m/%Y") as data'),
                 'cgm.nome',
                 'localidade.nome as localidade',
-                'calendario.especialidade_id_um',
-                'calendario.especialidade_id_dois'
             ]);
 
         // Por período de data
@@ -126,56 +122,87 @@ class CalendarioController extends Controller
         #Editando a grid
         return Datatables::of($rows)->addColumn('mapas', function ($row) {
 
-            if ($row->mais_mapa) {
-                return $row->hora . "<br />" . $row->hora2;
+            // Seleciona os mapas
+            $mapas = \DB::table('mapas')
+                ->where('mapas.calendario_id', '=', $row->id)
+                ->select([
+                    "id",
+                    'horario'
+                ])->get();
+
+            if (count($mapas) > 1) {
+                return $mapas[0]->horario . "<br />" . $mapas[1]->horario;
             } else {
-                return $row->hora;
+                return $mapas[0]->horario;
             }
 
         })->addColumn('especialidades', function ($row) {
 
-            $retorno = $this->especialidadesDoCalendario($row);
 
-            if ($row->mais_mapa) {
-                return "Mapa 1: " . $retorno['especialidade_um']->nome . "<br />" . "Mapa 2: " . $retorno['especialidade_dois']->nome;
+            // Pega a especilidade do primeiro mapa
+            $especialidades = \DB::table('mapas')
+                ->join('especialista_especialidade', 'especialista_especialidade.id', '=', 'mapas.especialidade_id')
+                ->join('especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
+                ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
+                ->where('mapas.calendario_id', '=', $row->id)
+                ->select([
+                    "operacoes.nome",
+                    "especialidade.id as especialidade_id",
+                ])->get();
+
+            if (count($especialidades) > 1) {
+                return "Mapa 1: " . $especialidades[0]->nome . "<br />" . "Mapa 2: " . $especialidades[1]->nome;
             } else {
-                return $retorno['especialidade_um']->nome;
+                return $especialidades[0]->nome;
             }
 
         })->addColumn('agendamentos', function ($row) {
 
+
+            // Seleciona os mapas
+            $mapas = \DB::table('mapas')
+                ->where('mapas.calendario_id', '=', $row->id)
+                ->select(["id",])->get();
+
             //Select dados mapa 1
             $mapa1 = \DB::table('agendamento')
                 ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
-                ->where('agendamento.hora', '=', $row->hora)
-                ->where('calendario.id', '=', $row->id)
-                ->select([
-                    \DB::raw('count(agendamento.id) as qtdAgendados'),
-                ])->first();
-
-            //Select dados mapa 2
-            $mapa2 = \DB::table('agendamento')
-                ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
-                ->where('agendamento.hora', '=', $row->hora2)
+                ->where('agendamento.mapa_id', '=', $mapas[0]->id)
                 ->where('calendario.id', '=', $row->id)
                 ->select([
                     \DB::raw('count(agendamento.id) as qtdAgendados'),
                 ])->first();
 
             if ($row->mais_mapa) {
+
+                //Select dados mapa 2
+                $mapa2 = \DB::table('agendamento')
+                    ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
+                    ->where('agendamento.mapa_id', '=', $mapas[1]->id)
+                    ->where('calendario.id', '=', $row->id)
+                    ->select([
+                        \DB::raw('count(agendamento.id) as qtdAgendados'),
+                    ])->first();
+
                 return "Mapa 1: " . $mapa1->qtdAgendados . "<br />" . "Mapa 2: " . $mapa2->qtdAgendados;
             } else {
                 return $mapa1->qtdAgendados;
             }
 
-
         })->addColumn('vagas', function ($row) {
 
-            if($row->mais_mapa) {
-                $vagas = $row->qtd_vagas / 2;
-                return "Mapa 1: ".$vagas."<br />"."Mapa 2: ".$vagas;
+            // Seleciona os mapas
+            $mapas = \DB::table('mapas')
+                ->where('mapas.calendario_id', '=', $row->id)
+                ->select([
+                    "id",
+                    'vagas'
+                ])->get();
+
+            if (count($mapas) > 1) {
+                return "Mapa 1: " . $mapas[0]->vagas . "<br />" . "Mapa 2: " . $mapas[1]->vagas;
             } else {
-                return $row->qtd_vagas;
+                return $mapas[0]->vagas;
             }
 
         })->make(true);
@@ -330,8 +357,7 @@ class CalendarioController extends Controller
 
         $result = $this->service->findCalendarioDataMedico($data['data'], $data['idMedico'], $data['idLocalidade']);
         $calendario     = $result['calendario'];
-        $mapa1          = $result['mapa1'];
-        $mapa2          = $result['mapa2'];
+        $mapas          = $result['mapas'];
 
         if($result['status']) {
             $retorno = true;
@@ -339,7 +365,7 @@ class CalendarioController extends Controller
             $retorno = false;
         }
 
-        return compact('calendario', 'retorno', 'mapa1', 'mapa2');
+        return compact('calendario', 'retorno', 'mapas');
     }
 
     /**
@@ -355,6 +381,9 @@ class CalendarioController extends Controller
             ->join('cgm', 'cgm.id', '=', 'fila.cgm_id')
             ->join('cgm as cgm_especialista', 'cgm_especialista.id', '=', 'especialista.cgm')
             ->join('status_agendamento', 'status_agendamento.id', '=', 'agendamento.status_agendamento_id')
+            ->join('mapas', 'mapas.id', '=', 'agendamento.mapa_id')
+            ->join('especialista_especialidade', 'especialista_especialidade.id', '=', 'mapas.especialidade_id')
+            ->join('especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
             ->where('calendario.id', '=', $id)
             ->select([
                 'cgm.nome',
@@ -362,12 +391,9 @@ class CalendarioController extends Controller
                 'calendario.id as calendario_id',
                 'calendario.status_id',
                 'calendario.mais_mapa',
-                'calendario.hora as hora_mapa1',
-                'calendario.hora2 as hora_mapa2',
-                'calendario.especialidade_id_um',
-                'calendario.especialidade_id_dois',
+                'mapas.horario as horario',
+                'especialidade.id as exame_id',
                 'agendamento.id as agendamento_id',
-                'agendamento.hora',
                 'cgm_especialista.nome as especialista',
                 'especialista.crm',
                 'status_agendamento.nome as status'
@@ -384,32 +410,6 @@ class CalendarioController extends Controller
                 }
 
                 return $html;
-
-            })->addColumn('exame', function ($row) {
-
-                $retorno = $this->especialidadesDoCalendario($row);
-
-                // Validade de qual mapa o paciente pertence e pega a especialidade ao foi agendado
-                if($row->hora == $row->hora_mapa1) {
-                    return $retorno['especialidade_um']->nome;
-                } else if ($row->hora == $row->hora_mapa2) {
-                    return $retorno['especialidade_dois']->nome;
-                } else {
-                    return "";
-                }
-
-        })->addColumn('exame_id', function ($row) {
-
-                $retorno = $this->especialidadesDoCalendario($row);
-
-                // Validade de qual mapa o paciente pertence e pega a especialidade ao foi agendado
-                if($row->hora == $row->hora_mapa1) {
-                    return $retorno['especialidade_um']->especialidade_id;
-                } else if ($row->hora == $row->hora_mapa2) {
-                    return $retorno['especialidade_dois']->especialidade_id;
-                } else {
-                    return "";
-                }
 
             })->make(true);
     }
@@ -483,6 +483,8 @@ class CalendarioController extends Controller
             ->where('id', '=', $request->get('idCalendario'))
             ->select([
                 'qtd_vagas',
+                'vagas_mapa1',
+                'vagas_mapa2',
                 'mais_mapa'
             ])->first();
 
@@ -495,7 +497,7 @@ class CalendarioController extends Controller
             ])->first();
 
         // Pegando a quantidade de vagas do mapa e vagas restantes
-        $vagas          = $calendario->mais_mapa ? $calendario->qtd_vagas / 2 : $calendario->qtd_vagas;
+        $vagas          = $calendario->mais_mapa ? $calendario->vagas_mapa2 : $calendario->vagas_mapa1;
         $vagasRestantes = $vagas - $agendamentos->qtd_agendados;
 
         $dados = [
@@ -545,33 +547,4 @@ class CalendarioController extends Controller
         }
     }
 
-    /**
-     * @param $row
-     * @return array
-     */
-    private function especialidadesDoCalendario($row) {
-
-        // Pega a especilidade do primeiro mapa
-        $especialidadeUm = \DB::table('especialista_especialidade')
-            ->join('especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
-            ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
-            ->where('especialista_especialidade.id', '=', $row->especialidade_id_um)
-            ->select([
-                "operacoes.nome",
-                "especialidade.id as especialidade_id",
-            ])->first();
-
-        // Pega a especilidade do segundo mapa
-        $especialidadeDois = \DB::table('especialista_especialidade')
-            ->join('especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
-            ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
-            ->where('especialista_especialidade.id', '=', $row->especialidade_id_dois)
-            ->select([
-                "operacoes.nome",
-                "especialidade.id as especialidade_id",
-            ])->first();
-
-        return ['especialidade_um' => $especialidadeUm, 'especialidade_dois' => $especialidadeDois];
-
-    }
 }

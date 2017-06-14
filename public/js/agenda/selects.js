@@ -85,10 +85,10 @@ function especialidadesSearchGrid(id, idEspecialista) {
 
         option += '<option value="">Selecione uma especialidade</option>';
         for (var i = 0; i < json.length; i++) {
-            if (json['especialidades'][i]['id'] == id) {
-                option += '<option selected value="' + json['especialidades'][i]['id'] + '">' + json['especialidades'][i]['nome'] + '</option>';
+            if (json[i]['id'] == id) {
+                option += '<option selected value="' + json[i]['id'] + '">' + json[i]['nome'] + '</option>';
             } else {
-                option += '<option value="' + json['especialidades'][i]['id'] + '">' + json['especialidades'][i]['nome'] + '</option>';
+                option += '<option value="' + json[i]['id'] + '">' + json[i]['nome'] + '</option>';
             }
         }
 

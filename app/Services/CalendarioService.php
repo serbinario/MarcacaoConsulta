@@ -7,6 +7,7 @@ use Seracademico\Repositories\CalendarioRepository;
 use Seracademico\Entities\Calendario;
 use Seracademico\Repositories\EventoRepository;
 use Seracademico\Repositories\FilaRepository;
+use Seracademico\Repositories\MapaRepository;
 use Yajra\Datatables\Datatables;
 
 class CalendarioService
@@ -32,17 +33,24 @@ class CalendarioService
     private $repoFila;
 
     /**
+     * @var EventoRepository
+     */
+    private $mapaRepository;
+
+    /**
      * @param CalendarioRepository $repository
      */
     public function __construct(CalendarioRepository $repository,
                                 AgendamentoRepository $repositoryAgendamento,
                                 EventoRepository $repoEvento,
-                                FilaRepository $repoFila)
+                                FilaRepository $repoFila,
+                                MapaRepository $mapaRepository)
     {
-        $this->repository   = $repository;
-        $this->repositoryAgendamento = $repositoryAgendamento;
-        $this->repoEvento   = $repoEvento;
-        $this->repoFila     = $repoFila;
+        $this->repository               = $repository;
+        $this->repositoryAgendamento    = $repositoryAgendamento;
+        $this->repoEvento               = $repoEvento;
+        $this->repoFila                 = $repoFila;
+        $this->mapaRepository           = $mapaRepository;
     }
 
     /**
@@ -66,7 +74,8 @@ class CalendarioService
 
     /**
      * @param array $data
-     * @return array
+     * @return Calendario
+     * @throws \Exception
      */
     public function store(array $data) : Calendario
     {
@@ -74,14 +83,16 @@ class CalendarioService
         #tratamento de dados do aluno
         $data     = $this->tratamentoCampos($data);
         $data     = $this->tratamentoCamposVazio($data);
-        
-        if($data['mais_mapa'] == '1') {
-            $data['qtd_vagas'] = $data['qtd_vagas'] * 2;
-        }
 
-        #Salvando o registro pincipal
+        #Salvando o registro principal
         $data['status_id'] = '1';
         $calendario =  $this->repository->create($data);
+
+        // Salvando os mapas
+        foreach ($data['mapas'] as $mapa) {
+            $mapa['calendario_id'] = $calendario->id;
+            $this->mapaRepository->create($mapa);
+        }
 
         #Verificando se foi criado no banco de dados
         if(!$calendario) {
@@ -93,9 +104,50 @@ class CalendarioService
     }
 
     /**
- * @param array $data
- * @return array
- */
+     * @param array $data
+     * @param int $id
+     * @return Calendario
+     * @throws \Exception
+     */
+    public function update(array $data, int $id) : Calendario
+    {
+
+        #tratamento de dados do aluno
+        $data     = $this->tratamentoCampos($data);
+        $data     = $this->tratamentoCamposVazio($data);
+
+        #Atualizando no banco de dados
+        $calendario = $this->repository->update($data, $id);
+
+        // Editando os mapas
+        foreach ($data['mapas'] as $mapa) {
+            $mapa['calendario_id'] = $calendario->id;
+            $this->mapaRepository->update($mapa, $mapa['id']);
+        }
+
+        $calendarioFind = $this->repository->with(['agendamento.evento'])->find($id);
+        //Atualizando os agendamentos conforme a data atual do calendário
+        foreach ($calendarioFind->agendamento as $agendamento) {
+            foreach ($agendamento->evento as $evento) {
+                $evento->start = $calendario->data;
+                $evento->save();
+            }
+        }
+
+        #Verificando se foi atualizado no banco de dados
+        if(!$calendario) {
+            throw new \Exception('Ocorreu um erro ao cadastrar!');
+        }
+
+        #Retorno
+        return $calendario;
+    }
+
+    /**
+     * @param array $data
+     * @return mixed
+     * @throws \Exception
+     */
     public function reagendamento(array $data)
     {
         // Tratando os agendamentos dos pacientes
@@ -144,7 +196,8 @@ class CalendarioService
 
     /**
      * @param array $data
-     * @return array
+     * @return mixed
+     * @throws \Exception
      */
     public function agendamento(array $data)
     {
@@ -214,14 +267,14 @@ class CalendarioService
     }
 
     /**
-     * @param $id
+     * @param $data
      * @return mixed
      * @throws \Exception
      */
     public function findCalendarioData($data)
     {
         #Recuperando o registro no banco de dados
-        $calendario = $this->repository->with(['agendamento'])->findWhere(['data' => $data['data'], 'especialista_id' => $data['especialista']]);
+        $calendario = $this->repository->with(['agendamento', 'mapas.especialidadeMapa'])->findWhere(['data' => $data['data'], 'especialista_id' => $data['especialista']]);
 
         #Verificando se o registro foi encontrado
         if(count($calendario) <= 0) {
@@ -233,9 +286,10 @@ class CalendarioService
     }
 
     /**
-     * @param $id
-     * @return mixed
-     * @throws \Exception
+     * @param $data
+     * @param $idEspecialista
+     * @param $idlocalidade
+     * @return array
      */
     public function findCalendarioDataMedico($data, $idEspecialista, $idlocalidade)
     {
@@ -252,53 +306,52 @@ class CalendarioService
             ->where('calendario.status_id', '=', '1')
             ->select([
                 'calendario.id',
-                'calendario.hora',
-                'calendario.hora2',
                 'calendario.qtd_vagas',
                 'calendario.mais_mapa',
                 'status.id as status',
                 'status.nome as status_nome',
                 'calendario.data',
-            ])->first()
-        ;
+            ])->first();
 
         if($calendario) {
-            //Select dados mapa 1
-            $mapa1 = \DB::table('agendamento')
-                ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
-                ->leftJoin('especialista_especialidade', 'especialista_especialidade.id', '=', 'calendario.especialidade_id_um')
-                ->leftJoin('especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
-                ->leftJoin('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
-                ->where('agendamento.hora', '=', $calendario->hora)
-                ->where('calendario.id', '=', $calendario->id)
-                ->select([
-                    \DB::raw('count(agendamento.id) as qtdAgendados'),
-                    'operacoes.nome as especialidade'
-                ])->first();
 
-            //Select dados mapa 2
-            $mapa2 = \DB::table('agendamento')
-                ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
-                ->leftJoin('especialista_especialidade', 'especialista_especialidade.id', '=', 'calendario.especialidade_id_dois')
-                ->leftJoin('especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
-                ->leftJoin('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
-                ->where('agendamento.hora', '=', $calendario->hora2)
-                ->where('calendario.id', '=', $calendario->id)
+            // Seleciona os mapas
+            $mapas = \DB::table('mapas')
+                ->join('especialista_especialidade', 'especialista_especialidade.id', '=', 'mapas.especialidade_id')
+                ->join('especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
+                ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
+                ->where('mapas.calendario_id', '=', $calendario->id)
                 ->select([
-                    \DB::raw('count(agendamento.id) as qtdAgendados'),
-                    'operacoes.nome as especialidade'
-                ])->first();
+                    'mapas.horario',
+                    'mapas.vagas',
+                    'mapas.id',
+                    'operacoes.nome as especialidade',
+                ])->get();
+
+            // Montando as informações dos mapas
+            foreach ($mapas as $chave => $mapa) {
+
+                //Pegando a quantidade de agendamentos por mapa
+                $agendamentos = \DB::table('agendamento')
+                    ->join('mapas', 'mapas.id', '=', 'agendamento.mapa_id')
+                    ->where('agendamento.mapa_id', '=', $mapa->id)
+                    ->select([
+                        \DB::raw('count(agendamento.id) as qtdAgendados'),
+                    ])->first();
+
+                $arrayTemp = (array) $mapas[$chave];
+                $mapas[$chave] = (object) array_merge($arrayTemp, ['qtdAgendados' => $agendamentos->qtdAgendados]);
+            }
 
             $retorno = [
                 'calendario' => $calendario,
-                'mapa1' => $mapa1,
-                'mapa2' => $mapa2,
+                'mapas' => $mapas,
             ];
+
         } else {
             $retorno = [
                 'calendario' => $calendario,
-                'mapa1' => "",
-                'mapa2' => "",
+                'mapas' => "",
             ];
         }
 
@@ -316,49 +369,8 @@ class CalendarioService
     }
 
     /**
-     * @param array $data
-     * @param int $id
-     * @return mixed
-     */
-    public function update(array $data, int $id) : Calendario
-    {
-
-        #tratamento de dados do aluno
-        $data     = $this->tratamentoCampos($data);
-        $data     = $this->tratamentoCamposVazio($data);
-
-        if($data['mais_mapa'] == '1') {
-            $data['qtd_vagas'] = $data['qtd_vagas'] * 2;
-        } 
-
-        if(!isset($data['hora2'])) {
-            $data['hora2'] = null;
-        }
-
-        #Atualizando no banco de dados
-        $calendario = $this->repository->update($data, $id);
-
-        $calendarioFind = $this->repository->with(['agendamento.evento'])->find($id);
-        //Atualizando os agendamentos conforme a data atual do calendário
-        foreach ($calendarioFind->agendamento as $agendamento) {
-            foreach ($agendamento->evento as $evento) {
-                $evento->start = $calendario->data;
-                $evento->save();
-            }
-        }
-
-        #Verificando se foi atualizado no banco de dados
-        if(!$calendario) {
-            throw new \Exception('Ocorreu um erro ao cadastrar!');
-        }
-
-        #Retorno
-        return $calendario;
-    }
-
-    /**
      * @param array $models
-     * @return array
+     * @return mixed
      */
     public function load(array $models) : array
     {
@@ -414,7 +426,8 @@ class CalendarioService
     }
 
     /**
-     * @param Aluno $aluno
+     * @param $model
+     * @return mixed
      */
     public function getCGMWithDateFormatPtBr($model)
     {

@@ -89,9 +89,7 @@
                                                                 <div class="fg-line">
                                                                     {!! Form::label('localidades', 'Unidade de Atendimento') !!}
                                                                     {!! Form::select('localidade_id', array(), array(),array('class' => 'form-control input-sm', 'id' => 'localidades')) !!}
-                                                                    <input type="hidden" id="especialista_id"
-                                                                           name="especialista_id"
-                                                                           value="{{ $especialista['id'] }}">
+                                                                    <input type="hidden" id="especialista_id" name="especialista_id" value="{{ $especialista['id'] }}">
                                                                 </div>
                                                             </div>
 
@@ -112,9 +110,7 @@
                                                                 <div class="fg-line">
                                                                     <div class="checkbox m-b-15">
                                                                         <label>
-                                                                            <input type="checkbox" name="mais_mapa"
-                                                                                   id="mapa" value=""><i
-                                                                                    class="input-helper"></i>
+                                                                            <input type="checkbox" name="mais_mapa" id="mapa" value=""><i class="input-helper"></i>
                                                                             Possui mais de um mapa?
                                                                         </label>
                                                                     </div>
@@ -127,6 +123,7 @@
                                                                 <div class="fg-line">
                                                                     {!! Form::label('hora', 'Hora Mapa 1') !!}
                                                                     {!! Form::text('hora', '', array('class' => 'form-control hora input-sm', 'id' => 'hora')) !!}
+                                                                    <input type="hidden" id="id_mapa1" value="">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group col-md-4">
@@ -148,6 +145,7 @@
                                                                 <div class="fg-line">
                                                                     {!! Form::label('hora2', 'Hora Mapa 2') !!}
                                                                     {!! Form::text('hora2', '', array('class' => 'form-control hora', 'id' => 'hora2', 'readonly' => 'readonly')) !!}
+                                                                    <input type="hidden" id="id_mapa2" value="">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group col-md-4">
@@ -159,7 +157,7 @@
                                                             <div class="col-md-3">
                                                                 <div class="fg-line">
                                                                     {!! Form::label('vagas_mapa2', 'Vagas Mapa 2') !!}
-                                                                    {!! Form::text('vagas_mapa2', '', array('class' => 'form-control hora input-sm', 'id' => 'vagas_mapa2')) !!}
+                                                                    {!! Form::text('vagas_mapa2', '', array('class' => 'form-control hora input-sm', 'id' => 'vagas_mapa2', 'readonly' => 'readonly')) !!}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -365,38 +363,48 @@
 
                         // Carregando os selectes
                         localidade(json['calendario']['localidade_id']);
-                        especialidadesUm(json['calendario']['especialidade_id_um'], idEspecialista);
+                        especialidadesUm(json['calendario']['mapas'][0]['especialidade_mapa']['id'], idEspecialista);
 
+                        // Preenchendo os campos do formulário
                         $('#especialista_id').val(json['calendario']['especialista_id']);
                         $('#data').val(toDate(json['calendario']['data']));
-                        $('#hora').val(json['calendario']['hora']);
-                        $('#hora2').val(json['calendario']['hora2']);
+                        $('#hora').val(json['calendario']['mapas'][0]['horario']);
+                        $('#id_mapa1').val(json['calendario']['mapas'][0]['id']);
+                        $('#vagas_mapa1').val(json['calendario']['mapas'][0]['vagas']);
                         json['calendario']['mais_mapa'] == '1' ? $('#mapa').prop('checked', true) : $('#mapa').attr('checked', false);
                         idCalendario = json['calendario']['id'];
+                        $('#qtd_vagas').val(json['calendario']['qtd_vagas']);
                         var status = json['calendario']['status_id'];
 
                         runGridPacientes(idCalendario);
 
-                        var qtdVagas = 0;
+                        // Valida se o dia tem mais de um mapa ou não!!
                         if (json['calendario']['mais_mapa'] == '1') {
-                            qtdVagas = json['calendario']['qtd_vagas'] / 2;
 
                             // Habilitando os campos do segundo mapa
                             $('#hora2').prop('readonly', false);
+                            $('#vagas_mapa2').prop('readonly', false);
                             $('#especialidade_dois').prop('disabled', false);
-                            especialidadesDois(json['calendario']['especialidade_id_dois'], idEspecialista);
+
+                            // Preenchendo os campos do segundo mapa
+                            $('#hora2').val(json['calendario']['mapas'][1]['horario']);
+                            $('#vagas_mapa2').val(json['calendario']['mapas'][1]['vagas']);
+                            $('#id_mapa2').val(json['calendario']['mapas'][1]['id']);
+                            especialidadesDois(json['calendario']['mapas'][1]['especialidade_mapa']['id'], idEspecialista);
 
                         } else {
-                            qtdVagas = json['calendario']['qtd_vagas'];
 
                             // Desabilitando os campos do segundo mapa
                             $('#hora2').prop('readonly', true);
+                            $('#vagas_mapa2').prop('readonly', true);
                             $('#especialidade_dois').prop('disabled', true);
+
+                            // Setando valores nulos no segundo mapa
+                            $('#hora2').val("");
+                            $('#vagas_mapa2').val("");
+                            $('#id_mapa2').val("");
                             $('#especialidade_dois option').remove();
                         }
-
-                        // Preenchendo o campo vaga
-                        $('#qtd_vagas').val(qtdVagas);
 
 
                         // Habilitando os botões do calendário e desabilitando o de salvar
@@ -422,7 +430,6 @@
                                 $('#bloquear').attr('disabled', false);
                                 $('#edit').attr('disabled', true);
                             }
-
 
                             // Desabilitando os campos do formulário
                             $('#qtd_vagas').prop('readonly', true);
@@ -467,7 +474,7 @@
                     $('#especialidade_um').prop('disabled', false);
                     $('#localidades').prop('disabled', false);
                 }
-            };
+            }
 
         });
     </script>

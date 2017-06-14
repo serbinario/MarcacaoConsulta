@@ -17,14 +17,9 @@ class EspecialistaEspecialidade extends Model implements Transformable
 		'especialidade_id',
 	];
 
-    public function calendarioUm()
+    public function mapas()
     {
-        return $this->hasMany(Calendario::class, "especialidade_id_um");
-    }
-
-    public function calendarioDois()
-    {
-        return $this->hasMany(Calendario::class, "especialidade_id_dois");
+        return $this->hasMany(Mapa::class, "especialidade_id", 'id');
     }
 
     public function especialista()

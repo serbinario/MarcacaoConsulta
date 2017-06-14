@@ -16,7 +16,7 @@ $(document).ready(function () {
             'posto_saude_id': $('#psf').val(),
             'obs': $('#obs').val(),
             'status': '1',
-            'hora': $('#hora').val(),
+            'mapa_id': $('#hora').val(),
             'dataEvento' : $('#data').val()
         };
 

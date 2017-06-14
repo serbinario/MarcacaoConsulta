@@ -130,5 +130,10 @@ class SeracademicoRepositoryProvider extends ServiceProvider
 			\Seracademico\Repositories\EspecialistaEspecialidadeRepository::class,
 			\Seracademico\Repositories\EspecialistaEspecialidadeRepositoryEloquent::class
 		);
+
+		$this->app->bind(
+			\Seracademico\Repositories\MapaRepository::class,
+			\Seracademico\Repositories\MapaRepositoryEloquent::class
+		);
 	}
 }

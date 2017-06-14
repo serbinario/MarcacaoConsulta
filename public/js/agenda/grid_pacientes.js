@@ -20,7 +20,7 @@ function loadTablePaciente (idCalendario) {
         columns: [
             {data: 'nome', name: 'cgm.nome'},
             {data: 'hora', name: 'agendamento.hora'},
-            {data: 'exame', name: 'exame', orderable: false, searchable: false},
+            {data: 'horario', name: 'mapas.horario'},
             {data: 'status', name: 'status_agendamento.nome', orderable: false, searchable: false},
             /*{data: 'action', name: 'action', orderable: false, searchable: false}*/
         ]

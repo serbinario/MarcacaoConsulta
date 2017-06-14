@@ -297,46 +297,57 @@
                         datatype: 'json'
                     }).done(function (json) {
                         if (json['retorno'] === true) {
+
                             $('#calendario').val(json['calendario']['id']);
                             $('#data').val(json['calendario']['data']);
                             $('#obs').text('');
                             psfs();
                             paciente("", especialidade);
                             var TotalVagas = 0;
-                            if (json['calendario']['hora2']) {
+
+                            if (json['calendario']['mais_mapa']) {
                                 TotalVagas = json['calendario']['qtd_vagas'] / 2;
                             } else {
                                 TotalVagas = json['calendario']['qtd_vagas'];
                             }
+
                             //Tratando os resultados para vagas hora 1
-                            var vagasRestantes1 = TotalVagas - json['mapa1']['qtdAgendados'];
-                            $('.hora1').html("<b>Mapa:</b> " + json['calendario']['hora'] + ": ");
-                            $('.total-vagas1').html("<b>Total de Vagas:</b> " + TotalVagas + " / ");
+                            var vagasRestantes1 = json['mapas'][0]['vagas'] - json['mapas'][0]['qtdAgendados'];
+                            $('.hora1').html("<b>Mapa:</b> " + json['mapas'][0]['horario'] + ": ");
+                            $('.total-vagas1').html("<b>Total de Vagas:</b> " + json['mapas'][0]['vagas'] + " / ");
+
                             // Verifica se as vagas para o primeiro mapa estão esgotados
                             if (vagasRestantes1 <= "0") {
-                                $('.total-agendados1').html("<b>Total de Agendados: </b>" + "<span style='color: red' '>" + json['mapa1']['qtdAgendados'] + "</span>" + " / ");
+                                $('.total-agendados1').html("<b>Total de Agendados: </b>" + "<span style='color: red' '>" + json['mapas'][0]['qtdAgendados'] + "</span>" + " / ");
                             } else {
-                                $('.total-agendados1').html("<b>Total de Agendados: </b>" + json['mapa1']['qtdAgendados'] + " / ");
+                                $('.total-agendados1').html("<b>Total de Agendados: </b>" + json['mapas'][0]['qtdAgendados'] + " / ");
                             }
+
                             vagasRestantes1 = vagasRestantes1 < 0 ? 0 : vagasRestantes1;
                             $('.vagas-restantes1').html("<b>Vagas Restantes: </b>" + vagasRestantes1);
+
                             //Tratando os resultados para vagas hora 2
-                            if (json['calendario']['hora2']) {
+                            if (json['calendario']['mais_mapa']) {
+
                                 $('.div-hora2').show();
-                                var vagasRestantes2 = TotalVagas - json['mapa2']['qtdAgendados'];
-                                $('.hora2').html("<b>Mapa:</b> " + json['calendario']['hora2'] + ": ");
-                                $('.total-vagas2').html("<b>Total de Vagas:</b> " + TotalVagas + " / ");
+
+                                var vagasRestantes2 = json['mapas'][1]['vagas'] - json['mapas'][1]['qtdAgendados'];
+                                $('.hora2').html("<b>Mapa:</b> " + json['mapas'][1]['horario'] + ": ");
+                                $('.total-vagas2').html("<b>Total de Vagas:</b> " + json['mapas'][1]['vagas'] + " / ");
+
                                 // Verifica se as vagas para o segundo mapa estão esgotados
                                 if (vagasRestantes2 <= "0") {
-                                    $('.total-agendados2').html("<b>Total de Agendados: </b>" + "<span style='color: red' '>" + json['mapa2']['qtdAgendados'] + "</span>" + " / ");
+                                    $('.total-agendados2').html("<b>Total de Agendados: </b>" + "<span style='color: red' '>" + json['mapas'][1]['qtdAgendados'] + "</span>" + " / ");
                                 } else {
-                                    $('.total-agendados2').html("<b>Total de Agendados: </b>" + json['mapa2']['qtdAgendados'] + " / ");
+                                    $('.total-agendados2').html("<b>Total de Agendados: </b>" + json['mapas'][1]['qtdAgendados'] + " / ");
                                 }
+
                                 vagasRestantes2 = vagasRestantes2 < 0 ? 0 : vagasRestantes2;
                                 $('.vagas-restantes2').html("<b>Vagas Restantes: </b>" + vagasRestantes2);
                             } else {
                                 $('.div-hora2').hide();
                             }
+
                             //Validando habilitação do botão save para perfil de usuário
                             if (vagasRestantes1 <= "0") {
                                 @role('submaster')
@@ -348,12 +359,15 @@
                             } else {
                                 $('#save').attr('disabled', false);
                             }
+
                             //Combobox para hora
                             var option = "";
-                            option += '<option value="' + json['calendario']['hora'] + '">' + json['calendario']['hora'] + ' - ' +json['mapa1']['especialidade']+ '</option>';
-                            if (json['calendario']['hora2']) {
-                                option += '<option value="' + json['calendario']['hora2'] + '">' + json['calendario']['hora2'] + ' - ' +json['mapa2']['especialidade']+ '</option>';
+                            option += '<option value="' + json['mapas'][0]['id'] + '">' + json['mapas'][0]['horario'] + ' - ' + json['mapas'][0]['especialidade']+ '</option>';
+
+                            if (json['calendario']['mais_mapa']) {
+                                option += '<option value="' + json['mapas'][1]['id'] + '">' + json['mapas'][1]['horario'] + ' - ' + json['mapas'][1]['especialidade']+ '</option>';
                             }
+
                             $('#hora option').remove();
                             $('#hora').prepend(option);
                             $('.div-hora1').show();
