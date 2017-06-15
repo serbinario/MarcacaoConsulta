@@ -99,16 +99,16 @@ class AgendadosController extends Controller
             ->join('especialista', 'especialista.id', '=', 'calendario.especialista_id')
             ->join('cgm as cgm_especialista', 'cgm_especialista.id', '=', 'especialista.cgm')
             ->join('status_agendamento', 'status_agendamento.id', '=', 'agendamento.status_agendamento_id')
-            //->leftJoin('especialista_especialidade as especialidade_um', 'especialidade_um.id', '=', 'calendario.especialidade_id_um')
-            //->leftJoin('especialista_especialidade as especialidade_dois', 'especialidade_dois.id', '=', 'calendario.especialidade_id_dois')
+            ->join('mapas', 'mapas.id', '=', 'agendamento.mapa_id')
             ->select([
                 'agendamento.id',
                 'cgm.nome',
+                'cgm.numero_sus',
                 'operacoes.nome as especialidade',
                 'prioridade.nome as prioridade',
                 'posto_saude.nome as psf',
                 \DB::raw('DATE_FORMAT(calendario.data,"%d/%m/%Y") as data'),
-                'agendamento.hora',
+                'mapas.horario',
                 'cgm_especialista.nome as especialista',
                 'status_agendamento.nome as status',
                 'status_agendamento.id as status_id'
@@ -164,7 +164,7 @@ class AgendadosController extends Controller
                 $query->where(function ($where) use ($search) {
                     $where->orWhere('cgm.nome', 'like', "%$search%")
                         ->orWhere('cgm_especialista.nome', 'like', "%$search%")
-                    ;
+                        ->orWhere('cgm.numero_sus', 'like', "%$search%");
                 });
 
             }
@@ -221,10 +221,9 @@ class AgendadosController extends Controller
             $this->service->delete($id);
 
             #Retorno para a view
-            return redirect()->back()->with("message", "Paciente deletado com sucesso!");
+            return \Illuminate\Support\Facades\Response::json(['success' => true]);
         } catch (\Throwable $e) {
-            dd($e);
-            return redirect()->back()->with('message', $e->getMessage());
+            return \Illuminate\Support\Facades\Response::json(['error' => $e->getMessage()]);
         }
     }
 }

@@ -55,10 +55,30 @@
             <li class="pull-right">
                 <ul class="hi-menu">
 
-
-                    <li class="hidden-xs ma-trigger" data-ma-action="sidebar-open" data-ma-target="#chat">
-                        <a href=""><i class="him-icon zmdi zmdi-comment-alt-text"></i></a>
+                    <li class="dropdown hidden-xs">
+                        <a title="CGM" href="{{ route('serbinario.cgm.index') }}">
+                            <i class="him-icon zmdi zmdi-accounts-alt"></i>
+                        </a>
                     </li>
+
+                    <li class="dropdown hidden-xs">
+                        <a title="Fila de espera" href="{{ route('serbinario.fila.index') }}">
+                            <i class="him-icon zmdi zmdi-timer"></i>
+                        </a>
+                    </li>
+
+                    <li class="dropdown hidden-xs">
+                        <a title="Especialistas" href="{{ route('serbinario.especialista.index') }}">
+                            <i class="him-icon zmdi zmdi-account"></i>
+                        </a>
+                    </li>
+
+                    <li class="dropdown hidden-xs">
+                        <a title="Agenda" href="{{ route('serbinario.agendamento.index') }}">
+                            <i class="him-icon zmdi zmdi-calendar"></i>
+                        </a>
+                    </li>
+
                 </ul>
             </li>
         </ul>

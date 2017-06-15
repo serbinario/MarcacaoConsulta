@@ -120,92 +120,105 @@ class CalendarioController extends Controller
         }
 
         #Editando a grid
-        return Datatables::of($rows)->addColumn('mapas', function ($row) {
+        return Datatables::of($rows)
+            ->addColumn('action', function ($row) {
+                $calendario = $this->repository->find($row->id);
 
-            // Seleciona os mapas
-            $mapas = \DB::table('mapas')
-                ->where('mapas.calendario_id', '=', $row->id)
-                ->select([
-                    "id",
-                    'horario'
-                ])->get();
+                $html = "";
+                // Valida se o calendario esta bloqueado, caso sim, esse paciente recebe o direito de ser reagendado
+                if (count($calendario->agendamento) <= 0) {
+                    $html .= '<a href="/serbinario/calendario/deletar/'.$row->id.'" title="Remover" class="btn btn-xs btn-primary excluir"><i class="glyphicon glyphicon-remove"></i></a>';
+                }
 
-            if (count($mapas) > 1) {
-                return $mapas[0]->horario . "<br />" . $mapas[1]->horario;
-            } else {
-                return $mapas[0]->horario;
-            }
+                return $html;
 
-        })->addColumn('especialidades', function ($row) {
+            })
+            ->addColumn('mapas', function ($row) {
 
+                // Seleciona os mapas
+                $mapas = \DB::table('mapas')
+                    ->where('mapas.calendario_id', '=', $row->id)
+                    ->select([
+                        "id",
+                        'horario'
+                    ])->get();
 
-            // Pega a especilidade do primeiro mapa
-            $especialidades = \DB::table('mapas')
-                ->join('especialista_especialidade', 'especialista_especialidade.id', '=', 'mapas.especialidade_id')
-                ->join('especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
-                ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
-                ->where('mapas.calendario_id', '=', $row->id)
-                ->select([
-                    "operacoes.nome",
-                    "especialidade.id as especialidade_id",
-                ])->get();
+                if (count($mapas) > 1) {
+                    return $mapas[0]->horario . "<br />" . $mapas[1]->horario;
+                } else {
+                    return $mapas[0]->horario;
+                }
 
-            if (count($especialidades) > 1) {
-                return "Mapa 1: " . $especialidades[0]->nome . "<br />" . "Mapa 2: " . $especialidades[1]->nome;
-            } else {
-                return $especialidades[0]->nome;
-            }
-
-        })->addColumn('agendamentos', function ($row) {
+            })->addColumn('especialidades', function ($row) {
 
 
-            // Seleciona os mapas
-            $mapas = \DB::table('mapas')
-                ->where('mapas.calendario_id', '=', $row->id)
-                ->select(["id",])->get();
+                // Pega a especilidade do primeiro mapa
+                $especialidades = \DB::table('mapas')
+                    ->join('especialista_especialidade', 'especialista_especialidade.id', '=', 'mapas.especialidade_id')
+                    ->join('especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
+                    ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
+                    ->where('mapas.calendario_id', '=', $row->id)
+                    ->select([
+                        "operacoes.nome",
+                        "especialidade.id as especialidade_id",
+                    ])->get();
 
-            //Select dados mapa 1
-            $mapa1 = \DB::table('agendamento')
-                ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
-                ->where('agendamento.mapa_id', '=', $mapas[0]->id)
-                ->where('calendario.id', '=', $row->id)
-                ->select([
-                    \DB::raw('count(agendamento.id) as qtdAgendados'),
-                ])->first();
+                if (count($especialidades) > 1) {
+                    return "Mapa 1: " . $especialidades[0]->nome . "<br />" . "Mapa 2: " . $especialidades[1]->nome;
+                } else {
+                    return $especialidades[0]->nome;
+                }
 
-            if ($row->mais_mapa) {
+            })->addColumn('agendamentos', function ($row) {
 
-                //Select dados mapa 2
-                $mapa2 = \DB::table('agendamento')
+
+                // Seleciona os mapas
+                $mapas = \DB::table('mapas')
+                    ->where('mapas.calendario_id', '=', $row->id)
+                    ->select(["id",])->get();
+
+                //Select dados mapa 1
+                $mapa1 = \DB::table('agendamento')
                     ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
-                    ->where('agendamento.mapa_id', '=', $mapas[1]->id)
+                    ->where('agendamento.mapa_id', '=', $mapas[0]->id)
                     ->where('calendario.id', '=', $row->id)
                     ->select([
                         \DB::raw('count(agendamento.id) as qtdAgendados'),
                     ])->first();
 
-                return "Mapa 1: " . $mapa1->qtdAgendados . "<br />" . "Mapa 2: " . $mapa2->qtdAgendados;
-            } else {
-                return $mapa1->qtdAgendados;
-            }
+                if ($row->mais_mapa) {
 
-        })->addColumn('vagas', function ($row) {
+                    //Select dados mapa 2
+                    $mapa2 = \DB::table('agendamento')
+                        ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
+                        ->where('agendamento.mapa_id', '=', $mapas[1]->id)
+                        ->where('calendario.id', '=', $row->id)
+                        ->select([
+                            \DB::raw('count(agendamento.id) as qtdAgendados'),
+                        ])->first();
 
-            // Seleciona os mapas
-            $mapas = \DB::table('mapas')
-                ->where('mapas.calendario_id', '=', $row->id)
-                ->select([
-                    "id",
-                    'vagas'
-                ])->get();
+                    return "Mapa 1: " . $mapa1->qtdAgendados . "<br />" . "Mapa 2: " . $mapa2->qtdAgendados;
+                } else {
+                    return $mapa1->qtdAgendados;
+                }
 
-            if (count($mapas) > 1) {
-                return "Mapa 1: " . $mapas[0]->vagas . "<br />" . "Mapa 2: " . $mapas[1]->vagas;
-            } else {
-                return $mapas[0]->vagas;
-            }
+            })->addColumn('vagas', function ($row) {
 
-        })->make(true);
+                // Seleciona os mapas
+                $mapas = \DB::table('mapas')
+                    ->where('mapas.calendario_id', '=', $row->id)
+                    ->select([
+                        "id",
+                        'vagas'
+                    ])->get();
+
+                if (count($mapas) > 1) {
+                    return "Mapa 1: " . $mapas[0]->vagas . "<br />" . "Mapa 2: " . $mapas[1]->vagas;
+                } else {
+                    return $mapas[0]->vagas;
+                }
+
+            })->make(true);
     }
 
     /**
@@ -301,6 +314,25 @@ class CalendarioController extends Controller
         }
     }
 
+    /**
+     * @param $id
+     * @return array|string
+     */
+    public function deletar($id)
+    {
+        try {
+
+            \DB::table('mapas')->where('calendario_id',$id)->delete();
+
+            #Executando a ação
+            $calendario = $this->repository->delete($id);
+
+            #Retorno para a view
+            return \Illuminate\Support\Facades\Response::json(['success' => true]);
+        } catch (\Throwable $e) {
+            return \Illuminate\Support\Facades\Response::json(['error' => $e->getMessage()]);
+        }
+    }
 
     /**
      * @param $id

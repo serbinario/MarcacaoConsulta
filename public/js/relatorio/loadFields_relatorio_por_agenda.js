@@ -73,7 +73,7 @@ $(document).on('change', "#especialidade", function () {
 
             option += '<option value="">Selecione</option>';
             for (var i = 0; i < json.length; i++) {
-                option += '<option value="' + json[i]['id'] + '">'  + json[i]['localidade'] + '</option>';
+                option += '<option value="' + json[i]['id'] + '">' + json[i]['nome'] + " - " + json[i]['localidade'] + '</option>';
             }
 
             $('#localidade option').remove();
@@ -97,18 +97,13 @@ $(document).on('change', "#localidade", function () {
             type: 'POST',
             url: '/serbinario/calendario/getCalendario',
             datatype: 'json',
-            data    : {'id' : idLocalidade}
+            data    : {'id' : idLocalidade, 'especialidadeId' : idEspecialidade}
         }).done(function (json) {
             var option = '';
 
             option += '<option value="">Selecione</option>';
-
-            if (json[0]['especialidade_id_um'] == idEspecialidade) {
-                option += '<option value="' + json[0]['hora'] + '">' + json[0]['hora'] + '</option>';
-            }
-
-            if (json[0]['especialidade_id_dois'] == idEspecialidade) {
-                option += '<option value="' + json[0]['hora2'] + '">' + json[0]['hora2'] + '</option>';
+            for (var i = 0; i < json.length; i++) {
+                option += '<option value="' + json[i]['id'] + '">' + json[i]['horario'] + '</option>';
             }
 
             $('#horario option').remove();

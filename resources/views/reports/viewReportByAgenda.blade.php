@@ -11,6 +11,7 @@
             <div class="card material-table">
                 <div class="card-header">
                     <!-- Botão novo -->
+                    {!! Form::open(['route'=>'serbinario.relatorio.reportPdfByAgenda', 'method' => "GET", 'id' => 'formOperacao', 'target' => '_blank']) !!}
                     <div class="row">
                         <div class="form-group col-sm-4">
                             <div class=" fg-line">
@@ -30,7 +31,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-md-2">
+                        <div class="form-group col-md-3">
                             <div class=" fg-line">
                                 <label for="localidade">Localidade *</label>
                                 <div class="select">
@@ -50,9 +51,10 @@
 
                         <div class="form-group col-md-12">
                             <button id="btnPesquisar" class="btn btn-primary btn-sm m-t-10">Pesquisar</button>
-                            <button id="btnPesquisarGerarPdf" class="btn bgm-orange btn-sm m-t-10">Gerar PDF</button>
+                            <button type="submit" id="btnPesquisarGerarPdf" class="btn bgm-orange btn-sm m-t-10">Gerar PDF</button>
                         </div>
                     </div>
+                    {!! Form::close() !!}
                     <!-- Botão novo -->
                 </div>
 
@@ -106,22 +108,20 @@
             columns: [
                 {data: 'nome', name: 'cgm.nome'},
                 {data: 'numero_sus', name: 'cgm.numero_sus'},
-                {data: 'localidade', name: 'agendamento.localidade'},
-                {data: 'hora', name: 'agendamento.hora'},
-                {data: 'especialidade', name: 'operacoes.especialidade'}
+                {data: 'horario', name: 'mapas.horario'},
+                {data: 'especialidade', name: 'operacoes.especialidade'},
+                {data: 'localidade', name: 'agendamento.localidade'}
             ]
         });
 
         //Enviando id do especialista como paramentro para o select no servidor (Botão pesquisar)
         $(document).on('click', '#btnPesquisar', function () {
-
             table.draw();
             e.preventDefault();
-
         });
 
         //Enviando id do especialista como paramentro para o select no servidor(Botão gerar pdf)
-        $(document).on('click', '#btnPesquisarGerarPdf', function () {
+       /* $(document).on('click', '#btnPesquisarGerarPdf', function () {
 
             var idEspecialista = $('#selectEspecialista').val();
 
@@ -131,6 +131,6 @@
             }
 
             window.open('/index.php/serbinario/relatorio/reportPdfByAgenda/' + idEspecialista, '_blank');
-        });
+        });*/
     </script>
 @stop

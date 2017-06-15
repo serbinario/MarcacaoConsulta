@@ -29,9 +29,10 @@ table = $('#agendados-grid').DataTable({
     },
     columns: [
         {data: 'nome', name: 'cgm.nome'},
+        {data: 'numero_sus', name: 'cgm.numero_sus'},
         {data: 'especialidade', name: 'operacoes.nome'},
         {data: 'data', name: 'calendario.data'},
-        {data: 'hora', name: 'agendamento.hora'},
+        {data: 'horario', name: 'mapas.horario'},
         {data: 'especialista', name: 'cgm_especialista.nome'},
         {data: 'psf', name: 'posto_saude.nome'},
         {data: 'status', name: 'status_agendamento.nome'},

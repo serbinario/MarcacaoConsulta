@@ -7,58 +7,85 @@
 
     </title>
     <style type="text/css">
-        .centro{
+
+        body {
+            font-family: arial;
+        }
+
+        table,  th,  td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        td {
             text-align: center;
         }
 
-        #logo_rodape{
-            margin-top: 200px;
+        .rodape{
+            position: absolute;
+            bottom:0;
+            width: 100%;
+            height: 90px;
+            margin-top: 70px;
+
         }
 
-        #nomeEspecialista{
-            margin-left: 128px;
-        }
 
         table{
-            width: 80%;
-            position: absolute;
+            width: 100%;
             top: 210px;
-            left: 135px;
         }
+
+        span, p {
+            font-size: 13px;
+        }
+
+        table { page-break-inside:auto }
+        tr { page-break-inside:avoid; page-break-after:auto }
+        thead { display:table-header-group }
+        tfoot { display:table-footer-group }
     </style>
 </head>
 <body>
-    <h1 class="centro logo">
-        <img src="{{ asset('/img/logo_igarassu.png') }}">
-    </h1>
+<center>
+    <div>
+        <center><img src="{{asset('/img/logo_igarassu.png')}}" style="width: 230px; height: 85px"></center>
+    </div>
+</center>
 
-    <p id="nomeEspecialista">Especialista: </p>
+<p>
+    <span style="font-size: 17"><b>Título:</b> Lista de pacientes</span> <br />
+    <b>Especialista:</b> @if(isset($pacientes[0]->especialista)) {{$pacientes[0]->especialista}}@endif -
+    <b>Especialidade:</b> @if(isset($pacientes[0]->especialidade)) {{$pacientes[0]->especialidade}}@endif <br />
+    <b>Horário:</b> @if(isset($pacientes[0]->horario)) {{$pacientes[0]->horario}}@endif -
+    <b>Local:</b> @if(isset($pacientes[0]->localidade)) {{$pacientes[0]->localidade}}@endif
+</p>
 
-    <table class="center" border="1">
-        <thead>
-            <tr>
-                <th>Paciente</th>
-                <th>Nº SUS</th>
-                <th>Horário do Agendamento</th>
-                <th>Especialidade</th>
-                <th>Localidade</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($pacientes as $paciente)
-                <tr>
-                    <th>{{ $paciente->nomePaciente }}</th>
-                    <th>{{ $paciente->numero_sus }}</th>
-                    <th>{{ $paciente->hora }}</th>
-                    <th>{{ $paciente->especialidade }}</th>
-                    <th>{{ $paciente->localidade }}</th>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+<table class="center" border="1">
+    <thead>
+    <tr>
+        <th>Paciente</th>
+        <th>Nº SUS</th>
+        <th>Atendido</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach ($pacientes as $paciente)
+        <tr>
+            <td>{{ $paciente->nome }}</td>
+            <td>{{ $paciente->numero_sus }}</td>
+            <td>{{ $paciente->status }}</td>
+        </tr>
+    @endforeach
+    </tbody>
+</table>
 
-    <h1 id="logo_rodape" class="centro logo">
-        <img src="{{ asset('/img/logo_igarassu.png') }}">
-    </h1>
+<center>
+    <div class="rodape">
+        <center>
+            <img src="{{asset('/img/logo_igarassu.png')}}" style="width: 230px; height: 85px">
+        </center>
+    </div>
+</center>
 </body>
 </html>

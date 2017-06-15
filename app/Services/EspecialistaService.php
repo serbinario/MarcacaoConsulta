@@ -255,6 +255,10 @@ class EspecialistaService
      */
     public function destroy(int $id)
     {
+
+        // Deletando as especialidades do especialista
+        \DB::table('especialista_especialidade')->where('especialista_id', $id)->delete();
+
         #deletando o curso
         $result = $this->repository->delete($id);
 

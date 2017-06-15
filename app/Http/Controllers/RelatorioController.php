@@ -73,8 +73,6 @@ class RelatorioController extends Controller
     {
         try {
 
-            dd($request->request->all());
-
             #Criando a consulta
             $rows = \DB::table('agendamento')
                 ->join('fila', 'fila.id', '=', 'agendamento.fila_id')
@@ -88,10 +86,10 @@ class RelatorioController extends Controller
                 ->join('especialista', 'especialista.id', '=', 'calendario.especialista_id')
                 ->join('cgm as cgm_especialista', 'cgm_especialista.id', '=', 'especialista.cgm')
                 ->join('status_agendamento', 'status_agendamento.id', '=', 'agendamento.status_agendamento_id')
-                //->join('especialista_especialidade', 'especialista.id', '=', 'calendario.especialista_id')
+                ->join('mapas', 'mapas.id', '=', 'agendamento.mapa_id')
                 ->select([
                     'agendamento.id',
-                    'agendamento.hora',
+                    'mapas.horario',
                     'localidade.nome as localidade',
                     'cgm.nome as nome',
                     'cgm.numero_sus',
@@ -107,10 +105,7 @@ class RelatorioController extends Controller
             }
 
             if($request->has('horario') && $request->get('horario') != "") {
-                $rows->where(function ($query) use ($request) {
-                    $query->orWhere('calendario.hora', '=', $request->get('horario'))
-                        ->orWhere('calendario.hora2',  '=', $request->get('horario'));
-                });
+                $rows->where('mapas.id', $request->get('horario'));
             }
 
 
@@ -128,39 +123,49 @@ class RelatorioController extends Controller
      *  Dados que irão preencher o relatório gerado em pdf
      *  Menu > relatorios > por agenda > gerar pdf
      */
-    public function getReportByAgenda($idEspecialista)
+    public function reportPdfByAgenda(Request $request)
     {
         try {
             #Criando a consulta
-            $rows = \DB::table('agendamento')
+            $pacientes = \DB::table('agendamento')
                 ->join('fila', 'fila.id', '=', 'agendamento.fila_id')
+                ->join('cgm', 'cgm.id', '=', 'fila.cgm_id')
                 ->join('especialidade', 'especialidade.id', '=', 'fila.especialidade_id')
                 ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
-                ->join('cgm', 'cgm.id', '=', 'fila.cgm_id')
+                ->join('prioridade', 'prioridade.id', '=', 'fila.prioridade_id')
+                ->leftJoin('posto_saude', 'posto_saude.id', '=', 'fila.posto_saude_id')
                 ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
                 ->join('localidade', 'localidade.id', '=', 'calendario.localidade_id')
                 ->join('especialista', 'especialista.id', '=', 'calendario.especialista_id')
-                ->join('especialista_especialidade', 'especialista.id', '=', 'especialista_especialidade.especialista_id')
+                ->join('cgm as cgm_especialista', 'cgm_especialista.id', '=', 'especialista.cgm')
+                ->join('status_agendamento', 'status_agendamento.id', '=', 'agendamento.status_agendamento_id')
+                ->join('mapas', 'mapas.id', '=', 'agendamento.mapa_id')
+                ->where('especialista.id', $request->get('especialista'))
+                ->where('calendario.id', $request->get('localidade'))
+                ->where('mapas.id', $request->get('horario'))
                 ->select([
                     'agendamento.id',
-                    'agendamento.hora',
+                    'mapas.horario',
                     'localidade.nome as localidade',
-                    'cgm.nome as nomePaciente',
+                    'cgm.nome as nome',
                     'cgm.numero_sus',
-                    'operacoes.nome as especialidade'
-                ])
-                ->where('agendamento.id', '=', $idEspecialista);
+                    'operacoes.nome as especialidade',
+                    'cgm_especialista.nome as especialista',
+                    'mapas.horario',
+                    'status_agendamento.nome as status'
+                ])->get();
 
-            $pacientes = $rows->get();
+            //$pacientes = $rows->get();
 
             # Recuperando o serviço de pdf / dompdf
-            $PDF = App::make('dompdf.wrapper');
+            //$PDF = App::make('dompdf.wrapper');
 
             # Carregando a página
-            $PDF->loadView('reports.viewPdfReportByAgenda', ['pacientes' => $pacientes]);
+            //$PDF->loadView('reports.viewPdfReportByAgenda', ['pacientes' => $pacientes]);
 
+            return \PDF::loadView('reports.viewPdfReportByAgenda', compact('pacientes'))->stream();
             # Retornando para página
-            return $PDF->stream();
+           // return $PDF->stream();
 
         } catch (\Throwable $e) {
             return $e->getMessage();
@@ -181,15 +186,14 @@ class RelatorioController extends Controller
                 ->select([
                     'especialista.id',
                     'cgm.nome'
-                ])
-                ->get();
+                ])->get();
 
-            //Montando array com resultado da pesquisa
+            // Montando array com resultado da pesquisa
             foreach ($especialistas as $especialista) {
                 $arrayEspecialistas[$especialista->id] = $especialista->nome;
             }
 
-            //Retorno
+            // Retorno
             return $arrayEspecialistas;
 
         } catch (\Throwable $e) {

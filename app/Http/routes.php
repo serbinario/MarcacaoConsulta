@@ -99,6 +99,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('store', ['as' => 'store', 'uses' => 'CalendarioController@store']);
             Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'CalendarioController@edit']);
             Route::post('update/{id}', ['as' => 'update', 'uses' => 'CalendarioController@update']);
+            Route::get('deletar/{id}', ['as' => 'deletar', 'uses' => 'CalendarioController@deletar']);
             Route::get('calendarios/{id}', ['as' => 'calendarios', 'uses' => 'CalendarioController@getCalendarioByMedico']);
             Route::post('calendariodata', ['as' => 'calendariodata', 'uses' => 'CalendarioController@findCalendarioData']);
             Route::post('calendariodatamedico', ['as' => 'calendariodatamedico', 'uses' => 'CalendarioController@findCalendarioDataMedico']);
@@ -197,7 +198,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('byAgenda', ['as' => 'byAgenda', 'uses' => 'RelatorioController@indexByAgenda']);
             Route::get('reportPdf', ['as' => 'reportPdf', 'uses' => 'RelatorioController@reportPdf']);
             Route::post('reportByAgenda', ['as' => 'reportByAgenda', 'uses' => 'RelatorioController@gridReportByAgenda']);
-            Route::get('reportPdfByAgenda/{idEspecialista}', ['as' => 'reportPdfByAgenda', 'uses' => 'RelatorioController@reportPdfByAgenda']);
+            Route::get('reportPdfByAgenda', ['as' => 'reportPdfByAgenda', 'uses' => 'RelatorioController@reportPdfByAgenda']);
         });
 
 //    Route::get('report/contratoAluno/{id}', ['as' => 'report.contratoAluno', 'uses' => 'ReportController@contratoAluno']);

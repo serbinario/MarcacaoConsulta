@@ -120,8 +120,10 @@ class FilaService
 
         $data = $this->tratamentoCampos($data);
 
+        // Edita a fila
         $fila = $this->repository->update($data, $id);
 
+        // Recupera o cgm dessa fila
         $cgmFind = $this->CGMRepository->find($fila->cgm_id);
 
         // Atualizando ou creando um endereço

@@ -159,10 +159,11 @@
                                 <thead>
                                 <tr>
                                     <th>Cidadao</th>
-                                    <th>Especialidade</th>
-                                    <th>Dia</th>
+                                    <th>Nº SUS</th>
+                                    {{--<th>Especialidade</th>--}}
+                                   {{-- <th>Dia</th>--}}
                                     <th>Hora</th>
-                                    <th>Especialista</th>
+                                   {{-- <th>Especialista</th>--}}
                                     <th>PSF</th>
                                     <th>Situação</th>
                                     <th>Ação</th>
@@ -171,10 +172,11 @@
                                 <tfoot>
                                 <tr>
                                     <th>Cidadao</th>
-                                    <th>Especialidade</th>
-                                    <th>Dia</th>
+                                    <th>Nº SUS</th>
+                                    {{--<th>Especialidade</th>--}}
+                                    {{-- <th>Dia</th>--}}
                                     <th>Hora</th>
-                                    <th>Especialista</th>
+                                    {{-- <th>Especialista</th>--}}
                                     <th>PSF</th>
                                     <th>Situação</th>
                                     <th style="width: 6%;">Acão</th>
@@ -406,10 +408,11 @@
             },
             columns: [
                 {data: 'nome', name: 'cgm.nome'},
-                {data: 'especialidade', name: 'operacoes.nome'},
-                {data: 'data', name: 'calendario.data'},
-                {data: 'hora', name: 'agendamento.hora'},
-                {data: 'especialista', name: 'cgm_especialista.nome'},
+                {data: 'numero_sus', name: 'cgm.numero_sus'},
+                //{data: 'especialidade', name: 'operacoes.nome'},
+                //{data: 'data', name: 'calendario.data'},
+                {data: 'horario', name: 'mapas.horario'},
+                //{data: 'especialista', name: 'cgm_especialista.nome'},
                 {data: 'psf', name: 'posto_saude.nome'},
                 {data: 'status', name: 'status_agendamento.nome'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
@@ -466,12 +469,22 @@
             var url = $(this).attr('href');
             swal({
                 title: "Alerta",
-                text: "Tem certeza da exclusão do paciente?",
+                text: "Tem certeza da exclusão do item,?",
                 type: "warning",
                 showCancelButton: true,
-                confirmButtonText: "Sim!",
-            }).then(function(){
-                location.href = url;
+                confirmButtonText: "Sim!"
+            }).then(function () {
+
+                $.ajax({
+                    url: url,
+                    dataType: "json",
+                    type: "GET",
+                    success: function (data) {
+                        swal('Agendamento deletado com sucesso!', "Click no botão abaixo!", 'success');
+                        table.ajax.reload();
+                        //location.href = "/serbinario/calendario/index/" + idEspecialista;
+                    }
+                });
             });
         });
 

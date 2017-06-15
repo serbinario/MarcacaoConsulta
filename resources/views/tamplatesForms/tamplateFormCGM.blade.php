@@ -147,6 +147,12 @@
                     <div class="row">
                         <div class="form-group col-sm-2">
                             <div class=" fg-line">
+                                <label for="numero_sus">Número do SUS *</label>
+                                {!! Form::text('numero_sus', Session::getOldInput('numero_sus') , array('class' => 'form-control input-sm', 'placeholder' => '')) !!}
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <div class=" fg-line">
                                 <label for="cpf_cnpj">CPF</label>
                                 {!! Form::text('cpf_cnpj', Session::getOldInput('cpf_cnpj') , array('class' => 'form-control cpf input-sm', 'placeholder' => '')) !!}
                             </div>
@@ -167,12 +173,6 @@
                             <div class=" fg-line">
                                 <label for="data_expedicao">Data Expedição</label>
                                 {!! Form::text('data_expedicao', Session::getOldInput('data_expedicao') , array('class' => 'form-control input-sm dateTimePicker  date', 'placeholder' => '')) !!}
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-2">
-                            <div class=" fg-line">
-                                <label for="numero_sus">Número do SUS *</label>
-                                {!! Form::text('numero_sus', Session::getOldInput('numero_sus') , array('class' => 'form-control input-sm', 'placeholder' => '')) !!}
                             </div>
                         </div>
                         <div class="form-group col-sm-2">

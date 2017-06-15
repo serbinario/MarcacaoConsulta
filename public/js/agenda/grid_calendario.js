@@ -2,6 +2,8 @@
  * Created by Fabio on 30/05/2017.
  */
 
+var tableCalendario;
+
 function loadTableCalendario (idEspecialista) {
     // Carregaando a grid
     tableCalendario = $('#grid-calendario-especialista').DataTable({
@@ -30,10 +32,10 @@ function loadTableCalendario (idEspecialista) {
             {data: 'especialidades', name: 'especialidades', orderable: false, searchable: false},
             {data: 'agendamentos', name: 'agendamentos', orderable: false, searchable: false},
             {data: 'vagas', name: 'vagas', orderable: false, searchable: false},
-            {data: 'status', name: 'status.nome', orderable: true}
+            {data: 'status', name: 'status.nome', orderable: true},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
-
 
     //Função do submit do search da grid principal
     $('#search').click(function(e) {

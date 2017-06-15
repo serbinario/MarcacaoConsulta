@@ -129,6 +129,7 @@
                             <thead>
                             <tr>
                                 <th>Cidadao</th>
+                                <th>Nº SUS</th>
                                 <th>Especialidade</th>
                                 <th>Dia</th>
                                 <th>Hora</th>
@@ -141,6 +142,7 @@
                             <tfoot>
                             <tr>
                                 <th>Cidadao</th>
+                                <th>Nº SUS</th>
                                 <th>Especialidade</th>
                                 <th>Dia</th>
                                 <th>Hora</th>
@@ -220,6 +222,31 @@
             var url = $(this).attr('href');
             swal({
                 title: "Alerta",
+                text: "Tem certeza da exclusão do item,?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sim!"
+            }).then(function () {
+
+                $.ajax({
+                    url: url,
+                    dataType: "json",
+                    type: "GET",
+                    success: function (data) {
+                        swal('Agendamento deletado com sucesso!', "Click no botão abaixo!", 'success');
+                        table.ajax.reload();
+                        //location.href = "/serbinario/calendario/index/" + idEspecialista;
+                    }
+                });
+            });
+        });
+
+        // Deletar paciente
+        /*$(document).on('click', 'a.excluir', function (event) {
+            event.preventDefault();
+            var url = $(this).attr('href');
+            swal({
+                title: "Alerta",
                 text: "Tem certeza da exclusão do paciente?",
                 type: "warning",
                 showCancelButton: true,
@@ -227,6 +254,6 @@
             }).then(function(){
                 location.href = url;
             });
-        });
+        });*/
     </script>
 @stop

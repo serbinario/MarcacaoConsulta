@@ -116,7 +116,7 @@ $(document).on('change', "#calendario-agendar", function () {
 
         jQuery.ajax({
             type: 'POST',
-            url: '/index.php/serbinario/calendario/getCalendario',
+            url: '/serbinario/calendario/getCalendario',
             datatype: 'json',
             data    : {'id' : idCalendario, 'especialidadeId' : idEspecialidade}
         }).done(function (json) {
@@ -131,7 +131,7 @@ $(document).on('change', "#calendario-agendar", function () {
             $('#mapa-agendar').append(option);
         });
 
-    } 
+    }
 
 });
 

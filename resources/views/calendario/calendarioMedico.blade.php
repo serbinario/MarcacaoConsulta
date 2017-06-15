@@ -34,6 +34,25 @@
             </div>
 
             <div class="card">
+
+                <div class="card-header">
+                    @if(Session::has('message'))
+                        <div class="alert alert-success">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <em> {!! session('message') !!}</em>
+                        </div>
+                    @endif
+
+                    @if(Session::has('errors'))
+                        <div class="alert alert-danger">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            @foreach($errors->all() as $error)
+                                <div>{{ $error }}</div>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+
                 <div class="card-body card-padding">
                     <div class="row">
                         <div role="tabpanel" class="tab">
@@ -188,6 +207,7 @@
                                                     <tr>
                                                         <th>Paciente</th>
                                                         <th>Horário</th>
+                                                        <th>Exame</th>
                                                         <th>Situação</th>
                                                     </tr>
                                                     </tfoot>
@@ -202,6 +222,7 @@
                                 <div role="tabpanel" class="tab-pane animated fadeInRight" id="quadro">
                                     <br/>
                                     <div class="row">
+
                                         <div class="col-md-12">
                                             <form role="form">
 
@@ -257,6 +278,7 @@
                                                         <th>Agendamentos</th>
                                                         <th>Vaga total</th>
                                                         <th>Status</th>
+                                                        <th style="width: 7%">Ação</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -271,6 +293,7 @@
                                                         <td>Agendamentos</td>
                                                         <td>Vaga total</td>
                                                         <td>Status</td>
+                                                        <td>Ação</td>
                                                     </tr>
                                                     </tfoot>
                                                 </table>
@@ -294,11 +317,11 @@
 
 @section('javascript')
     <script type="text/javascript" src="{{asset('/js/agenda/selects.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/js/agenda/grid_calendario.js')}}"></script>
     <script type="text/javascript" src="{{asset('/js/agenda/operacoes.js')}}"></script>
     <script type="text/javascript" src="{{asset('/js/agenda/grid_pacientes.js')}}"></script>
     <script type="text/javascript" src="{{asset('/js/agenda/loadFields_reagendamento.js')}}"></script>
     <script type="text/javascript" src="{{asset('/js/agenda/modal_reagendamento.js')}}"></script>
-    <script type="text/javascript" src="{{asset('/js/agenda/grid_calendario.js')}}"></script>
 
     <!-- initialize the calendar on ready -->
     <script type="application/javascript">
@@ -476,6 +499,31 @@
                 }
             }
 
+        });
+
+        // Fechar uma data da agenda
+        $(document).on('click', 'a.excluir', function (event) {
+            event.preventDefault();
+            var url = $(this).attr('href');
+            swal({
+                title: "Alerta",
+                text: "Tem certeza que deseja excluir a agenda?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sim!"
+            }).then(function () {
+
+                $.ajax({
+                    url: url,
+                    dataType: "json",
+                    type: "GET",
+                    success: function (data) {
+                        swal('Agenda deletada com sucesso!', "Click no botão abaixo!", 'success');
+                        tableCalendario.ajax.reload();
+                        //location.href = "/serbinario/calendario/index/" + idEspecialista;
+                    }
+                });
+            });
         });
     </script>
 @stop

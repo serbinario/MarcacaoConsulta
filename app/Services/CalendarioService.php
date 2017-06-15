@@ -215,7 +215,7 @@ class CalendarioService
             // Preenchendo os campos para o novo agendamento do paciente
             $dados['status']                = '1';
             $dados['calendario_id']         = $data['calendario_id'];
-            $dados['hora']                  = $data['mapa'];
+            $dados['mapa_id']                  = $data['mapa'];
             $dados['fila_id']               = $paciente;
             $dados['data']                  = $date->format('Y-m-d');
             $dados['status_agendamento_id'] = '1';
