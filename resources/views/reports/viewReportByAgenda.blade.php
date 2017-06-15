@@ -11,7 +11,7 @@
             <div class="card material-table">
                 <div class="card-header">
                     <!-- Botão novo -->
-                    {!! Form::open(['route'=>'serbinario.relatorio.reportPdfByAgenda', 'method' => "GET", 'id' => 'formOperacao', 'target' => '_blank']) !!}
+                    {!! Form::open(['route'=>'serbinario.relatorio.reportPdfByAgenda', 'method' => "GET", 'id' => 'formAgendados', 'target' => '_blank']) !!}
                     <div class="row">
                         <div class="form-group col-sm-4">
                             <div class=" fg-line">
@@ -89,6 +89,7 @@
 
 @section('javascript')
     <script type="text/javascript" src="{{asset('/js/relatorio/loadFields_relatorio_por_agenda.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/js/validacoes/validation_form_relatorio_de_agendados.js')}}"></script>
     <script type="text/javascript">
 
         var table = $('#report-grid').DataTable({
@@ -120,17 +121,6 @@
             e.preventDefault();
         });
 
-        //Enviando id do especialista como paramentro para o select no servidor(Botão gerar pdf)
-       /* $(document).on('click', '#btnPesquisarGerarPdf', function () {
 
-            var idEspecialista = $('#selectEspecialista').val();
-
-            if (!idEspecialista) {
-                swal('Por favor, selecione um especialista.');
-                return false;
-            }
-
-            window.open('/index.php/serbinario/relatorio/reportPdfByAgenda/' + idEspecialista, '_blank');
-        });*/
     </script>
 @stop
