@@ -384,6 +384,7 @@ class CalendarioController extends Controller
             ->join('mapas', 'mapas.id', '=', 'agendamento.mapa_id')
             ->join('especialista_especialidade', 'especialista_especialidade.id', '=', 'mapas.especialidade_id')
             ->join('especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
+            ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
             ->where('calendario.id', '=', $id)
             ->select([
                 'cgm.nome',
@@ -396,7 +397,8 @@ class CalendarioController extends Controller
                 'agendamento.id as agendamento_id',
                 'cgm_especialista.nome as especialista',
                 'especialista.crm',
-                'status_agendamento.nome as status'
+                'status_agendamento.nome as status',
+                'operacoes.nome as especialidade'
             ]);
 
         #Editando a grid
@@ -428,15 +430,13 @@ class CalendarioController extends Controller
         $calendarios = \DB::table('calendario')
             ->join('especialista', 'especialista.id', '=', 'calendario.especialista_id')
             ->join('localidade', 'localidade.id', '=', 'calendario.localidade_id')
-            ->leftJoin('especialista_especialidade as especialidade_um', 'especialidade_um.id', '=', 'calendario.especialidade_id_um')
-            ->leftJoin('especialista_especialidade as especialidade_dois', 'especialidade_dois.id', '=', 'calendario.especialidade_id_dois')
+            ->join('mapas', 'calendario.id', '=', 'mapas.calendario_id')
+            ->join('especialista_especialidade', 'especialista_especialidade.id', '=', 'mapas.especialidade_id')
+            ->groupBy('calendario.id')
             ->where('especialista.id', '=', $request->get('idEspecialista'))
             ->where('calendario.status_id', '=', '1')
             ->where('calendario.data', '>=', $data->format('Y-m-d'))
-            ->where(function ($query) use ($request) {
-                $query->orWhere('especialidade_um.id', '=', $request->get('idEspecialidade'))
-                    ->orWhere('especialidade_dois.id', '=', $request->get('idEspecialidade'));
-            })
+            ->where('especialista_especialidade.id', '=', $request->get('idEspecialidade'))
             ->select([
                 'calendario.id',
                 \DB::raw('DATE_FORMAT(calendario.data,"%d/%m/%Y") as nome'),
@@ -455,19 +455,18 @@ class CalendarioController extends Controller
     public function getCalendario(Request $request)
     {
 
-        #Pegando o calendário
-        $calendario = \DB::table('calendario')
-            ->where('id', '=', $request->get('id'))
+        // Seleciona os mapas
+        $mapas = \DB::table('mapas')
+            ->join('calendario', 'calendario.id', '=', 'mapas.calendario_id')
+            ->where('mapas.calendario_id', '=', $request->get('id'))
+            ->where('mapas.especialidade_id', '=', $request->get('especialidadeId'))
             ->select([
-                'id',
-                'hora',
-                'hora2',
-                'especialidade_id_um',
-                'especialidade_id_dois',
+                "mapas.id",
+                "mapas.horario"
             ])->get();
 
         #retorno
-        return $calendario;
+        return $mapas;
     }
 
     /**
@@ -478,30 +477,27 @@ class CalendarioController extends Controller
     public function getVagasByMapa(Request $request)
     {
 
-        #Pegando o calendário
-        $calendario = \DB::table('calendario')
-            ->where('id', '=', $request->get('idCalendario'))
+        // Seleciona o mapas
+        $mapa = \DB::table('mapas')
+            ->where('calendario_id', '=', $request->get('idCalendario'))
+            ->where('id', '=', $request->get('mapa'))
             ->select([
-                'qtd_vagas',
-                'vagas_mapa1',
-                'vagas_mapa2',
-                'mais_mapa'
+                "id",
+                'vagas'
             ])->first();
 
         // Pegando a quantidade de agendados para o mapa selecionado
         $agendamentos = \DB::table('agendamento')
-            ->where('calendario_id', '=', $request->get('idCalendario'))
-            ->where('hora', '=', $request->get('mapa'))
+            ->where('mapa_id', '=', $mapa->id)
             ->select([
                 \DB::raw('COUNT(agendamento.id) as qtd_agendados')
             ])->first();
 
         // Pegando a quantidade de vagas do mapa e vagas restantes
-        $vagas          = $calendario->mais_mapa ? $calendario->vagas_mapa2 : $calendario->vagas_mapa1;
-        $vagasRestantes = $vagas - $agendamentos->qtd_agendados;
+        $vagasRestantes = $mapa->vagas - $agendamentos->qtd_agendados;
 
         $dados = [
-            'totalVagas' => $vagas,
+            'totalVagas' => $mapa->vagas,
             'vagasRestantes' => $vagasRestantes
         ];
 

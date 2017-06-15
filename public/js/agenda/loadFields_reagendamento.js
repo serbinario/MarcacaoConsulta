@@ -72,23 +72,21 @@ $(document).on('change', "#calendario-reagendar", function () {
     var idCalendario = $(this).val();
     var idEspecialidade = $("#especialidade-reagendar").val();
 
-    if(idCalendario && idEspecialidade) {
+    if(idCalendario) {
 
         jQuery.ajax({
             type: 'POST',
-            url: '/index.php/serbinario/calendario/getCalendario',
+            url: '/serbinario/calendario/getCalendario',
             datatype: 'json',
-            data    : {'id' : idCalendario}
+            data    : {'id' : idCalendario, 'especialidadeId' : idEspecialidade}
         }).done(function (json) {
             var option = '';
 
             option += '<option value="">Selecione</option>';
-            if(json[0]['especialidade_id_um'] == idEspecialidade) {
-                option += '<option value="' + json[0]['hora'] + '">' + json[0]['hora'] + '</option>';
+            for (var i = 0; i < json.length; i++) {
+                option += '<option value="' + json[i]['id'] + '">' + json[i]['horario'] + '</option>';
             }
-            if (json[0]['especialidade_id_dois'] == idEspecialidade) {
-                option += '<option value="' + json[0]['hora2'] + '">' + json[0]['hora2'] + '</option>';
-            }
+
 
             $('#mapa-reagendar option').remove();
             $('#mapa-reagendar').append(option);
@@ -142,8 +140,6 @@ $(document).on('change', "#mapa-reagendar", function () {
             }
 
         });
-
-    } else {
 
     }
 

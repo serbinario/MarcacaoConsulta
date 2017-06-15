@@ -19,8 +19,8 @@ function loadTablePaciente (idCalendario) {
         ajax: "/serbinario/calendario/gridPacientes/"+idCalendario,
         columns: [
             {data: 'nome', name: 'cgm.nome'},
-            {data: 'hora', name: 'agendamento.hora'},
             {data: 'horario', name: 'mapas.horario'},
+            {data: 'especialidade', name: 'operacoes.nome'},
             {data: 'status', name: 'status_agendamento.nome', orderable: false, searchable: false},
             /*{data: 'action', name: 'action', orderable: false, searchable: false}*/
         ]
