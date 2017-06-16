@@ -74,7 +74,7 @@
                     </li>
 
                     <li class="dropdown hidden-xs">
-                        <a title="Agenda" href="{{ route('serbinario.agendamento.index') }}">
+                        <a title="Agenda" href="{{ route('serbinario.agendados.indexDois') }}">
                             <i class="him-icon zmdi zmdi-calendar"></i>
                         </a>
                     </li>
