@@ -122,78 +122,14 @@
                                 </div>
                             </div>
                         </div>
-
-                    </div>
-                    <div id="modalCGM" class="modal fade modal-profile" role="dialog" aria-labelledby="modalProfile"
-                         aria-hidden="true">
-                        <div class="modal-dialog modal-md">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button class="close" type="button" data-dismiss="modal">×</button>
-                                    <h3 class="modal-title">Agendar Paciente</h3><br />
-                                    <div class="div-hora1">
-                                        <span class="hora1"></span>
-                                        <span class="total-vagas1 ocultar1"></span>
-                                        <span class="total-agendados1 ocultar1"></span>
-                                        <span class="vagas-restantes1 ocultar1"></span><br />
-                                    </div>
-                                    <div class="div-hora2">
-                                        <span class="hora2"></span>
-                                        <span class="total-vagas2 ocultar2"></span>
-                                        <span class="total-agendados2 ocultar2"></span>
-                                        <span class="vagas-restantes2 ocultar2"></span><br />
-                                    </div>
-
-                                </div>
-                                <form method="post" id="form_agendamento">
-                                    <div class="modal-body" style="alignment-baseline: central">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <select class="form-control" name="cgm_id" id="paciente">
-                                                        </select>
-                                                        <input type="hidden" id="calendario" name="calendario_id">
-                                                        <input type="hidden" id="data" name="data">
-                                                        <input type="hidden" id="id" name="id">
-                                                    </div>
-                                                </div>
-                                                {{--<div class="col-md-7">
-                                                    <div class="form-group">
-                                                        <select class="form-control" name="posto_saude_is" id="psf">
-                                                            <option value="">Selecione o posto de saúde</option>
-                                                        </select>
-                                                    </div>
-                                                </div>--}}
-                                                <div class="col-md-5">
-                                                    <div class="form-group">
-                                                        <select class="form-control" name="hora" id="hora">
-
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <label for="obs">Observação</label>
-                                                    <div class="form-group">
-                                                        <textarea name="obs" id="obs" rows="4" class="form-control"></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-primary" disabled id="save">Salvar</button>
-                                        <button class="btn btn-danger" id="delete">Deletar</button>
-                                        {{--<button class="btn btn-warning" id="edit">Editar</button>--}}
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </section>
     </div>
+
+    @include('agendamento.modal_agendamento')
+    @include('agendamento.modal_evento_agendamento')
 @stop
 @section('javascript')
     <script type="text/javascript" src="{{asset('/js/agendamento/selects.js')}}"></script>
@@ -205,30 +141,34 @@
             var y = date.getFullYear();
             var target = $('#calendar');
 
-            // Campos da pesquisa zerados para carregamento inicial do calendáriowq
+            // Campos da pesquisa zerados para carregamento inicial do calendário
             var dados = {
                 'idLocalidade': "",
                 'idEspecialista': ""
             };
+
             // Submete a pesquisa para carregamento do calendário por especialista e localidade
             $('#btnConsultar').click(function () {
                 var localidade = $('#localidade').val();
                 var especialista = $('#especialista').val();
                 var especialidade = $('#grupo_operacao').val();
 
+                //
                 if (!localidade || !especialista || !especialidade) {
                     swal("Por favor, preencha todos os campos para consultar!");
+                    return false;
                 }
 
-                if (localidade && especialista) {
-                    dados = {
-                        'idLocalidade': localidade,
-                        'idEspecialista': especialista,
-                    };
-                    $('#calendar').fullCalendar('refetchEvents');
-                    paciente("", especialidade);
-                }
+                dados = {
+                    'idLocalidade': localidade,
+                    'idEspecialista': especialista
+                };
+
+                $('#calendar').fullCalendar('refetchEvents');
+                paciente("", especialidade);
             });
+
+            // Carrega o calendário
             target.fullCalendar({
                 header: {
                     right: '',
@@ -244,6 +184,7 @@
                     // Adicionando o loading da requisição
                     $('body').addClass("loading");
 
+                    // Carrega os dias do calendário médico e seus eventos (agendamentos)
                     jQuery.ajax({
                         url: '{{ route('serbinario.agendamento.loadCalendar') }}',
                         type: 'POST',
@@ -280,76 +221,63 @@
 
                 },
                 dayClick: function (date, allDay, jsEvent, view, resourceObj) {
+
                     var idMedico        = $('#especialista').val();
                     var idLocal         = $('#localidade').val();
                     var especialidade   = $('#grupo_operacao').val();
                     var data = date.format();
-                    //Dados do para validar médico
+
+                    //Dados do para validar especialista
                     var dados = {
                         idMedico: idMedico,
                         data: data,
                         idLocalidade: idLocal
                     };
+
                     jQuery.ajax({
                         type: 'POST',
                         url: '{{ route('serbinario.calendario.calendariodatamedico') }}',
                         data: dados,
                         datatype: 'json'
                     }).done(function (json) {
+
                         if (json['retorno'] === true) {
 
                             $('#calendario').val(json['calendario']['id']);
                             $('#data').val(json['calendario']['data']);
                             $('#obs').text('');
-                            psfs();
                             paciente("", especialidade);
-                            var TotalVagas = 0;
 
-                            if (json['calendario']['mais_mapa']) {
-                                TotalVagas = json['calendario']['qtd_vagas'] / 2;
-                            } else {
-                                TotalVagas = json['calendario']['qtd_vagas'];
-                            }
+                            // Limpando o html da div para cabeçalho do modal de agendamento
+                            $('#modal-cabecalho').html("");
 
-                            //Tratando os resultados para vagas hora 1
-                            var vagasRestantes1 = json['mapas'][0]['vagas'] - json['mapas'][0]['qtdAgendados'];
-                            $('.hora1').html("<b>Mapa:</b> " + json['mapas'][0]['horario'] + ": ");
-                            $('.total-vagas1').html("<b>Total de Vagas:</b> " + json['mapas'][0]['vagas'] + " / ");
+                            // Preenchendo o cabeçalho do modal de agendamento
+                            for (var i = 0; i < json['mapas'].length; i++) {
 
-                            // Verifica se as vagas para o primeiro mapa estão esgotados
-                            if (vagasRestantes1 <= "0") {
-                                $('.total-agendados1').html("<b>Total de Agendados: </b>" + "<span style='color: red' '>" + json['mapas'][0]['qtdAgendados'] + "</span>" + " / ");
-                            } else {
-                                $('.total-agendados1').html("<b>Total de Agendados: </b>" + json['mapas'][0]['qtdAgendados'] + " / ");
-                            }
+                                var html = "";
 
-                            vagasRestantes1 = vagasRestantes1 < 0 ? 0 : vagasRestantes1;
-                            $('.vagas-restantes1').html("<b>Vagas Restantes: </b>" + vagasRestantes1);
+                                // Pegando a quantidade de vagas restantes
+                                var vagasRestantes = json['mapas'][i]['vagas'] - json['mapas'][i]['qtdAgendados'];
 
-                            //Tratando os resultados para vagas hora 2
-                            if (json['calendario']['mais_mapa']) {
+                                // Criando o html para cabeçalho da modal
+                                html += '<b>Mapa:</b>' +json['mapas'][i]['horario'] + " / " + '<b>Total de Vagas:</b>'
+                                        + json['mapas'][i]['vagas'] + ' / ';
 
-                                $('.div-hora2').show();
-
-                                var vagasRestantes2 = json['mapas'][1]['vagas'] - json['mapas'][1]['qtdAgendados'];
-                                $('.hora2').html("<b>Mapa:</b> " + json['mapas'][1]['horario'] + ": ");
-                                $('.total-vagas2').html("<b>Total de Vagas:</b> " + json['mapas'][1]['vagas'] + " / ");
-
-                                // Verifica se as vagas para o segundo mapa estão esgotados
-                                if (vagasRestantes2 <= "0") {
-                                    $('.total-agendados2').html("<b>Total de Agendados: </b>" + "<span style='color: red' '>" + json['mapas'][1]['qtdAgendados'] + "</span>" + " / ");
+                                // Verifica se as vagas para o primeiro mapa estão esgotados
+                                if (vagasRestantes <= "0") {
+                                    html += '<b>Total de Agendados: </b>' + "<span style='color: red' '>" + json['mapas'][i]['qtdAgendados'] + "</span>" + ' / ';
                                 } else {
-                                    $('.total-agendados2').html("<b>Total de Agendados: </b>" + json['mapas'][1]['qtdAgendados'] + " / ");
+                                    html += '<b>Total de Agendados: </b>' + json['mapas'][i]['qtdAgendados'] + ' / ';
                                 }
 
-                                vagasRestantes2 = vagasRestantes2 < 0 ? 0 : vagasRestantes2;
-                                $('.vagas-restantes2').html("<b>Vagas Restantes: </b>" + vagasRestantes2);
-                            } else {
-                                $('.div-hora2').hide();
+                                vagasRestantes = vagasRestantes < 0 ? 0 : vagasRestantes;
+                                html += '<b>Vagas Restantes: </b>' + vagasRestantes  + '<br />';
+
+                                $('#modal-cabecalho').append(html);
                             }
 
                             //Validando habilitação do botão save para perfil de usuário
-                            if (vagasRestantes1 <= "0") {
+                            if (vagasRestantes <= "0") {
                                 @role('submaster')
                                     $('#save').attr('disabled', true);
                                 @endrole
@@ -360,19 +288,18 @@
                                 $('#save').attr('disabled', false);
                             }
 
-                            //Combobox para hora
+                            //Criando o select para seleção dos mapas (horários)
                             var option = "";
-                            option += '<option value="' + json['mapas'][0]['id'] + '">' + json['mapas'][0]['horario'] + ' - ' + json['mapas'][0]['especialidade']+ '</option>';
-
-                            if (json['calendario']['mais_mapa']) {
-                                option += '<option value="' + json['mapas'][1]['id'] + '">' + json['mapas'][1]['horario'] + ' - ' + json['mapas'][1]['especialidade']+ '</option>';
+                            for (var j = 0; j < json['mapas'].length; j++) {
+                                option += '<option value="' + json['mapas'][j]['id'] + '">' + json['mapas'][j]['horario'] + ' - ' + json['mapas'][j]['especialidade']+ '</option>';
                             }
 
                             $('#hora option').remove();
                             $('#hora').prepend(option);
-                            $('.div-hora1').show();
-                            $('#delete').attr('disabled', true);
-                            $("#modalCGM").modal({show: true});
+
+                            // Abrindo o modal para agendamento
+                            $("#modal-agendamento").modal({show: true});
+
                         } else {
                             swal("Não é possível fazer agendamentos para este dia");
                         }
@@ -381,63 +308,47 @@
                 viewRender: function (view) {
                     var calendarDate = $("#calendar").fullCalendar('getDate');
                     var calendarMonth = calendarDate.month();
-                    //Set data attribute for header. This is used to switch header images using css
-                    //$('#calendar . fc-toolbar').attr('data-calendar-month', calendarMonth);
-                    //Set title in page header
                     $('.block-header-calendar > h2 > span').html(view.title);
                 },
                 eventClick: function (calEvent, jsEvent, view) {
+
                     var date = calEvent.start._i;
                     var idPaciente = calEvent.idAgendamento;
+
                     jQuery.ajax({
                         url: '{{ route('serbinario.agendamento.edit') }}',
                         type: 'POST',
                         dataType: 'json',
                         data: {'id': idPaciente},
                         success: function (data) {
-                            $('#calendario').val(data['model']['calendario_id']);
-                            $('#data').val(date);
-                            $('#id').val(data['model']['id']);
-                            $('#obs').text(data['model']['obs']);
-                            psfs(data['model']['posto_saude_id']);
 
-                            //paciente(data['model']['fila']['id'], data['model']['fila']['especialidade_id']);
-                            var optionPaciente = '<option selected value="' + data['model']['fila']['id'] + '">' + data['model']['fila']['cgm']['nome'] + '</option>'
-                            $('#paciente option').remove();
-                            $('#paciente').append(optionPaciente);
+                            // Pega o id do agendamento (paciente)
+                            $('#id').val(data['paciente']['id']);
 
-                            //Combobox para hora
-                            var option = "";
+                            var html = "";
 
-                            // Regra para marcar como selecioando a hora da consulta do paciente - primeiro mapa
-                            if (data['model']['calendario']['hora'] == data['model']['hora']) {
-                                option += '<option selected value="' + data['model']['calendario']['hora'] + '">' + data['model']['calendario']['hora'] + '</option>';
+                            // Monta as informações do paciente no modal
+                            html += '<tr><td><b>Nome do paciente</b></td><td>' + data['paciente']['nome'] + '</td></tr>';
+                            html += '<tr><td><b>Horário</b></td><td>' + data['paciente']['horario'] + '</td></tr>';
+                            html += '<tr><td><b>Exame</b></td><td>' + data['paciente']['especialidade'] + '</td></tr>';
+                            html += '<tr><td><b>Situação</b></td><td>' + data['paciente']['situacao'] + '</td></tr>';
+
+                            // Valida se tem observação ou não, para não exibir o (NULL) vindo de um registro vazio do banco
+                            if(data['paciente']['obs']) {
+                                html += '<tr><td colspan="2"><b>Obserção: </b> ' + data['paciente']['obs'] + '</td></tr>';
                             } else {
-                                option += '<option value="' + data['model']['calendario']['hora'] + '">' + data['model']['calendario']['hora'] + '</option>';
+                                html += '<tr><td colspan="2"><b>Obserção:</b></td></tr>';
                             }
 
-                            // Validando se existe um segundo mapa de consulta
-                            if (data['model']['calendario']['hora2']) {
-                                // Regra para marcar como selecioando a hora da consulta do paciente - segundo mapa
-                                if (data['model']['calendario']['hora2'] == data['model']['hora']) {
-                                    option += '<option selected value="' + data['model']['calendario']['hora2'] + '">' + data['model']['calendario']['hora2'] + '</option>';
-                                } else {
-                                    option += '<option value="' + data['model']['calendario']['hora2'] + '">' + data['model']['calendario']['hora2'] + '</option>';
-                                }
-                            }
-                            $('#hora option').remove();
-                            $('#hora').prepend(option);
+                            $('#table-dados-paciente tbody tr').remove();
+                            $('#table-dados-paciente tbody').append(html);
 
-                            $('.div-hora1').hide();
-                            $('.div-hora2').hide();
-
-                            $('#save').attr('disabled', true);
-                            $('#delete').attr('disabled', false);
-                            $("#modalCGM").modal({show: true});
+                            $("#modal-evento-agendamento").modal({show: true});
                         }
                     });
                 }
             });
+
             //Calendar views switch
             $('body').on('click', '[data-calendar-view]', function(e){
                 e.preventDefault();

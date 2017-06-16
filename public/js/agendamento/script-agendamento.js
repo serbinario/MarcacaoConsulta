@@ -36,38 +36,10 @@ $(document).ready(function () {
                 swal("Paciente agendado com sucesso!", "Click no botão abaixo!", "success");
                 $("#calendar").fullCalendar("refetchEvents");
                 paciente("", especialidade);
-                $("#modalCGM").modal('hide');
-
+                $("#modal-agendamento").modal('hide');
             }
         });
     });
-
-    //editar formulário da marcação de consulta
-    /*$("#edit").click(function (event) {
-        event.preventDefault();
-
-        var especialidade = $('#grupo_operacao').val();
-
-        var dados = {
-            'fila_id': $('#paciente').val(),
-            'calendario_id': $('#calendario').val(),
-            'posto_saude_id': $('#psf').val(),
-            'obs': $('#obs').val(),
-            'status': '1',
-            'hora': $('#hora').val()
-        };
-
-        jQuery.ajax({
-            type: 'POST',
-            url: laroute.route('serbinario.agendamento.update', {'id' : $('#id').val()}),
-            data: {dados: dados},
-            datatype: 'json'
-        }).done(function (retorno) {
-            alert(retorno['msg']);
-            $("#calendar").fullCalendar("refetchEvents");
-            $("#modalCGM").modal('hide');
-        });
-    });*/
 
     //deletar formulário da marcação de consulta
     $("#delete").click(function (event) {
@@ -88,7 +60,7 @@ $(document).ready(function () {
 
             jQuery.ajax({
                 type: 'POST',
-                url: "/serbinario/agendamento/delete/"+$('#id').val(),
+                url: "/serbinario/agendamento/delete/"+ $('#id').val(),
                 datatype: 'json'
             }).done(function (retorno) {
 
@@ -98,9 +70,11 @@ $(document).ready(function () {
                 // Valida se caso o retorno for positivo para deletar ou negativo
                 if (retorno['retorno']) {
                     swal("Paciente deletado com sucesso!", "Click no botão abaixo!", "success");
+
                     $("#calendar").fullCalendar("refetchEvents");
-                    paciente("", especialidade);
-                    $("#modalCGM").modal('hide');
+
+                    //paciente("", especialidade);
+                    $("#modal-evento-agendamento").modal('hide');
                 } else {
                     swal("O paciente só poderar se deletado se estiver com situação de (aguardando atendimento)!", "Click no botão abaixo!", "error");
                 }

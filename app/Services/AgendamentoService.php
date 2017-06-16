@@ -61,7 +61,7 @@ class AgendamentoService
         $relacionamentos = [
             'fila.cgm',
             'psf',
-            'calendario.agendamento',
+            'calendario.agendamento.mapa',
         ];
 
         #Recuperando o registro no banco de dados
@@ -86,7 +86,7 @@ class AgendamentoService
     {
         #Recuperando o registro no banco de dados
         $calendarios = $this->repoCalendario->with(['especialista', 'agendamento'])
-            ->findWhere(['especialista_id' => $idMedico, 'localidade_id' => $idLocal, 'status_id' => '1']);
+            ->findWhere(['especialista_id' => $idMedico, 'localidade_id' => $idLocal]);
 
         $eventos = \DB::table('evento')
             ->join('agendamento', 'evento.agendamento_id', '=', 'agendamento.id')
@@ -95,10 +95,14 @@ class AgendamentoService
             ->join('calendario', 'agendamento.calendario_id', '=', 'calendario.id')
             ->join('localidade', 'calendario.localidade_id', '=', 'localidade.id')
             ->join('especialista', 'calendario.especialista_id', '=', 'especialista.id')
-            ->select('evento.*', 'calendario.id as calendario_id', 'cgm.id as cgm_id', 'agendamento.id as agendamento_id')
             ->where('localidade.id', '=', $idLocal)
             ->where('especialista.id', '=', $idMedico)
-            ->get();
+            ->select([
+                'evento.*',
+                'calendario.id as calendario_id',
+                'cgm.id as cgm_id',
+                'agendamento.id as agendamento_id',
+            ])->get();
 
         $dados = [
             'calendarios' => $calendarios,

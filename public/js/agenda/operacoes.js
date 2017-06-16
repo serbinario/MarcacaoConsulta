@@ -222,6 +222,7 @@ $(document).on('click', '#confirmarBloqueio', function (event) {
 
 });
 
+
 //converter data
 function toDate(dateStr) {
     from = dateStr.split("-");

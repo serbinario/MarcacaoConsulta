@@ -86,11 +86,14 @@ class AgendamentoController extends Controller
         $idEspecialista = isset($request['data']['idEspecialista']) ? $request['data']['idEspecialista'] : "0";
         $idLocalidade   = isset( $request['data']['idLocalidade']) ?  $request['data']['idLocalidade'] : "0";
 
+        // Pegas todos os calendário e agendamentos contidos nos mesmos
         $dados = $this->service->getCalendarioByMedicoLocal($idEspecialista, $idLocalidade);
 
+        // Array para montar o dia do calendário
         $calendarios = array();
 
         $count = 0;
+        // Preenche o array com os eventos (agendamentos) de cada dia da agenda do médico
         foreach($dados['eventos'] as $evento) {
             $calendarios[$count]['title']       = $evento->title;
             $calendarios[$count]['date_start']  = $evento->start;
@@ -100,17 +103,25 @@ class AgendamentoController extends Controller
             $count++;
         }
 
-        foreach($dados['calendarios'] as $dado) {
-            $calendarios[$count]['date_start'] = $dado['data'];
+        // Preenche a array com os dados do calendário médico
+        foreach($dados['calendarios'] as $calendario) {
+            $calendarios[$count]['date_start'] = $calendario['data'];
             $calendarios[$count]['overlap']     = false;
             $calendarios[$count]['rendering']   = "background";
-            $vagasRestantes = $dado['qtd_vagas'] - count($dado['agendamento']);
+            $vagasRestantes = $calendario['qtd_vagas'] - count($calendario['agendamento']);
+
+            // Define a cor do dia na agenda de acordo com a situação do calendário
             if($vagasRestantes <= 0) {
-                $calendarios[$count]['color']       = "#ff9f89";
+                $calendarios[$count]['color']  = "#ff9f89";
+            } else if ($calendario['status_id'] == '2') {
+                $calendarios[$count]['color']       = "#eeb5ba";
+            } else if ($calendario['status_id'] == '3') {
+                $calendarios[$count]['color']  = "#f7d2a4";
             } else {
-                $calendarios[$count]['color']       = "#2be135";
+                $calendarios[$count]['color']  = "#2be135";
             }
-            $calendarios[$count]['id']          = $dado['id'];
+
+            $calendarios[$count]['id'] = $calendario['id'];
             $count++;
         }
 
@@ -198,11 +209,30 @@ class AgendamentoController extends Controller
     {
         $request = $request->all();
 
-        #Recuperando a empresa
-        $model = $this->service->find($request['id']);
+        $paciente = \DB::table('agendamento')
+            ->join('fila', 'fila.id', '=', 'agendamento.fila_id')
+            ->join('cgm', 'cgm.id', '=', 'fila.cgm_id')
+            ->join('calendario', 'agendamento.calendario_id', '=', 'calendario.id')
+            ->join('localidade', 'calendario.localidade_id', '=', 'localidade.id')
+            ->join('especialista', 'calendario.especialista_id', '=', 'especialista.id')
+            ->join('mapas', 'mapas.id', '=', 'agendamento.mapa_id')
+            ->join('especialista_especialidade', 'especialista_especialidade.id', '=', 'mapas.especialidade_id')
+            ->join('especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
+            ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
+            ->join('status_agendamento', 'status_agendamento.id', '=', 'agendamento.status_agendamento_id')
+            ->where('agendamento.id', '=', $request['id'])
+            ->select([
+                'agendamento.id',
+                'cgm.nome',
+                \DB::raw('DATE_FORMAT(calendario.data,"%d/%m/%Y") as data'),
+                'agendamento.obs',
+                'operacoes.nome as especialidade',
+                'mapas.horario as horario',
+                'status_agendamento.nome as situacao'
+            ])->first();
 
         #retorno para view
-        return compact('model');
+        return compact('paciente');
 
     }
 

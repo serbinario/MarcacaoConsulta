@@ -525,5 +525,20 @@
                 });
             });
         });
+
+        // Deletar fila
+        /*$(document).on('click', 'a.excluir', function (event) {
+            event.preventDefault();
+            var url = $(this).attr('href');
+            swal({
+                title: "Alerta",
+                text: "Tem certeza da exclusão do item?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sim!",
+            }).then(function(){
+                location.href = url;
+            });
+        });*/
     </script>
 @stop

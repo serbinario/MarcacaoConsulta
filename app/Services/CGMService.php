@@ -67,7 +67,7 @@ class CGMService
 
         #Criando no banco de dados
         $endereco = $this->enderecoRepository->create($data['endereco']);
-        //dd('aa');
+
         #setando o endereco
         $data['endereco_cgm'] = $endereco->id;
 
@@ -90,18 +90,28 @@ class CGMService
      */
     public function update(array $data, int $id) : CGM
     {
-        //dd($data);
         #tratamento de dados do aluno
         $data     = $this->tratamentoCampos($data);
         $this->tratamentoCampos($data['endereco']);
 
+        // Recuperando o o cgm
+        $getCGM = $this->repository->find($id);
+
+        # Valida se tem endereço a ser cadastrado
+        if (isset($getCGM->endereco->id)) {
+            $endereco = $this->enderecoRepository->update($data['endereco'], $getCGM->endereco->id);
+        } else {
+            $endereco = $this->enderecoRepository->create($data['endereco']);
+        }
+
+        #setando o endereço
+        $data['endereco_cgm'] = $endereco->id;
+
         #Atualizando no banco de dados
         $cGM = $this->repository->update($data, $id);
-        
-        $endereco = $this->enderecoRepository->update($data['endereco'], $cGM->endereco->id);
 
         #Verificando se foi atualizado no banco de dados
-        if(!$cGM || !$endereco) {
+        if(!$cGM) {
             throw new \Exception('Ocorreu um erro ao atualizar!');
         }
 
