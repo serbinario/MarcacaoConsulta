@@ -105,13 +105,8 @@ class CalendarioController extends Controller
 
         // Filtrar por especialidade
         if($request->has('especialidade') && $request->get('especialidade') != "") {
-            $rows->leftJoin('especialista_especialidade as especialidade_um', 'especialidade_um.id', '=', 'calendario.especialidade_id_um');
-            $rows->leftJoin('especialista_especialidade as especialidade_dois', 'especialidade_dois.id', '=', 'calendario.especialidade_id_dois');
-
-            $rows->where(function ($query) use ($request) {
-                $query->orWhere('especialidade_um.id', '=', $request->get('especialidade'))
-                    ->orWhere('especialidade_dois.id', '=', $request->get('especialidade'));
-            });
+            $rows->join('mapas', 'mapas.calendario_id', '=', 'calendario.id');
+            $rows->where('mapas.especialidade_id', $request->get('especialidade'));
         }
 
         // Filtrar por status
@@ -135,6 +130,8 @@ class CalendarioController extends Controller
             })
             ->addColumn('mapas', function ($row) {
 
+                $html = "";
+
                 // Seleciona os mapas
                 $mapas = \DB::table('mapas')
                     ->where('mapas.calendario_id', '=', $row->id)
@@ -143,80 +140,84 @@ class CalendarioController extends Controller
                         'horario'
                     ])->get();
 
-                if (count($mapas) > 1) {
-                    return $mapas[0]->horario . "<br />" . $mapas[1]->horario;
-                } else {
-                    return $mapas[0]->horario;
+                // Processando os mapas
+                foreach ($mapas as $mapa) {
+                    $html .= $mapa->horario ."<br />";
                 }
+
+                return $html;
 
             })->addColumn('especialidades', function ($row) {
 
 
+                $html = "";
+
                 // Pega a especilidade do primeiro mapa
-                $especialidades = \DB::table('mapas')
+                $mapas = \DB::table('mapas')
                     ->join('especialista_especialidade', 'especialista_especialidade.id', '=', 'mapas.especialidade_id')
                     ->join('especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
                     ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
                     ->where('mapas.calendario_id', '=', $row->id)
                     ->select([
                         "operacoes.nome",
-                        "especialidade.id as especialidade_id",
+                        'mapas.horario'
                     ])->get();
 
-                if (count($especialidades) > 1) {
-                    return "Mapa 1: " . $especialidades[0]->nome . "<br />" . "Mapa 2: " . $especialidades[1]->nome;
-                } else {
-                    return $especialidades[0]->nome;
+                // Processando os mapas
+                foreach ($mapas as $mapa) {
+                    $html .= $mapa->horario ." : ". $mapa->nome ."<br />";
                 }
+
+                return $html;
 
             })->addColumn('agendamentos', function ($row) {
 
-
-                // Seleciona os mapas
-                $mapas = \DB::table('mapas')
-                    ->where('mapas.calendario_id', '=', $row->id)
-                    ->select(["id",])->get();
-
-                //Select dados mapa 1
-                $mapa1 = \DB::table('agendamento')
-                    ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
-                    ->where('agendamento.mapa_id', '=', $mapas[0]->id)
-                    ->where('calendario.id', '=', $row->id)
-                    ->select([
-                        \DB::raw('count(agendamento.id) as qtdAgendados'),
-                    ])->first();
-
-                if ($row->mais_mapa) {
-
-                    //Select dados mapa 2
-                    $mapa2 = \DB::table('agendamento')
-                        ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
-                        ->where('agendamento.mapa_id', '=', $mapas[1]->id)
-                        ->where('calendario.id', '=', $row->id)
-                        ->select([
-                            \DB::raw('count(agendamento.id) as qtdAgendados'),
-                        ])->first();
-
-                    return "Mapa 1: " . $mapa1->qtdAgendados . "<br />" . "Mapa 2: " . $mapa2->qtdAgendados;
-                } else {
-                    return $mapa1->qtdAgendados;
-                }
-
-            })->addColumn('vagas', function ($row) {
+                $html = "";
 
                 // Seleciona os mapas
                 $mapas = \DB::table('mapas')
                     ->where('mapas.calendario_id', '=', $row->id)
                     ->select([
                         "id",
-                        'vagas'
+                        'horario'
                     ])->get();
 
-                if (count($mapas) > 1) {
-                    return "Mapa 1: " . $mapas[0]->vagas . "<br />" . "Mapa 2: " . $mapas[1]->vagas;
-                } else {
-                    return $mapas[0]->vagas;
+
+                // Processando os mapas
+                foreach ($mapas as $mapa) {
+
+                    $agendamento = \DB::table('agendamento')
+                        ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
+                        ->where('agendamento.mapa_id', '=', $mapa->id)
+                        ->where('calendario.id', '=', $row->id)
+                        ->select([
+                            \DB::raw('count(agendamento.id) as qtdAgendados'),
+                        ])->first();
+
+                    $html .= $mapa->horario ." : ". $agendamento->qtdAgendados ."<br />";
                 }
+
+                return $html;
+
+            })->addColumn('vagas', function ($row) {
+
+                $html = "";
+
+                // Seleciona os mapas
+                $mapas = \DB::table('mapas')
+                    ->where('mapas.calendario_id', '=', $row->id)
+                    ->select([
+                        "id",
+                        'vagas',
+                        'horario'
+                    ])->get();
+
+                // Processando os mapas
+                foreach ($mapas as $mapa) {
+                    $html .= $mapa->horario ." : ". $mapa->vagas ."<br />";
+                }
+
+                return $html;
 
             })->make(true);
     }

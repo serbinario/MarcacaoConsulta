@@ -131,11 +131,11 @@
             </div>
 
             <ul class="main-menu">
+                <li><a href="{{ route('serbinario.fila.index') }}"><i class="zmdi zmdi zmdi-timer"></i> Fila de Espera</a></li>
                 <li class="sub-menu">
                     <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-plus"></i>Cadastros</a>
                     <ul>
                         <li><a href="{{ route('serbinario.cgm.index') }}">CGM</a></li>
-                        <li><a href="{{ route('serbinario.fila.index') }}">Fila de Espera</a></li>
                         <li><a href="{{ route('serbinario.localidade.index') }}">Unidade de Atendimento</a></li>
                         <li><a href="{{ route('serbinario.ps.index') }}">PSF</a></li>
                         <li><a href="{{ route('serbinario.operacao.index') }}">Operações</a></li>
@@ -152,7 +152,7 @@
                     </ul>
                 </li>
                 <li class="sub-menu">
-                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-calendar"></i>Ralatório</a>
+                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-assignment"></i>Ralatório</a>
                     <ul>
                         <li><a href="{{ route('serbinario.relatorio.byAgenda') }}">Por Agenda</a></li>
                     </ul>

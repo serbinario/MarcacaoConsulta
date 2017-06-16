@@ -135,7 +135,11 @@
     <script type="text/javascript" src="{{asset('/js/agendamento/selects.js')}}"></script>
     <script type="text/javascript" src="{{asset('/js/agendamento/script-agendamento.js')}}"></script>
     <script type="text/javascript">
+        // Variáveis globais
+        var idDoCalendario;
+
         $(document).ready(function () {
+
             var date = new Date();
             var m = date.getMonth();
             var y = date.getFullYear();
@@ -243,6 +247,9 @@
 
                         if (json['retorno'] === true) {
 
+                            // Preenchendo a variável global do calendário
+                            idDoCalendario = json['calendario']['id'];
+
                             $('#calendario').val(json['calendario']['id']);
                             $('#data').val(json['calendario']['data']);
                             $('#obs').text('');
@@ -276,20 +283,9 @@
                                 $('#modal-cabecalho').append(html);
                             }
 
-                            //Validando habilitação do botão save para perfil de usuário
-                            if (vagasRestantes <= "0") {
-                                @role('submaster')
-                                    $('#save').attr('disabled', true);
-                                @endrole
-                                 @role('master|admin')
-                                    $('#save').attr('disabled', false);
-                                @endrole
-                            } else {
-                                $('#save').attr('disabled', false);
-                            }
-
                             //Criando o select para seleção dos mapas (horários)
                             var option = "";
+                            option += '<option value="">Selecione um mapa (horário)</option>';
                             for (var j = 0; j < json['mapas'].length; j++) {
                                 option += '<option value="' + json['mapas'][j]['id'] + '">' + json['mapas'][j]['horario'] + ' - ' + json['mapas'][j]['especialidade']+ '</option>';
                             }
@@ -367,6 +363,54 @@
                 e.preventDefault();
                 target.fullCalendar('next');
             });
+        });
+
+        //Buscando as vagas disponíveis ao selecionar o mapa (hotário)
+        $(document).on('change', "#hora", function () {
+
+            var mapa = $(this).val();
+
+            if(mapa && idDoCalendario) {
+
+                var dados = {
+                    'mapa' : mapa,
+                    'idCalendario' : idDoCalendario
+                };
+
+                jQuery.ajax({
+                    type: 'POST',
+                    url: '/serbinario/calendario/getVagasByMapa',
+                    datatype: 'json',
+                    data    : dados
+                }).done(function (json) {
+
+                    // Preenchendo as variáveis globais
+                    var totalVagas = json['totalVagas'];
+                    var vagasRestantes = json['vagasRestantes'];
+
+                    if (vagasRestantes == '0') {
+
+                        swal('O Limite de vagas para esse mapa (horário) foi atingido!', "Click no botão abaixo!", 'warning');
+
+                        // Desabilitando o botão de salvar por tipo de perfil de usuário
+                        @role('submaster')
+                             $('#save').attr('disabled', true);
+                        @endrole
+                        @role('master|admin')
+                             $('#save').attr('disabled', false);
+                        @endrole
+
+                    } else {
+                        // Habilitando o botão de salvar
+                        $('#save').prop('disabled', false);
+                    }
+
+                });
+
+            } else {
+                $('#save').attr('disabled', true);
+            }
+
         });
     </script>
 @stop

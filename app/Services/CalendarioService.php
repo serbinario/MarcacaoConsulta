@@ -122,10 +122,15 @@ class CalendarioService
         // Editando os mapas
         foreach ($data['mapas'] as $mapa) {
             $mapa['calendario_id'] = $calendario->id;
-            $this->mapaRepository->update($mapa, $mapa['id']);
+            if ($mapa['id']) {
+                $this->mapaRepository->update($mapa, $mapa['id']);
+            } else {
+                $this->mapaRepository->create($mapa);
+            }
         }
 
         $calendarioFind = $this->repository->with(['agendamento.evento'])->find($id);
+
         //Atualizando os agendamentos conforme a data atual do calendário
         foreach ($calendarioFind->agendamento as $agendamento) {
             foreach ($agendamento->evento as $evento) {
