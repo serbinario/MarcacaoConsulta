@@ -107,6 +107,7 @@ class CalendarioController extends Controller
         if($request->has('especialidade') && $request->get('especialidade') != "") {
             $rows->join('mapas', 'mapas.calendario_id', '=', 'calendario.id');
             $rows->where('mapas.especialidade_id', $request->get('especialidade'));
+            $rows->groupBy('calendario.id');
         }
 
         // Filtrar por status

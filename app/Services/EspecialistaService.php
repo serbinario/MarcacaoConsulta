@@ -210,8 +210,7 @@ class EspecialistaService
     {
 
         $relacionamentos = [
-            'calendarioUm',
-            'calendarioDois',
+            'mapas',
         ];
 
         #Recuperando o registro no banco de dados

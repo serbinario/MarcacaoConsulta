@@ -163,13 +163,18 @@ $(document).on('change', "#mapa-agendar", function () {
             vagasRestantes = json['vagasRestantes'];
 
             if (vagasRestantes < idsPacientes.length) {
-                // Desabilitando o botão de reagendas
-                $('#agendar').prop('disabled', true);
+
+                // Desabilitando o botão de agendar de acordo com o perfil do usuário
+                if (perfil == '1') {
+                    $('#agendar').prop('disabled', false);
+                } else if (perfil == '2') {
+                    $('#agendar').prop('disabled', true);
+                }
 
                 // Deixando oculto a mensagem de alerta para limite de vagas
                 $('.msg').show();
             } else {
-                // Desabilitando o botão de reagendas
+                // Habilitando o botão de reagendas
                 $('#agendar').prop('disabled', false);
 
                 // Deixando oculto a mensagem de alerta para limite de vagas

@@ -254,7 +254,7 @@ class EspecialistaController extends Controller
 
             $especialidade = $this->service->findEspecialistaEspecialidade($row->id);
 
-            if(count($especialidade->calendarioUm) <= 0 && count($especialidade->calendarioDois) <= 0) {
+            if(count($especialidade->mapas) <= 0) {
                 $html .= '<a title="Remover" id="deleteEspecialidade" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-remove"></i></a>';
             }
 

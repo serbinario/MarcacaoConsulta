@@ -2,7 +2,7 @@
  * Created by Fabio on 30/05/2017.
  */
 
-var tableCalendario;
+var tableCalendario, perfil;
 
 function loadTableCalendario (idEspecialista) {
     // Carregaando a grid

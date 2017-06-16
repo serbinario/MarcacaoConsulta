@@ -63,32 +63,7 @@
 
                 <div class="card-body card-padding">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="container container-alt">
-                                <div class="block-header block-header-calendar">
-                                    <h2>
-                                        <span></span>
-                                    </h2>
 
-                                    <ul class="actions actions-calendar">
-                                        <li><a class="calendar-next" href=""><i class="zmdi zmdi-chevron-left"></i></a></li>
-                                        <li><a class="calendar-prev" href=""><i class="zmdi zmdi-chevron-right"></i></a></li>
-
-                                        <li class="dropdown">
-                                            <a href="" data-toggle="dropdown"><i class="zmdi zmdi-more-vert"></i></a>
-                                            <ul class="dropdown-menu dm-icon pull-right">
-                                                <li><a href="" data-calendar-view="month"><i class="zmdi zmdi-view-comfy active"></i> Visualizar por Mês</a></li>
-                                                <li><a href="" data-calendar-view="basicWeek"><i class="zmdi zmdi-view-week"></i> Visualizar por Semana</a></li>
-                                                <li><a href="" data-calendar-view="basicDay"><i class="zmdi zmdi-view-day"></i> Visualizar por Dia</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div id="calendar" class="card"></div>
-
-                            </div>
-                        </div>
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">
@@ -138,6 +113,32 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="container container-alt">
+                                <div class="block-header block-header-calendar">
+                                    <h2>
+                                        <span></span>
+                                    </h2>
+
+                                    <ul class="actions actions-calendar">
+                                        <li><a class="calendar-next" href=""><i class="zmdi zmdi-chevron-left"></i></a></li>
+                                        <li><a class="calendar-prev" href=""><i class="zmdi zmdi-chevron-right"></i></a></li>
+
+                                        <li class="dropdown">
+                                            <a href="" data-toggle="dropdown"><i class="zmdi zmdi-more-vert"></i></a>
+                                            <ul class="dropdown-menu dm-icon pull-right">
+                                                <li><a href="" data-calendar-view="month"><i class="zmdi zmdi-view-comfy active"></i> Visualizar por Mês</a></li>
+                                                <li><a href="" data-calendar-view="basicWeek"><i class="zmdi zmdi-view-week"></i> Visualizar por Semana</a></li>
+                                                <li><a href="" data-calendar-view="basicDay"><i class="zmdi zmdi-view-day"></i> Visualizar por Dia</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div id="calendar" class="card"></div>
+
                             </div>
                         </div>
                     </div>

@@ -3,7 +3,7 @@
  */
 
 // Variáveis globais
-var especialidadeId, idsPacientes;
+var especialidadeId, idsPacientes, perfil;
 var totalVagas, vagasRestantes;
 
 var table = $('#fila-grid').DataTable({

@@ -6,6 +6,7 @@ use Composer\Repository\Pear\PackageDependencyParser;
 use Illuminate\Http\Request;
 
 use Seracademico\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 use Seracademico\Repositories\AgendamentoRepository;
 use Seracademico\Services\AgendamentoService;
 use Yajra\Datatables\Datatables;
@@ -38,6 +39,11 @@ class AgendadosController extends Controller
     ];
 
     /**
+     * @var
+     */
+    private $user;
+
+    /**
      * @param AgendamentoService $service
      * @param AgendamentoRepository $repository
      */
@@ -45,6 +51,7 @@ class AgendadosController extends Controller
     {
         $this->service      =  $service;
         $this->repository   =  $repository;
+        $this->user         = Auth::user();
     }
 
     /**
@@ -146,17 +153,12 @@ class AgendadosController extends Controller
             $rows->where('especialista.id', $request->get('especialista'));
         }
 
-        /*if($request->has('especialidade') && $request->get('especialidade') != "") {
-            $rows->where(function ($query) use ($request) {
-                $query->orWhere('especialidade_um.id', '=', $request->get('especialidade'))
-                    ->orWhere('especialidade_dois.id', '=', $request->get('especialidade'));
-            });
-        }*/
 
         #Editando a grid
         return Datatables::of($rows)->filter(function ($query) use ($request) {
             // Filtrando Global
             if ($request->has('globalSearch')) {
+
                 # recuperando o valor da requisição
                 $search = $request->get('globalSearch');
 
@@ -173,7 +175,7 @@ class AgendadosController extends Controller
             $html = "";
 
             # Habilita a opção de deletar apenas se o paciente estiver com status de (aguardando atendimento)
-            if($row->status_id == '1') {
+            if($row->status_id == '1' || $this->user->is('admin')) {
                 $html .= '<a href="delete/'.$row->id.'" class="btn btn-xs btn-danger excluir"><i class="glyphicon glyphicon-remove"></i></a> ';
             }
 

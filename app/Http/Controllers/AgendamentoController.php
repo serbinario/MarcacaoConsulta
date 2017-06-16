@@ -145,17 +145,23 @@ class AgendamentoController extends Controller
         $count = 0;
 
         // Carregando apenas os dias de atendimento do especialista sem os eventos (pacientes)
-        foreach($dados['calendarios'] as $dado) {
-            $calendarios[$count]['date_start'] = $dado['data'];
+        foreach($dados['calendarios'] as $calendario) {
+            $calendarios[$count]['date_start'] = $calendario['data'];
             $calendarios[$count]['overlap']     = false;
             $calendarios[$count]['rendering']   = "background";
-            $vagasRestantes = $dado['qtd_vagas'] - count($dado['agendamento']);
+            $vagasRestantes = $calendario['qtd_vagas'] - count($calendario['agendamento']);
+
             if($vagasRestantes <= 0) {
-                $calendarios[$count]['color']       = "#ff9f89";
+                $calendarios[$count]['color']  = "#ff9f89";
+            } else if ($calendario['status_id'] == '2') {
+                $calendarios[$count]['color']       = "#e899a0";
+            } else if ($calendario['status_id'] == '3') {
+                $calendarios[$count]['color']  = "#f3bb75";
             } else {
-                $calendarios[$count]['color']       = "#2be135";
+                $calendarios[$count]['color']  = "#2be135";
             }
-            $calendarios[$count]['id']          = $dado['id'];
+
+            $calendarios[$count]['id'] = $calendario['id'];
             $count++;
         }
 

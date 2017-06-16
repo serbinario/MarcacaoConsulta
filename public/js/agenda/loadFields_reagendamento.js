@@ -126,8 +126,13 @@ $(document).on('change', "#mapa-reagendar", function () {
             vagasRestantes = json['vagasRestantes'];
 
             if (vagasRestantes < idsPacientes.length) {
-                // Desabilitando o botão de reagendas
-                $('#reagendar').prop('disabled', true);
+
+                // Desabilitando o botão de agendar de acordo com o perfil do usuário
+                if (perfil == '1') {
+                    $('#reagendar').prop('disabled', false);
+                } else if (perfil == '2') {
+                    $('#reagendar').prop('disabled', true);
+                }
 
                 // Deixando oculto a mensagem de alerta para limite de vagas
                 $('.msg').show();

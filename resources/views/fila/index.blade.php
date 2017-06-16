@@ -157,6 +157,14 @@
     <script type="text/javascript" src="{{asset('/js/fila/modal_agendamento.js')}}"></script>
     <script type="text/javascript">
 
+        // Definindo um tipo de perfil para ser usado como validação no arquivo js
+        @role('master|admin' )
+             perfil = '1';
+        @endrole
+        @role('submaster')
+             perfil = '2';
+        @endrole
+
         // Evento para abrir o modal de telefones
         $(document).on("click", "#agendarPaciente", function () {
 

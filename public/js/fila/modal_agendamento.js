@@ -41,7 +41,7 @@ $(document).on('click', '#agendar', function (event) {
     }
 
     // Validando se o mapa possui vagas suficientes
-    if(vagaRestante < idsPacientes.length) {
+    if(vagaRestante < idsPacientes.length && perfil == '2') {
         swal("Oops...", "O mapa selecioando não possui vaga suficiente para este agendamento!", "error");
         return false;
     }

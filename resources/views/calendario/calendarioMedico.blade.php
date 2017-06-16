@@ -73,33 +73,7 @@
                                     <br/>
 
                                     <div class="row">
-                                        <div class="col-md-5 col-md-offset-1">
-                                            <!-- define the calendar element -->
-                                            <div class="row">
-                                                <div id="my-calendar"></div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="row">
-                                                    <div class="form-group col-md-10">
-                                                        <button type="button" id="save" disabled
-                                                                class="btn btn-primary btn-sm m-t-10">Salvar
-                                                        </button>
-                                                        <button type="button" id="edit" disabled
-                                                                class="btn btn-success btn-sm m-t-10">Editar
-                                                        </button>
-                                                        <button type="button" id="fechar" disabled
-                                                                class="btn btn-danger btn-sm m-t-10">Fechar
-                                                        </button>
-                                                        <button type="button" id="bloquear" disabled
-                                                                class="btn btn-warning btn-sm m-t-10">Bloquear
-                                                        </button>
-                                                        <a href="{{route('serbinario.especialista.index')}}"
-                                                           class="btn btn-default btn-sm m-t-10">Voltar</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
+                                        <div style="margin-left: 2%" class="col-md-6">
                                             <div class="row">
                                                 <form method="post" id="form_agenda">
                                                     <div class="col-md-12">
@@ -183,6 +157,32 @@
 
                                                     </div>
                                                 </form>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <!-- define the calendar element -->
+                                            <div class="row">
+                                                <div id="my-calendar"></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="row">
+                                                    <div class="form-group col-md-10">
+                                                        <button type="button" id="save" disabled
+                                                                class="btn btn-primary btn-sm m-t-10">Salvar
+                                                        </button>
+                                                        <button type="button" id="edit" disabled
+                                                                class="btn btn-success btn-sm m-t-10">Editar
+                                                        </button>
+                                                        <button type="button" id="fechar" disabled
+                                                                class="btn btn-danger btn-sm m-t-10">Fechar
+                                                        </button>
+                                                        <button type="button" id="bloquear" disabled
+                                                                class="btn btn-warning btn-sm m-t-10">Bloquear
+                                                        </button>
+                                                        <a href="{{route('serbinario.especialista.index')}}"
+                                                           class="btn btn-default btn-sm m-t-10">Voltar</a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -322,9 +322,16 @@
     <script type="text/javascript" src="{{asset('/js/agenda/grid_pacientes.js')}}"></script>
     <script type="text/javascript" src="{{asset('/js/agenda/loadFields_reagendamento.js')}}"></script>
     <script type="text/javascript" src="{{asset('/js/agenda/modal_reagendamento.js')}}"></script>
-
     <!-- initialize the calendar on ready -->
     <script type="application/javascript">
+
+        // Definindo um tipo de perfil para ser usado como validação no arquivo js
+        @role('master|admin' )
+             perfil = '1';
+        @endrole
+        @role('submaster')
+             perfil = '2';
+        @endrole
 
         // Evento para abrir o modal de telefones
         $(document).on("click", "#reagendarPaciente", function () {
