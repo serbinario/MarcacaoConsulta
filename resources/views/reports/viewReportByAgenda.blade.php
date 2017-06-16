@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="form-group col-md-12">
-                            <button id="btnPesquisar" class="btn btn-primary btn-sm m-t-10">Pesquisar</button>
+                            <button type="button" id="btnPesquisar" class="btn btn-primary btn-sm m-t-10">Pesquisar</button>
                             <button type="submit" id="btnPesquisarGerarPdf" class="btn bgm-orange btn-sm m-t-10">Gerar PDF</button>
                         </div>
                     </div>
