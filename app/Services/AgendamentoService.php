@@ -184,11 +184,6 @@ class AgendamentoService
         // Pegando o agendamento
         $agendamento = $this->repository->find($id);
 
-        # deletar apenas se o paciente estiver com status de (aguardando atendimento)
-        if ($agendamento->status_agendamento_id != "1") {
-            return false;
-        }
-
         // Atualizando o status do paciente na fila
         \DB::table('fila')->where('id', $agendamento['fila_id'])->update(['status' => '0']);
 
