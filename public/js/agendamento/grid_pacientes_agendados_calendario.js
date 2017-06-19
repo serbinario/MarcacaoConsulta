@@ -2,10 +2,6 @@
  * Created by Fabio on 30/05/2017.
  */
 
-// Variáveis globais
-var table, idsPacientes, especialidadeId, perfil;
-var totalVagas, vagasRestantes;
-
 // Carregaando a grid
 table = $('#agendados-grid').DataTable({
     retrieve: true,
@@ -19,22 +15,21 @@ table = $('#agendados-grid').DataTable({
         url: "/serbinario/agendados/grid",
         method: 'POST',
         data: function (d) {
-            d.data_inicio = $('input[name=data_inicio]').val();
-            d.data_fim = $('input[name=data_fim]').val();
-            d.exame = $('select[name=exame] option:selected').val();
-            d.prioridade = $('select[name=prioridade] option:selected').val();
-            d.psf = $('select[name=psf] option:selected').val();
-            d.situacao = $('select[name=situacao] option:selected').val();
-            d.globalSearch = $('input[name=globalSearch]').val();
+            d.data_inicio       = "";
+            d.data_fim          = "";
+            d.data_unica        = $('input[name=data]').val();
+            d.especialidade     = $('select[name=grupo_operacao] option:selected').val();
+            d.especialista      = $('select[name=especialista] option:selected').val();
+            d.localidade        = $('select[name=localidade] option:selected').val();
         }
     },
     columns: [
         {data: 'nome', name: 'cgm.nome'},
         {data: 'numero_sus', name: 'cgm.numero_sus'},
-        {data: 'especialidade', name: 'operacoes.nome'},
-        {data: 'data', name: 'calendario.data'},
+        //{data: 'especialidade', name: 'operacoes.nome'},
+        //{data: 'data', name: 'calendario.data'},
         {data: 'horario', name: 'mapas.horario'},
-        {data: 'especialista', name: 'cgm_especialista.nome'},
+        //{data: 'especialista', name: 'cgm_especialista.nome'},
         {data: 'psf', name: 'posto_saude.nome'},
         {data: 'status', name: 'status_agendamento.nome'},
         {data: 'action', name: 'action', orderable: false, searchable: false}
@@ -102,12 +97,5 @@ $(document).on('click', '#agendados-grid tbody tr', function () {
     // Armazenando os ids dos paciente em um array global
     idsPacientes = arrayId;
 
-});
-
-
-//Função do submit do search da grid principal
-$('#search').click(function (e) {
-    table.draw();
-    e.preventDefault();
 });
 

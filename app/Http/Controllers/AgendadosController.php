@@ -118,7 +118,8 @@ class AgendadosController extends Controller
                 'mapas.horario',
                 'cgm_especialista.nome as especialista',
                 'status_agendamento.nome as status',
-                'status_agendamento.id as status_id'
+                'status_agendamento.id as status_id',
+                'especialidade.id as exame'
             ]);
 
         if($dataIni && $dataFim) {

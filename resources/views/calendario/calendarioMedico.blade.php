@@ -189,9 +189,9 @@
 
                                     {{-- Grid dos paciente por data do calendário --}}
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        {{--<div class="col-md-12">
                                             <button type="button" disabled id="reagendarPaciente" class="btn btn-primary btn-sm m-t-10">Reagendar</button>
-                                        </div>
+                                        </div>--}}
                                         <div class="col-md-12">
                                             <div class="table-responsive">
                                                 <table id="pacientes-grid" class="display table table-bordered compact" cellspacing="0" width="100%">
@@ -320,26 +320,20 @@
     <script type="text/javascript" src="{{asset('/js/agenda/grid_calendario.js')}}"></script>
     <script type="text/javascript" src="{{asset('/js/agenda/operacoes.js')}}"></script>
     <script type="text/javascript" src="{{asset('/js/agenda/grid_pacientes.js')}}"></script>
-    <script type="text/javascript" src="{{asset('/js/agenda/loadFields_reagendamento.js')}}"></script>
-    <script type="text/javascript" src="{{asset('/js/agenda/modal_reagendamento.js')}}"></script>
+    {{--<script type="text/javascript" src="{{asset('/js/agenda/loadFields_reagendamento.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/js/agenda/modal_reagendamento.js')}}"></script>--}}
     <!-- initialize the calendar on ready -->
     <script type="application/javascript">
 
         // Definindo um tipo de perfil para ser usado como validação no arquivo js
-        @role('master|admin' )
-             perfil = '1';
-        @endrole
-        @role('submaster')
-             perfil = '2';
-        @endrole
 
         // Evento para abrir o modal de telefones
-        $(document).on("click", "#reagendarPaciente", function () {
+        /*$(document).on("click", "#reagendarPaciente", function () {
 
             // Executando o modal
             runModalReagendarPacientes(especialidadeId, idsPacientes, especialistaNome, CRM);
         });
-
+*/
         $(document).ready(function () {
 
             idEspecialista = "{{$especialista['id']}}";
@@ -508,7 +502,7 @@
 
         });
 
-        // Fechar uma data da agenda
+        // Deletar fila
         $(document).on('click', 'a.excluir', function (event) {
             event.preventDefault();
             var url = $(this).attr('href');
@@ -517,35 +511,10 @@
                 text: "Tem certeza que deseja excluir a agenda?",
                 type: "warning",
                 showCancelButton: true,
-                confirmButtonText: "Sim!"
-            }).then(function () {
-
-                $.ajax({
-                    url: url,
-                    dataType: "json",
-                    type: "GET",
-                    success: function (data) {
-                        swal('Agenda deletada com sucesso!', "Click no botão abaixo!", 'success');
-                        tableCalendario.ajax.reload();
-                        //location.href = "/serbinario/calendario/index/" + idEspecialista;
-                    }
-                });
-            });
-        });
-
-        // Deletar fila
-        /*$(document).on('click', 'a.excluir', function (event) {
-            event.preventDefault();
-            var url = $(this).attr('href');
-            swal({
-                title: "Alerta",
-                text: "Tem certeza da exclusão do item?",
-                type: "warning",
-                showCancelButton: true,
                 confirmButtonText: "Sim!",
             }).then(function(){
                 location.href = url;
             });
-        });*/
+        });
     </script>
 @stop

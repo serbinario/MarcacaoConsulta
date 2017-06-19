@@ -120,6 +120,7 @@
                         <div class="col-xs-12">
                             <div class="text-left">
                                 <button type="button" disabled id="definirAtendimento" class="btn btn-success btn-sm m-t-10">Definir Atendimento</button>
+                                <button type="button" disabled id="reagendarPaciente" class="btn btn-primary btn-sm m-t-10">Reagendar</button>
                             </div>
                         </div>
                     </div>
@@ -161,18 +162,38 @@
     </section>
 
     @include('agendamento.modal_definir_atendimento')
+    @include('agendamento.modal_reagendamento')
 @stop
 
 @section('javascript')
     <script type="text/javascript" src="{{asset('/js/agendamento/grid_pacientes_agendados.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/js/agendamento/loadFields_reagendamento.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/js/agendamento/modal_reagendamento.js')}}"></script>
     <script type="text/javascript" src="{{asset('/js/agendamento/modal_definir_atendimento.js')}}"></script>
     <script type="text/javascript">
 
-        // Evento para abrir o modal de telefones
+        // Definindo um tipo de perfil para ser usado como validação no arquivo js
+        @role('master|admin' )
+             perfil = '1';
+        @endrole
+        @role('submaster')
+             perfil = '2';
+        @endrole
+
+        // Evento para abrir o modal de definição de atendimento
         $(document).on("click", "#definirAtendimento", function () {
 
-            // Executando o modal
+            // Executando o modal para definição de atendimento
             runModalDefinirAtendimento(idsPacientes);
+
+        });
+
+        // Evento para abrir o modal de reagendamento
+        $(document).on("click", "#reagendarPaciente", function () {
+
+            // Executando o modal de reagendamento
+            runModalReagendarPacientes(especialidadeId, idsPacientes);
+
         });
 
         //Carregando os bairros

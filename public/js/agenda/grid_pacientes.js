@@ -27,17 +27,17 @@ function loadTablePaciente (idCalendario) {
     });
 
     // Selecionar as tr da grid
-    $(document).on('click', '#pacientes-grid tbody tr', function () {
+    /*$(document).on('click', '#pacientes-grid tbody tr', function () {
         // Aplicando o estilo css
         if($(this).hasClass("selected")) {
             $(this).removeClass("selected");
         } else {
             $(this).addClass("selected");
         }
-    });
+    });*/
 
     // Evento para quando clicar na tr da table de pacientes
-    $(document).on('click', '#pacientes-grid tbody tr', function () {
+    /*$(document).on('click', '#pacientes-grid tbody tr', function () {
 
         // Array que armazenará os ids dos pacientes
         var arrayId   = [];
@@ -82,7 +82,7 @@ function loadTablePaciente (idCalendario) {
         // Armazenando os ids dos paciente em um array global
         idsPacientes = arrayId;
 
-    });
+    });*/
 
     return tablePacientes;
 }

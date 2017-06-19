@@ -53,7 +53,7 @@ function psfs(id) {
 
     jQuery.ajax({
         type: 'POST',
-        url: "/index.php/serbinario/ps/all",
+        url: "/serbinario/ps/all",
         datatype: 'json',
     }).done(function (json) {
         var option = '';
@@ -109,7 +109,7 @@ $(document).on('change', "#grupo_operacao", function () {
 
         jQuery.ajax({
             type: 'GET',
-            url: "/index.php/serbinario/especialista/byespecialidade/"+idEspecialidade,
+            url: "/serbinario/especialista/byespecialidade/"+idEspecialidade,
             datatype: 'json',
         }).done(function (json) {
             var option = '';
@@ -134,7 +134,7 @@ function tipoOperacoes(id) {
 
     jQuery.ajax({
         type: 'POST',
-        url: "/index.php/serbinario/agendamento/getTipoOperacao",
+        url: "/serbinario/agendamento/getTipoOperacao",
         datatype: 'json',
     }).done(function (json) {
         var option = '';
@@ -171,7 +171,7 @@ $(document).on('change', "#tipo_operacao", function () {
 
         jQuery.ajax({
             type: 'POST',
-            url: "/index.php/serbinario/util/searchOperacoes",
+            url: "/serbinario/util/searchOperacoes",
             data: dados,
             datatype: 'json'
         }).done(function (json) {
@@ -197,7 +197,7 @@ function paciente(id, especialidade) {
 
     jQuery.ajax({
         type: 'POST',
-        url: "/index.php/serbinario/agendamento/getPacientes",
+        url: "/serbinario/agendamento/getPacientes",
         datatype: 'json',
         data: {'especialidade' : especialidade}
     }).done(function (json) {
@@ -261,7 +261,4 @@ function paciente(id, especialidade) {
     });
 }*/
 
-//tipoOperacoes();
-//localidade();
 especialidade();
-psfs();

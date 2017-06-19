@@ -330,9 +330,10 @@ class CalendarioController extends Controller
             $calendario = $this->repository->delete($id);
 
             #Retorno para a view
-            return \Illuminate\Support\Facades\Response::json(['success' => true]);
+            return redirect()->back()->with("message", "Agenda deletada com sucesso!");
         } catch (\Throwable $e) {
-            return \Illuminate\Support\Facades\Response::json(['error' => $e->getMessage()]);
+            dd($e);
+            return redirect()->back()->with('message', $e->getMessage());
         }
     }
 
