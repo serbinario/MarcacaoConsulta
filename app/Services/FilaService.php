@@ -64,7 +64,8 @@ class FilaService
 
     /**
      * @param array $data
-     * @return array
+     * @return Fila
+     * @throws \Exception
      */
     public function store(array $data) : Fila
     {
@@ -119,7 +120,8 @@ class FilaService
     /**
      * @param array $data
      * @param int $id
-     * @return mixed
+     * @return Fila
+     * @throws \Exception
      */
     public function update(array $data, int $id) : Fila
     {

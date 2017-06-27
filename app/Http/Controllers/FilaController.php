@@ -133,6 +133,24 @@ class FilaController extends Controller
             return $html;
 
 
+        })->addColumn('supoperacoes', function ($row) {
+
+            $html = "";
+
+            $suboperacoes = \DB::table('sub_operacoes_fila')
+                ->join('sub_operacoes', 'sub_operacoes.id', '=', 'sub_operacoes_fila.sub_operacoes_id')
+                ->where('sub_operacoes_fila.fila_id', $row->id)
+                ->select([
+                    'sub_operacoes.nome'
+                ])->get();
+
+            /*foreach ($suboperacoes as $suboperacao) {
+                $html .= $suboperacao.'<br />';
+            }*/
+
+            return $suboperacoes;
+
+
         })->make(true);
     }
 

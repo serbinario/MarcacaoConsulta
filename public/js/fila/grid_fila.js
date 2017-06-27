@@ -6,10 +6,23 @@
 var especialidadeId, idsPacientes, perfil;
 var totalVagas, vagasRestantes;
 
+
+function format(d) {
+
+    var html = "";
+
+    for (var i = 0; i < d['supoperacoes'].length; i++ ) {
+        html += d['supoperacoes'][i]['nome'] + "<br />";
+    }
+
+    return html;
+}
+
 var table = $('#fila-grid').DataTable({
     processing: true,
     serverSide: true,
     bFilter: false,
+    order: [[ 1, "asc" ]],
     language: {
         url: '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json'
     },
@@ -26,6 +39,12 @@ var table = $('#fila-grid').DataTable({
         }
     },
     columns: [
+        {
+            "className":      'details-control',
+            "orderable":      false,
+            "data":           'operacoes.nome',
+            "defaultContent": ''
+        },
         {data: 'nome', name: 'cgm.nome'},
         {data: 'especialidade', name: 'operacoes.nome'},
         {data: 'prioridade', name: 'prioridade.nome'},
@@ -34,6 +53,24 @@ var table = $('#fila-grid').DataTable({
         {data: 'psf', name: 'posto_saude.nome'},
         {data: 'action', name: 'action', orderable: false, searchable: false}
     ]
+});
+
+
+// Add event listener for opening and closing details
+$('#fila-grid tbody').on('click', 'td.details-control', function () {
+    var tr = $(this).closest('tr');
+    var row = table.row( tr );
+
+    if ( row.child.isShown() ) {
+        // This row is already open - close it
+        row.child.hide();
+        tr.removeClass('shown');
+    }
+    else {
+        // Open this row
+        row.child( format(row.data()) ).show();
+        tr.addClass('shown');
+    }
 });
 
 // Selecionar as tr da grid
