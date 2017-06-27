@@ -22,8 +22,9 @@ var idEspecialidade;
 $(document).on('click', '#alterarSituacao', function (event) {
 
     //Recuperando os valores dos campos do fomulário
-    var situacao        = $('#definir-situacao').val();
-    var pacientes       = idsPacientes;
+    var situacao      = $('#definir-situacao').val();
+    var pacientes     = idsPacientes;
+    var observacao    = $('#observacao').val();
 
     // Verificando se os campos de preenchimento obrigatório foram preenchidos
     if (!situacao  || pacientes.length <= 0) {
@@ -34,7 +35,8 @@ $(document).on('click', '#alterarSituacao', function (event) {
     //Setando o json para envio
     var dados = {
         'situacao'  : situacao,
-        'pacientes' : pacientes
+        'pacientes' : pacientes,
+        'observacao' : observacao
     };
 
     // Requisição Ajax
@@ -50,7 +52,6 @@ $(document).on('click', '#alterarSituacao', function (event) {
 
     });
 });
-
 
 
 

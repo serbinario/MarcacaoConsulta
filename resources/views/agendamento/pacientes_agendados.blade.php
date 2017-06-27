@@ -163,6 +163,7 @@
 
     @include('agendamento.modal_definir_atendimento')
     @include('agendamento.modal_reagendamento')
+    @include('agendamento.modal_inserir_obs_atendimento')
 @stop
 
 @section('javascript')
@@ -170,6 +171,7 @@
     <script type="text/javascript" src="{{asset('/js/agendamento/loadFields_reagendamento.js')}}"></script>
     <script type="text/javascript" src="{{asset('/js/agendamento/modal_reagendamento.js')}}"></script>
     <script type="text/javascript" src="{{asset('/js/agendamento/modal_definir_atendimento.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/js/agendamento/modal_inserir_obs_atendimento.js')}}"></script>
     <script type="text/javascript">
 
         // Definindo um tipo de perfil para ser usado como validação no arquivo js
@@ -193,6 +195,19 @@
 
             // Executando o modal de reagendamento
             runModalReagendarPacientes(especialidadeId, idsPacientes);
+
+        });
+
+        // Evento para abrir o modal de inserir observação de paciente não atendidos e/ou
+        // Recolocar na fila
+        $(document).on("click", "#inserirObservacao", function () {
+
+            // Recuperando o id do servidor
+            idPaciente      = table.row($(this).parents('tr')).data().id;
+            var observacao  = table.row($(this).parents('tr')).data().obs_atendimento;
+
+            // Executando o modal de reagendamento
+            runModalInserirObsAtendimento(idPaciente, observacao);
 
         });
 

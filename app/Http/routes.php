@@ -137,6 +137,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('grid', ['as' => 'grid', 'uses' => 'AgendadosController@grid']);
             Route::post('alterarSituacao', ['as' => 'alterarSituacao', 'uses' => 'AgendadosController@alterarSituacao']);
             Route::get('delete/{id}', ['as' => 'delete', 'uses' => 'AgendadosController@delete']);
+            Route::post('inserirNaFila', ['as' => 'inserirNaFila', 'uses' => 'AgendadosController@inserirNaFila']);
 
             // Rotas para o a consulta de pacientes agendados com o uso do calendário
             Route::get('indexDois', ['as' => 'indexDois', 'uses' => 'AgendadosController@indexDois']);

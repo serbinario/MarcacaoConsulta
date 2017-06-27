@@ -179,6 +179,16 @@
                 </div>
             </div>
         </div>
+        {{--#5--}}
+        <div class="row">
+            <div class="form-group col-md-12">
+                <div class=" fg-line">
+                    <label for="preparo">Observaçâo</label>
+                    {!! Form::textarea('observacao', Session::getOldInput('observacao'),
+                        array('class' => 'form-control input-sm', 'placeholder' => 'Adicione uma observação')) !!}
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <button type="submit" class="btn btn-primary btn-sm m-t-10">Salvar</button>

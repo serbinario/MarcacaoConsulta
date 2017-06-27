@@ -19,7 +19,8 @@ class Fila extends Model implements Transformable
         'data',
         'prioridade_id',
         'status',
-        'posto_saude_id'
+        'posto_saude_id',
+        'observacao'
 	];
 
     /**

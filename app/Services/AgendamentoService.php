@@ -7,6 +7,7 @@ use Seracademico\Entities\Agendamento;
 use Seracademico\Repositories\CalendarioRepository;
 use Seracademico\Repositories\EspecialidadeRepository;
 use Seracademico\Repositories\EventoRepository;
+use Seracademico\Repositories\FilaRepository;
 use Seracademico\Repositories\LocalidadeRepository;
 
 class AgendamentoService
@@ -37,18 +38,26 @@ class AgendamentoService
     private $repoCalendario;
 
     /**
+     * @var FilaRepository
+     */
+    private $filaRepository;
+
+    /**
      * @param AgendamentoRepository $repository
      */
     public function __construct(AgendamentoRepository $repository,
                                 LocalidadeRepository $repoLocalidade,
                                 EspecialidadeRepository $repoEspecialidade,
-                                EventoRepository $repoEvento, CalendarioRepository $repoCalendario)
+                                EventoRepository $repoEvento,
+                                CalendarioRepository $repoCalendario,
+                                FilaRepository $filaRepository)
     {
-        $this->repository = $repository;
-        $this->repoLocalidade = $repoLocalidade;
-        $this->repoEspecialidade = $repoEspecialidade;
-        $this->repoEvento = $repoEvento;
-        $this->repoCalendario = $repoCalendario;
+        $this->repository           = $repository;
+        $this->repoLocalidade       = $repoLocalidade;
+        $this->repoEspecialidade    = $repoEspecialidade;
+        $this->repoEvento           = $repoEvento;
+        $this->repoCalendario       = $repoCalendario;
+        $this->filaRepository       = $filaRepository;
     }
 
     /**
@@ -192,6 +201,46 @@ class AgendamentoService
 
         // Deletando agendamento
         $this->repository->delete($id);
+
+        #Retorno
+        return true;
+    }
+
+    /**
+     * @param array $data
+     * @param $id
+     * @return Agendamento
+     * @throws \Exception
+     */
+    public function InserirNaFila(array $data)
+    {
+
+        // Recuperando o registro de agendamento
+        $agendamento = $this->repository->find($data['paciente']);
+
+        // Consultando se o paciente já está em fila de espera
+        $validandoFila = \DB::table('fila')
+            ->where('cgm_id', $agendamento->fila->cgm_id)
+            ->where('status', '0')->first();
+
+        // Se veio algum registro na consulta, não poderá ser criada uma nova fila para o paciente
+        if ($validandoFila) {
+
+            return false;
+        }
+
+        // Replicando os dados da fila atual do paciente para uma nova fila
+        $fila['cgm_id'] = $agendamento->fila->cgm_id;
+        $fila['especialidade_id'] = $agendamento->fila->especialidade_id;
+        $fila['data'] = $agendamento->fila->data;
+        $fila['prioridade_id'] = $agendamento->fila->prioridade_id;
+        $fila['posto_saude_id'] = $agendamento->fila->posto_saude_id;
+        $fila['status'] = '0';
+        $fila['observacao'] = $agendamento->fila->observacao;
+
+        // Criando uma nova fila
+        $novaFila = $this->filaRepository->create($fila);
+
 
         #Retorno
         return true;

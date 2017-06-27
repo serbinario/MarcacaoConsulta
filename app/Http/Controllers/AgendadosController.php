@@ -119,7 +119,8 @@ class AgendadosController extends Controller
                 'cgm_especialista.nome as especialista',
                 'status_agendamento.nome as status',
                 'status_agendamento.id as status_id',
-                'especialidade.id as exame'
+                'especialidade.id as exame',
+                'agendamento.obs_atendimento'
             ]);
 
         if($dataIni && $dataFim) {
@@ -180,6 +181,11 @@ class AgendadosController extends Controller
                 $html .= '<a href="delete/'.$row->id.'" class="btn btn-xs btn-danger excluir"><i class="glyphicon glyphicon-remove"></i></a> ';
             }
 
+            # Habilita a opção de inserir observação se o paciente estiver com status de (não atendido)
+            if($row->status_id == '4' && $this->user->is('admin|master')) {
+                $html .= '<a title="Inserir observação" id="inserirObservacao" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i></a>';
+            }
+
             return $html;
 
 
@@ -189,23 +195,62 @@ class AgendadosController extends Controller
 
     /**
      * @param Request $request
-     * @return $this|array|\Illuminate\Http\RedirectResponse
+     * @return mixed
      */
     public function alterarSituacao(Request $request)
     {
         try {
+
             #Recuperando os dados da requisição
             $data = $request->all();
 
-            // Alterando a situação dos pacientes
-            foreach($data['pacientes'] as $paciente) {
-                $agendamento = $this->repository->find($paciente);
-                $agendamento->status_agendamento_id = $data['situacao'];
+            // Trata a ação se for para definição de atendimento ou para inserir observação de atendimento
+            if ($data['situacao']) {
+
+                // Alterando a situação dos pacientes
+                foreach($data['pacientes'] as $paciente) {
+                    $agendamento = $this->repository->find($paciente);
+                    $agendamento->status_agendamento_id = $data['situacao'];
+                    $agendamento->save();
+                }
+
+            } else {
+
+                // Inserindo observação de atendimento no pacientes
+                $agendamento = $this->repository->find($data['paciente']);
+                $agendamento->obs_atendimento = $data['observacao'];
                 $agendamento->save();
+
             }
 
             # Retorno
             return \Illuminate\Support\Facades\Response::json(['success' => true]);
+        } catch (\Throwable $e) {
+            return \Illuminate\Support\Facades\Response::json(['error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function InserirNaFila(Request $request)
+    {
+        try {
+
+            #Recuperando os dados da requisição
+            $data = $request->all();
+
+            #Executando da ação
+            $retorno = $this->service->InserirNaFila($data);
+
+            // Validando o retorno
+            if($retorno) {
+                return \Illuminate\Support\Facades\Response::json(['success' => true]);
+            } else {
+                return \Illuminate\Support\Facades\Response::json(['success' => false]);
+            }
+
         } catch (\Throwable $e) {
             return \Illuminate\Support\Facades\Response::json(['error' => $e->getMessage()]);
         }
