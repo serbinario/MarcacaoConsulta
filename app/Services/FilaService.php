@@ -46,7 +46,8 @@ class FilaService
         $relacionamentos = [
             'cgm.endereco.bairros.cidade.estado',
             'prioridade',
-            'especialidade.operacao.grupo.tipo'
+            'especialidade.operacao.grupo.tipo',
+            'suboperacoes'
         ];
 
         #Recuperando o registro no banco de dados
@@ -101,6 +102,11 @@ class FilaService
             $fila =  $this->repository->create($data);
         }
 
+        // Inserindo as suboperações da fila
+        if(isset($data['sub_operacoes'])){
+            $fila->suboperacoes()->attach($data['sub_operacoes']);
+        }
+
         #Verificando se foi criado no banco de dados
         if(!$fila) {
             throw new \Exception('Ocorreu um erro ao cadastrar!');
@@ -137,6 +143,12 @@ class FilaService
         $data['cgm']['endereco_cgm'] = $endereco->id;
         unset($data['cgm']['endereco']);
         $this->CGMRepository->update($data['cgm'], $cgmFind->id);
+
+        // Inserindo as suboperações da fila
+        if(isset($data['sub_operacoes'])){
+            $fila->suboperacoes()->detach();
+            $fila->suboperacoes()->attach($data['sub_operacoes']);
+        }
 
 
         #Verificando se foi atualizado no banco de dados

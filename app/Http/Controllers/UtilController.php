@@ -86,7 +86,8 @@ class UtilController extends Controller
                             ->join('grupo_operacoes', 'grupo_operacoes.id', '=', 'operacoes.grupo_operaco_id')
                             ->select([
                                 'operacoes.nome as text',
-                                'especialidade.id'
+                                'especialidade.id',
+                                'operacoes.id as operacao'
                             ])->orderBy('operacoes.nome', 'asc')->where('grupo_operacoes.id', $grupo->id)->get()
                     ];
                 }

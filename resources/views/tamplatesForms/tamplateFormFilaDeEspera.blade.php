@@ -4,6 +4,47 @@
 
 <div class="card">
     <div class="card-body card-padding">
+
+        <div class="row">
+            <div class="form-group col-sm-2">
+                <div class="fg-line">
+                    <label class="control-label" for="tipo">Tipo *</label>
+                    @if(isset($model->especialidade->operacao->grupo->tipo->id))
+                        {!! Form::select('tipo', $loadFields['tipooperacao'], $model->especialidade->operacao->grupo->tipo->id, array('class' => 'form-control imput-sm', 'id' => 'tipo')) !!}
+                    @else
+                        {!! Form::select('tipo', (['' => 'Selecione um tipo'] + $loadFields['tipooperacao']->toArray()), null, array('class' => 'form-control imput-sm', 'id' => 'tipo')) !!}
+                    @endif
+                </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <div class="fg-line">
+                    <label class="control-label" for="especialidade">Operação *</label>
+                    <div class="select">
+                        @if(isset($model->especialidade->operacao->id))
+                            {!! Form::select('especialidade_id', array($model->especialidade->operacao->id => $model->especialidade->operacao->nome), $model->especialidade->operacao->id,array('class' => 'form-control', 'id' => 'especialidade')) !!}
+                        @else
+                            {!! Form::select('especialidade_id', array(), Session::getOldInput('especialidade_id'),array('class' => 'form-control', 'id' => 'especialidade')) !!}
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <div class="fg-line">
+                    <label class="control-label" for="sub_operacoes_id">Suboperação</label>
+                    <div class="select">
+                        <select multiple class="form-control" id="sub_operacoes_id" name="sub_operacoes[]">
+                            @if(isset($model->id))
+                                @foreach($loadFields['suboperacao'] as $key => $value)
+                                    <option value="{{$key}}"
+                                            @foreach($model->suboperacoes->lists('id') as $c) @if($key == $c)selected="selected"@endif @endforeach>{{$value}}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             @if(!isset($model))
                 <div class="form-group col-sm-4">
@@ -16,47 +57,13 @@
                 </div>
             @endif
                 <div class="form-group col-sm-2">
-                    <div class="fg-line">
-                        <label class="control-label" for="tipo">Tipo *</label>
-                        @if(isset($model->especialidade->operacao->grupo->tipo->id))
-                            {!! Form::select('tipo', $loadFields['tipooperacao'], $model->especialidade->operacao->grupo->tipo->id, array('class' => 'form-control imput-sm', 'id' => 'tipo')) !!}
-                        @else
-                            {!! Form::select('tipo', (['' => 'Selecione um tipo'] + $loadFields['tipooperacao']->toArray()), null, array('class' => 'form-control imput-sm', 'id' => 'tipo')) !!}
-                        @endif
-                    </div>
-                </div>
-                <div class="form-group col-sm-3">
-                    <div class="fg-line">
-                        <label class="control-label" for="operacao_id">Operação *</label>
+                    <div class=" fg-line">
+                        <label for="prioridade_id">Prioridade *</label>
                         <div class="select">
-                            @if(isset($model->especialidade->operacao->id))
-                                {!! Form::select('especialidade_id', array($model->especialidade->operacao->id => $model->especialidade->operacao->nome), $model->especialidade->operacao->id,array('class' => 'form-control', 'id' => 'especialidade')) !!}
-                            @else
-                                {!! Form::select('especialidade_id', array(), Session::getOldInput('especialidade_id'),array('class' => 'form-control', 'id' => 'especialidade')) !!}
-                            @endif
+                            {!! Form::select('prioridade_id', $loadFields['prioridade'], null, array('id' => 'prioridade', 'class'=> 'form-control')) !!}
                         </div>
                     </div>
                 </div>
-            {{--<div class="form-group col-sm-3">
-                <div class=" fg-line">
-                    <label for="especialidade_id">Exame solicitado *</label>
-                    <div class="select">
-                        @if(isset($model->especialidade->id))
-                            {!! Form::select('especialidade_id', array($model->especialidade->id => $model->especialidade->operacao->nome), $model->especialidade->id, array('class' => 'form-control', 'id' => 'especialidade')) !!}
-                        @else
-                            {!! Form::select('especialidade_id', array(), Session::getOldInput('especialidade_id'), array('class' => 'form-control', 'id' => 'especialidade')) !!}
-                        @endif
-                    </div>
-                </div>
-            </div>--}}
-            <div class="form-group col-sm-2">
-                <div class=" fg-line">
-                    <label for="prioridade_id">Prioridade *</label>
-                    <div class="select">
-                        {!! Form::select('prioridade_id', $loadFields['prioridade'], null, array('id' => 'prioridade', 'class'=> 'form-control')) !!}
-                    </div>
-                </div>
-            </div>
         </div>
         {{--#2--}}
         <div class="row">
@@ -185,7 +192,7 @@
                 <div class=" fg-line">
                     <label for="preparo">Observaçâo</label>
                     {!! Form::textarea('observacao', Session::getOldInput('observacao'),
-                        array('class' => 'form-control input-sm', 'placeholder' => 'Adicione uma observação')) !!}
+                        array('class' => 'form-control input-sm', 'rows' => '4','placeholder' => 'Adicione uma observação')) !!}
                 </div>
             </div>
         </div>
@@ -222,9 +229,6 @@
                         'page':       params.page
                     };
                 },
-                headers: {
-                    'X-CSRF-TOKEN' : '{{  csrf_token() }}'
-                },
                 processResults: function (data, params) {
 
                     // parse the results into the format expected by Select2
@@ -243,47 +247,6 @@
             }
         });
 
-        //consulta via especialidade
-        /*$("#especialidade").select2({
-            placeholder: 'Selecione uma especialidade',
-            minimumInputLength: 3,
-            width: 220,
-            ajax: {
-                type: 'POST',
-                url: "{{ route('serbinario.util.select2')  }}",
-                dataType: 'json',
-                delay: 250,
-                crossDomain: true,
-                data: function (params) {
-                    return {
-                        'search':     params.term, // search term
-                        'tableName':  'especialidade',
-                        'fieldName':  'nome',
-                        'joinTable':  'operacoes',
-                        'joinName':  'operacao_id',
-                        'page':       params.page
-                    };
-                },
-                headers: {
-                    'X-CSRF-TOKEN' : '{{  csrf_token() }}'
-                },
-                processResults: function (data, params) {
-
-                    // parse the results into the format expected by Select2
-                    // since we are using custom formatting functions we do not need to
-                    // alter the remote JSON data, except to indicate that infinite
-                    // scrolling can be used
-                    params.page = params.page || 1;
-
-                    return {
-                        results: data,
-                        pagination: {
-                            more: (params.page * 30) < data.total_count
-                        }
-                    };
-                }
-            }
-        });*/
 
         //Carregando as cidades
         $(document).on('change', "#estado", function () {
@@ -308,9 +271,6 @@
                     url: '{{ route('serbinario.util.search')  }}',
                     data: dados,
                     datatype: 'json',
-                    headers: {
-                        'X-CSRF-TOKEN' : '{{  csrf_token() }}'
-                    },
                 }).done(function (json) {
                     var option = "";
 
@@ -343,9 +303,6 @@
                 jQuery.ajax({
                     type: 'POST',
                     url: '{{ route('serbinario.util.search')  }}',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{  csrf_token() }}'
-                    },
                     data: dados,
                     datatype: 'json'
                 }).done(function (json) {
@@ -416,7 +373,7 @@
             }
         });
 
-        //Carregando os bairros
+        //Carregando as especialidades (operações)
         $(document).on('change', "#tipo", function () {
             //Removendo as Bairros
             $('#especialidade option').remove();
@@ -435,9 +392,6 @@
                 jQuery.ajax({
                     type: 'POST',
                     url: '{{ route('serbinario.util.searchOperacoes')  }}',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{  csrf_token() }}'
-                    },
                     data: dados,
                     datatype: 'json'
                 }).done(function (json) {
@@ -446,7 +400,7 @@
                     for (var i = 0; i < json.length; i++) {
                         option += '<optgroup label="' + json[i]['text'] + '">';
                         for (var j = 0; j < json[i]['children'].length; j++) {
-                            option += '<option value="' + json[i]['children'][j]['id'] + '">'+json[i]['children'][j]['text']+'</option>';
+                            option += '<option data="' + json[i]['children'][j]['operacao'] + '" value="' + json[i]['children'][j]['id'] + '">'+json[i]['children'][j]['text']+'</option>';
                         }
                         option += '</optgroup >';
                     }
@@ -456,5 +410,88 @@
                 });
             }
         });
+
+        $("#sub_operacoes_id").select2({
+            placeholder: "Selecione",
+            width: 500
+        });
+
+        //Carregando os bairros
+        $(document).on('change', "#especialidade", function () {
+            // Removendo as Bairros
+            $('#sub_operacoes_id option').remove();
+
+            // Recuperando a cidade
+            var operacao = $("#especialidade option:selected").attr('data');
+
+            if (operacao !== "") {
+
+                var dados = {
+                    'table' : 'sub_operacoes',
+                    'field_search' : 'operacao_id',
+                    'value_search': operacao
+                };
+
+                jQuery.ajax({
+                    type: 'POST',
+                    url: '{{ route('serbinario.util.search')  }}',
+                    data: dados,
+                    datatype: 'json'
+                }).done(function (json) {
+                    var option = "";
+
+                    option += '<option value="">Selecione</option>';
+                    for (var i = 0; i < json.length; i++) {
+                        option += '<option value="' + json[i]['id'] + '">' + json[i]['nome'] + '</option>';
+                    }
+
+                    $('#sub_operacoes_id option').remove();
+                    $('#sub_operacoes_id').append(option);
+                });
+            }
+        });
+
+
+        //consulta via cgm
+        /*$("#sub_operacoes_id").select2({
+            placeholder: 'Selecione uma suboperação',
+            minimumInputLength: 3,
+            width: 300,
+            ajax: {
+                type: 'POST',
+                url: "{{ route('serbinario.util.select2')  }}",
+                dataType: 'json',
+                delay: 250,
+                crossDomain: true,
+                data: function (params) {
+                    return {
+                        'search':     params.term, // search term
+                        'tableName':  'sub_operacoes',
+                        'fieldName':  'nome',
+                        'fieldWhere':  'operacao_id',
+                        'valueWhere':  '7',
+                        'page':       params.page
+                    };
+                },
+                headers: {
+                    'X-CSRF-TOKEN' : '{{  csrf_token() }}'
+                },
+                processResults: function (data, params) {
+
+                    // parse the results into the format expected by Select2
+                    // since we are using custom formatting functions we do not need to
+                    // alter the remote JSON data, except to indicate that infinite
+                    // scrolling can be used
+                    params.page = params.page || 1;
+
+                    return {
+                        results: data,
+                        pagination: {
+                            more: (params.page * 30) < data.total_count
+                        }
+                    };
+                }
+            }
+        });*/
     </script>
 @stop

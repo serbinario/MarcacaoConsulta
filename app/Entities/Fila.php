@@ -79,4 +79,13 @@ class Fila extends Model implements Transformable
     {
         return $this->hasMany(Agendamento::class, 'fila_id', 'id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function suboperacoes()
+    {
+        return $this->belongsToMany(SubOperacao::class, 'sub_operacoes_fila', 'fila_id', "sub_operacoes_id")
+            ->withPivot([ 'fila_id', 'sub_operacoes_id']);
+    }
 }

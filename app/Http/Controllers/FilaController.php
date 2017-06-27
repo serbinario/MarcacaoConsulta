@@ -32,7 +32,8 @@ class FilaController extends Controller
         'Prioridade',
         'CGM',
         'PostoSaude',
-        'TipoOperacao'
+        'TipoOperacao',
+        'SubOperacao'
     ];
 
     /**
@@ -202,6 +203,8 @@ class FilaController extends Controller
         try {
             #Recuperando os dados da requisição
             $data = $request->all();
+
+            //dd($data);
 
             #tratando as rules
             $this->validator->replaceRules(ValidatorInterface::RULE_UPDATE, ":id", $id);

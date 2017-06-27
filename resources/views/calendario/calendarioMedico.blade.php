@@ -58,12 +58,12 @@
                         <div role="tabpanel" class="tab">
 
                             <ul class="tab-nav" role="tablist">
-                                <li class="active"><a href="#calendario" aria-controls="calendario" role="tab"
-                                                      data-toggle="tab"
-                                                      aria-expanded="true">Criação do Calendário</a></li>
-                                <li role="presentation" class=""><a href="#quadro" aria-controls="quadro" role="tab"
-                                                                    data-toggle="tab"
-                                                                    aria-expanded="false">Quadro do Calendário</a></li>
+                                <li class="active">
+                                    <a href="#calendario" aria-controls="calendario" role="tab" data-toggle="tab" aria-expanded="true">Criação do Calendário</a>
+                                </li>
+                                <li role="presentation" class="">
+                                    <a href="#quadro" aria-controls="quadro" role="tab" data-toggle="tab" aria-expanded="false">Quadro do Calendário</a>
+                                </li>
                             </ul>
 
                             <div class="tab-content">
