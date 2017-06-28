@@ -9,7 +9,7 @@ var totalVagas, vagasRestantes;
 
 function formatGridFila(d) {
 
-    var html = "";
+    var html = "<b>Subespecialidades:</b> <br />";
 
     for (var i = 0; i < d['supoperacoes'].length; i++ ) {
         html += d['supoperacoes'][i]['nome'] + "<br />";

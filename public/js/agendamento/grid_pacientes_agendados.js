@@ -11,7 +11,7 @@ function formatAgendados(d) {
     var html = "";
 
     if(d['sub_operacao']){
-        html = d['sub_operacao'];
+        html = "<b>Subespecialidade:</b> "+d['sub_operacao'];
     }
 
     return html;
