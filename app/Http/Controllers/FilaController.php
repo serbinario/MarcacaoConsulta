@@ -126,7 +126,7 @@ class FilaController extends Controller
 
             $html  = "";
             $html .= '<a href="edit/'.$row->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i></a> ';
-            $html .= '<a title="Histórico de Atendimento" id="historicoAtendimento" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i></a> ';
+            $html .= '<a title="Histórico de Atendimento" id="historicoAtendimento" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-list-alt"></i></a> ';
 
             if (count($fila->agendamento) == 0) {
                 $html .= '<a href="destroy/'.$row->id.'" class="btn btn-xs btn-danger excluir"><i class="glyphicon glyphicon-remove"></i> </a>';
