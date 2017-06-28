@@ -107,6 +107,7 @@ class AgendadosController extends Controller
             ->join('cgm as cgm_especialista', 'cgm_especialista.id', '=', 'especialista.cgm')
             ->join('status_agendamento', 'status_agendamento.id', '=', 'agendamento.status_agendamento_id')
             ->join('mapas', 'mapas.id', '=', 'agendamento.mapa_id')
+            ->leftJoin('sub_operacoes', 'sub_operacoes.id', '=', 'agendamento.sub_operacao_id')
             ->select([
                 'agendamento.id',
                 'cgm.nome',
@@ -115,12 +116,14 @@ class AgendadosController extends Controller
                 'prioridade.nome as prioridade',
                 'posto_saude.nome as psf',
                 \DB::raw('DATE_FORMAT(calendario.data,"%d/%m/%Y") as data'),
+               // \DB::raw('IF(agendamento.sub_operacao_id, operacoes.nome, CONCAT(operacoes.nome, " ", sub_operacoes.nome))  as especialidade'),
                 'mapas.horario',
                 'cgm_especialista.nome as especialista',
                 'status_agendamento.nome as status',
                 'status_agendamento.id as status_id',
                 'especialidade.id as exame',
-                'agendamento.obs_atendimento'
+                'agendamento.obs_atendimento',
+                'sub_operacoes.nome as sub_operacao',
             ]);
 
         if($dataIni && $dataFim) {

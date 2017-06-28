@@ -26,7 +26,7 @@ table = $('#agendados-grid').DataTable({
     columns: [
         {data: 'nome', name: 'cgm.nome'},
         {data: 'numero_sus', name: 'cgm.numero_sus'},
-        //{data: 'especialidade', name: 'operacoes.nome'},
+        {data: 'sub_operacao', name: 'sub_operacoes.nome'},
         //{data: 'data', name: 'calendario.data'},
         {data: 'horario', name: 'mapas.horario'},
         //{data: 'especialista', name: 'cgm_especialista.nome'},

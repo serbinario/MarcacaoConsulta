@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Seracademico\Entities\Especialista;
 use Seracademico\Http\Requests;
 use Seracademico\Repositories\CalendarioRepository;
+use Seracademico\Repositories\FilaRepository;
 use Seracademico\Services\CalendarioService;
 use Seracademico\Services\EspecialistaService;
 use Yajra\Datatables\Datatables;
@@ -38,6 +39,11 @@ class CalendarioController extends Controller
     private $repository;
 
     /**
+     * @var FilaRepository
+     */
+    private $filaRepository;
+
+    /**
     * @var array
     */
     private $loadFields = [
@@ -50,12 +56,15 @@ class CalendarioController extends Controller
     */
     public function __construct(CalendarioService $service,
                                 CalendarioValidator $validator,
-                                EspecialistaService $espSservice, CalendarioRepository $repository)
+                                EspecialistaService $espSservice,
+                                CalendarioRepository $repository,
+                                FilaRepository $filaRepository)
     {
-        $this->service   =  $service;
-        $this->validator =  $validator;
-        $this->espSservice =  $espSservice;
-        $this->repository =  $repository;
+        $this->service          =  $service;
+        $this->validator        =  $validator;
+        $this->espSservice      =  $espSservice;
+        $this->repository       =  $repository;
+        $this->filaRepository   =  $filaRepository;
     }
 
     /**
@@ -524,12 +533,27 @@ class CalendarioController extends Controller
         // Pegando a quantidade de agendados para o mapa selecionado
         $agendamentos = \DB::table('agendamento')
             ->where('mapa_id', '=', $mapa->id)
+            ->groupBy('agendamento.fila_id')
             ->select([
-                \DB::raw('COUNT(agendamento.id) as qtd_agendados')
-            ])->first();
+                'agendamento.fila_id'
+                //\DB::raw('COUNT(agendamento.id) as qtd_agendados')
+            ])->get();
+
+        $qtdAgendados = 0;
+
+        # Varre as filas dos agendamentos
+        foreach ($agendamentos as $agendamento) {
+
+            // Pega a fila do agendamento
+            $fila = $this->filaRepository->find($agendamento->fila_id);
+
+            // Pega a quantidade de agendados de acordo com a quantidade de suboperações o paciente possui
+            $qtdPacientes = count($fila->suboperacoes) > 0 ? count($fila->suboperacoes) : 1;
+            $qtdAgendados = $qtdAgendados + $qtdPacientes;
+        }
 
         // Pegando a quantidade de vagas do mapa e vagas restantes
-        $vagasRestantes = $mapa->vagas - $agendamentos->qtd_agendados;
+        $vagasRestantes = $mapa->vagas - $qtdAgendados;
 
         $dados = [
             'totalVagas' => $mapa->vagas,

@@ -80,6 +80,7 @@ class FilaController extends Controller
                 'fila.id',
                 'cgm.nome',
                 'cgm.numero_sus',
+                'cgm.id as cgm_id',
                 'operacoes.nome as especialidade',
                 'prioridade.nome as prioridade',
                 'posto_saude.nome as psf',
@@ -123,20 +124,19 @@ class FilaController extends Controller
             # Recuperando a calendario
             $fila = $this->service->find($row->id);
 
-            $html = "";
-            $html .= '<a href="edit/'.$row->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a> ';
+            $html  = "";
+            $html .= '<a href="edit/'.$row->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i></a> ';
+            $html .= '<a title="Histórico de Atendimento" id="historicoAtendimento" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i></a> ';
 
-            if(count($fila->agendamento) == 0) {
-                $html .= '<a href="destroy/'.$row->id.'" class="btn btn-xs btn-danger excluir"><i class="fa fa-edit"></i> Deletar</a>';
+            if (count($fila->agendamento) == 0) {
+                $html .= '<a href="destroy/'.$row->id.'" class="btn btn-xs btn-danger excluir"><i class="glyphicon glyphicon-remove"></i> </a>';
             }
 
             return $html;
 
-
         })->addColumn('supoperacoes', function ($row) {
 
-            $html = "";
-
+            // Selecioando as suboperações
             $suboperacoes = \DB::table('sub_operacoes_fila')
                 ->join('sub_operacoes', 'sub_operacoes.id', '=', 'sub_operacoes_fila.sub_operacoes_id')
                 ->where('sub_operacoes_fila.fila_id', $row->id)
@@ -144,12 +144,7 @@ class FilaController extends Controller
                     'sub_operacoes.nome'
                 ])->get();
 
-            /*foreach ($suboperacoes as $suboperacao) {
-                $html .= $suboperacao.'<br />';
-            }*/
-
             return $suboperacoes;
-
 
         })->make(true);
     }
@@ -219,10 +214,9 @@ class FilaController extends Controller
     public function update(Request $request, $id)
     {
         try {
+
             #Recuperando os dados da requisição
             $data = $request->all();
-
-            //dd($data);
 
             #tratando as rules
             $this->validator->replaceRules(ValidatorInterface::RULE_UPDATE, ":id", $id);
@@ -249,6 +243,7 @@ class FilaController extends Controller
     public function destroy($id)
     {
         try {
+
             #Executando a ação
             $this->service->destroy($id);
 
@@ -272,7 +267,8 @@ class FilaController extends Controller
     }
 
     /**
-     *
+     * @param Request $request
+     * @return array
      */
     public function getDadosDoPaciente(Request $request)
     {
@@ -304,6 +300,64 @@ class FilaController extends Controller
 
         #Retorno para view
         return compact('cidadao');
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    public function historicoAtendimento(Request $request, $id)
+    {
+
+        $rows = \DB::table('fila')
+            ->join('cgm', 'cgm.id', '=', 'fila.cgm_id')
+            ->join('especialidade', 'especialidade.id', '=', 'fila.especialidade_id')
+            ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
+            ->join('prioridade', 'prioridade.id', '=', 'fila.prioridade_id')
+            ->leftJoin('posto_saude', 'posto_saude.id', '=', 'fila.posto_saude_id')
+            ->where('cgm.id', $id)
+            ->select([
+                'fila.id',
+                'cgm.nome',
+                'cgm.numero_sus',
+                'cgm.id as cgm_id',
+                'operacoes.nome as especialidade',
+                'prioridade.nome as prioridade',
+                'posto_saude.nome as psf',
+                \DB::raw('DATE_FORMAT(fila.data,"%d/%m/%Y") as data_cadastro'),
+                'especialidade.id as exame'
+            ]);
+
+        #Editando a grid
+        return Datatables::of($rows)->addColumn('agendamentos', function ($row) {
+
+            $agendamentos = \DB::table('agendamento')
+                ->join('fila', 'fila.id', '=', 'agendamento.fila_id')
+                ->join('especialidade', 'especialidade.id', '=', 'fila.especialidade_id')
+                ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
+                ->join('prioridade', 'prioridade.id', '=', 'fila.prioridade_id')
+                ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
+                ->join('localidade', 'localidade.id', '=', 'calendario.localidade_id')
+                ->join('especialista', 'especialista.id', '=', 'calendario.especialista_id')
+                ->join('cgm as cgm_especialista', 'cgm_especialista.id', '=', 'especialista.cgm')
+                ->join('status_agendamento', 'status_agendamento.id', '=', 'agendamento.status_agendamento_id')
+                ->join('mapas', 'mapas.id', '=', 'agendamento.mapa_id')
+                ->where('fila.id', $row->id)
+                ->select([
+                    'operacoes.nome as especialidade',
+                    \DB::raw('DATE_FORMAT(calendario.data,"%d/%m/%Y") as data'),
+                    'mapas.horario',
+                    'cgm_especialista.nome as especialista',
+                    'status_agendamento.nome as status',
+                    'especialidade.id as exame',
+                    'agendamento.obs_atendimento',
+                    'localidade.nome as localidade'
+                ])->get();
+
+            return $agendamentos;
+
+        })->make(true);
+
     }
 
 }

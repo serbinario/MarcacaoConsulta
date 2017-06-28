@@ -162,6 +162,7 @@
                                 <tr>
                                     <th>Cidadao</th>
                                     <th>Nº SUS</th>
+                                    <th>Subespecialidade</th>
                                     {{--<th>Especialidade</th>--}}
                                    {{-- <th>Dia</th>--}}
                                     <th>Hora</th>
@@ -175,6 +176,7 @@
                                 <tr>
                                     <th>Cidadao</th>
                                     <th>Nº SUS</th>
+                                    <th>Subespecialidade</th>
                                     {{--<th>Especialidade</th>--}}
                                     {{-- <th>Dia</th>--}}
                                     <th>Hora</th>

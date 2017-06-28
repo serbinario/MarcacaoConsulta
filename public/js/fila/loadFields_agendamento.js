@@ -145,7 +145,8 @@ $(document).on('change', "#mapa-agendar", function () {
 
         var dados = {
             'mapa' : mapa,
-            'idCalendario' : idCalendario
+            'idCalendario' : idCalendario,
+            'idEspecialidade' : especialidadeId
         };
 
         jQuery.ajax({

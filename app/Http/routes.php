@@ -156,6 +156,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('destroy/{id}', ['as' => 'destroy', 'uses' => 'FilaController@destroy']);
 
             Route::post('getDadosPaciente', ['as' => 'getDadosPaciente', 'uses' => 'FilaController@getDadosDoPaciente']);
+            Route::get('historicoAtendimento/{id}', ['as' => 'historicoAtendimento', 'uses' => 'FilaController@historicoAtendimento']);
         });
 
         Route::group(['prefix' => 'operacao', 'as' => 'operacao.'], function () {

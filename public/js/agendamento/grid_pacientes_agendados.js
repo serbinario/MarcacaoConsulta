@@ -6,6 +6,17 @@
 var table, idsPacientes, especialidadeId, perfil;
 var totalVagas, vagasRestantes;
 
+function formatAgendados(d) {
+
+    var html = "";
+
+    if(d['sub_operacao']){
+        html = d['sub_operacao'];
+    }
+
+    return html;
+}
+
 // Carregaando a grid
 table = $('#agendados-grid').DataTable({
     retrieve: true,
@@ -15,6 +26,7 @@ table = $('#agendados-grid').DataTable({
     bLengthChange: false,
     bFilter: false,
     autoWidth: false,
+    order: [[ 1, "asc" ]],
     ajax: {
         url: "/serbinario/agendados/grid",
         method: 'POST',
@@ -29,6 +41,12 @@ table = $('#agendados-grid').DataTable({
         }
     },
     columns: [
+        {
+            "className":      'details-control',
+            "orderable":      false,
+            "data":           'operacoes.nome',
+            "defaultContent": ''
+        },
         {data: 'nome', name: 'cgm.nome'},
         {data: 'numero_sus', name: 'cgm.numero_sus'},
         {data: 'especialidade', name: 'operacoes.nome'},
@@ -39,6 +57,25 @@ table = $('#agendados-grid').DataTable({
         {data: 'status', name: 'status_agendamento.nome'},
         {data: 'action', name: 'action', orderable: false, searchable: false}
     ]
+});
+
+
+// Add event listener for opening and closing details
+$('#agendados-grid tbody').on('click', 'td.details-control', function () {
+    var tr = $(this).closest('tr');
+    var row = table.row( tr );
+
+    if ( row.child.isShown() ) {
+        // This row is already open - close it
+        row.child.hide();
+        tr.removeClass('shown');
+    }
+
+    else {
+        // Open this row
+        row.child( formatAgendados(row.data()) ).show();
+        tr.addClass('shown');
+    }
 });
 
 // Selecionar as tr da grid

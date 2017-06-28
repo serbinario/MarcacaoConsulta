@@ -22,7 +22,8 @@ class Agendamento extends Model implements Transformable
 		'status_agendamento_id',
 		'data',
 		'mapa_id',
-		'obs_atendimento'
+		'obs_atendimento',
+		'sub_operacao_id'
 	];
 
 	/**

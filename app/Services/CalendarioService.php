@@ -213,33 +213,61 @@ class CalendarioService
         foreach ($data['pacientes'] as $paciente) {
 
             // Recupenando o agendamento atual do paciente
-            $fila = $this->repoFila->find($paciente);
+            $fila = $this->repoFila->with(['especialidade.operacao'])->find($paciente);
             $fila['status'] = '1';
             $fila->save();
 
             // Preenchendo os campos para o novo agendamento do paciente
             $dados['status']                = '1';
             $dados['calendario_id']         = $data['calendario_id'];
-            $dados['mapa_id']                  = $data['mapa'];
+            $dados['mapa_id']               = $data['mapa'];
             $dados['fila_id']               = $paciente;
             $dados['data']                  = $date->format('Y-m-d');
             $dados['status_agendamento_id'] = '1';
 
-            // Registrando o novo agendamento
-            $agendamento = $this->repositoryAgendamento->create($dados);
+            // Valida se o paciente irá para fazer exame de ultrassonografia
+            if ($fila->especialidade->operacao->id == '7') {
 
-            // Pegando o agendamendo armazenado para cria um evento para o mesmo
-            $agendamentoFind = $this->repositoryAgendamento->with(['fila.cgm', 'calendario'])->find($agendamento->id);
+                // Registra os agendamentos do paciente de acordo com a quantidade de tipo de ultrossonografia
+                // Que o mesmo irá fazer
+                foreach ($fila->suboperacoes as $suboperacao) {
 
-            // Setando os dados do evento
-            $evento = [
-                'title' => $agendamentoFind['fila']['cgm']['nome'],
-                'start' => $agendamentoFind['calendario']['data'],
-                'agendamento_id' => $agendamento->id,
-            ];
+                    // Registrando o novo agendamento
+                    $dados['sub_operacao_id'] = $suboperacao->id;
+                    $agendamento = $this->repositoryAgendamento->create($dados);
 
-            // Salvando o evento
-            $this->repoEvento->create($evento);
+                    // Pegando o agendamendo armazenado para cria um evento para o mesmo
+                    $agendamentoFind = $this->repositoryAgendamento->with(['fila.cgm', 'calendario'])->find($agendamento->id);
+
+                    // Setando os dados do evento
+                    $evento = [
+                        'title' => $agendamentoFind['fila']['cgm']['nome'],
+                        'start' => $agendamentoFind['calendario']['data'],
+                        'agendamento_id' => $agendamento->id,
+                    ];
+
+                    // Salvando o evento
+                    $this->repoEvento->create($evento);
+                }
+
+            } else {
+
+                // Registrando o novo agendamento
+                $agendamento = $this->repositoryAgendamento->create($dados);
+
+                // Pegando o agendamendo armazenado para cria um evento para o mesmo
+                $agendamentoFind = $this->repositoryAgendamento->with(['fila.cgm', 'calendario'])->find($agendamento->id);
+
+                // Setando os dados do evento
+                $evento = [
+                    'title' => $agendamentoFind['fila']['cgm']['nome'],
+                    'start' => $agendamentoFind['calendario']['data'],
+                    'agendamento_id' => $agendamento->id,
+                ];
+
+                // Salvando o evento
+                $this->repoEvento->create($evento);
+            }
 
         }
 

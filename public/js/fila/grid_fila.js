@@ -7,7 +7,7 @@ var especialidadeId, idsPacientes, perfil;
 var totalVagas, vagasRestantes;
 
 
-function format(d) {
+function formatGridFila(d) {
 
     var html = "";
 
@@ -66,9 +66,10 @@ $('#fila-grid tbody').on('click', 'td.details-control', function () {
         row.child.hide();
         tr.removeClass('shown');
     }
+
     else {
         // Open this row
-        row.child( format(row.data()) ).show();
+        row.child( formatGridFila(row.data()) ).show();
         tr.addClass('shown');
     }
 });

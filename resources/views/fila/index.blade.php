@@ -183,12 +183,14 @@
     </section>
 
     @include('fila.modal_agendamento')
+    @include('fila.modal_histotico_atendimento')
 @stop
 
 @section('javascript')
     <script type="text/javascript" src="{{asset('/js/fila/grid_fila.js')}}"></script>
     <script type="text/javascript" src="{{asset('/js/fila/loadFields_agendamento.js')}}"></script>
     <script type="text/javascript" src="{{asset('/js/fila/modal_agendamento.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/js/fila/modal_historico_atendimento.js')}}"></script>
     <script type="text/javascript">
 
         // Definindo um tipo de perfil para ser usado como validação no arquivo js
@@ -204,6 +206,24 @@
 
             // Executando o modal
             runModalAgendarPacientes(especialidadeId, idsPacientes);
+        });
+
+        // Evento para abrir o modal de inserir observação de paciente não atendidos e/ou
+        // Recolocar na fila
+        $(document).on("click", "#historicoAtendimento", function () {
+
+            // Recuperando informações do CGM
+            var idCGM = table.row($(this).parents('tr')).data().cgm_id;
+            var nome  = table.row($(this).parents('tr')).data().nome;
+            var sus   = table.row($(this).parents('tr')).data().numero_sus;
+
+            // prenchendo o nome e SUS do paciente
+            $('.Nome').text(nome);
+            $('.SUS').text(sus);
+
+            // Executando o modal de reagendamento
+            runHistoricoAtendimento(idCGM);
+
         });
 
         // Deletar fila
