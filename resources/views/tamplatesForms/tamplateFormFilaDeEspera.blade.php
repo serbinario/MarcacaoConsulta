@@ -17,19 +17,11 @@
                     </div>
                 </div>
             @endif
-            <div class="form-group col-sm-2">
-                <div class=" fg-line">
-                    <label for="prioridade_id">Prioridade *</label>
-                    <div class="select">
-                        {!! Form::select('prioridade_id', $loadFields['prioridade'], null, array('id' => 'prioridade', 'class'=> 'form-control')) !!}
-                    </div>
-                </div>
-            </div>
         </div>
 
         {{--#2--}}
         <div class="row">
-            <div class="form-group col-sm-5">
+            <div class="form-group col-sm-4">
                 <div class="fg-line">
                     <label class="control-label" for="cgm[nome]">Cidadão *</label>
                     {!! Form::text('cgm[nome]', Session::getOldInput('cgm[nome]')  , array('id' => 'nome', 'class' => 'form-control input-sm', 'placeholder' => 'Nome')) !!}
@@ -51,6 +43,14 @@
                 <div class="fg-line">
                     <label class="control-label" for="data">Data do cadastro *</label>
                     {!! Form::text('data', Session::getOldInput('data') , array('class' => 'form-control input-sm date', 'placeholder' => 'Data do cadastro')) !!}
+                </div>
+            </div>
+            <div class="form-group col-sm-2">
+                <div class=" fg-line">
+                    <label for="prioridade_id">Prioridade *</label>
+                    <div class="select">
+                        {!! Form::select('prioridade_id', $loadFields['prioridade'], null, array('id' => 'prioridade', 'class'=> 'form-control')) !!}
+                    </div>
                 </div>
             </div>
         </div>
