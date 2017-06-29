@@ -25,4 +25,11 @@ class SubOperacao extends Model implements Transformable
         return $this->belongsTo(Operacoe::class, 'operacao_id', 'id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function agendamento()
+    {
+        return $this->hasMany(Agendamento::class, 'sub_operacao_id', 'id');
+    }
 }

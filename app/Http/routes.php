@@ -170,6 +170,17 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('destroy/{id}', ['as' => 'destroy', 'uses' => 'OperacoeController@destroy']);
         });
 
+        Route::group(['prefix' => 'suboperacao', 'as' => 'suboperacao.'], function () {
+            Route::get('index', ['as' => 'index', 'uses' => 'SubOperacaoController@index']);
+            Route::get('grid', ['as' => 'grid', 'uses' => 'SubOperacaoController@grid']);
+            Route::get('create', ['as' => 'create', 'uses' => 'SubOperacaoController@create']);
+            Route::post('store', ['as' => 'store', 'uses' => 'SubOperacaoController@store']);
+            Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'SubOperacaoController@edit']);
+            Route::post('update/{id}', ['as' => 'update', 'uses' => 'SubOperacaoController@update']);
+            Route::post('all', ['as' => 'all', 'uses' => 'SubOperacaoController@all']);
+            Route::get('destroy/{id}', ['as' => 'destroy', 'uses' => 'SubOperacaoController@destroy']);
+        });
+
         Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
             Route::get('index', ['as' => 'index', 'uses' => 'UserController@index']);
             Route::get('grid', ['as' => 'grid', 'uses' => 'UserController@grid']);
