@@ -54,19 +54,24 @@
 </center>
 
 <p>
-    <span style="font-size: 17"><b>Título:</b> Lista de pacientes</span> <br />
+    <span style="font-size: 17px"><b>Título:</b> Lista de pacientes</span> <br />
     <b>Especialista:</b> @if(isset($pacientes[0]->especialista)) {{$pacientes[0]->especialista}}@endif -
     <b>Especialidade:</b> @if(isset($pacientes[0]->especialidade)) {{$pacientes[0]->especialidade}}@endif <br />
     <b>Horário:</b> @if(isset($pacientes[0]->horario)) {{$pacientes[0]->horario}}@endif -
     <b>Local:</b> @if(isset($pacientes[0]->localidade)) {{$pacientes[0]->localidade}}@endif
 </p>
 
-<table class="center" border="1">
+<table class="left" border="1">
     <thead>
     <tr>
         <th>Paciente</th>
         <th>Nº SUS</th>
         <th>Atendido</th>
+        <th>Telefone</th>
+        @if(isset($pacientes[0]->suboperacao) && $pacientes[0]->suboperacao != "")
+            <th>Subespecialidade</th>
+        @endif
+        <th>Assinatura</th>
     </tr>
     </thead>
     <tbody>
@@ -75,6 +80,11 @@
             <td>{{ $paciente->nome }}</td>
             <td>{{ $paciente->numero_sus }}</td>
             <td>{{ $paciente->status }}</td>
+            <td>{{ $paciente->fone }}</td>
+            @if(isset($paciente->suboperacao) && $paciente->suboperacao != "")
+                <td>{{ $paciente->suboperacao }}</td>
+            @endif
+            <td style="width: 400px;"></td>
         </tr>
     @endforeach
     </tbody>

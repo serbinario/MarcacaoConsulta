@@ -140,6 +140,7 @@ class RelatorioController extends Controller
                 ->join('cgm as cgm_especialista', 'cgm_especialista.id', '=', 'especialista.cgm')
                 ->join('status_agendamento', 'status_agendamento.id', '=', 'agendamento.status_agendamento_id')
                 ->join('mapas', 'mapas.id', '=', 'agendamento.mapa_id')
+                ->leftJoin('sub_operacoes', 'sub_operacoes.id', '=', 'agendamento.sub_operacao_id')
                 ->where('especialista.id', $request->get('especialista'))
                 ->where('calendario.id', $request->get('localidade'))
                 ->where('mapas.id', $request->get('horario'))
@@ -149,10 +150,12 @@ class RelatorioController extends Controller
                     'localidade.nome as localidade',
                     'cgm.nome as nome',
                     'cgm.numero_sus',
+                    'cgm.fone',
                     'operacoes.nome as especialidade',
                     'cgm_especialista.nome as especialista',
                     'mapas.horario',
-                    'status_agendamento.nome as status'
+                    'status_agendamento.nome as status',
+                    'sub_operacoes.nome as suboperacao'
                 ])->get();
 
             //$pacientes = $rows->get();
@@ -163,7 +166,7 @@ class RelatorioController extends Controller
             # Carregando a página
             //$PDF->loadView('reports.viewPdfReportByAgenda', ['pacientes' => $pacientes]);
 
-            return \PDF::loadView('reports.viewPdfReportByAgenda', compact('pacientes'))->stream();
+            return \PDF::loadView('reports.viewPdfReportByAgenda', compact('pacientes'))->setOrientation('landscape')->stream();
             # Retornando para página
            // return $PDF->stream();
 
