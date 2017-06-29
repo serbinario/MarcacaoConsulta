@@ -37,7 +37,7 @@
         }
 
         span, p {
-            font-size: 13px;
+            font-size: 16px;
         }
 
         table { page-break-inside:auto }
@@ -53,12 +53,14 @@
     </div>
 </center>
 
+<h3 style="text-align: center">Secretaria Muncipal de Saúde</h3>
+<h4 style="text-align: center">Lista de pacientes </h4>
+
 <p>
-    <span style="font-size: 17px"><b>Título:</b> Lista de pacientes</span> <br />
-    <b>Especialista:</b> @if(isset($pacientes[0]->especialista)) {{$pacientes[0]->especialista}}@endif -
-    <b>Especialidade:</b> @if(isset($pacientes[0]->especialidade)) {{$pacientes[0]->especialidade}}@endif <br />
-    <b>Horário:</b> @if(isset($pacientes[0]->horario)) {{$pacientes[0]->horario}}@endif -
-    <b>Local:</b> @if(isset($pacientes[0]->localidade)) {{$pacientes[0]->localidade}}@endif
+    <span><b>Especialista:</b> @if(isset($pacientes[0]->especialista)) {{$pacientes[0]->especialista}}@endif </span> <br />
+    <span><b>Especialidade:</b> @if(isset($pacientes[0]->especialidade)) {{$pacientes[0]->especialidade}}@endif </span> <br />
+    <span><b>Horário:</b> @if(isset($pacientes[0]->horario)) {{$pacientes[0]->horario}}@endif <span> <br />
+    <span><b>Local:</b> @if(isset($pacientes[0]->localidade)) {{$pacientes[0]->localidade}}@endif <span>
 </p>
 
 <table class="left" border="1">
@@ -66,7 +68,6 @@
     <tr>
         <th>Paciente</th>
         <th>Nº SUS</th>
-        <th>Atendido</th>
         <th>Telefone</th>
         @if(isset($pacientes[0]->suboperacao) && $pacientes[0]->suboperacao != "")
             <th>Subespecialidade</th>
@@ -79,7 +80,6 @@
         <tr>
             <td>{{ $paciente->nome }}</td>
             <td>{{ $paciente->numero_sus }}</td>
-            <td>{{ $paciente->status }}</td>
             <td>{{ $paciente->fone }}</td>
             @if(isset($paciente->suboperacao) && $paciente->suboperacao != "")
                 <td>{{ $paciente->suboperacao }}</td>

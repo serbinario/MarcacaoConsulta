@@ -5,6 +5,57 @@
 <div class="card">
     <div class="card-body card-padding">
 
+        {{--#1--}}
+        <div class="row">
+            @if(!isset($model))
+                <div class="form-group col-sm-4">
+                    <div class=" fg-line">
+                        <label for="cgm_id">Cidadão</label>
+                        <div class="select">
+                            {!! Form::select('cgm_id', ['' => 'Selecione um cidadão'] + $loadFields['cgm']->toArray(), Session::getOldInput('cgm_id'), array('class' => 'form-control', 'id' => 'paciente')) !!}
+                        </div>
+                    </div>
+                </div>
+            @endif
+            <div class="form-group col-sm-2">
+                <div class=" fg-line">
+                    <label for="prioridade_id">Prioridade *</label>
+                    <div class="select">
+                        {!! Form::select('prioridade_id', $loadFields['prioridade'], null, array('id' => 'prioridade', 'class'=> 'form-control')) !!}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{--#2--}}
+        <div class="row">
+            <div class="form-group col-sm-5">
+                <div class="fg-line">
+                    <label class="control-label" for="cgm[nome]">Cidadão *</label>
+                    {!! Form::text('cgm[nome]', Session::getOldInput('cgm[nome]')  , array('id' => 'nome', 'class' => 'form-control input-sm', 'placeholder' => 'Nome')) !!}
+                </div>
+            </div>
+            <div class="form-group col-sm-2">
+                <div class="fg-line">
+                    <label class="control-label" for="cgm[data_nascimento]">Data de Nascimento</label>
+                    {!! Form::text('cgm[data_nascimento]', Session::getOldInput('cgm[data_nascimento]')  , array('class' => 'form-control dateTimePicker input-sm date', 'id' => 'data_nascimento', 'placeholder' => 'Data de Nascimento')) !!}
+                </div>
+            </div>
+            <div class="form-group col-sm-2">
+                <div class="fg-line">
+                    <label class="control-label" for="cgm[idade]">Idade</label>
+                    {!! Form::text('cgm[idade]', Session::getOldInput('cgm[idade]')  , array('class' => 'form-control input-sm', 'id' => 'idade',  'placeholder' => 'Idade')) !!}
+                </div>
+            </div>
+            <div class="form-group col-sm-2">
+                <div class="fg-line">
+                    <label class="control-label" for="data">Data do cadastro *</label>
+                    {!! Form::text('data', Session::getOldInput('data') , array('class' => 'form-control input-sm date', 'placeholder' => 'Data do cadastro')) !!}
+                </div>
+            </div>
+        </div>
+
+        {{--#3--}}
         <div class="row">
             <div class="form-group col-sm-2">
                 <div class="fg-line">
@@ -45,53 +96,7 @@
             </div>
         </div>
 
-        <div class="row">
-            @if(!isset($model))
-                <div class="form-group col-sm-4">
-                    <div class=" fg-line">
-                        <label for="cgm_id">Cidadão</label>
-                        <div class="select">
-                            {!! Form::select('cgm_id', ['' => 'Selecione um cidadão'] + $loadFields['cgm']->toArray(), Session::getOldInput('cgm_id'), array('class' => 'form-control', 'id' => 'paciente')) !!}
-                        </div>
-                    </div>
-                </div>
-            @endif
-                <div class="form-group col-sm-2">
-                    <div class=" fg-line">
-                        <label for="prioridade_id">Prioridade *</label>
-                        <div class="select">
-                            {!! Form::select('prioridade_id', $loadFields['prioridade'], null, array('id' => 'prioridade', 'class'=> 'form-control')) !!}
-                        </div>
-                    </div>
-                </div>
-        </div>
-        {{--#2--}}
-        <div class="row">
-            <div class="form-group col-sm-5">
-                <div class="fg-line">
-                    <label class="control-label" for="cgm[nome]">Cidadão *</label>
-                    {!! Form::text('cgm[nome]', Session::getOldInput('cgm[nome]')  , array('id' => 'nome', 'class' => 'form-control input-sm', 'placeholder' => 'Nome')) !!}
-                </div>
-            </div>
-            <div class="form-group col-sm-2">
-                <div class="fg-line">
-                    <label class="control-label" for="cgm[data_nascimento]">Data de Nascimento</label>
-                    {!! Form::text('cgm[data_nascimento]', Session::getOldInput('cgm[data_nascimento]')  , array('class' => 'form-control dateTimePicker input-sm date', 'id' => 'data_nascimento', 'placeholder' => 'Data de Nascimento')) !!}
-                </div>
-            </div>
-            <div class="form-group col-sm-2">
-                <div class="fg-line">
-                    <label class="control-label" for="cgm[idade]">Idade</label>
-                    {!! Form::text('cgm[idade]', Session::getOldInput('cgm[idade]')  , array('class' => 'form-control input-sm', 'id' => 'idade',  'placeholder' => 'Idade')) !!}
-                </div>
-            </div>
-            <div class="form-group col-sm-2">
-                <div class="fg-line">
-                    <label class="control-label" for="data">Data do cadastro *</label>
-                    {!! Form::text('data', Session::getOldInput('data') , array('class' => 'form-control input-sm date', 'placeholder' => 'Data do cadastro')) !!}
-                </div>
-            </div>
-        </div>
+
         <div class="row">
             <div class="form-group col-sm-2">
                 <div class="fg-line">
