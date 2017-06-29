@@ -72,7 +72,7 @@
                     <label class="control-label" for="especialidade">Operação *</label>
                     <div class="select">
                         @if(isset($model->especialidade->operacao->id))
-                            {!! Form::select('especialidade_id', array($model->especialidade->operacao->id => $model->especialidade->operacao->nome), $model->especialidade->operacao->id,array('class' => 'form-control', 'id' => 'especialidade')) !!}
+                            {!! Form::select('especialidade_id', array($model->especialidade->id => $model->especialidade->operacao->nome), $model->especialidade->id, array('class' => 'form-control', 'id' => 'especialidade')) !!}
                         @else
                             {!! Form::select('especialidade_id', array(), Session::getOldInput('especialidade_id'),array('class' => 'form-control', 'id' => 'especialidade')) !!}
                         @endif
@@ -432,7 +432,7 @@
             if (operacao !== "") {
 
                 var dados = {
-                    'table' : 'sub_operacoes',
+                    'id' : 'operacao',
                     'field_search' : 'operacao_id',
                     'value_search': operacao
                 };
@@ -457,46 +457,5 @@
         });
 
 
-        //consulta via cgm
-        /*$("#sub_operacoes_id").select2({
-            placeholder: 'Selecione uma suboperação',
-            minimumInputLength: 3,
-            width: 300,
-            ajax: {
-                type: 'POST',
-                url: "{{ route('serbinario.util.select2')  }}",
-                dataType: 'json',
-                delay: 250,
-                crossDomain: true,
-                data: function (params) {
-                    return {
-                        'search':     params.term, // search term
-                        'tableName':  'sub_operacoes',
-                        'fieldName':  'nome',
-                        'fieldWhere':  'operacao_id',
-                        'valueWhere':  '7',
-                        'page':       params.page
-                    };
-                },
-                headers: {
-                    'X-CSRF-TOKEN' : '{{  csrf_token() }}'
-                },
-                processResults: function (data, params) {
-
-                    // parse the results into the format expected by Select2
-                    // since we are using custom formatting functions we do not need to
-                    // alter the remote JSON data, except to indicate that infinite
-                    // scrolling can be used
-                    params.page = params.page || 1;
-
-                    return {
-                        results: data,
-                        pagination: {
-                            more: (params.page * 30) < data.total_count
-                        }
-                    };
-                }
-            }
-        });*/
     </script>
 @stop

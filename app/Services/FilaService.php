@@ -128,6 +128,8 @@ class FilaService
 
         $data = $this->tratamentoCampos($data);
 
+        //dd($data);
+
         // Edita a fila
         $fila = $this->repository->update($data, $id);
 
