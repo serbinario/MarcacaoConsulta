@@ -163,6 +163,9 @@ $(document).on('change', "#mapa-agendar", function () {
             totalVagas = json['totalVagas'];
             vagasRestantes = json['vagasRestantes'];
 
+            // prenchendo na modal a quantidade de pacientes a serem agendados
+            $('.qtdPacientes').text(json['qtdPacientes']);
+
             if (vagasRestantes < idsPacientes.length) {
 
                 // Desabilitando o botão de agendar de acordo com o perfil do usuário

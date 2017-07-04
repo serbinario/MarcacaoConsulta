@@ -21,12 +21,6 @@ class Calendario extends Model implements Transformable
 		'localidade_id',
 		'mais_mapa',
 		'hora2',
-		'especialidade_id_um',
-		'especialidade_id_dois',
-		'vagas_mapa1',
-		'vagas_mapa2',
-		'reserva_mapa1',
-		'reserva_mapa2',
 	];
 
 	/**

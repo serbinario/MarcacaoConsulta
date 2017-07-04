@@ -214,6 +214,21 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('reportPdfByAgenda', ['as' => 'reportPdfByAgenda', 'uses' => 'RelatorioController@reportPdfByAgenda']);
         });
 
+        Route::group(['prefix' => 'graficos', 'as' => 'graficos.'], function () {
+            Route::get('qtdAtendimento', ['as' => 'qtdAtendimento', 'uses' => 'GraficosController@qtdAtendimento']);
+            Route::post('qtdAtendimentoAjax', ['as' => 'qtdAtendimentoAjax', 'uses' => 'GraficosController@qtdAtendimentoAjax']);
+            Route::get('qtdPessoasNaFila', ['as' => 'qtdPessoasNaFila', 'uses' => 'GraficosController@qtdPessoasNaFila']);
+            Route::post('qtdPessoasNaFilaAjax', ['as' => 'qtdPessoasNaFilaAjax', 'uses' => 'GraficosController@qtdPessoasNaFilaAjax']);
+            Route::get('qtdPacientes', ['as' => 'qtdPacientes', 'uses' => 'GraficosController@qtdPacientes']);
+            Route::post('qtdPacientesAjax', ['as' => 'qtdPacientesAjax', 'uses' => 'GraficosController@qtdPacientesAjax']);
+
+            // Gráficos dashboard
+            Route::post('graficoTotalAtendidos', ['as' => 'graficoTotalAtendidos', 'uses' => 'DefaultController@graficoTotalAtendidos']);
+            Route::post('graficoPacientesNaFila', ['as' => 'graficoPacientesNaFila', 'uses' => 'DefaultController@graficoPacientesNaFila']);
+            Route::post('graficoPacientesAtendidas', ['as' => 'graficoPacientesAtendidas', 'uses' => 'DefaultController@graficoPacientesAtendidas']);
+
+        });
+
 //    Route::get('report/contratoAluno/{id}', ['as' => 'report.contratoAluno', 'uses' => 'ReportController@contratoAluno']);
 //    Route::get('user/save/', ['as' => 'user.save', 'uses' => 'UserController@save']);
 //    Route::Post('user/store/', ['as' => 'user.store', 'uses' => 'UserController@store']);

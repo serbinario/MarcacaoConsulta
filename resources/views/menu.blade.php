@@ -131,6 +131,7 @@
             </div>
 
             <ul class="main-menu">
+                <li><a href="{{ route('serbinario.index')  }}"><i class="zmdi zmdi-home"></i> Dashboard</a></li>
                 <li><a href="{{ route('serbinario.fila.index') }}"><i class="zmdi zmdi zmdi-timer"></i> Fila de Espera</a></li>
                 <li class="sub-menu">
                     <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-plus"></i>Cadastros</a>
@@ -147,7 +148,7 @@
                 <li class="sub-menu">
                     <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-calendar"></i>Agendamento</a>
                     <ul>
-                        <li><a href="{{ route('serbinario.agendamento.index') }}">Agenda</a></li>
+                        {{--<li><a href="{{ route('serbinario.agendamento.index') }}">Agenda</a></li>--}}
                         <li><a href="{{ route('serbinario.agendados.index') }}">Pacientes agendados</a></li>
                         <li><a href="{{ route('serbinario.agendados.indexDois') }}">Pacientes agendados (Calendário)</a></li>
                     </ul>
@@ -156,6 +157,14 @@
                     <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-assignment"></i>Ralatório</a>
                     <ul>
                         <li><a href="{{ route('serbinario.relatorio.byAgenda') }}">Por Agenda</a></li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-chart"></i>Gráficos</a>
+                    <ul>
+                        <li><a href="{{ route('serbinario.graficos.qtdAtendimento') }}">Atendimentos</a></li>
+                        <li><a href="{{ route('serbinario.graficos.qtdPessoasNaFila') }}">Pessoas na fila</a></li>
+                        <li><a href="{{ route('serbinario.graficos.qtdPacientes') }}">Pacientes</a></li>
                     </ul>
                 </li>
                 <li class="sub-menu">
@@ -236,6 +245,10 @@
     <script src="{{ asset('/js/jquery.mask.js')}}"></script>
     <script src="{{ asset('/js/mascaras.js')}}"></script>
     <script src="{{ asset('/js/laroute.js')}}"></script>
+
+    {{-- Importes da página gráficos --}}
+    <script src="{{ asset('/js/plugins/highcharts.js')  }}"></script>
+    <script src="{{ asset('/js/plugins/exporting.js')  }}"></script>
 
     <script type="text/javascript">
         $(".chosen").chosen();

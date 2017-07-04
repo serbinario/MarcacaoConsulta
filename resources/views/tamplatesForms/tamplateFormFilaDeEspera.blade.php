@@ -429,10 +429,12 @@
             // Recuperando a cidade
             var operacao = $("#especialidade option:selected").attr('data');
 
+            console.log(operacao);
+
             if (operacao !== "") {
 
                 var dados = {
-                    'id' : 'operacao',
+                    'table' : 'sub_operacoes',
                     'field_search' : 'operacao_id',
                     'value_search': operacao
                 };

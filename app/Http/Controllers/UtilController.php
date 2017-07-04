@@ -23,6 +23,8 @@ class UtilController extends Controller
             $filed = $request->get('field_search');
             $value = $request->get('value_search');
 
+            //dd($table);
+
             #Validando os parametros
             if($table == null || $filed == null || $value == null) {
                 throw new \Exception('Parametros inválidos');

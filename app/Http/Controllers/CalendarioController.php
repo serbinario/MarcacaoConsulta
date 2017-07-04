@@ -557,7 +557,8 @@ class CalendarioController extends Controller
 
         $dados = [
             'totalVagas' => $mapa->vagas,
-            'vagasRestantes' => $vagasRestantes
+            'vagasRestantes' => $vagasRestantes,
+            'qtdPacientes' => $qtdPacientes
         ];
 
         #retorno

@@ -5,9 +5,6 @@
 function runModalAgendarPacientes(especialidadeId, idsPacientes)
 {
 
-    // prenchendo o nome e CRM do especialista
-    $('.qtdPacientes').text(idsPacientes.length);
-
     // Carregando os especialistas
     especialistas(especialidadeId);
 
