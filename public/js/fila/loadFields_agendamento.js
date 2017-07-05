@@ -146,7 +146,8 @@ $(document).on('change', "#mapa-agendar", function () {
         var dados = {
             'mapa' : mapa,
             'idCalendario' : idCalendario,
-            'idEspecialidade' : especialidadeId
+            'idEspecialidade' : especialidadeId,
+            'idsPacientes' : idsPacientes
         };
 
         jQuery.ajax({
@@ -166,7 +167,7 @@ $(document).on('change', "#mapa-agendar", function () {
             // prenchendo na modal a quantidade de pacientes a serem agendados
             $('.qtdPacientes').text(json['qtdPacientes']);
 
-            if (vagasRestantes < idsPacientes.length) {
+            if (vagasRestantes < json['qtdPacientes']) {
 
                 // Desabilitando o botão de agendar de acordo com o perfil do usuário
                 if (perfil == '1') {

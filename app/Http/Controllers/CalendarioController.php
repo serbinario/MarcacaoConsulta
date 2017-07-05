@@ -535,25 +535,22 @@ class CalendarioController extends Controller
             ->where('mapa_id', '=', $mapa->id)
             ->groupBy('agendamento.fila_id')
             ->select([
-                'agendamento.fila_id'
-                //\DB::raw('COUNT(agendamento.id) as qtd_agendados')
-            ])->get();
+                //'agendamento.fila_id'
+                \DB::raw('COUNT(agendamento.id) as qtd_agendados')
+            ])->first();
 
-        $qtdAgendados = 0;
+        # Varre os pacientes afim de validar o limite de vagas
+        foreach ($request->get('idsPacientes') as $idPaciente) {
 
-        # Varre as filas dos agendamentos
-        foreach ($agendamentos as $agendamento) {
+            // Consulta a fila
+            $fila = $this->filaRepository->find($idPaciente);
 
-            // Pega a fila do agendamento
-            $fila = $this->filaRepository->find($agendamento->fila_id);
-
-            // Pega a quantidade de agendados de acordo com a quantidade de suboperações o paciente possui
+            // Pega a quantidade de pacientes de acordo com a quantidade de suboperações que o paciente possui
             $qtdPacientes = count($fila->suboperacoes) > 0 ? count($fila->suboperacoes) : 1;
-            $qtdAgendados = $qtdAgendados + $qtdPacientes;
         }
 
         // Pegando a quantidade de vagas do mapa e vagas restantes
-        $vagasRestantes = $mapa->vagas - $qtdAgendados;
+        $vagasRestantes = $mapa->vagas - $agendamentos->qtd_agendados;
 
         $dados = [
             'totalVagas' => $mapa->vagas,
