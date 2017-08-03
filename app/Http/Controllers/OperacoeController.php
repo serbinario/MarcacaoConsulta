@@ -112,7 +112,7 @@ class OperacoeController extends Controller
             return redirect()->back()->with("message", "Cadastro realizado com sucesso!");
         } catch (ValidatorException $e) {
             return redirect()->back()->withErrors($this->validator->errors())->withInput();
-        } catch (\Throwable $e) {print_r($e->getMessage()); exit;
+        } catch (\Throwable $e) {
             return redirect()->back()->with('message', $e->getMessage());
         }
     }
@@ -135,7 +135,7 @@ class OperacoeController extends Controller
 
             #retorno para view
             return view('operacao.edit', compact('model', 'loadFields'));
-        } catch (\Throwable $e) {dd($e);
+        } catch (\Throwable $e) {
             return redirect()->back()->with('message', $e->getMessage());
         }
     }
@@ -161,7 +161,7 @@ class OperacoeController extends Controller
             return redirect()->back()->with("message", "Alteração realizada com sucesso!");
         } catch (ValidatorException $e) {
             return redirect()->back()->withErrors($this->validator->errors())->withInput();
-        } catch (\Throwable $e) { dd($e);
+        } catch (\Throwable $e) {
             return redirect()->back()->with('message', $e->getMessage());
         }
     }
@@ -179,7 +179,6 @@ class OperacoeController extends Controller
             #Retorno para a view
             return redirect()->back()->with("message", "Remoção realizada com sucesso!");
         } catch (\Throwable $e) {
-            dd($e);
             return redirect()->back()->with('message', $e->getMessage());
         }
     }

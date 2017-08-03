@@ -171,7 +171,6 @@ class LocalidadeController extends Controller
             #Retorno para a view
             return redirect()->back()->with("message", "Remoção realizada com sucesso!");
         } catch (\Throwable $e) {
-            dd($e);
             return redirect()->back()->with('message', $e->getMessage());
         }
     }
@@ -182,8 +181,6 @@ class LocalidadeController extends Controller
     public function all()
     {
         $localidades = $this->service->all();
-
-       //var_dump($localidades);exit();
 
         #Retorno para view
         return compact('localidades');

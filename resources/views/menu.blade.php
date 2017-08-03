@@ -8,32 +8,35 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SerAgendamento</title>
 
-        <!-- -->
-        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/btnLoadind.css') }}"  media="screen,projection"/>
-        <link type="text/css" rel="stylesheet" href="{{ asset('/lib/animate.css/animate.min.css') }}"  media="screen,projection"/>
-        <link type="text/css" rel="stylesheet" href="{{ asset('/lib/sweetalert2/dist/sweetalert2.min.css') }}"  media="screen,projection"/>
-        <link type="text/css" rel="stylesheet" href="{{ asset('/lib/material-design-iconic-font/dist/css/material-design-iconic-font.min.css') }}"  media="screen,projection"/>
-        <link type="text/css" rel="stylesheet" href="{{ asset('/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') }}"  media="screen,projection"/>
-        <link type="text/css" rel="stylesheet" href="{{ asset('/lib/datatables.net-dt/css/jquery.dataTables.min.css') }}">
-        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/datetimepicker/build/jquery.datetimepicker.min.css')}}"/>
-        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/js/krajee/css/fileinput.css')}}"/>
-        <link type="text/css" rel="stylesheet" href="{{ asset('/lib/select2/dist/css/select2.css')}}"/>
-        <link type="text/css" rel="stylesheet" href="{{asset('/css/zabuto_calendar.min.css')}}" />
-        {{-- --}}
-        {{--<link type="text/css" rel="stylesheet" href="{{ asset('/dist/bower_components/fullcalendar/dist/fullcalendar.css') }}" />--}}
-        {{--<link type="text/css" rel="stylesheet" href="{{ asset('/dist/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') }}" />--}}
-        <link type="text/css" rel="stylesheet" href="{{ asset('/lib/fullcalendar/dist/fullcalendar.css') }}" />
-        <link type="text/css" rel="stylesheet" href="{{ asset('/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css') }}" />
+        @if(config('app.debug'))
+            <!-- -->
+            <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/btnLoadind.css') }}"  media="screen,projection"/>
+            <link type="text/css" rel="stylesheet" href="{{ asset('/lib/animate.css/animate.min.css') }}"  media="screen,projection"/>
+            <link type="text/css" rel="stylesheet" href="{{ asset('/lib/sweetalert2/dist/sweetalert2.min.css') }}"  media="screen,projection"/>
+            <link type="text/css" rel="stylesheet" href="{{ asset('/lib/material-design-iconic-font/dist/css/material-design-iconic-font.min.css') }}"  media="screen,projection"/>
+            <link type="text/css" rel="stylesheet" href="{{ asset('/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') }}"  media="screen,projection"/>
+            <link type="text/css" rel="stylesheet" href="{{ asset('/lib/datatables.net-dt/css/jquery.dataTables.min.css') }}">
+            <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/datetimepicker/build/jquery.datetimepicker.min.css')}}"/>
+            <link type="text/css" rel="stylesheet" href="{{ asset('/dist/js/krajee/css/fileinput.css')}}"/>
+            <link type="text/css" rel="stylesheet" href="{{ asset('/lib/select2/dist/css/select2.css')}}"/>
+            <link type="text/css" rel="stylesheet" href="{{asset('/css/zabuto_calendar.min.css')}}" />
 
-        <!-- Animação de loading em consultas ajax -->
-        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/load.css')}}"/>
-        <link href="{{ asset('/lib/chosen/chosen.css') }}" rel="stylesheet">
-        <link href="{{ asset('/lib/summernote/dist/summernote.css') }}" rel="stylesheet">
-        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/app_1.min.css') }}"  media="screen,projection"/>
-        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/app_2.min.css') }}"  media="screen,projection"/>
+            <link type="text/css" rel="stylesheet" href="{{ asset('/lib/fullcalendar/dist/fullcalendar.css') }}" />
+            <link type="text/css" rel="stylesheet" href="{{ asset('/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css') }}" />
 
-        {{--CSS personalizados--}}
-        <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/demo.css') }}"  media="screen,projection"/>
+            <!-- Animação de loading em consultas ajax -->
+            <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/load.css')}}"/>
+            <link href="{{ asset('/lib/chosen/chosen.css') }}" rel="stylesheet">
+            <link href="{{ asset('/lib/summernote/dist/summernote.css') }}" rel="stylesheet">
+            <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/app_1.min.css') }}"  media="screen,projection"/>
+            <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/app_2.min.css') }}"  media="screen,projection"/>
+
+            {{--CSS personalizados--}}
+            <link type="text/css" rel="stylesheet" href="{{ asset('/dist/css/demo.css') }}"  media="screen,projection"/>
+        @else
+            <link type="text/css" rel="stylesheet" href="{{ asset('prod.min.css') }}"  media="screen,projection"/>
+        @endif
+
 
         @yield('css')
     </head>
@@ -206,49 +209,53 @@
         <strong>Copyright &copy; 2015-2016 <a target="_blank" href="http://serbinario.com.br"><i></i>SERBINARIO</a> .</strong> Todos os direitos reservados.
     </footer>
 
-    <!-- Javascript Libraries -->
-    <script src="{{ asset('/lib/jquery/dist/jquery.js') }}"></script>
-    <script src="{{ asset('/lib/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') }}"></script>
-    <script src="{{ asset('/lib/Waves/dist/waves.min.js') }}"></script>
-    <script src="{{ asset('/dist/jquery.datetimepicker.js') }}"></script>
-    <script src="{{ asset('/lib/sweetalert2/dist/sweetalert2.min.js') }}"></script>
-    <script src="{{ asset('/lib/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('/lib/jquery-validation/dist/jquery.validate.js') }}"></script>
-    <script src="{{ asset('/lib/jquery-validation/src/additional/cpfBR.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('/dist/js/adicional/unique.js')  }}"></script>
-    <script src="{{ asset('/dist/js/fileinput/fileinput.min.js')}}"></script>
-    <script src="{{ asset('/dist/js/krajee/js/fileinput.js')}}"></script>
-    <script src="{{ asset('/dist/js/krajee/js/locales/pt-BR.js')}}"></script>
-    <script src="{{ asset('/lib/jquery-mask-plugin/dist/jquery.mask.js') }}"></script>
-    <script src="{{ asset('/lib/select2/dist/js/select2.full.js') }}"></script>
-    <script src="{{ asset('/js/bootstrapvalidator.js')}}" type="text/javascript"></script>
-    <script type="text/javascript" src="{{asset('/js/zabuto_calendar.min.js')}}"></script>
+    @if(config('app.debug'))
+        <!-- Javascript Libraries -->
+        <script src="{{ asset('/lib/jquery/dist/jquery.js') }}"></script>
+        <script src="{{ asset('/lib/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+        <script src="{{ asset('/lib/Waves/dist/waves.min.js') }}"></script>
+        <script src="{{ asset('/dist/jquery.datetimepicker.js') }}"></script>
+        <script src="{{ asset('/lib/sweetalert2/dist/sweetalert2.min.js') }}"></script>
+        <script src="{{ asset('/lib/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('/lib/jquery-validation/dist/jquery.validate.js') }}"></script>
+        <script src="{{ asset('/lib/jquery-validation/src/additional/cpfBR.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/dist/js/adicional/unique.js')  }}"></script>
+        <script src="{{ asset('/dist/js/fileinput/fileinput.min.js')}}"></script>
+        <script src="{{ asset('/dist/js/krajee/js/fileinput.js')}}"></script>
+        <script src="{{ asset('/dist/js/krajee/js/locales/pt-BR.js')}}"></script>
+        <script src="{{ asset('/lib/jquery-mask-plugin/dist/jquery.mask.js') }}"></script>
+        <script src="{{ asset('/lib/select2/dist/js/select2.full.js') }}"></script>
+        <script src="{{ asset('/js/bootstrapvalidator.js')}}" type="text/javascript"></script>
+        <script type="text/javascript" src="{{asset('/js/zabuto_calendar.min.js')}}"></script>
 
-    {{-- SÓ REMOVER SE NÃO EXISTIREM ERROS --}}
-    {{--<script type="text/javascript" src="{{asset('/dist/bower_components/fullcalendar/dist/locale/pt-br.js')}}"></script>
-    <script type="text/javascript" src="{{ asset('/dist/bower_components/moment/min/moment.min.js')}}" ></script>
-    <script type="text/javascript" src="{{asset('/dist/bower_components/fullcalendar/dist/fullcalendar.js')}}"></script>--}}
-    <script type="text/javascript" src="{{ asset('/lib/moment/min/moment.min.js')}}" ></script>
-    <script type="text/javascript" src="{{asset('/lib/fullcalendar/dist/fullcalendar.js')}}"></script>
-    <script type="text/javascript" src="{{asset('/lib/fullcalendar/dist/locale/pt-br.js')}}"></script>
+        {{-- SÓ REMOVER SE NÃO EXISTIREM ERROS --}}
+        {{--<script type="text/javascript" src="{{asset('/dist/bower_components/fullcalendar/dist/locale/pt-br.js')}}"></script>
+        <script type="text/javascript" src="{{ asset('/dist/bower_components/moment/min/moment.min.js')}}" ></script>
+        <script type="text/javascript" src="{{asset('/dist/bower_components/fullcalendar/dist/fullcalendar.js')}}"></script>--}}
+        <script type="text/javascript" src="{{ asset('/lib/moment/min/moment.min.js')}}" ></script>
+        <script type="text/javascript" src="{{asset('/lib/fullcalendar/dist/fullcalendar.js')}}"></script>
+        <script type="text/javascript" src="{{asset('/lib/fullcalendar/dist/locale/pt-br.js')}}"></script>
 
-    <!-- Placeholder for IE9 -->
-    <!--[if IE 9 ]-->
-    <script type="text/javascript" src={{ asset('/lib/jquery-placeholder/jquery.placeholder.min.js') }}></script>
-    <!--[endif]-->
+        <!-- Placeholder for IE9 -->
+        <!--[if IE 9 ]-->
+        <script type="text/javascript" src={{ asset('/lib/jquery-placeholder/jquery.placeholder.min.js') }}></script>
+        <!--[endif]-->
 
-    <script type="text/javascript" src={{ asset('/dist/js/app.js') }}></script>
+        <script type="text/javascript" src={{ asset('/dist/js/app.js') }}></script>
 
-    <script src="{{ asset('/lib/chosen/chosen.jquery.js') }}"></script>
-    <script src="{{ asset('/js/jasny-bootstrap.js')}}"></script>
-    <script src="{{ asset('/js/jquery.mask.js')}}"></script>
-    <script src="{{ asset('/js/mascaras.js')}}"></script>
-    <script src="{{ asset('/js/laroute.js')}}"></script>
+        <script src="{{ asset('/lib/chosen/chosen.jquery.js') }}"></script>
+        <script src="{{ asset('/js/jasny-bootstrap.js')}}"></script>
+        <script src="{{ asset('/js/jquery.mask.js')}}"></script>
+        <script src="{{ asset('/js/mascaras.js')}}"></script>
+        <script src="{{ asset('/js/laroute.js')}}"></script>
 
-    {{-- Importes da página gráficos --}}
-    <script src="{{ asset('/js/plugins/highcharts.js')  }}"></script>
-    <script src="{{ asset('/js/plugins/exporting.js')  }}"></script>
+        {{-- Importes da página gráficos --}}
+        <script src="{{ asset('/js/plugins/highcharts.js')  }}"></script>
+        <script src="{{ asset('/js/plugins/exporting.js')  }}"></script>
+    @else
+        <script src="{{ asset('prod.min.js')  }}"></script>
+    @endif
 
     <script type="text/javascript">
         $(".chosen").chosen();
