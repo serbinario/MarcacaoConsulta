@@ -10,7 +10,7 @@ class Localidade extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $table    = 'localidade';
+    protected $table    = 'age_localidade';
 
     protected $fillable = [ 
 		'nome',

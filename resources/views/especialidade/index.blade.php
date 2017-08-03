@@ -73,8 +73,8 @@
             },
             ajax: "{!! route('serbinario.especialidade.grid') !!}",
             columns: [
-                {data: 'nome', name: 'operacoes.nome'},
-                {data: 'tipo_operacao', name: 'tipo_operacoes.nome'},
+                {data: 'nome', name: 'age_operacoes.nome'},
+                {data: 'tipo_operacao', name: 'age_tipo_operacoes.nome'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });

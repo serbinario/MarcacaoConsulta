@@ -215,26 +215,26 @@ class AgendamentoController extends Controller
     {
         $request = $request->all();
 
-        $paciente = \DB::table('agendamento')
-            ->join('fila', 'fila.id', '=', 'agendamento.fila_id')
-            ->join('cgm', 'cgm.id', '=', 'fila.cgm_id')
-            ->join('calendario', 'agendamento.calendario_id', '=', 'calendario.id')
-            ->join('localidade', 'calendario.localidade_id', '=', 'localidade.id')
-            ->join('especialista', 'calendario.especialista_id', '=', 'especialista.id')
-            ->join('mapas', 'mapas.id', '=', 'agendamento.mapa_id')
-            ->join('especialista_especialidade', 'especialista_especialidade.id', '=', 'mapas.especialidade_id')
-            ->join('especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
-            ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
-            ->join('status_agendamento', 'status_agendamento.id', '=', 'agendamento.status_agendamento_id')
-            ->where('agendamento.id', '=', $request['id'])
+        $paciente = \DB::table('age_agendamento')
+            ->join('age_fila', 'age_fila.id', '=', 'age_agendamento.fila_id')
+            ->join('gen_cgm', 'gen_cgm.id', '=', 'age_fila.cgm_id')
+            ->join('age_calendario', 'age_agendamento.calendario_id', '=', 'age_calendario.id')
+            ->join('age_localidade', 'age_calendario.localidade_id', '=', 'age_localidade.id')
+            ->join('age_especialista', 'age_calendario.especialista_id', '=', 'age_especialista.id')
+            ->join('age_mapas', 'age_mapas.id', '=', 'age_agendamento.mapa_id')
+            ->join('age_especialista_especialidade', 'age_especialista_especialidade.id', '=', 'age_mapas.especialidade_id')
+            ->join('age_especialidade', 'age_especialidade.id', '=', 'age_especialista_especialidade.especialidade_id')
+            ->join('age_operacoes', 'age_operacoes.id', '=', 'age_especialidade.operacao_id')
+            ->join('age_status_agendamento', 'age_status_agendamento.id', '=', 'age_agendamento.status_agendamento_id')
+            ->where('age_agendamento.id', '=', $request['id'])
             ->select([
-                'agendamento.id',
-                'cgm.nome',
-                \DB::raw('DATE_FORMAT(calendario.data,"%d/%m/%Y") as data'),
-                'agendamento.obs',
-                'operacoes.nome as especialidade',
-                'mapas.horario as horario',
-                'status_agendamento.nome as situacao'
+                'age_agendamento.id',
+                'gen_cgm.nome',
+                \DB::raw('DATE_FORMAT(age_calendario.data,"%d/%m/%Y") as data'),
+                'age_agendamento.obs',
+                'age_operacoes.nome as especialidade',
+                'age_mapas.horario as horario',
+                'age_status_agendamento.nome as situacao'
             ])->first();
 
         #retorno para view
@@ -319,17 +319,17 @@ class AgendamentoController extends Controller
      */
     public function getPacientes(Request $request)
     {
-        $pacientes = \DB::table('fila')
-            ->join('cgm', 'cgm.id', '=', 'fila.cgm_id')
-            ->join('especialidade', 'especialidade.id', '=', 'fila.especialidade_id')
-            ->join('prioridade', 'prioridade.id', '=', 'fila.prioridade_id')
-            ->where('especialidade.id', '=', $request->get('especialidade'))
-            ->where('fila.status', '=', '0')
-            ->orderBy('fila.prioridade_id', 'ASC')
-            ->orderBy('fila.data', 'ASC')
+        $pacientes = \DB::table('age_fila')
+            ->join('gen_cgm', 'gen_cgm.id', '=', 'age_fila.cgm_id')
+            ->join('age_especialidade', 'age_especialidade.id', '=', 'age_fila.especialidade_id')
+            ->join('age_prioridade', 'age_prioridade.id', '=', 'age_fila.prioridade_id')
+            ->where('age_especialidade.id', '=', $request->get('especialidade'))
+            ->where('age_fila.status', '=', '0')
+            ->orderBy('age_fila.prioridade_id', 'ASC')
+            ->orderBy('age_fila.data', 'ASC')
             ->select([
-                'fila.id',
-                \DB::raw('CONCAT(cgm.nome, " - ", prioridade.nome, " - ", DATE_FORMAT(fila.data,"%d/%m/%Y")) as nome'),
+                'age_fila.id',
+                \DB::raw('CONCAT(gen_cgm.nome, " - ", age_prioridade.nome, " - ", DATE_FORMAT(age_fila.data,"%d/%m/%Y")) as nome'),
             ])->get();
 
         return compact('pacientes');

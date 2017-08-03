@@ -52,7 +52,7 @@ class LocalidadeController extends Controller
     public function grid()
     {
         #Criando a consulta
-        $rows = \DB::table('localidade')->select(['id', 'nome']);
+        $rows = \DB::table('age_localidade')->select(['id', 'nome']);
 
         #Editando a grid
         return Datatables::of($rows)->addColumn('action', function ($row) {

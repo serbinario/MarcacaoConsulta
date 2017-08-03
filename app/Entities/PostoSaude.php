@@ -10,7 +10,7 @@ class PostoSaude extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $table    = 'posto_saude';
+    protected $table    = 'age_posto_saude';
 
     protected $fillable = [ 
 		'nome',

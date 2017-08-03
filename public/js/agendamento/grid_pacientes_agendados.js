@@ -44,17 +44,17 @@ table = $('#agendados-grid').DataTable({
         {
             "className":      'details-control',
             "orderable":      false,
-            "data":           'operacoes.nome',
+            "data":           'age_operacoes.nome',
             "defaultContent": ''
         },
-        {data: 'nome', name: 'cgm.nome'},
-        {data: 'numero_sus', name: 'cgm.numero_sus'},
-        {data: 'especialidade', name: 'operacoes.nome'},
-        {data: 'data', name: 'calendario.data'},
-        {data: 'horario', name: 'mapas.horario'},
+        {data: 'nome', name: 'gen_cgm.nome'},
+        {data: 'numero_sus', name: 'gen_cgm.numero_sus'},
+        {data: 'especialidade', name: 'age_operacoes.nome'},
+        {data: 'data', name: 'age_calendario.data'},
+        {data: 'horario', name: 'age_mapas.horario'},
         {data: 'especialista', name: 'cgm_especialista.nome'},
-        {data: 'psf', name: 'posto_saude.nome'},
-        {data: 'status', name: 'status_agendamento.nome'},
+        {data: 'psf', name: 'age_posto_saude.nome'},
+        {data: 'status', name: 'age_status_agendamento.nome'},
         {data: 'action', name: 'action', orderable: false, searchable: false}
     ]
 });

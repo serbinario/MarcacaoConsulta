@@ -10,7 +10,7 @@ class Evento extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $table    = 'evento';
+    protected $table    = 'age_evento';
 
     protected $fillable = [ 
 		'title',

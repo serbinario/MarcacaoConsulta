@@ -84,7 +84,7 @@ $(document).ready(function () {
                     }
                 }
             },
-            'cgm[endereco][bairro]': {
+            'cgm[endereco][bairro_id]': {
                 validators: {
                     notEmpty: {
                         message: "Este campo é obrigatório",

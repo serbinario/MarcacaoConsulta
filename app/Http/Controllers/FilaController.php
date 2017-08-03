@@ -69,39 +69,39 @@ class FilaController extends Controller
         $dataFim = SerbinarioDateFormat::toUsa($request->get('data_fim'));
 
         #Criando a consulta
-        $rows = \DB::table('fila')
-            ->join('cgm', 'cgm.id', '=', 'fila.cgm_id')
-            ->join('especialidade', 'especialidade.id', '=', 'fila.especialidade_id')
-            ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
-            ->join('prioridade', 'prioridade.id', '=', 'fila.prioridade_id')
-            ->leftJoin('posto_saude', 'posto_saude.id', '=', 'fila.posto_saude_id')
-            ->where('fila.status', 0)
+        $rows = \DB::table('age_fila')
+            ->join('gen_cgm', 'gen_cgm.id', '=', 'age_fila.cgm_id')
+            ->join('age_especialidade', 'age_especialidade.id', '=', 'age_fila.especialidade_id')
+            ->join('age_operacoes', 'age_operacoes.id', '=', 'age_especialidade.operacao_id')
+            ->join('age_prioridade', 'age_prioridade.id', '=', 'age_fila.prioridade_id')
+            ->leftJoin('age_posto_saude', 'age_posto_saude.id', '=', 'age_fila.posto_saude_id')
+            ->where('age_fila.status', 0)
             ->select([
-                'fila.id',
-                'cgm.nome',
-                'cgm.numero_sus',
-                'cgm.id as cgm_id',
-                'operacoes.nome as especialidade',
-                'prioridade.nome as prioridade',
-                'posto_saude.nome as psf',
-                \DB::raw('DATE_FORMAT(fila.data,"%d/%m/%Y") as data_cadastro'),
-                'especialidade.id as exame'
+                'age_fila.id',
+                'gen_cgm.nome',
+                'gen_cgm.numero_sus',
+                'gen_cgm.id as cgm_id',
+                'age_operacoes.nome as especialidade',
+                'age_prioridade.nome as prioridade',
+                'age_posto_saude.nome as psf',
+                \DB::raw('DATE_FORMAT(age_fila.data,"%d/%m/%Y") as data_cadastro'),
+                'age_especialidade.id as exame'
             ]);
 
         if($dataIni && $dataFim) {
-            $rows->whereBetween('fila.data', array($dataIni, $dataFim));
+            $rows->whereBetween('age_fila.data', array($dataIni, $dataFim));
         }
 
         if($request->has('exame') && $request->get('exame') != "") {
-            $rows->where('especialidade.id', $request->get('exame'));
+            $rows->where('age_especialidade.id', $request->get('exame'));
         }
 
         if($request->has('prioridade') && $request->get('prioridade') != "") {
-            $rows->where('prioridade.id', $request->get('prioridade'));
+            $rows->where('age_prioridade.id', $request->get('prioridade'));
         }
 
         if($request->has('psf') && $request->get('psf') != "") {
-            $rows->where('posto_saude.id', $request->get('psf'));
+            $rows->where('age_posto_saude.id', $request->get('psf'));
         }
 
         #Editando a grid
@@ -113,8 +113,8 @@ class FilaController extends Controller
 
                 #condição
                 $query->where(function ($where) use ($search) {
-                    $where->orWhere('cgm.numero_sus', 'like', "%$search%")
-                        ->orWhere('cgm.nome', 'like', "%$search%")
+                    $where->orWhere('gen_cgm.numero_sus', 'like', "%$search%")
+                        ->orWhere('gen_cgm.nome', 'like', "%$search%")
                     ;
                 });
 
@@ -137,11 +137,11 @@ class FilaController extends Controller
         })->addColumn('supoperacoes', function ($row) {
 
             // Selecioando as suboperações
-            $suboperacoes = \DB::table('sub_operacoes_fila')
-                ->join('sub_operacoes', 'sub_operacoes.id', '=', 'sub_operacoes_fila.sub_operacoes_id')
-                ->where('sub_operacoes_fila.fila_id', $row->id)
+            $suboperacoes = \DB::table('age_sub_operacoes_fila')
+                ->join('age_sub_operacoes', 'age_sub_operacoes.id', '=', 'age_sub_operacoes_fila.sub_operacoes_id')
+                ->where('age_sub_operacoes_fila.fila_id', $row->id)
                 ->select([
-                    'sub_operacoes.nome'
+                    'age_sub_operacoes.nome'
                 ])->get();
 
             return $suboperacoes;
@@ -273,29 +273,29 @@ class FilaController extends Controller
     public function getDadosDoPaciente(Request $request)
     {
 
-        $cidadao = \DB::table('cgm')
-            ->leftJoin('endereco_cgm', 'endereco_cgm.id', '=', 'cgm.endereco_cgm')
-            ->leftJoin('bairros', 'bairros.id', '=', 'endereco_cgm.bairro')
-            ->leftJoin('cidades', 'cidades.id', '=', 'bairros.cidades_id')
-            ->leftJoin('estados', 'estados.id', '=', 'cidades.estados_id')
-            ->where('cgm.id', '=', $request->get('paciente'))
+        $cidadao = \DB::table('gen_cgm')
+            ->leftJoin('gen_endereco', 'gen_endereco.id', '=', 'gen_cgm.endereco_id')
+            ->leftJoin('gen_bairros', 'gen_bairros.id', '=', 'gen_endereco.bairro_id')
+            ->leftJoin('gen_cidades', 'gen_cidades.id', '=', 'gen_bairros.cidades_id')
+            ->leftJoin('gen_estados', 'gen_estados.id', '=', 'gen_cidades.estados_id')
+            ->where('gen_cgm.id', '=', $request->get('paciente'))
             ->select([
-                'cgm.id',
-                'cgm.nome',
-                'cgm.numero_sus',
-                \DB::raw('DATE_FORMAT(cgm.data_nascimento,"%d/%m/%Y") as data_nascimento'),
-                'cgm.idade',
-                'cgm.fone',
-                'cgm.cpf_cnpj',
-                'cgm.rg',
-                'cgm.numero_nis',
-                'endereco_cgm.logradouro',
-                'endereco_cgm.numero',
-                'bairros.nome as bairro',
-                'bairros.id as bairro_id',
-                'cidades.nome as cidade',
-                'cidades.id as cidade_id',
-                'estados.id as estado',
+                'gen_cgm.id',
+                'gen_cgm.nome',
+                'gen_cgm.numero_sus',
+                \DB::raw('DATE_FORMAT(gen_cgm.data_nascimento,"%d/%m/%Y") as data_nascimento'),
+                'gen_cgm.idade',
+                'gen_cgm.fone',
+                'gen_cgm.cpf_cnpj',
+                'gen_cgm.rg',
+                'gen_cgm.numero_nis',
+                'gen_endereco.logradouro',
+                'gen_endereco.numero',
+                'gen_bairros.nome as bairro',
+                'gen_bairros.id as bairro_id',
+                'gen_cidades.nome as cidade',
+                'gen_cidades.id as cidade_id',
+                'gen_estados.id as estado',
             ])->first();
 
         #Retorno para view
@@ -309,49 +309,49 @@ class FilaController extends Controller
     public function historicoAtendimento(Request $request, $id)
     {
 
-        $rows = \DB::table('fila')
-            ->join('cgm', 'cgm.id', '=', 'fila.cgm_id')
-            ->join('especialidade', 'especialidade.id', '=', 'fila.especialidade_id')
-            ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
-            ->join('prioridade', 'prioridade.id', '=', 'fila.prioridade_id')
-            ->leftJoin('posto_saude', 'posto_saude.id', '=', 'fila.posto_saude_id')
-            ->where('cgm.id', $id)
+        $rows = \DB::table('age_fila')
+            ->join('gen_cgm', 'gen_cgm.id', '=', 'age_fila.cgm_id')
+            ->join('age_especialidade', 'age_especialidade.id', '=', 'age_fila.especialidade_id')
+            ->join('age_operacoes', 'age_operacoes.id', '=', 'age_especialidade.operacao_id')
+            ->join('age_prioridade', 'age_prioridade.id', '=', 'age_fila.prioridade_id')
+            ->leftJoin('age_posto_saude', 'age_posto_saude.id', '=', 'age_fila.posto_saude_id')
+            ->where('gen_cgm.id', $id)
             ->select([
-                'fila.id',
-                'cgm.nome',
-                'cgm.numero_sus',
-                'cgm.id as cgm_id',
-                'operacoes.nome as especialidade',
-                'prioridade.nome as prioridade',
-                'posto_saude.nome as psf',
-                \DB::raw('DATE_FORMAT(fila.data,"%d/%m/%Y") as data_cadastro'),
-                'especialidade.id as exame'
+                'age_fila.id',
+                'gen_cgm.nome',
+                'gen_cgm.numero_sus',
+                'gen_cgm.id as cgm_id',
+                'age_operacoes.nome as especialidade',
+                'age_prioridade.nome as prioridade',
+                'age_posto_saude.nome as psf',
+                \DB::raw('DATE_FORMAT(age_fila.data,"%d/%m/%Y") as data_cadastro'),
+                'age_especialidade.id as exame'
             ]);
 
         #Editando a grid
         return Datatables::of($rows)->addColumn('agendamentos', function ($row) {
 
-            $agendamentos = \DB::table('agendamento')
-                ->join('fila', 'fila.id', '=', 'agendamento.fila_id')
-                ->join('especialidade', 'especialidade.id', '=', 'fila.especialidade_id')
-                ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
-                ->join('prioridade', 'prioridade.id', '=', 'fila.prioridade_id')
-                ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
-                ->join('localidade', 'localidade.id', '=', 'calendario.localidade_id')
-                ->join('especialista', 'especialista.id', '=', 'calendario.especialista_id')
-                ->join('cgm as cgm_especialista', 'cgm_especialista.id', '=', 'especialista.cgm')
-                ->join('status_agendamento', 'status_agendamento.id', '=', 'agendamento.status_agendamento_id')
-                ->join('mapas', 'mapas.id', '=', 'agendamento.mapa_id')
-                ->where('fila.id', $row->id)
+            $agendamentos = \DB::table('age_agendamento')
+                ->join('age_fila', 'age_fila.id', '=', 'age_agendamento.fila_id')
+                ->join('age_especialidade', 'age_especialidade.id', '=', 'age_fila.especialidade_id')
+                ->join('age_operacoes', 'age_operacoes.id', '=', 'age_especialidade.operacao_id')
+                ->join('age_prioridade', 'age_prioridade.id', '=', 'age_fila.prioridade_id')
+                ->join('age_calendario', 'age_calendario.id', '=', 'age_agendamento.calendario_id')
+                ->join('age_localidade', 'age_localidade.id', '=', 'age_calendario.localidade_id')
+                ->join('age_especialista', 'age_especialista.id', '=', 'age_calendario.especialista_id')
+                ->join('gen_cgm as cgm_especialista', 'cgm_especialista.id', '=', 'age_especialista.cgm')
+                ->join('age_status_agendamento', 'age_status_agendamento.id', '=', 'age_agendamento.status_agendamento_id')
+                ->join('age_mapas', 'age_mapas.id', '=', 'age_agendamento.mapa_id')
+                ->where('age_fila.id', $row->id)
                 ->select([
-                    'operacoes.nome as especialidade',
-                    \DB::raw('DATE_FORMAT(calendario.data,"%d/%m/%Y") as data'),
-                    'mapas.horario',
+                    'age_operacoes.nome as especialidade',
+                    \DB::raw('DATE_FORMAT(age_calendario.data,"%d/%m/%Y") as data'),
+                    'age_mapas.horario',
                     'cgm_especialista.nome as especialista',
-                    'status_agendamento.nome as status',
-                    'especialidade.id as exame',
-                    'agendamento.obs_atendimento',
-                    'localidade.nome as localidade'
+                    'age_status_agendamento.nome as status',
+                    'age_especialidade.id as exame',
+                    'age_agendamento.obs_atendimento',
+                    'age_localidade.nome as localidade'
                 ])->get();
 
             return $agendamentos;

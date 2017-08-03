@@ -63,7 +63,7 @@ class AgendadosController extends Controller
         $loadFields = $this->service->load($this->loadFields);
 
         #Carregando a situação do agendamento
-        $situacoes = \DB::table('status_agendamento')->select()->get();
+        $situacoes = \DB::table('age_status_agendamento')->select()->get();
 
         return view('agendamento.pacientes_agendados', compact('loadFields', 'situacoes'));
     }
@@ -77,7 +77,7 @@ class AgendadosController extends Controller
         $loadFields = $this->service->load($this->loadFields);
 
         #Carregando a situação do agendamento
-        $situacoes = \DB::table('status_agendamento')->select()->get();
+        $situacoes = \DB::table('age_status_agendamento')->select()->get();
 
         return view('agendamento.pacientes_agendados_calendario', compact('loadFields', 'situacoes'));
     }
@@ -94,68 +94,68 @@ class AgendadosController extends Controller
         //$dataUnica  = SerbinarioDateFormat::toUsa($request->get('data_unica'));
 
         #Criando a consulta
-        $rows = \DB::table('agendamento')
-            ->join('fila', 'fila.id', '=', 'agendamento.fila_id')
-            ->join('cgm', 'cgm.id', '=', 'fila.cgm_id')
-            ->join('especialidade', 'especialidade.id', '=', 'fila.especialidade_id')
-            ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
-            ->join('prioridade', 'prioridade.id', '=', 'fila.prioridade_id')
-            ->leftJoin('posto_saude', 'posto_saude.id', '=', 'fila.posto_saude_id')
-            ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
-            ->join('localidade', 'localidade.id', '=', 'calendario.localidade_id')
-            ->join('especialista', 'especialista.id', '=', 'calendario.especialista_id')
-            ->join('cgm as cgm_especialista', 'cgm_especialista.id', '=', 'especialista.cgm')
-            ->join('status_agendamento', 'status_agendamento.id', '=', 'agendamento.status_agendamento_id')
-            ->join('mapas', 'mapas.id', '=', 'agendamento.mapa_id')
-            ->leftJoin('sub_operacoes', 'sub_operacoes.id', '=', 'agendamento.sub_operacao_id')
+        $rows = \DB::table('age_agendamento')
+            ->join('age_fila', 'age_fila.id', '=', 'age_agendamento.fila_id')
+            ->join('gen_cgm', 'gen_cgm.id', '=', 'age_fila.cgm_id')
+            ->join('age_especialidade', 'age_especialidade.id', '=', 'age_fila.especialidade_id')
+            ->join('age_operacoes', 'age_operacoes.id', '=', 'age_especialidade.operacao_id')
+            ->join('age_prioridade', 'age_prioridade.id', '=', 'age_fila.prioridade_id')
+            ->leftJoin('age_posto_saude', 'age_posto_saude.id', '=', 'age_fila.posto_saude_id')
+            ->join('age_calendario', 'age_calendario.id', '=', 'age_agendamento.calendario_id')
+            ->join('age_localidade', 'age_localidade.id', '=', 'age_calendario.localidade_id')
+            ->join('age_especialista', 'age_especialista.id', '=', 'age_calendario.especialista_id')
+            ->join('gen_cgm as cgm_especialista', 'cgm_especialista.id', '=', 'age_especialista.cgm')
+            ->join('age_status_agendamento', 'age_status_agendamento.id', '=', 'age_agendamento.status_agendamento_id')
+            ->join('age_mapas', 'age_mapas.id', '=', 'age_agendamento.mapa_id')
+            ->leftJoin('age_sub_operacoes', 'age_sub_operacoes.id', '=', 'age_agendamento.sub_operacao_id')
             ->select([
-                'agendamento.id',
-                'cgm.nome',
-                'cgm.numero_sus',
-                'operacoes.nome as especialidade',
-                'prioridade.nome as prioridade',
-                'posto_saude.nome as psf',
-                \DB::raw('DATE_FORMAT(calendario.data,"%d/%m/%Y") as data'),
-               // \DB::raw('IF(agendamento.sub_operacao_id, operacoes.nome, CONCAT(operacoes.nome, " ", sub_operacoes.nome))  as especialidade'),
-                'mapas.horario',
+                'age_agendamento.id',
+                'gen_cgm.nome',
+                'gen_cgm.numero_sus',
+                'age_operacoes.nome as especialidade',
+                'age_prioridade.nome as prioridade',
+                'age_posto_saude.nome as psf',
+                \DB::raw('DATE_FORMAT(age_calendario.data,"%d/%m/%Y") as data'),
+               // \DB::raw('IF(age_agendamento.sub_operacao_id, operacoes.nome, CONCAT(operacoes.nome, " ", sub_operacoes.nome))  as especialidade'),
+                'age_mapas.horario',
                 'cgm_especialista.nome as especialista',
-                'status_agendamento.nome as status',
-                'status_agendamento.id as status_id',
-                'especialidade.id as exame',
-                'agendamento.obs_atendimento',
-                'sub_operacoes.nome as sub_operacao',
+                'age_status_agendamento.nome as status',
+                'age_status_agendamento.id as status_id',
+                'age_especialidade.id as exame',
+                'age_agendamento.obs_atendimento',
+                'age_sub_operacoes.nome as sub_operacao',
             ]);
 
         if($dataIni && $dataFim) {
-            $rows->whereBetween('calendario.data', array($dataIni, $dataFim));
+            $rows->whereBetween('age_calendario.data', array($dataIni, $dataFim));
         }
 
         if($request->has('data_unica') && $request->get('data_unica') != "") {
-            $rows->where('calendario.data', '=', $request->get('data_unica'));
+            $rows->where('age_calendario.data', '=', $request->get('data_unica'));
         }
 
         if($request->has('exame') && $request->get('exame') != "") {
-            $rows->where('especialidade.id', $request->get('exame'));
+            $rows->where('age_especialidade.id', $request->get('exame'));
         }
 
         if($request->has('prioridade') && $request->get('prioridade') != "") {
-            $rows->where('prioridade.id', $request->get('prioridade'));
+            $rows->where('age_prioridade.id', $request->get('prioridade'));
         }
 
         if($request->has('psf') && $request->get('psf') != "") {
-            $rows->where('posto_saude.id', $request->get('psf'));
+            $rows->where('age_posto_saude.id', $request->get('psf'));
         }
 
         if($request->has('situacao') && $request->get('situacao') != "") {
-            $rows->where('status_agendamento.id', $request->get('situacao'));
+            $rows->where('age_status_agendamento.id', $request->get('situacao'));
         }
 
         if($request->has('localidade') && $request->get('localidade') != "") {
-            $rows->where('localidade.id', $request->get('localidade'));
+            $rows->where('age_localidade.id', $request->get('localidade'));
         }
 
         if($request->has('especialista') && $request->get('especialista') != "") {
-            $rows->where('especialista.id', $request->get('especialista'));
+            $rows->where('age_especialista.id', $request->get('especialista'));
         }
 
 
@@ -169,9 +169,9 @@ class AgendadosController extends Controller
 
                 #condição
                 $query->where(function ($where) use ($search) {
-                    $where->orWhere('cgm.nome', 'like', "%$search%")
+                    $where->orWhere('gen_cgm.nome', 'like', "%$search%")
                         ->orWhere('cgm_especialista.nome', 'like', "%$search%")
-                        ->orWhere('cgm.numero_sus', 'like', "%$search%");
+                        ->orWhere('gen_cgm.numero_sus', 'like', "%$search%");
                 });
 
             }

@@ -59,7 +59,7 @@ class UtilController extends Controller
 
             #executando a consulta e retornando os dados
             $grupos =  DB::table($table)
-                ->join('tipo_operacoes', 'tipo_operacoes.id', '=', $table.'.tipo_operacao_id')
+                ->join('age_tipo_operacoes', 'age_tipo_operacoes.id', '=', $table.'.tipo_operacao_id')
                 ->select([
                     $table.'.nome',
                     $table.'.id'
@@ -70,12 +70,12 @@ class UtilController extends Controller
                 foreach ($grupos as $grupo) {
                     $gruposArray[] = [
                         'text' => $grupo->nome,
-                        'children' => DB::table('operacoes')
-                            ->join('grupo_operacoes', 'grupo_operacoes.id', '=', 'operacoes.grupo_operaco_id')
+                        'children' => DB::table('age_operacoes')
+                            ->join('age_grupo_operacoes', 'age_grupo_operacoes.id', '=', 'age_operacoes.grupo_operaco_id')
                             ->select([
-                                'operacoes.nome as text',
-                                'operacoes.id'
-                            ])->orderBy('operacoes.nome', 'asc')->where('grupo_operacoes.id', $grupo->id)->get()
+                                'age_operacoes.nome as text',
+                                'age_operacoes.id'
+                            ])->orderBy('age_operacoes.nome', 'asc')->where('age_grupo_operacoes.id', $grupo->id)->get()
                     ];
                 }
 
@@ -83,14 +83,14 @@ class UtilController extends Controller
                 foreach ($grupos as $grupo) {
                     $gruposArray[] = [
                         'text' => $grupo->nome,
-                        'children' => DB::table('especialidade')
-                            ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
-                            ->join('grupo_operacoes', 'grupo_operacoes.id', '=', 'operacoes.grupo_operaco_id')
+                        'children' => DB::table('age_especialidade')
+                            ->join('age_operacoes', 'age_operacoes.id', '=', 'age_especialidade.operacao_id')
+                            ->join('age_grupo_operacoes', 'age_grupo_operacoes.id', '=', 'age_operacoes.grupo_operaco_id')
                             ->select([
-                                'operacoes.nome as text',
-                                'especialidade.id',
-                                'operacoes.id as operacao'
-                            ])->orderBy('operacoes.nome', 'asc')->where('grupo_operacoes.id', $grupo->id)->get()
+                                'age_operacoes.nome as text',
+                                'age_especialidade.id',
+                                'age_operacoes.id as operacao'
+                            ])->orderBy('age_operacoes.nome', 'asc')->where('age_grupo_operacoes.id', $grupo->id)->get()
                     ];
                 }
             }

@@ -26,13 +26,13 @@ function loadTableCalendario (idEspecialista) {
             }
         },
         columns: [
-            {data: 'data', name: 'calendario.data'},
-            {data: 'localidade', name: 'localidade.nome'},
-            {data: 'mapas', name: 'mapas', orderable: false, searchable: false},
+            {data: 'data', name: 'age_calendario.data'},
+            {data: 'localidade', name: 'age_localidade.nome'},
+            {data: 'mapas', name: 'age_mapas', orderable: false, searchable: false},
             {data: 'especialidades', name: 'especialidades', orderable: false, searchable: false},
             {data: 'agendamentos', name: 'agendamentos', orderable: false, searchable: false},
             {data: 'vagas', name: 'vagas', orderable: false, searchable: false},
-            {data: 'status', name: 'status.nome', orderable: true},
+            {data: 'status', name: 'age_status.nome', orderable: true},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });

@@ -73,8 +73,8 @@
             },
             ajax: "{!! route('serbinario.suboperacao.grid') !!}",
             columns: [
-                {data: 'nome', name: 'sub_operacoes.nome'},
-                {data: 'operacao', name: 'operacoes.nome'},
+                {data: 'nome', name: 'age_sub_operacoes.nome'},
+                {data: 'operacao', name: 'age_operacoes.nome'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });

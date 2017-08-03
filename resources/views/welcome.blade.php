@@ -88,7 +88,7 @@
     {{--//Carregando os cidades--}}
     {{--jQuery.ajax({--}}
     {{--type: 'POST',--}}
-    {{--url: '{{ Session::get('url_global') }}/cidades/byestado',--}}
+    {{--url: '{{ Session::get('url_global') }}/gen_cidades/byestado',--}}
     {{--headers: {--}}
     {{--'Authorization': 'Bearer {{ Session::get("access_token") }}',--}}
     {{--//'X-CSRF-TOKEN' : '{{  csrf_token() }}'--}}
@@ -148,7 +148,7 @@
     {{--});--}}
 
     {{--<?php } ?>--}}
-    {{--//Carregando as cidades--}}
+    {{--//Carregando as gen_cidades--}}
     {{--$(document).on('change', "#estado", function () {--}}
     {{--var estado = $(this).val();--}}
 
@@ -159,7 +159,7 @@
 
     {{--jQuery.ajax({--}}
     {{--type: 'POST',--}}
-    {{--url: '{{ Session::get('url_global') }}/cidades/byestado',--}}
+    {{--url: '{{ Session::get('url_global') }}/gen_cidades/byestado',--}}
     {{--headers: {--}}
     {{--'Authorization': 'Bearer {{ Session::get("access_token") }}',--}}
     {{--//'X-CSRF-TOKEN': '{{  csrf_token() }}'--}}

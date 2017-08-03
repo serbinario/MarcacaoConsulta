@@ -11,7 +11,7 @@ class CGM extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $table    = 'cgm';
+    protected $table    = 'gen_cgm';
 
     protected $fillable = [ 
 		'num_cgm',
@@ -38,13 +38,13 @@ class CGM extends Model implements Transformable
 		'numero_sus',
 		'numero_nis',
 		'tipo_empresa',
-		'escolaridade',
-		'nacionalidade',
-		'sexo',
-		'endereco_cgm',
-		'cgmmunicipio',
-		'categoria_cnh',
-		'estado_civil',
+		'escolaridade_id',
+		'nacionalidade_id',
+		'sexo_id',
+		'endereco_id',
+		'cgm_municipio_id',
+		'cnh_categoria_id',
+		'estado_civil_id',
 		'fone',
 		'idade',
 		'fone2',
@@ -106,27 +106,27 @@ class CGM extends Model implements Transformable
 
 	public function endereco()
 	{
-		return $this->belongsTo(EnderecoCGM::class, 'endereco_cgm');
+		return $this->belongsTo(EnderecoCGM::class, 'endereco_id');
 	}
 
 	public function escolaridade()
 	{
-		return $this->belongsTo(Escolaridade::class, 'escolaridade');
+		return $this->belongsTo(Escolaridade::class, 'escolaridade_id');
 	}
 
 	public function nacionalidade()
 	{
-		return $this->belongsTo(Nacionalidade::class, 'nacionalidade');
+		return $this->belongsTo(Nacionalidade::class, 'nacionalidade_id');
 	}
 
 	public function estadoCivil()
 	{
-		return $this->belongsTo(EstadoCivil::class, 'estado_civil');
+		return $this->belongsTo(EstadoCivil::class, 'estado_civil_id');
 	}
 
 	public function sexo()
 	{
-		return $this->belongsTo(Sexo::class, 'sexo');
+		return $this->belongsTo(Sexo::class, 'sexo_id');
 	}
 
 }

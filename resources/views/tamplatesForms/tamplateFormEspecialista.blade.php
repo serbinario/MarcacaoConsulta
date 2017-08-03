@@ -118,7 +118,7 @@
                 data: function (params) {
                     return {
                         'search':     params.term, // search term
-                        'tableName':  'cgm',
+                        'tableName':  'gen_cgm',
                         'fieldName':  'nome',
                         /*'fieldWhere':  'nivel',
                          'valueWhere':  '3',*/

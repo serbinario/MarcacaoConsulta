@@ -10,7 +10,7 @@ class CGMMunicipio extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $table    = 'cgmmunicipio';
+    protected $table    = 'gen_cgm_municipio';
 
     protected $fillable = [ 
 		'nome',

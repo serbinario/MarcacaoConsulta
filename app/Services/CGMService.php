@@ -69,7 +69,7 @@ class CGMService
         $endereco = $this->enderecoRepository->create($data['endereco']);
 
         #setando o endereco
-        $data['endereco_cgm'] = $endereco->id;
+        $data['endereco_id'] = $endereco->id;
 
         #Salvando o registro pincipal
         $cGM =  $this->repository->create($data);
@@ -105,7 +105,7 @@ class CGMService
         }
 
         #setando o endereço
-        $data['endereco_cgm'] = $endereco->id;
+        $data['endereco_id'] = $endereco->id;
 
         #Atualizando no banco de dados
         $cGM = $this->repository->update($data, $id);

@@ -10,7 +10,7 @@ class Nacionalidade extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $table    = 'nacionalidade';
+    protected $table    = 'gen_nacionalidade';
 
     protected $fillable = [ 
 		'nome',

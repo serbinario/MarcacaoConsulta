@@ -52,11 +52,11 @@ class GraficosController extends Controller
         $loadFields = $this->service->load($this->loadFields);
 
         // Pegando os especialistas
-        $especialistas = \DB::table('especialista')
-            ->join('cgm', 'cgm.id', '=', 'especialista.cgm')
+        $especialistas = \DB::table('age_especialista')
+            ->join('gen_cgm', 'gen_cgm.id', '=', 'age_especialista.cgm')
             ->select([
-                'cgm.nome',
-                'especialista.id'
+                'gen_cgm.nome',
+                'age_especialista.id'
             ])->get();
 
         return view('graficos.chartQtdAtendimento', compact('loadFields', 'especialistas'));
@@ -77,26 +77,26 @@ class GraficosController extends Controller
         $especialista  = isset($dados['especialista']) ? $dados['especialista'] : '';
 
         #Criando a consulta
-        $rows = \DB::table('agendamento')
-            ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
-            ->join('fila', 'fila.id', '=', 'agendamento.fila_id')
-            ->where('agendamento.status_agendamento_id', '3')
+        $rows = \DB::table('age_agendamento')
+            ->join('age_calendario', 'age_calendario.id', '=', 'age_agendamento.calendario_id')
+            ->join('age_fila', 'age_fila.id', '=', 'age_agendamento.fila_id')
+            ->where('age_agendamento.status_agendamento_id', '3')
             ->select([
-                \DB::raw('count(agendamento.id) as qtd'),
+                \DB::raw('count(age_agendamento.id) as qtd'),
             ]);
 
         if($dataIni && $dataFim) {
-            $rows->whereBetween('agendamento.data', array($dataIni, $dataFim));
+            $rows->whereBetween('age_agendamento.data', array($dataIni, $dataFim));
         }
 
         if($especialidade) {
-            $rows->join('mapas', 'calendario.id', '=', 'mapas.calendario_id');
-            $rows->join('especialista_especialidade', 'especialista_especialidade.id', '=', 'mapas.especialidade_id');
-            $rows->where('especialista_especialidade.especialidade_id', $especialidade);
+            $rows->join('age_mapas', 'age_calendario.id', '=', 'age_mapas.calendario_id');
+            $rows->join('age_especialista_especialidade', 'age_especialista_especialidade.id', '=', 'age_mapas.especialidade_id');
+            $rows->where('age_especialista_especialidade.especialidade_id', $especialidade);
         }
 
         if($especialista) {
-            $rows->where('calendario.especialista_id', '=', $especialista);
+            $rows->where('age_calendario.especialista_id', '=', $especialista);
         }
 
         $rows = $rows->first();
@@ -136,19 +136,19 @@ class GraficosController extends Controller
         $especialidade = isset($dados['especialidade']) ? $dados['especialidade'] : '';
 
         #Criando a consulta
-        $rows = \DB::table('fila')
-            ->join('especialidade', 'especialidade.id', '=', 'fila.especialidade_id')
-            ->where('fila.status', '0')
+        $rows = \DB::table('age_fila')
+            ->join('age_especialidade', 'age_especialidade.id', '=', 'age_fila.especialidade_id')
+            ->where('age_fila.status', '0')
             ->select([
-                \DB::raw('count(fila.id) as qtd'),
+                \DB::raw('count(age_fila.id) as qtd'),
             ]);
 
         if($dataIni && $dataFim) {
-            $rows->whereBetween('fila.data', array($dataIni, $dataFim));
+            $rows->whereBetween('age_fila.data', array($dataIni, $dataFim));
         }
 
         if($especialidade) {
-            $rows->where('especialidade.id', '=', $especialidade);
+            $rows->where('age_especialidade.id', '=', $especialidade);
         }
 
 
@@ -189,18 +189,18 @@ class GraficosController extends Controller
         $psf = isset($dados['psf']) ? $dados['psf'] : '';
 
         #Criando a consulta
-        $rows = \DB::table('fila')
-            ->join('posto_saude', 'posto_saude.id', '=', 'fila.posto_saude_id')
+        $rows = \DB::table('age_fila')
+            ->join('age_posto_saude', 'age_posto_saude.id', '=', 'age_fila.posto_saude_id')
             ->select([
-                \DB::raw('count(fila.id) as qtd'),
+                \DB::raw('count(age_fila.id) as qtd'),
             ]);
 
         if($dataIni && $dataFim) {
-            $rows->whereBetween('fila.data', array($dataIni, $dataFim));
+            $rows->whereBetween('age_fila.data', array($dataIni, $dataFim));
         }
 
         if($psf) {
-            $rows->where('posto_saude.id', '=', $psf);
+            $rows->where('age_posto_saude.id', '=', $psf);
         }
 
 

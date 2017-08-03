@@ -10,7 +10,7 @@ class SubOperacao extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $table    = 'sub_operacoes';
+    protected $table    = 'age_sub_operacoes';
 
     protected $fillable = [ 
 		'nome',

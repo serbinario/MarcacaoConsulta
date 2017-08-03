@@ -10,7 +10,7 @@ class Operacoe extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $table    = 'operacoes';
+    protected $table    = 'age_operacoes';
 
     protected $fillable = [ 
 		'nome',

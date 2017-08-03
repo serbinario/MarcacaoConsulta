@@ -10,7 +10,7 @@ class Calendario extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $table    = 'calendario';
+    protected $table    = 'age_calendario';
 
     protected $fillable = [ 
 		'data',

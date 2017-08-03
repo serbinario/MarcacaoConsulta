@@ -76,13 +76,13 @@ class FilaService
 
             $cgmFind = $this->CGMRepository->find($data['cgm_id']);
 
-            if($cgmFind->endereco_cgm) {
-                $endereco = $this->enderecoCGMRepository->update($data['cgm']['endereco'], $cgmFind->endereco_cgm);
+            if($cgmFind->endereco_id) {
+                $endereco = $this->enderecoCGMRepository->update($data['cgm']['endereco'], $cgmFind->endereco_id);
             } else {
                 $endereco = $this->enderecoCGMRepository->create($data['cgm']['endereco']);
             }
 
-            $data['cgm']['endereco_cgm'] = $endereco->id;
+            $data['cgm']['endereco_id'] = $endereco->id;
             $this->CGMRepository->update($data['cgm'], $cgmFind->id);
 
             #Salvando o registro pincipal
@@ -93,7 +93,7 @@ class FilaService
 
             $endereco = $this->enderecoCGMRepository->create($data['cgm']['endereco']);
 
-            $data['cgm']['endereco_cgm'] = $endereco->id;
+            $data['cgm']['endereco_id'] = $endereco->id;
             unset($data['cgm']['endereco']);
             $cgm = $this->CGMRepository->create($data['cgm']);
 
@@ -137,14 +137,14 @@ class FilaService
         $cgmFind = $this->CGMRepository->find($fila->cgm_id);
 
         // Atualizando ou creando um endereço
-        if($cgmFind->endereco_cgm) {
-            $endereco = $this->enderecoCGMRepository->update($data['cgm']['endereco'], $cgmFind->endereco_cgm);
+        if($cgmFind->endereco_id) {
+            $endereco = $this->enderecoCGMRepository->update($data['cgm']['endereco'], $cgmFind->endereco_id);
         } else {
             $endereco = $this->enderecoCGMRepository->create($data['cgm']['endereco']);
         }
 
         // Update cgm
-        $data['cgm']['endereco_cgm'] = $endereco->id;
+        $data['cgm']['endereco_id'] = $endereco->id;
         unset($data['cgm']['endereco']);
         $this->CGMRepository->update($data['cgm'], $cgmFind->id);
 

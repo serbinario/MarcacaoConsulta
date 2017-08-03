@@ -10,7 +10,7 @@ class Estado extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $table    = 'estados';
+    protected $table    = 'gen_estados';
 
     protected $fillable = [ 
 		'nome',

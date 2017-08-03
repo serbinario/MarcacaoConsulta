@@ -52,13 +52,13 @@ function loadTableHistoricoAtendimento (idCGM) {
             {
                 "className":      'details-control',
                 "orderable":      false,
-                "data":           'operacoes.nome',
+                "data":           'age_operacoes.nome',
                 "defaultContent": ''
             },
-            {data: 'especialidade', name: 'operacoes.nome'},
+            {data: 'especialidade', name: 'age_operacoes.nome'},
             {data: 'data_cadastro', name: 'fila.data'},
-            {data: 'prioridade', name: 'prioridade.nome'},
-            {data: 'psf', name: 'posto_saude.nome'}
+            {data: 'prioridade', name: 'age_prioridade.nome'},
+            {data: 'psf', name: 'age_posto_saude.nome'}
         ]
     });
 

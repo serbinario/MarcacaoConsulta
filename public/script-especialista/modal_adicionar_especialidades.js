@@ -12,8 +12,8 @@ function loadTableEspecialidades (idEspecialista) {
         autoWidth: false,
         ajax: "/index.php/serbinario/especialista/gridEspecialidades/"+idEspecialista,
         columns: [
-            {data: 'tipo', name: 'tipo_operacoes.nome'},
-            {data: 'especialidade', name: 'operacoes.nome'},
+            {data: 'tipo', name: 'age_tipo_operacoes.nome'},
+            {data: 'especialidade', name: 'age_operacoes.nome'},
             {data: 'action', name: 'action', orderable: false, searchable: false}
         ]
     });

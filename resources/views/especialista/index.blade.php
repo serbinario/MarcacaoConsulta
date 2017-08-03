@@ -128,10 +128,10 @@
                 {
                     "className":      'details-control',
                     "orderable":      false,
-                    "data":           'cgm.nome',
+                    "data":           'gen_cgm.nome',
                     "defaultContent": ''
                 },
-                {data: 'nome', name: 'cgm.nome'},
+                {data: 'nome', name: 'gen_cgm.nome'},
                 {data: 'crm', name: 'especialista.crm'},
                 {data: 'qtd_vagas', name: 'especialista.qtd_vagas'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}

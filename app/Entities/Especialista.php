@@ -10,7 +10,7 @@ class Especialista extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $table    = 'especialista';
+    protected $table    = 'age_especialista';
 
     protected $fillable = [
 		'cgm',
@@ -28,7 +28,7 @@ class Especialista extends Model implements Transformable
 	 */
 	public function especialistaEspecialidade()
 	{
-		return $this->belongsToMany(Especialidade::class, 'especialista_especialidade', 'especialista_id', "especialidade_id");
+		return $this->belongsToMany(Especialidade::class, 'age_especialista_especialidade', 'especialista_id', "especialidade_id");
 	}
 
 	/**

@@ -14,31 +14,31 @@ class DefaultController extends Controller
         $data  = new \DateTime('now');
 
         #Criando pessoas na fila
-        $fila = \DB::table('fila')
-            ->where('fila.status', '0')
+        $fila = \DB::table('age_fila')
+            ->where('age_fila.status', '0')
             ->select([
-                \DB::raw('count(fila.id) as qtd'),
+                \DB::raw('count(age_fila.id) as qtd'),
             ])->first();
 
         #Criando pessoas aguardando atendimento
-        $aguardando = \DB::table('agendamento')
-            ->where('agendamento.status_agendamento_id', '1')
+        $aguardando = \DB::table('age_agendamento')
+            ->where('age_agendamento.status_agendamento_id', '1')
             ->select([
-                \DB::raw('count(agendamento.id) as qtd'),
+                \DB::raw('count(age_agendamento.id) as qtd'),
             ])->first();
 
         #Criando pessoas atendidas
-        $atendidos = \DB::table('agendamento')
-            ->where('agendamento.status_agendamento_id', '3')
+        $atendidos = \DB::table('age_agendamento')
+            ->where('age_agendamento.status_agendamento_id', '3')
             ->select([
-                \DB::raw('count(agendamento.id) as qtd'),
+                \DB::raw('count(age_agendamento.id) as qtd'),
             ])->first();
 
         #Criando pessoas atendidas
-        $naoAtendidos = \DB::table('agendamento')
-            ->where('agendamento.status_agendamento_id', '4')
+        $naoAtendidos = \DB::table('age_agendamento')
+            ->where('age_agendamento.status_agendamento_id', '4')
             ->select([
-                \DB::raw('count(agendamento.id) as qtd'),
+                \DB::raw('count(age_agendamento.id) as qtd'),
             ])->first();
 
 
@@ -52,13 +52,13 @@ class DefaultController extends Controller
     {
 
         #Criando pessoas atendidas
-        $rows = \DB::table('agendamento')
-            ->where('agendamento.status_agendamento_id', '3')
+        $rows = \DB::table('age_agendamento')
+            ->where('age_agendamento.status_agendamento_id', '3')
             ->select([
-                \DB::raw('month(agendamento.data) as mes'),
-                \DB::raw('year(agendamento.data) as ano'),
-                \DB::raw('CONCAT(DATE_FORMAT(agendamento.data,"%m"), "/", DATE_FORMAT(agendamento.data,"%Y")) as legenda'),
-                \DB::raw('count(agendamento.id) as qtd'),
+                \DB::raw('month(age_agendamento.data) as mes'),
+                \DB::raw('year(age_agendamento.data) as ano'),
+                \DB::raw('CONCAT(DATE_FORMAT(age_agendamento.data,"%m"), "/", DATE_FORMAT(age_agendamento.data,"%Y")) as legenda'),
+                \DB::raw('count(age_agendamento.id) as qtd'),
             ])->groupBy('mes', 'ano');
 
         $rows = $rows->get();
@@ -81,11 +81,11 @@ class DefaultController extends Controller
     {
 
         #Criando pessoas na fila
-        $rows = \DB::table('fila')
+        $rows = \DB::table('age_fila')
             ->select([
-                \DB::raw('month(fila.data) as mes'),
-                \DB::raw('DATE_FORMAT(fila.data,"%m") as legenda'),
-                \DB::raw('count(fila.id) as qtd'),
+                \DB::raw('month(age_fila.data) as mes'),
+                \DB::raw('DATE_FORMAT(age_fila.data,"%m") as legenda'),
+                \DB::raw('count(age_fila.id) as qtd'),
             ])->groupBy('mes');
 
         $rows = $rows->get();
@@ -108,12 +108,12 @@ class DefaultController extends Controller
     {
 
         #Criando pessoas na fila
-        $rows = \DB::table('agendamento')
-            ->where('agendamento.status_agendamento_id', '3')
+        $rows = \DB::table('age_agendamento')
+            ->where('age_agendamento.status_agendamento_id', '3')
             ->select([
-                \DB::raw('month(agendamento.data) as mes'),
-                \DB::raw('DATE_FORMAT(agendamento.data,"%m") as legenda'),
-                \DB::raw('count(agendamento.id) as qtd'),
+                \DB::raw('month(age_agendamento.data) as mes'),
+                \DB::raw('DATE_FORMAT(age_agendamento.data,"%m") as legenda'),
+                \DB::raw('count(age_agendamento.id) as qtd'),
             ])->groupBy('mes');
 
         $rows = $rows->get();

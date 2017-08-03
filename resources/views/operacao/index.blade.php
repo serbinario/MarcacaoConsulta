@@ -73,8 +73,8 @@
             },
             ajax: "{!! route('serbinario.operacao.grid') !!}",
             columns: [
-                {data: 'grupo', name: 'grupo_operacoes.nome'},
-                {data: 'nome', name: 'operacoes.nome'},
+                {data: 'grupo', name: 'age_grupo_operacoes.nome'},
+                {data: 'nome', name: 'age_operacoes.nome'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });

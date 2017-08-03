@@ -10,7 +10,7 @@ class Agendamento extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $table    = 'agendamento';
+    protected $table    = 'age_agendamento';
 
     protected $fillable = [
 		'status',

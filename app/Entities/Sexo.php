@@ -10,7 +10,7 @@ class Sexo extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $table    = 'sexo';
+    protected $table    = 'gen_sexo';
 
     protected $fillable = [ 
 		'nome',

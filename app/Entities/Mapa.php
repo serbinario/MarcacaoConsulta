@@ -10,7 +10,7 @@ class Mapa extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $table    = 'mapas';
+    protected $table    = 'age_mapas';
 
     protected $fillable = [ 
 		'horario',

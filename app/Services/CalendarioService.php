@@ -329,47 +329,47 @@ class CalendarioService
         #Recuperando o registro no banco de dados
         //$calendario = $this->repository->with(['especialista', 'agendamento'])->findWhere(['data' => $data, 'especialista_id' => $idEspecialista, 'localidade_id' => $idlocalidade]);
 
-        $calendario = \DB::table('calendario')
-            ->join('especialista', 'especialista.id', '=', 'calendario.especialista_id')
-            ->leftJoin('agendamento', 'agendamento.calendario_id', '=', 'calendario.id')
-            ->leftJoin('status', 'status.id', '=', 'calendario.status_id')
-            ->where('calendario.especialista_id', '=', $idEspecialista)
-            ->where('calendario.localidade_id', '=', $idlocalidade)
-            ->where('calendario.data', '=', $data)
-            ->where('calendario.status_id', '=', '1')
+        $calendario = \DB::table('age_calendario')
+            ->join('age_especialista', 'age_especialista.id', '=', 'age_calendario.especialista_id')
+            ->leftJoin('age_agendamento', 'age_agendamento.calendario_id', '=', 'age_calendario.id')
+            ->leftJoin('age_status', 'age_status.id', '=', 'age_calendario.status_id')
+            ->where('age_calendario.especialista_id', '=', $idEspecialista)
+            ->where('age_calendario.localidade_id', '=', $idlocalidade)
+            ->where('age_calendario.data', '=', $data)
+            ->where('age_calendario.status_id', '=', '1')
             ->select([
-                'calendario.id',
-                'calendario.qtd_vagas',
-                'calendario.mais_mapa',
-                'status.id as status',
-                'status.nome as status_nome',
-                'calendario.data',
+                'age_calendario.id',
+                'age_calendario.qtd_vagas',
+                'age_calendario.mais_mapa',
+                'age_status.id as status',
+                'age_status.nome as status_nome',
+                'age_calendario.data',
             ])->first();
 
         if($calendario) {
 
             // Seleciona os mapas
-            $mapas = \DB::table('mapas')
-                ->join('especialista_especialidade', 'especialista_especialidade.id', '=', 'mapas.especialidade_id')
-                ->join('especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
-                ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
-                ->where('mapas.calendario_id', '=', $calendario->id)
+            $mapas = \DB::table('age_mapas')
+                ->join('age_especialista_especialidade', 'age_especialista_especialidade.id', '=', 'age_mapas.especialidade_id')
+                ->join('age_especialidade', 'age_especialidade.id', '=', 'age_especialista_especialidade.especialidade_id')
+                ->join('age_operacoes', 'age_operacoes.id', '=', 'age_especialidade.operacao_id')
+                ->where('age_mapas.calendario_id', '=', $calendario->id)
                 ->select([
-                    'mapas.horario',
-                    'mapas.vagas',
-                    'mapas.id',
-                    'operacoes.nome as especialidade',
+                    'age_mapas.horario',
+                    'age_mapas.vagas',
+                    'age_mapas.id',
+                    'age_operacoes.nome as especialidade',
                 ])->get();
 
             // Montando as informações dos mapas
             foreach ($mapas as $chave => $mapa) {
 
                 //Pegando a quantidade de agendamentos por mapa
-                $agendamentos = \DB::table('agendamento')
-                    ->join('mapas', 'mapas.id', '=', 'agendamento.mapa_id')
-                    ->where('agendamento.mapa_id', '=', $mapa->id)
+                $agendamentos = \DB::table('age_agendamento')
+                    ->join('age_mapas', 'age_mapas.id', '=', 'age_agendamento.mapa_id')
+                    ->where('age_agendamento.mapa_id', '=', $mapa->id)
                     ->select([
-                        \DB::raw('count(agendamento.id) as qtdAgendados'),
+                        \DB::raw('count(age_agendamento.id) as qtdAgendados'),
                     ])->first();
 
                 $arrayTemp = (array) $mapas[$chave];

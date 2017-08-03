@@ -10,18 +10,18 @@ class EnderecoCGM extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $table    = 'endereco_cgm';
+    protected $table    = 'gen_endereco';
 
     protected $fillable = [ 
 		'logradouro',
 		'numero',
-		'comp',
+		'complemento',
 		'cep',
-		'bairro',
+		'bairro_id',
 	];
 
 	public function bairros()
 	{
-		return $this->belongsTo(Bairro::class, 'bairro');
+		return $this->belongsTo(Bairro::class, 'bairro_id');
 	}
 }

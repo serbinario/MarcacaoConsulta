@@ -54,13 +54,13 @@ class EspecialistaController extends Controller
     public function grid()
     {
         #Criando a consulta
-        $rows = \DB::table('especialista')
-            ->join('cgm', 'cgm.id', '=', 'especialista.cgm')
+        $rows = \DB::table('age_especialista')
+            ->join('gen_cgm', 'gen_cgm.id', '=', 'age_especialista.cgm')
             ->select([
-                'especialista.id',
-                'cgm.nome',
-                'especialista.crm',
-                'especialista.qtd_vagas',
+                'age_especialista.id',
+                'gen_cgm.nome',
+                'age_especialista.crm',
+                'age_especialista.qtd_vagas',
             ]);
 
         #Editando a grid
@@ -220,7 +220,7 @@ class EspecialistaController extends Controller
     public function getTipoOperacao(Request $request)
     {
 
-        $tipos = \DB::table('tipo_operacoes')
+        $tipos = \DB::table('age_tipo_operacoes')
             ->select('id', 'nome')
             ->get();
 
@@ -235,16 +235,16 @@ class EspecialistaController extends Controller
     public function gridEspecialidades($id)
     {
         #Criando a consulta
-        $rows = \DB::table('especialidade')
-            ->join('especialista_especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
-            ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
-            ->join('grupo_operacoes', 'grupo_operacoes.id', '=', 'operacoes.grupo_operaco_id')
-            ->join('tipo_operacoes', 'tipo_operacoes.id', '=', 'grupo_operacoes.tipo_operacao_id')
-            ->where('especialista_especialidade.especialista_id', '=', $id)
+        $rows = \DB::table('age_especialidade')
+            ->join('age_especialista_especialidade', 'age_especialidade.id', '=', 'age_especialista_especialidade.especialidade_id')
+            ->join('age_operacoes', 'age_operacoes.id', '=', 'age_especialidade.operacao_id')
+            ->join('age_grupo_operacoes', 'age_grupo_operacoes.id', '=', 'age_operacoes.grupo_operaco_id')
+            ->join('age_tipo_operacoes', 'age_tipo_operacoes.id', '=', 'age_grupo_operacoes.tipo_operacao_id')
+            ->where('age_especialista_especialidade.especialista_id', '=', $id)
             ->select([
-                'especialista_especialidade.id',
-                'tipo_operacoes.nome as tipo',
-                'operacoes.nome as especialidade'
+                'age_especialista_especialidade.id',
+                'age_tipo_operacoes.nome as tipo',
+                'age_operacoes.nome as especialidade'
             ]);
 
         #Editando a grid

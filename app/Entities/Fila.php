@@ -11,7 +11,7 @@ class Fila extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $table    = 'fila';
+    protected $table    = 'age_fila';
 
     protected $fillable = [ 
 		'cgm_id',
@@ -85,7 +85,7 @@ class Fila extends Model implements Transformable
      */
     public function suboperacoes()
     {
-        return $this->belongsToMany(SubOperacao::class, 'sub_operacoes_fila', 'fila_id', "sub_operacoes_id")
+        return $this->belongsToMany(SubOperacao::class, 'age_sub_operacoes_fila', 'fila_id', "sub_operacoes_id")
             ->withPivot([ 'fila_id', 'sub_operacoes_id']);
     }
 }

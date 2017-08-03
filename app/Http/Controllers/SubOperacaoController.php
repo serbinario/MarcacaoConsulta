@@ -54,12 +54,12 @@ class SubOperacaoController extends Controller
     public function grid()
     {
         #Criando a consulta
-        $rows = \DB::table('sub_operacoes')
-            ->join('operacoes', 'operacoes.id', '=', 'sub_operacoes.operacao_id')
+        $rows = \DB::table('age_sub_operacoes')
+            ->join('age_operacoes', 'age_operacoes.id', '=', 'age_sub_operacoes.operacao_id')
             ->select([
-                'sub_operacoes.id',
-                'sub_operacoes.nome',
-                'operacoes.nome as operacao',
+                'age_sub_operacoes.id',
+                'age_sub_operacoes.nome',
+                'age_operacoes.nome as operacao',
             ]);
 
         #Editando a grid

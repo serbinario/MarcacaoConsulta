@@ -21,7 +21,7 @@ $(document).ready(function () {
                     }
                 }
             },
-            'sexo': {
+            'sexo_id': {
                 validators: {
                     notEmpty: {
                         message: "Este campo é obrigatório",
@@ -35,7 +35,7 @@ $(document).ready(function () {
                     }
                 }
             },
-            'cgmmunicipio': {
+            'cgm_municipio_id': {
                 validators: {
                     notEmpty: {
                         message: "Este campo é obrigatório",
@@ -98,7 +98,7 @@ $(document).ready(function () {
                     }
                 }
             },
-            'endereco[bairro]': {
+            'endereco[bairro_id]': {
                 validators: {
                     notEmpty: {
                         message: "Este campo é obrigatório",

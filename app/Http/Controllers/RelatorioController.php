@@ -74,38 +74,38 @@ class RelatorioController extends Controller
         try {
 
             #Criando a consulta
-            $rows = \DB::table('agendamento')
-                ->join('fila', 'fila.id', '=', 'agendamento.fila_id')
-                ->join('cgm', 'cgm.id', '=', 'fila.cgm_id')
-                ->join('especialidade', 'especialidade.id', '=', 'fila.especialidade_id')
-                ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
-                ->join('prioridade', 'prioridade.id', '=', 'fila.prioridade_id')
-                ->leftJoin('posto_saude', 'posto_saude.id', '=', 'fila.posto_saude_id')
-                ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
-                ->join('localidade', 'localidade.id', '=', 'calendario.localidade_id')
-                ->join('especialista', 'especialista.id', '=', 'calendario.especialista_id')
-                ->join('cgm as cgm_especialista', 'cgm_especialista.id', '=', 'especialista.cgm')
-                ->join('status_agendamento', 'status_agendamento.id', '=', 'agendamento.status_agendamento_id')
-                ->join('mapas', 'mapas.id', '=', 'agendamento.mapa_id')
+            $rows = \DB::table('age_agendamento')
+                ->join('age_fila', 'age_fila.id', '=', 'age_agendamento.fila_id')
+                ->join('gen_cgm', 'gen_cgm.id', '=', 'age_fila.cgm_id')
+                ->join('age_especialidade', 'age_especialidade.id', '=', 'age_fila.especialidade_id')
+                ->join('age_operacoes', 'age_operacoes.id', '=', 'age_especialidade.operacao_id')
+                ->join('age_prioridade', 'age_prioridade.id', '=', 'age_fila.prioridade_id')
+                ->leftJoin('age_posto_saude', 'age_posto_saude.id', '=', 'age_fila.posto_saude_id')
+                ->join('age_calendario', 'age_calendario.id', '=', 'age_agendamento.calendario_id')
+                ->join('age_localidade', 'age_localidade.id', '=', 'age_calendario.localidade_id')
+                ->join('age_especialista', 'age_especialista.id', '=', 'age_calendario.especialista_id')
+                ->join('gen_cgm as cgm_especialista', 'cgm_especialista.id', '=', 'age_especialista.cgm')
+                ->join('age_status_agendamento', 'age_status_agendamento.id', '=', 'age_agendamento.status_agendamento_id')
+                ->join('age_mapas', 'age_mapas.id', '=', 'age_agendamento.mapa_id')
                 ->select([
-                    'agendamento.id',
-                    'mapas.horario',
-                    'localidade.nome as localidade',
-                    'cgm.nome as nome',
-                    'cgm.numero_sus',
-                    'operacoes.nome as especialidade'
+                    'age_agendamento.id',
+                    'age_mapas.horario',
+                    'age_localidade.nome as localidade',
+                    'gen_cgm.nome as nome',
+                    'gen_cgm.numero_sus',
+                    'age_operacoes.nome as especialidade'
                 ]);
 
             if($request->has('especialista') && $request->get('especialista') != "") {
-                $rows->where('especialista.id', $request->get('especialista'));
+                $rows->where('age_especialista.id', $request->get('especialista'));
             }
 
             if($request->has('localidade') && $request->get('localidade') != "") {
-                $rows->where('calendario.id', $request->get('localidade'));
+                $rows->where('age_calendario.id', $request->get('localidade'));
             }
 
             if($request->has('horario') && $request->get('horario') != "") {
-                $rows->where('mapas.id', $request->get('horario'));
+                $rows->where('age_mapas.id', $request->get('horario'));
             }
 
 
@@ -127,35 +127,35 @@ class RelatorioController extends Controller
     {
         try {
             #Criando a consulta
-            $pacientes = \DB::table('agendamento')
-                ->join('fila', 'fila.id', '=', 'agendamento.fila_id')
-                ->join('cgm', 'cgm.id', '=', 'fila.cgm_id')
-                ->join('especialidade', 'especialidade.id', '=', 'fila.especialidade_id')
-                ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
-                ->join('prioridade', 'prioridade.id', '=', 'fila.prioridade_id')
-                ->leftJoin('posto_saude', 'posto_saude.id', '=', 'fila.posto_saude_id')
-                ->join('calendario', 'calendario.id', '=', 'agendamento.calendario_id')
-                ->join('localidade', 'localidade.id', '=', 'calendario.localidade_id')
-                ->join('especialista', 'especialista.id', '=', 'calendario.especialista_id')
-                ->join('cgm as cgm_especialista', 'cgm_especialista.id', '=', 'especialista.cgm')
-                ->join('status_agendamento', 'status_agendamento.id', '=', 'agendamento.status_agendamento_id')
-                ->join('mapas', 'mapas.id', '=', 'agendamento.mapa_id')
-                ->leftJoin('sub_operacoes', 'sub_operacoes.id', '=', 'agendamento.sub_operacao_id')
-                ->where('especialista.id', $request->get('especialista'))
-                ->where('calendario.id', $request->get('localidade'))
-                ->where('mapas.id', $request->get('horario'))
+            $pacientes = \DB::table('age_agendamento')
+                ->join('age_fila', 'age_fila.id', '=', 'age_agendamento.fila_id')
+                ->join('gen_cgm', 'gen_cgm.id', '=', 'age_fila.cgm_id')
+                ->join('age_especialidade', 'age_especialidade.id', '=', 'age_fila.especialidade_id')
+                ->join('age_operacoes', 'age_operacoes.id', '=', 'age_especialidade.operacao_id')
+                ->join('age_prioridade', 'age_prioridade.id', '=', 'age_fila.prioridade_id')
+                ->leftJoin('age_posto_saude', 'age_posto_saude.id', '=', 'age_fila.posto_saude_id')
+                ->join('age_calendario', 'age_calendario.id', '=', 'age_agendamento.calendario_id')
+                ->join('age_localidade', 'age_localidade.id', '=', 'age_calendario.localidade_id')
+                ->join('age_especialista', 'age_especialista.id', '=', 'age_calendario.especialista_id')
+                ->join('gen_cgm as cgm_especialista', 'cgm_especialista.id', '=', 'age_especialista.cgm')
+                ->join('age_status_agendamento', 'age_status_agendamento.id', '=', 'age_agendamento.status_agendamento_id')
+                ->join('age_mapas', 'age_mapas.id', '=', 'age_agendamento.mapa_id')
+                ->leftJoin('age_sub_operacoes', 'age_sub_operacoes.id', '=', 'age_agendamento.sub_operacao_id')
+                ->where('age_especialista.id', $request->get('especialista'))
+                ->where('age_calendario.id', $request->get('localidade'))
+                ->where('age_mapas.id', $request->get('horario'))
                 ->select([
-                    'agendamento.id',
-                    'mapas.horario',
-                    'localidade.nome as localidade',
-                    'cgm.nome as nome',
-                    'cgm.numero_sus',
-                    'cgm.fone',
-                    'operacoes.nome as especialidade',
+                    'age_agendamento.id',
+                    'age_mapas.horario',
+                    'age_localidade.nome as localidade',
+                    'gen_cgm.nome as nome',
+                    'gen_cgm.numero_sus',
+                    'gen_cgm.fone',
+                    'age_operacoes.nome as especialidade',
                     'cgm_especialista.nome as especialista',
-                    'mapas.horario',
-                    'status_agendamento.nome as status',
-                    'sub_operacoes.nome as suboperacao'
+                    'age_mapas.horario',
+                    'age_status_agendamento.nome as status',
+                    'age_sub_operacoes.nome as suboperacao'
                 ])->get();
 
             //$pacientes = $rows->get();
@@ -184,11 +184,11 @@ class RelatorioController extends Controller
         $arrayEspecialistas = [];
 
         try {
-            $especialistas = \DB::table('especialista')
-                ->join('cgm', 'cgm.id', '=', 'especialista.cgm')
+            $especialistas = \DB::table('age_especialista')
+                ->join('gen_cgm', 'gen_cgm.id', '=', 'age_especialista.cgm')
                 ->select([
-                    'especialista.id',
-                    'cgm.nome'
+                    'age_especialista.id',
+                    'gen_cgm.nome'
                 ])->get();
 
             // Montando array com resultado da pesquisa

@@ -175,9 +175,9 @@
                     <label class="control-label" for="bairro">Bairro</label>
                     <div class="select">
                         @if(isset($model->cgm->endereco->bairros->id))
-                            {!! Form::select('cgm[endereco][bairro]', array($model->cgm->endereco->bairros->id => $model->cgm->endereco->bairros->nome), $model->cgm->endereco->bairros->id,array('class' => 'form-control', 'id' => 'bairro')) !!}
+                            {!! Form::select('cgm[endereco][bairro_id]', array($model->cgm->endereco->bairros->id => $model->cgm->endereco->bairros->nome), $model->cgm->endereco->bairros->id,array('class' => 'form-control', 'id' => 'bairro')) !!}
                         @else
-                            {!! Form::select('cgm[endereco][bairro]', array(), Session::getOldInput('cgm[endereco][bairro]'),array('class' => 'form-control', 'id' => 'bairro')) !!}
+                            {!! Form::select('cgm[endereco][bairro_id]', array(), Session::getOldInput('cgm[endereco][bairro_id]'),array('class' => 'form-control', 'id' => 'bairro')) !!}
                         @endif
                     </div>
                 </div>
@@ -227,7 +227,7 @@
                 data: function (params) {
                     return {
                         'search':     params.term, // search term
-                        'tableName':  'cgm',
+                        'tableName':  'gen_cgm',
                         'fieldName':  'nome',
                         //'fieldWhere':  'nivel',
                         //'valueWhere':  '3',
@@ -266,7 +266,7 @@
 
             if (estado !== "") {
                 var dados = {
-                    'table' : 'cidades',
+                    'table' : 'gen_cidades',
                     'field_search' : 'estados_id',
                     'value_search': estado,
                 }
@@ -300,7 +300,7 @@
 
             if (cidade !== "") {
                 var dados = {
-                    'table' : 'bairros',
+                    'table' : 'gen_bairros',
                     'field_search' : 'cidades_id',
                     'value_search': cidade,
                 }
@@ -388,8 +388,8 @@
 
             if (tipo !== "") {
                 var dados = {
-                    'table' : 'grupo_operacoes',
-                    'field_search' : 'tipo_operacoes.id',
+                    'table' : 'age_grupo_operacoes',
+                    'field_search' : 'age_tipo_operacoes.id',
                     'value_search': tipo,
                     'tipo_search': "2"
                 };
@@ -434,7 +434,7 @@
             if (operacao !== "") {
 
                 var dados = {
-                    'table' : 'sub_operacoes',
+                    'table' : 'age_sub_operacoes',
                     'field_search' : 'operacao_id',
                     'value_search': operacao
                 };

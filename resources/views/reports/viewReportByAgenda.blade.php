@@ -107,10 +107,10 @@
                 }
             },
             columns: [
-                {data: 'nome', name: 'cgm.nome'},
-                {data: 'numero_sus', name: 'cgm.numero_sus'},
-                {data: 'horario', name: 'mapas.horario'},
-                {data: 'especialidade', name: 'operacoes.especialidade'},
+                {data: 'nome', name: 'gen_cgm.nome'},
+                {data: 'numero_sus', name: 'gen_cgm.numero_sus'},
+                {data: 'horario', name: 'age_mapas.horario'},
+                {data: 'especialidade', name: 'age_operacoes.especialidade'},
                 {data: 'localidade', name: 'agendamento.localidade'}
             ]
         });

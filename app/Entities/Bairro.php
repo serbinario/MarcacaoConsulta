@@ -10,7 +10,7 @@ class Bairro extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $table    = 'bairros';
+    protected $table    = 'gen_bairros';
 
     protected $fillable = [ 
 		'nome',
@@ -19,7 +19,7 @@ class Bairro extends Model implements Transformable
 
     public function enderecos()
     {
-        return $this->hasMany(EnderecoCGM::class, "bairro");
+        return $this->hasMany(EnderecoCGM::class, "bairro_id");
     }
 
     public function cidade()
@@ -34,7 +34,7 @@ class Bairro extends Model implements Transformable
      */
     public function scopeByBairroLocal($query, $value)
     {
-        return $query->select('bairros.nome', 'bairros.id')
+        return $query->select('gen_bairros.nome', 'gen_bairros.id')
             ->where('cidades_id', $value);
     }
 }

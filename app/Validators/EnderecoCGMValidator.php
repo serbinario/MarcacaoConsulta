@@ -13,9 +13,9 @@ class EnderecoCGMValidator extends LaravelValidator
             
 			'logradouro' =>  '' ,
 			'numero' =>  '' ,
-			'comp' =>  '' ,
+			'complemento' =>  '' ,
 			'cep' =>  '' ,
-			'bairro' =>  '' ,
+			'bairro_id' =>  '' ,
 
         ],
         ValidatorInterface::RULE_UPDATE => [],

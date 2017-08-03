@@ -10,7 +10,7 @@ class Prioridade extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $table    = 'prioridade';
+    protected $table    = 'age_prioridade';
 
     protected $fillable = [ 
 		'nome',

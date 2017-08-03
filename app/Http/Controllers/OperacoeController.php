@@ -54,12 +54,12 @@ class OperacoeController extends Controller
     public function grid()
     {
         #Criando a consulta
-        $rows = \DB::table('operacoes')
-            ->join('grupo_operacoes', 'grupo_operacoes.id', '=', 'operacoes.grupo_operaco_id')
+        $rows = \DB::table('age_operacoes')
+            ->join('age_grupo_operacoes', 'age_grupo_operacoes.id', '=', 'age_operacoes.grupo_operaco_id')
             ->select([
-                'operacoes.id',
-                'operacoes.nome',
-                'grupo_operacoes.nome as grupo'
+                'age_operacoes.id',
+                'age_operacoes.nome',
+                'age_grupo_operacoes.nome as grupo'
             ]);
 
         #Editando a grid

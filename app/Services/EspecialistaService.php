@@ -64,13 +64,13 @@ class EspecialistaService
     {
 
         #Recuperando o registro no banco de dados
-        $especialista = \DB::table('especialista')
-            ->join('cgm', 'cgm.id', '=', 'especialista.cgm')
-            ->join('especialista_especialidade', 'especialista_especialidade.especialista_id', '=', 'especialista.id')
-            ->where('especialista_especialidade.especialidade_id', '=', $id)
+        $especialista = \DB::table('age_especialista')
+            ->join('gen_cgm', 'gen_cgm.id', '=', 'age_especialista.cgm')
+            ->join('age_especialista_especialidade', 'age_especialista_especialidade.especialista_id', '=', 'age_especialista.id')
+            ->where('age_especialista_especialidade.especialidade_id', '=', $id)
             ->select([
-                'especialista.id',
-                'cgm.nome'
+                'age_especialista.id',
+                'gen_cgm.nome'
             ])->get();
 
         #retorno
@@ -86,13 +86,13 @@ class EspecialistaService
     {
 
         #Recuperando o registro no banco de dados
-        $especialidades = \DB::table('especialidade')
-            ->join('especialista_especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
-            ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
-            ->where('especialista_especialidade.especialista_id', '=', $idEspecialista)
+        $especialidades = \DB::table('age_especialidade')
+            ->join('age_especialista_especialidade', 'age_especialidade.id', '=', 'age_especialista_especialidade.especialidade_id')
+            ->join('age_operacoes', 'age_operacoes.id', '=', 'age_especialidade.operacao_id')
+            ->where('age_especialista_especialidade.especialista_id', '=', $idEspecialista)
             ->select([
-                'especialista_especialidade.id',
-                'operacoes.nome'
+                'age_especialista_especialidade.id',
+                'age_operacoes.nome'
             ])->get();
 
         #retorno
@@ -108,14 +108,14 @@ class EspecialistaService
     {
 
         #Recuperando o registro no banco de dados
-        $especialidades = \DB::table('especialidade')
-            ->join('especialista_especialidade', 'especialidade.id', '=', 'especialista_especialidade.especialidade_id')
-            ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
-            ->where('especialista_especialidade.especialista_id', '=', $idEspecialista)
-            ->where('especialista_especialidade.especialidade_id', '=', $idEspecialidade)
+        $especialidades = \DB::table('age_especialidade')
+            ->join('age_especialista_especialidade', 'age_especialidade.id', '=', 'age_especialista_especialidade.especialidade_id')
+            ->join('age_operacoes', 'age_operacoes.id', '=', 'age_especialidade.operacao_id')
+            ->where('age_especialista_especialidade.especialista_id', '=', $idEspecialista)
+            ->where('age_especialista_especialidade.especialidade_id', '=', $idEspecialidade)
             ->select([
-                'especialista_especialidade.id',
-                'operacoes.nome'
+                'age_especialista_especialidade.id',
+                'age_operacoes.nome'
             ])->get();
 
         #retorno
@@ -256,7 +256,7 @@ class EspecialistaService
     {
 
         // Deletando as especialidades do especialista
-        \DB::table('especialista_especialidade')->where('especialista_id', $id)->delete();
+        \DB::table('age_especialista_especialidade')->where('especialista_id', $id)->delete();
 
         #deletando o curso
         $result = $this->repository->delete($id);

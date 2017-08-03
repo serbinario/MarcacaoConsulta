@@ -55,14 +55,14 @@ class EspecialidadeController extends Controller
     public function grid()
     {
         #Criando a consulta
-        $rows = \DB::table('especialidade')
-            ->join('operacoes', 'operacoes.id', '=', 'especialidade.operacao_id')
-            ->join('grupo_operacoes', 'grupo_operacoes.id', '=', 'operacoes.grupo_operaco_id')
-            ->join('tipo_operacoes', 'tipo_operacoes.id', '=', 'grupo_operacoes.tipo_operacao_id')
+        $rows = \DB::table('age_especialidade')
+            ->join('age_operacoes', 'age_operacoes.id', '=', 'age_especialidade.operacao_id')
+            ->join('age_grupo_operacoes', 'age_grupo_operacoes.id', '=', 'age_operacoes.grupo_operaco_id')
+            ->join('age_tipo_operacoes', 'age_tipo_operacoes.id', '=', 'age_grupo_operacoes.tipo_operacao_id')
             ->select([
-                'especialidade.id as id',
-                'operacoes.nome',
-                'tipo_operacoes.nome as tipo_operacao'
+                'age_especialidade.id as id',
+                'age_operacoes.nome',
+                'age_tipo_operacoes.nome as tipo_operacao'
             ]);
 
         #Editando a grid

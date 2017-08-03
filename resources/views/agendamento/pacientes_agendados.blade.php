@@ -255,8 +255,8 @@
 
             if (tipo !== "") {
                 var dados = {
-                    'table' : 'grupo_operacoes',
-                    'field_search' : 'tipo_operacoes.id',
+                    'table' : 'age_grupo_operacoes',
+                    'field_search' : 'age_tipo_operacoes.id',
                     'value_search': tipo,
                     'tipo_search': "2"
                 };

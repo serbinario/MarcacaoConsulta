@@ -36,7 +36,7 @@
                             <div class=" fg-line">
                                 <label for="sexo">Sexo</label>
                                 <div class="select">
-                                    {!! Form::select('sexo', $loadFields['sexo'], null, array('class'=> 'form-control')) !!}
+                                    {!! Form::select('sexo_id', $loadFields['sexo'], null, array('class'=> 'form-control')) !!}
                                 </div>
                             </div>
                         </div>
@@ -44,10 +44,10 @@
                     <div class="row">
                         <div class="form-group col-sm-2">
                             <div class=" fg-line">
-                                <label for="estado_civil">Estado Civil</label>
+                                <label for="estado_civil_id">Estado Civil</label>
 
                                 <div class="select">
-                                    {!! Form::select('estado_civil', $loadFields['estadocivil'], null, array('class'=> 'form-control')) !!}
+                                    {!! Form::select('estado_civil_id', $loadFields['estadocivil'], null, array('class'=> 'form-control')) !!}
                                 </div>
                             </div>
                         </div>
@@ -56,7 +56,7 @@
                                 <label for="nacionalidade">Nacionalidade</label>
 
                                 <div class="select">
-                                    {!! Form::select('nacionalidade', $loadFields['nacionalidade'], null, array('class'=> 'form-control')) !!}
+                                    {!! Form::select('nacionalidade_id', $loadFields['nacionalidade'], null, array('class'=> 'form-control')) !!}
                                 </div>
                             </div>
                         </div>
@@ -113,16 +113,16 @@
                                 <label for="escolaridade">Escolaridade</label>
 
                                 <div class="select">
-                                    {!! Form::select('escolaridade', $loadFields['escolaridade'], null, array('class'=> 'form-control input-sm')) !!}
+                                    {!! Form::select('escolaridade_id', $loadFields['escolaridade'], null, array('class'=> 'form-control input-sm')) !!}
                                 </div>
                             </div>
                         </div>
                         <div class="form-group col-sm-3">
                             <div class=" fg-line">
-                                <label for="cgmmunicipio">Cidadão do município?</label>
+                                <label for="cgm_municipio_id">Cidadão do município?</label>
 
                                 <div class="select">
-                                    {!! Form::select('cgmmunicipio', $loadFields['cgmmunicipio'], null, array('class'=> 'form-control input-sm')) !!}
+                                    {!! Form::select('cgm_municipio_id', $loadFields['cgmmunicipio'], null, array('class'=> 'form-control input-sm')) !!}
                                 </div>
                             </div>
                         </div>
@@ -192,10 +192,10 @@
                         </div>
                         <div class="form-group col-sm-2">
                             <div class=" fg-line">
-                                <label for="categoria_cnh">Categoria CNH</label>
+                                <label for="cnh_categoria_id">Categoria CNH</label>
 
                                 <div class="select">
-                                    {!! Form::select('categoria_cnh', $loadFields['categoriacnh'], null, array('class'=> 'form-control')) !!}
+                                    {!! Form::select('cnh_categoria_id', $loadFields['categoriacnh'], null, array('class'=> 'form-control')) !!}
                                 </div>
                             </div>
                         </div>
@@ -245,8 +245,8 @@
                         </div>
                         <div class="form-group col-sm-2">
                             <div class=" fg-line">
-                                <label for="endereco[comp]">Comple.</label>
-                                {!! Form::text('endereco[comp]', Session::getOldInput('endereco[comp]') , array('class' => 'form-control input-sm', 'placeholder' => '')) !!}
+                                <label for="endereco[complemento]">Comple.</label>
+                                {!! Form::text('endereco[complemento]', Session::getOldInput('endereco[complemento]') , array('class' => 'form-control input-sm', 'placeholder' => '')) !!}
                             </div>
                         </div>
                         <div class="form-group col-sm-2">
@@ -285,13 +285,13 @@
                         </div>
                         <div class="form-group col-sm-3">
                             <div class=" fg-line">
-                                <label for="endereco[bairro]">Bairro</label>
+                                <label for="endereco[bairro_id]">Bairro</label>
 
                                 <div class="select">
                                     @if(isset($model->endereco->bairros->id))
-                                        {!! Form::select('endereco[bairro]', array($model->endereco->bairros->id => $model->endereco->bairros->nome), $model->endereco->bairros->id,array('class' => 'form-control', 'id' => 'bairro')) !!}
+                                        {!! Form::select('endereco[bairro_id]', array($model->endereco->bairros->id => $model->endereco->bairros->nome), $model->endereco->bairros->id,array('class' => 'form-control', 'id' => 'bairro')) !!}
                                     @else
-                                        {!! Form::select('endereco[bairro]', array(), Session::getOldInput('bairro'),array('class' => 'form-control', 'id' => 'bairro')) !!}
+                                        {!! Form::select('endereco[bairro_id]', array(), Session::getOldInput('bairro_id'),array('class' => 'form-control', 'id' => 'bairro')) !!}
                                     @endif
                                 </div>
                             </div>
@@ -325,7 +325,7 @@
 
             if (estado !== "") {
                 var dados = {
-                    'table' : 'cidades',
+                    'table' : 'gen_cidades',
                     'field_search' : 'estados_id',
                     'value_search': estado,
                 }
@@ -362,7 +362,7 @@
 
             if (cidade !== "") {
                 var dados = {
-                    'table' : 'bairros',
+                    'table' : 'gen_bairros',
                     'field_search' : 'cidades_id',
                     'value_search': cidade,
                 }

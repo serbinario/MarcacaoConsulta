@@ -29,9 +29,9 @@ class FilaValidator extends LaravelValidator
         //Tabela endereco
         'cgm.endereco.logradouro' => 'Logradouro',
         'cgm.endereco.numero' => 'Número',
-        'cgm.endereco.comp' => 'Complemento',
+        'cgm.endereco.complemento' => 'Complemento',
         'cgm.endereco.cep' => '',
-        'cgm.endereco.bairro' => 'Bairro',
+        'cgm.endereco.bairro_id' => 'Bairro',
 
     ];
 
@@ -66,9 +66,9 @@ class FilaValidator extends LaravelValidator
             // endereço
             'cgm.endereco.logradouro' => 'max:200',
             'cgm.endereco.numero' => '',
-            'cgm.endereco.comp' => 'max:150',
+            'cgm.endereco.complemento' => 'max:150',
             'cgm.endereco.cep' => '',
-            'cgm.endereco.bairro' => '',
+            'cgm.endereco.bairro_id' => '',
 
         ],
         ValidatorInterface::RULE_UPDATE => [
@@ -90,9 +90,9 @@ class FilaValidator extends LaravelValidator
             // endereço
             'cgm.endereco.logradouro' => 'max:200',
             'cgm.endereco.numero' => '',
-            'cgm.endereco.comp' => 'max:150',
+            'cgm.endereco.complemento' => 'max:150',
             'cgm.endereco.cep' => '',
-            'cgm.endereco.bairro' => '',
+            'cgm.endereco.bairro_id' => '',
 
         ],
    ];

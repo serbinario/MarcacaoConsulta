@@ -10,7 +10,7 @@ class Cidade extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $table    = 'cidades';
+    protected $table    = 'gen_cidades';
 
     protected $fillable = [ 
 		'nome',

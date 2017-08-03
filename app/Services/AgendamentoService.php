@@ -97,20 +97,20 @@ class AgendamentoService
         $calendarios = $this->repoCalendario->with(['especialista', 'agendamento'])
             ->findWhere(['especialista_id' => $idMedico, 'localidade_id' => $idLocal]);
 
-        $eventos = \DB::table('evento')
-            ->join('agendamento', 'evento.agendamento_id', '=', 'agendamento.id')
-            ->join('fila', 'fila.id', '=', 'agendamento.fila_id')
-            ->join('cgm', 'cgm.id', '=', 'fila.cgm_id')
-            ->join('calendario', 'agendamento.calendario_id', '=', 'calendario.id')
-            ->join('localidade', 'calendario.localidade_id', '=', 'localidade.id')
-            ->join('especialista', 'calendario.especialista_id', '=', 'especialista.id')
-            ->where('localidade.id', '=', $idLocal)
-            ->where('especialista.id', '=', $idMedico)
+        $eventos = \DB::table('age_evento')
+            ->join('age_agendamento', 'age_evento.agendamento_id', '=', 'age_agendamento.id')
+            ->join('age_fila', 'age_fila.id', '=', 'age_agendamento.fila_id')
+            ->join('gen_cgm', 'gen_cgm.id', '=', 'age_fila.cgm_id')
+            ->join('age_calendario', 'age_agendamento.calendario_id', '=', 'age_calendario.id')
+            ->join('age_localidade', 'age_calendario.localidade_id', '=', 'age_localidade.id')
+            ->join('age_especialista', 'age_calendario.especialista_id', '=', 'age_especialista.id')
+            ->where('age_localidade.id', '=', $idLocal)
+            ->where('age_especialista.id', '=', $idMedico)
             ->select([
-                'evento.*',
-                'calendario.id as calendario_id',
-                'cgm.id as cgm_id',
-                'agendamento.id as agendamento_id',
+                'age_evento.*',
+                'age_calendario.id as calendario_id',
+                'gen_cgm.id as cgm_id',
+                'age_agendamento.id as agendamento_id',
             ])->get();
 
         $dados = [
@@ -152,7 +152,7 @@ class AgendamentoService
         $evento = $this->repoEvento->create($evento);
 
         // Atualizando o status do paciente na fila
-        \DB::table('fila')->where('id', $data['dados']['fila_id'])->update(['status' => '1']);
+        \DB::table('age_fila')->where('id', $data['dados']['fila_id'])->update(['status' => '1']);
 
         #Verificando se foi criado no banco de dados
         if(!$agendamento && !$evento) {
@@ -194,10 +194,10 @@ class AgendamentoService
         $agendamento = $this->repository->find($id);
 
         // Atualizando o status do paciente na fila
-        \DB::table('fila')->where('id', $agendamento['fila_id'])->update(['status' => '0']);
+        \DB::table('age_fila')->where('id', $agendamento['fila_id'])->update(['status' => '0']);
 
         // Deletando o evento
-        \DB::table('evento')->where('agendamento_id', $id)->delete();
+        \DB::table('age_evento')->where('agendamento_id', $id)->delete();
 
         // Deletando agendamento
         $this->repository->delete($id);
@@ -219,7 +219,7 @@ class AgendamentoService
         $agendamento = $this->repository->find($data['paciente']);
 
         // Consultando se o paciente já está em fila de espera
-        $validandoFila = \DB::table('fila')
+        $validandoFila = \DB::table('age_fila')
             ->where('cgm_id', $agendamento->fila->cgm_id)
             ->where('status', '0')->first();
 

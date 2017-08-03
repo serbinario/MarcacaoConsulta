@@ -10,7 +10,7 @@ class EspecialistaEspecialidade extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $table    = 'especialista_especialidade';
+    protected $table    = 'age_especialista_especialidade';
 
     protected $fillable = [ 
 		'especialista_id',
