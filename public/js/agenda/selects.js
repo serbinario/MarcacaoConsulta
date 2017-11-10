@@ -2,7 +2,7 @@
  * Created by Fabio on 30/05/2017.
  */
 
-//Função para listar as localidades
+//Funï¿½ï¿½o para listar as localidades
 function localidade(id) {
     jQuery.ajax({
         type: 'POST',
@@ -25,7 +25,7 @@ function localidade(id) {
     });
 }
 
-//Função para listar as especialidades do mapa 1
+//Funï¿½ï¿½o para listar as especialidades do mapa 1
 function especialidadesUm(id, idEspecialista) {
     jQuery.ajax({
         type: 'POST',
@@ -49,7 +49,7 @@ function especialidadesUm(id, idEspecialista) {
     });
 }
 
-//Função para listar as especialidades do mapa 2
+//Funï¿½ï¿½o para listar as especialidades do mapa 2
 function especialidadesDois(id, idEspecialista) {
     jQuery.ajax({
         type: 'POST',
@@ -73,7 +73,7 @@ function especialidadesDois(id, idEspecialista) {
     });
 }
 
-//Função para listar as especialidades do mapa 1
+//Funï¿½ï¿½o para listar as especialidades do mapa 1
 function especialidadesSearchGrid(id, idEspecialista) {
     jQuery.ajax({
         type: 'POST',

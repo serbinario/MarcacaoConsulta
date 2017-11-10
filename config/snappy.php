@@ -1,6 +1,6 @@
 <?php
 
-return array(
+/*return array(
 
 
     'pdf' => array(
@@ -17,9 +17,9 @@ return array(
     ),
 
 
-);
+);*/
 
-/*return array(
+return array(
     'pdf' => array(
         'enabled' => true,
         'binary' => "\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe\"",
@@ -32,4 +32,4 @@ return array(
         'timeout' => false,
         'options' => array(),
     ),
-);*/
+);

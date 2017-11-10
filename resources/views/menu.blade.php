@@ -20,6 +20,7 @@
             <link type="text/css" rel="stylesheet" href="{{ asset('/dist/js/krajee/css/fileinput.css')}}"/>
             <link type="text/css" rel="stylesheet" href="{{ asset('/lib/select2/dist/css/select2.css')}}"/>
             <link type="text/css" rel="stylesheet" href="{{asset('/css/zabuto_calendar.min.css')}}" />
+            <link rel="stylesheet" href="{{ asset('/css/plugins/botao/botao-fab.css')  }}">
 
             <link type="text/css" rel="stylesheet" href="{{ asset('/lib/fullcalendar/dist/fullcalendar.css') }}" />
             <link type="text/css" rel="stylesheet" href="{{ asset('/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css') }}" />
@@ -228,6 +229,7 @@
         <script src="{{ asset('/lib/select2/dist/js/select2.full.js') }}"></script>
         <script src="{{ asset('/js/bootstrapvalidator.js')}}" type="text/javascript"></script>
         <script type="text/javascript" src="{{asset('/js/zabuto_calendar.min.js')}}"></script>
+
 
         {{-- SÓ REMOVER SE NÃO EXISTIREM ERROS --}}
         {{--<script type="text/javascript" src="{{asset('/dist/bower_components/fullcalendar/dist/locale/pt-br.js')}}"></script>

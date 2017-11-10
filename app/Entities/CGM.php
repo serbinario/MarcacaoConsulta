@@ -28,7 +28,7 @@ class CGM extends Model implements Transformable
 		'data_falecimento',
 		'email',
 		'num_cnh',
-		'venci_cnh',
+		'data_vencimento_cnh',
 		'nome_complemento',
 		'nome_fantasia',
 		'tipo_cadastro',

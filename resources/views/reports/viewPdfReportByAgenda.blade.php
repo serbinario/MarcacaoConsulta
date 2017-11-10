@@ -49,7 +49,7 @@
 <body>
 <center>
     <div>
-        <center><img src="{{asset('/img/logo_igarassu.png')}}" style="width: 230px; height: 85px"></center>
+        <center><img src="{{asset('/img/teste.jpg')}}" style="width: 140px; height: 85px"></center>
     </div>
 </center>
 

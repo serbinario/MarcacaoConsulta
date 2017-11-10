@@ -201,8 +201,8 @@
                         </div>
                         <div class="form-group col-sm-2">
                             <div class=" fg-line">
-                                <label for="venci_cnh">Vencimento CNH</label>
-                                {!! Form::text('venci_cnh', Session::getOldInput('venci_cnh') , array('class' => 'form-control input-sm', 'placeholder' => '')) !!}
+                                <label for="data_vencimento_cnh">Vencimento CNH</label>
+                                {!! Form::text('data_vencimento_cnh', Session::getOldInput('data_vencimento_cnh') , array('class' => 'form-control input-sm', 'placeholder' => '')) !!}
                             </div>
                         </div>
                     </div>

@@ -539,6 +539,7 @@ class CalendarioController extends Controller
                 \DB::raw('COUNT(age_agendamento.id) as qtd_agendados')
             ])->first();
 
+
         # Varre os pacientes afim de validar o limite de vagas
         foreach ($request->get('idsPacientes') as $idPaciente) {
 
@@ -549,8 +550,10 @@ class CalendarioController extends Controller
             $qtdPacientes = count($fila->suboperacoes) > 0 ? count($fila->suboperacoes) : 1;
         }
 
+
         // Pegando a quantidade de vagas do mapa e vagas restantes
-        $vagasRestantes = $mapa->vagas - $agendamentos->qtd_agendados;
+        $qtd_agendados = $agendamentos ? $agendamentos->qtd_agendados : 0;
+        $vagasRestantes = $mapa->vagas - $qtd_agendados;
 
         $dados = [
             'totalVagas' => $mapa->vagas,
