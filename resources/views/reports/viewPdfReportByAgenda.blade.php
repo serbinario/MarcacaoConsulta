@@ -27,9 +27,7 @@
             width: 100%;
             height: 90px;
             margin-top: 70px;
-
         }
-
 
         table{
             width: 100%;
