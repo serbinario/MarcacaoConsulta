@@ -86,6 +86,26 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group col-sm-3">
+                                    <div class=" fg-line">
+                                        <label for="situacao">Situação</label>
+                                        <div class="select">
+                                            {!! Form::select('situacao', (['' => 'Selecione'] + $loadFields['statusagendamento']->toArray()), null,
+                                            array('class' => 'form-control', 'id' => 'situacao')) !!}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-sm-2">
+                                    <div class=" fg-line">
+                                        <label for="prioridade">Prioridade</label>
+                                        <div class="select">
+                                            {!! Form::select('prioridade', (['' => 'Selecione'] + $loadFields['prioridade']->toArray()), null,
+                                            array('class' => 'form-control', 'id' => 'prioridade')) !!}
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div style="margin-top: 22px" class="form-group col-md-2">
                                     <div class="fg-line">
                                         <div class="fg-line">

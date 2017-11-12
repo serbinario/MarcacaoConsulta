@@ -14,7 +14,8 @@ class SubOperacao extends Model implements Transformable
 
     protected $fillable = [ 
 		'nome',
-        'operacao_id'
+        'operacao_id',
+        'codigo'
 	];
 
     /**

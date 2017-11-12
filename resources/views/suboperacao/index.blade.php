@@ -44,6 +44,7 @@
                             <thead>
                             <tr>
                                 <th>Suboperação</th>
+                                <th>Código</th>
                                 <th>Operação</th>
                                 <th>Acão</th>
                             </tr>
@@ -51,6 +52,7 @@
                             <tfoot>
                             <tr>
                                 <th>Suboperação</th>
+                                <th>Código</th>
                                 <th>Operação</th>
                                 <th style="width: 17%;">Acão</th>
                             </tr>
@@ -74,6 +76,7 @@
             ajax: "{!! route('serbinario.suboperacao.grid') !!}",
             columns: [
                 {data: 'nome', name: 'age_sub_operacoes.nome'},
+                {data: 'codigo', name: 'age_sub_operacoes.codigo'},
                 {data: 'operacao', name: 'age_operacoes.nome'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ]

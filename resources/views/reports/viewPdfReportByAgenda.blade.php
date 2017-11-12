@@ -21,7 +21,7 @@
             text-align: center;
         }
 
-        .rodape{
+        .rodape {
             position: absolute;
             bottom:0;
             width: 100%;
@@ -29,7 +29,7 @@
             margin-top: 70px;
         }
 
-        table{
+        table {
             width: 100%;
             top: 210px;
         }

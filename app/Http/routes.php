@@ -113,7 +113,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('fechar/{id}', ['as' => 'fechar', 'uses' => 'CalendarioController@fechar']);
             Route::post('bloquear', ['as' => 'bloquear', 'uses' => 'CalendarioController@bloquear']);
 
-            // Pacientes e remarcações
+            // Pacientes e remarcaï¿½ï¿½es
             Route::get('gridPacientes/{id}', ['as' => 'gridPacientes', 'uses' => 'CalendarioController@gridPacientes']);
         });
 
@@ -139,7 +139,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('delete/{id}', ['as' => 'delete', 'uses' => 'AgendadosController@delete']);
             Route::post('inserirNaFila', ['as' => 'inserirNaFila', 'uses' => 'AgendadosController@inserirNaFila']);
 
-            // Rotas para o a consulta de pacientes agendados com o uso do calendário
+            // Rotas para o a consulta de pacientes agendados com o uso do calendï¿½rio
             Route::get('indexDois', ['as' => 'indexDois', 'uses' => 'AgendadosController@indexDois']);
             Route::post('loadCalendarParaConsulta', ['as' => 'loadCalendarParaConsulta', 'uses' => 'AgendamentoController@loadCalendarParaConsulta']);
         });
@@ -222,11 +222,16 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('qtdPacientes', ['as' => 'qtdPacientes', 'uses' => 'GraficosController@qtdPacientes']);
             Route::post('qtdPacientesAjax', ['as' => 'qtdPacientesAjax', 'uses' => 'GraficosController@qtdPacientesAjax']);
 
-            // Gráficos dashboard
+            // Grï¿½ficos dashboard
             Route::post('graficoTotalAtendidos', ['as' => 'graficoTotalAtendidos', 'uses' => 'DefaultController@graficoTotalAtendidos']);
             Route::post('graficoPacientesNaFila', ['as' => 'graficoPacientesNaFila', 'uses' => 'DefaultController@graficoPacientesNaFila']);
             Route::post('graficoPacientesAtendidas', ['as' => 'graficoPacientesAtendidas', 'uses' => 'DefaultController@graficoPacientesAtendidas']);
 
+        });
+
+        Route::group(['prefix' => 'tabelas', 'as' => 'tabelas.'], function () {
+            Route::get('procedimentoView', ['as' => 'procedimentoView', 'uses' => 'TabelasController@procedimentoView']);
+            Route::post('procedimentos', ['as' => 'procedimentos', 'uses' => 'TabelasController@procedimentos']);
         });
 
 //    Route::get('report/contratoAluno/{id}', ['as' => 'report.contratoAluno', 'uses' => 'ReportController@contratoAluno']);

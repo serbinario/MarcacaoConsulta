@@ -58,6 +58,7 @@ class SubOperacaoController extends Controller
             ->join('age_operacoes', 'age_operacoes.id', '=', 'age_sub_operacoes.operacao_id')
             ->select([
                 'age_sub_operacoes.id',
+                'age_sub_operacoes.codigo',
                 'age_sub_operacoes.nome',
                 'age_operacoes.nome as operacao',
             ]);

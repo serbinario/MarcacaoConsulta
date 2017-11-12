@@ -18,6 +18,12 @@
 					{!! Form::text('nome', Session::getOldInput('nome')  , array('class' => 'form-control input-sm')) !!}
 				</div>
 			</div>
+			<div class="form-group col-md-3">
+				<div class="fg-line">
+					{!! Form::label('codigo', 'Cídigo') !!}
+					{!! Form::text('codigo', Session::getOldInput('nome')  , array('class' => 'form-control input-sm')) !!}
+				</div>
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12">

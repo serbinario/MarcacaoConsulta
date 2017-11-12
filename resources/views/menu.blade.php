@@ -164,9 +164,15 @@
                     </ul>
                 </li>
                 <li class="sub-menu">
+                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-chart"></i>Tabelas</a>
+                    <ul>
+                        <li><a href="{{ route('serbinario.tabelas.procedimentoView') }}">Procedimentos</a></li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
                     <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-chart"></i>Gráficos</a>
                     <ul>
-                        <li><a href="{{ route('serbinario.graficos.qtdAtendimento') }}">Atendimentos</a></li>
+                        <li><a href="{{ route('serbinario.graficos.qtdAtendimento') }}">Agendamento</a></li>
                         <li><a href="{{ route('serbinario.graficos.qtdPessoasNaFila') }}">Pessoas na fila</a></li>
                         <li><a href="{{ route('serbinario.graficos.qtdPacientes') }}">Pacientes</a></li>
                     </ul>

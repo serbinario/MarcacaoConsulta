@@ -6,12 +6,16 @@ $(document).on('click', '#search', function(event){
     var data_fim        = $('input[name=data_fim]').val();
     var especialidade   = $('select[name=especialidade] option:selected').val();
     var especialista    = $('select[name=especialista] option:selected').val();
+    var situacao        = $('select[name=situacao] option:selected').val();
+    var prioridade      = $('select[name=prioridade] option:selected').val();
 
     var dados = {
         'data_inicio': data_inicio,
         'data_fim': data_fim,
         'especialidade' : especialidade,
-        'especialista' : especialista
+        'especialista' : especialista,
+        'situacao' : situacao,
+        'prioridade' : prioridade
     };
 
     $.ajax({

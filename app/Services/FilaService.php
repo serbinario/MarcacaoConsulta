@@ -211,6 +211,9 @@ class FilaService
      */
     public function destroy(int $id)
     {
+
+        \DB::table('age_sub_operacoes_fila')->where('fila_id', $id)->delete();
+
         #deletando o curso
         $result = $this->repository->delete($id);
 

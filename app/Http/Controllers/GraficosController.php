@@ -27,7 +27,9 @@ class GraficosController extends Controller
      */
     private $loadFields = [
         'TipoOperacao',
-        'PostoSaude'
+        'PostoSaude',
+        'Prioridade',
+        'StatusAgendamento'
     ];
 
     /**
@@ -69,18 +71,21 @@ class GraficosController extends Controller
     {
 
         $dados = $request->request->all();
-
         //Tratando as datas
-        $dataIni = isset($dados['data_inicio']) ? SerbinarioDateFormat::toUsa($dados['data_inicio'], 'date') : "";
-        $dataFim = isset($dados['data_fim']) ? SerbinarioDateFormat::toUsa($dados['data_fim'], 'date') : "";
+
+        $dataIni = isset($dados['data_inicio']) ? SerbinarioDateFormat::toUsa($dados['data_inicio']) : "";
+        $dataFim = isset($dados['data_fim']) ? SerbinarioDateFormat::toUsa($dados['data_fim']) : "";
+
         $especialidade = isset($dados['especialidade']) ? $dados['especialidade'] : '';
         $especialista  = isset($dados['especialista']) ? $dados['especialista'] : '';
+        $situacao      = isset($dados['situacao']) ? $dados['situacao'] : '';
+        $prioridade    = isset($dados['prioridade']) ? $dados['prioridade'] : '';
 
         #Criando a consulta
         $rows = \DB::table('age_agendamento')
             ->join('age_calendario', 'age_calendario.id', '=', 'age_agendamento.calendario_id')
             ->join('age_fila', 'age_fila.id', '=', 'age_agendamento.fila_id')
-            ->where('age_agendamento.status_agendamento_id', '3')
+            //->where('age_agendamento.status_agendamento_id', '3')
             ->select([
                 \DB::raw('count(age_agendamento.id) as qtd'),
             ]);
@@ -96,7 +101,15 @@ class GraficosController extends Controller
         }
 
         if($especialista) {
-            $rows->where('age_calendario.especialista_id', '=', $especialista);
+            $rows->where('age_calendario.especialista_id', $especialista);
+        }
+
+        if($situacao) {
+            $rows->where('age_agendamento.status_agendamento_id', $situacao);
+        }
+
+        if($prioridade) {
+            $rows->where('age_fila.prioridade_id', $prioridade);
         }
 
         $rows = $rows->first();
