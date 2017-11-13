@@ -91,7 +91,7 @@
 <center>
     <div class="rodape">
         <center>
-            <img src="{{asset('/img/logo_igarassu.png')}}" style="width: 230px; height: 85px">
+            <img src="{{asset('/img/logo_rodape.png')}}" style="width: 230px; height: 85px">
         </center>
     </div>
 </center>
