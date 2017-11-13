@@ -110,6 +110,7 @@ class AgendadosController extends Controller
             ->leftJoin('age_sub_operacoes', 'age_sub_operacoes.id', '=', 'age_agendamento.sub_operacao_id')
             ->select([
                 'age_agendamento.id',
+                'age_fila.id as fila_id',
                 'gen_cgm.nome',
                 'gen_cgm.numero_sus',
                 'age_operacoes.nome as especialidade',

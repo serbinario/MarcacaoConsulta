@@ -1,8 +1,8 @@
-// Javascript para calendário
+// Javascript para calendï¿½rio
 
-// Variáveis globais
+// Variï¿½veis globais
 var table, idsPacientes, especialidadeId;
-var totalVagas, vagasRestantes;
+var totalVagas, vagasRestantes, idsPacientesFila;
 
 $(document).ready(function () {
 
@@ -11,13 +11,13 @@ $(document).ready(function () {
     var y = date.getFullYear();
     var target = $('#calendar');
 
-    // Campos da pesquisa zerados para carregamento inicial do calendáriowq
+    // Campos da pesquisa zerados para carregamento inicial do calendï¿½riowq
     var dados = {
         'idLocalidade': "",
         'idEspecialista': ""
     };
 
-    // Submete a pesquisa para carregamento do calendário por especialista e localidade
+    // Submete a pesquisa para carregamento do calendï¿½rio por especialista e localidade
     $('#btnConsultar').click(function () {
         var localidade = $('#localidade').val();
         var especialista = $('#especialista').val();
@@ -29,13 +29,13 @@ $(document).ready(function () {
 
         if (localidade && especialista) {
 
-            // Dados necessário para carregar o calendário
+            // Dados necessï¿½rio para carregar o calendï¿½rio
             dados = {
                 'idLocalidade': localidade,
                 'idEspecialista': especialista
             };
 
-            // Recarrega o calendário
+            // Recarrega o calendï¿½rio
             $('#calendar').fullCalendar('refetchEvents');
         }
     });
@@ -52,7 +52,7 @@ $(document).ready(function () {
         editable: true,
         events: function (start, end, timezone, callback) {
 
-            // Adicionando o loading da requisição
+            // Adicionando o loading da requisiï¿½ï¿½o
             $('body').addClass("loading");
 
             jQuery.ajax({
@@ -66,7 +66,7 @@ $(document).ready(function () {
                 },
                 success: function (doc) {
 
-                    // Removendo o loading da requisição
+                    // Removendo o loading da requisiï¿½ï¿½o
                     $('body').removeClass("loading");
 
                     var events = [];
@@ -90,11 +90,11 @@ $(document).ready(function () {
         },
         dayClick: function (date, allDay, jsEvent, view, resourceObj) {
 
-            // Pega a data q foi clicada no calendário
+            // Pega a data q foi clicada no calendï¿½rio
             var data = date.format();
             $("#data").val(date.format());
 
-            //Função do submit do search da grid principal
+            //Funï¿½ï¿½o do submit do search da grid principal
             table.draw();
 
         },

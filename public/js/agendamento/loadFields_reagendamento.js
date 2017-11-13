@@ -108,7 +108,8 @@ $(document).on('change', "#mapa-reagendar", function () {
 
         var dados = {
             'mapa' : mapa,
-            'idCalendario' : idCalendario
+            'idCalendario' : idCalendario,
+            'idsPacientes' : idsPacientesFila
         };
 
         jQuery.ajax({
@@ -124,6 +125,9 @@ $(document).on('change', "#mapa-reagendar", function () {
             // Preenchendo as variáveis globais
             totalVagas = json['totalVagas'];
             vagasRestantes = json['vagasRestantes'];
+
+            // prenchendo na modal a quantidade de pacientes a serem agendados
+            $('.qtdPacientes').text(json['qtdPacientes']);
 
             if (vagasRestantes < idsPacientes.length) {
 

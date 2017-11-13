@@ -2,9 +2,9 @@
  * Created by Fabio on 30/05/2017.
  */
 
-// Variáveis globais
+// Variï¿½veis globais
 var table, idsPacientes, especialidadeId, perfil;
-var totalVagas, vagasRestantes;
+var totalVagas, vagasRestantes, idsPacientesFila;
 
 function formatAgendados(d) {
 
@@ -91,15 +91,17 @@ $(document).on('click', '#agendados-grid tbody tr', function () {
 // Evento para quando clicar na tr da table de pacientes
 $(document).on('click', '#agendados-grid tbody tr', function () {
 
-    // Array que armazenará os ids dos pacientes
+    // Array que armazenarï¿½ os ids dos pacientes
     var aux;
     var auxHabilitarBotaoReagendar;
     var arrayId = [];
+    var arrayIdFila = [];
 
     // Varrendo as linhas
     $("#agendados-grid tbody tr.selected").each(function (index, value) {
 
         arrayId[index] = table.row($(value).index()).data().id;
+        arrayIdFila[index] = table.row($(value).index()).data().fila_id;
 
         //Validando e pegando os paciente do mesmo exame
         if(arrayId.length == 1) {
@@ -122,14 +124,14 @@ $(document).on('click', '#agendados-grid tbody tr', function () {
 
     });
 
-    // Habilitando e desabilitando o botão de reagendamento
+    // Habilitando e desabilitando o botï¿½o de reagendamento
     if(arrayId.length > 0 && auxHabilitarBotaoReagendar) {
         $('#reagendarPaciente').prop('disabled', false);
     } else {
         $('#reagendarPaciente').prop('disabled', true);
     }
 
-    // Habilitando e desabilitando o botão de reagendamento
+    // Habilitando e desabilitando o botï¿½o de reagendamento
     if (arrayId.length > 0) {
         $('#definirAtendimento').prop('disabled', false);
     } else {
@@ -138,11 +140,12 @@ $(document).on('click', '#agendados-grid tbody tr', function () {
 
     // Armazenando os ids dos paciente em um array global
     idsPacientes = arrayId;
+    idsPacientesFila = arrayIdFila;
 
 });
 
 
-//Função do submit do search da grid principal
+//Funï¿½ï¿½o do submit do search da grid principal
 $('#search').click(function (e) {
     table.draw();
     e.preventDefault();
