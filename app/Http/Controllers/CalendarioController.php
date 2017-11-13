@@ -544,7 +544,7 @@ class CalendarioController extends Controller
 
             // Consulta a fila
             $fila = $this->filaRepository->find($idPaciente);
-            
+
             // Pega a quantidade de pacientes de acordo com a quantidade de suboperações que o paciente possui
             $qtdPacientes = count($fila->suboperacoes) > 0 ? count($fila->suboperacoes) : 1;
         }
