@@ -188,8 +188,6 @@ $(document).on('change', "#mapa-agendar", function () {
 
         });
 
-    } else {
-
     }
 
 });

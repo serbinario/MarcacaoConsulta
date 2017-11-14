@@ -286,6 +286,7 @@ class FilaController extends Controller
                 \DB::raw('DATE_FORMAT(gen_cgm.data_nascimento,"%d/%m/%Y") as data_nascimento'),
                 'gen_cgm.idade',
                 'gen_cgm.fone',
+                'gen_cgm.fone2',
                 'gen_cgm.cpf_cnpj',
                 'gen_cgm.rg',
                 'gen_cgm.numero_nis',
@@ -361,4 +362,28 @@ class FilaController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @return array
+     */
+    public function getIdadePaciente(Request $request)
+    {
+
+        // Declara a data! :P
+        $data = $request->get('data');
+
+        // Separa em dia, mês e ano
+        list($dia, $mes, $ano) = explode('/', $data);
+
+        // Descobre que dia é hoje e retorna a unix timestamp
+        $hoje = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+        // Descobre a unix timestamp da data de nascimento do fulano
+        $nascimento = mktime( 0, 0, 0, $mes, $dia, $ano);
+
+        // Depois apenas fazemos o cálculo já citado :)
+        $idade = floor((((($hoje - $nascimento) / 60) / 60) / 24) / 365.25);
+
+        #Retorno para view
+        return compact('idade');
+    }
 }

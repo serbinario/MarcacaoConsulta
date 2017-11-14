@@ -30,7 +30,8 @@
             <div class="form-group col-sm-2">
                 <div class="fg-line">
                     <label class="control-label" for="cgm[data_nascimento]">Data de Nascimento</label>
-                    {!! Form::text('cgm[data_nascimento]', Session::getOldInput('cgm[data_nascimento]')  , array('class' => 'form-control dateTimePicker input-sm date', 'id' => 'data_nascimento', 'placeholder' => 'Data de Nascimento')) !!}
+                    {!! Form::text('cgm[data_nascimento]', Session::getOldInput('cgm[data_nascimento]')  ,
+                     array('class' => 'form-control dateTimePicker input-sm date', 'id' => 'data_nascimento', 'placeholder' => 'Data de Nascimento')) !!}
                 </div>
             </div>
             <div class="form-group col-sm-2">
@@ -49,7 +50,7 @@
                 <div class=" fg-line">
                     <label for="prioridade_id">Prioridade *</label>
                     <div class="select">
-                        {!! Form::select('prioridade_id', $loadFields['prioridade'], null, array('id' => 'prioridade', 'class'=> 'form-control')) !!}
+                        {!! Form::select('prioridade_id', (['' => 'Selecione'] + $loadFields['prioridade']->toArray()), null, array('id' => 'prioridade', 'class'=> 'form-control')) !!}
                     </div>
                 </div>
             </div>
@@ -63,7 +64,7 @@
                     @if(isset($model->especialidade->operacao->grupo->tipo->id))
                         {!! Form::select('tipo', $loadFields['tipooperacao'], $model->especialidade->operacao->grupo->tipo->id, array('class' => 'form-control imput-sm', 'id' => 'tipo')) !!}
                     @else
-                        {!! Form::select('tipo', (['' => 'Selecione um tipo'] + $loadFields['tipooperacao']->toArray()), null, array('class' => 'form-control imput-sm', 'id' => 'tipo')) !!}
+                        {!! Form::select('tipo', (['' => 'Selecione um tipo'] + $loadFields['tipooperacao']->toArray()), [2], array('class' => 'form-control imput-sm', 'id' => 'tipo')) !!}
                     @endif
                 </div>
             </div>
@@ -128,19 +129,29 @@
             <div class="form-group col-sm-6">
                 <div class="fg-line">
                     <label class="control-label" for="logradouro">Logradouro</label>
-                    {!! Form::text('cgm[endereco][logradouro]', Session::getOldInput('cgm[endereco][logradouro]')  , array('class' => 'form-control input-sm', 'id' => 'logradouro',  'placeholder' => 'Logradouro')) !!}
+                    {!! Form::text('cgm[endereco][logradouro]', Session::getOldInput('cgm[endereco][logradouro]')  ,
+                    array('class' => 'form-control input-sm', 'id' => 'logradouro',  'placeholder' => 'Logradouro')) !!}
                 </div>
             </div>
             <div class="form-group col-sm-2">
                 <div class="fg-line">
                     <label class="control-label" for="numero">Número</label>
-                    {!! Form::text('cgm[endereco][numero]', Session::getOldInput('endereco[endereco][numero]'), array('class' => 'form-control input-sm', 'id' => 'numero',  'placeholder' => 'Número')) !!}
+                    {!! Form::text('cgm[endereco][numero]', Session::getOldInput('endereco[endereco][numero]'),
+                    array('class' => 'form-control input-sm', 'id' => 'numero',  'placeholder' => 'Número')) !!}
                 </div>
             </div>
             <div class="form-group col-sm-2">
                 <div class="fg-line">
-                    <label class="control-label" for="cgm[fone]">Telefone</label>
-                    {!! Form::text('cgm[fone]', Session::getOldInput('cgm[fone]')  , array('class' => 'form-control telefone input-sm', 'id' => 'fone',  'placeholder' => 'Telefone')) !!}
+                    <label class="control-label" for="cgm[fone]">Telefone 1</label>
+                    {!! Form::text('cgm[fone]', Session::getOldInput('cgm[fone]')  ,
+                    array('class' => 'form-control telefone input-sm', 'id' => 'fone',  'placeholder' => 'Telefone')) !!}
+                </div>
+            </div>
+            <div class="form-group col-sm-2">
+                <div class="fg-line">
+                    <label class="control-label" for="cgm[fone2]">Telefone 2</label>
+                    {!! Form::text('cgm[fone2]', Session::getOldInput('cgm[fone2]')  ,
+                    array('class' => 'form-control telefone input-sm', 'id' => 'fone2',  'placeholder' => 'Telefone')) !!}
                 </div>
             </div>
         </div>
@@ -153,7 +164,7 @@
                         @if(isset($model->cgm->endereco->bairros->cidade->estado->id))
                             {!! Form::select('estado', $loadFields['estado'], $model->cgm->endereco->bairros->cidade->estado->id, array('class' => 'form-control', 'id' => 'estado')) !!}
                         @else
-                            {!! Form::select('estado', $loadFields['estado'], Session::getOldInput('estado'), array('class' => 'form-control', 'id' => 'estado')) !!}
+                            {!! Form::select('estado', $loadFields['estado'], [16], array('class' => 'form-control', 'id' => 'estado')) !!}
                         @endif
                     </div>
                 </div>
@@ -175,9 +186,11 @@
                     <label class="control-label" for="bairro">Bairro</label>
                     <div class="select">
                         @if(isset($model->cgm->endereco->bairros->id))
-                            {!! Form::select('cgm[endereco][bairro_id]', array($model->cgm->endereco->bairros->id => $model->cgm->endereco->bairros->nome), $model->cgm->endereco->bairros->id,array('class' => 'form-control', 'id' => 'bairro')) !!}
+                            {!! Form::select('cgm[endereco][bairro_id]',
+                            array($model->cgm->endereco->bairros->id => $model->cgm->endereco->bairros->nome), $model->cgm->endereco->bairros->id,array('class' => 'form-control', 'id' => 'bairro')) !!}
                         @else
-                            {!! Form::select('cgm[endereco][bairro_id]', array(), Session::getOldInput('cgm[endereco][bairro_id]'),array('class' => 'form-control', 'id' => 'bairro')) !!}
+                            {!! Form::select('cgm[endereco][bairro_id]', array(), Session::getOldInput('cgm[endereco][bairro_id]'),
+                            array('class' => 'form-control', 'id' => 'bairro')) !!}
                         @endif
                     </div>
                 </div>
@@ -186,7 +199,8 @@
                 <div class=" fg-line">
                     <label for="posto_saude_id">PSF</label>
                     <div class="select">
-                        {!! Form::select('posto_saude_id', (['' => 'Selecione um psf'] + $loadFields['postosaude']->toArray()), null, array('id' => 'psf', 'class'=> 'form-control')) !!}
+                        {!! Form::select('posto_saude_id', (['' => 'Selecione uma unidade'] + $loadFields['postosaude']->toArray()), null,
+                        array('id' => 'psf', 'class'=> 'form-control')) !!}
                     </div>
                 </div>
             </div>
@@ -211,6 +225,7 @@
 </div>
 @section('javascript')
     <script src="{{ asset('/js/validacoes/validation_form_fila.js')}}"></script>
+    <script src="{{ asset('/js/fila/loadFields_fila.js')}}"></script>
     <script type="text/javascript">
 
         //consulta via cgm
@@ -350,6 +365,7 @@
                     $('#data_nascimento').val(json['cidadao']['data_nascimento']);
                     $('#idade').val(json['cidadao']['idade']);
                     $('#fone').val(json['cidadao']['fone']);
+                    $('#fone2').val(json['cidadao']['fone2']);
                     $('#logradouro').val(json['cidadao']['logradouro']);
                     $('#numero').val(json['cidadao']['numero']);
                     $('#cpf_cnpj').val(json['cidadao']['cpf_cnpj']);
@@ -458,6 +474,25 @@
             }
         });
 
+        //Carregando os mapas
+        $(document).on('blur', "#data_nascimento", function () {
+
+            var data = $(this).val();
+
+            if (!data) {
+                return false;
+            }
+
+            jQuery.ajax({
+                type: 'POST',
+                url: '/serbinario/fila/getIdadePaciente',
+                datatype: 'json',
+                data: {'data': data}
+            }).done(function (json) {
+                $('#idade').val(json['idade']);
+            });
+
+        });
 
     </script>
 @stop
