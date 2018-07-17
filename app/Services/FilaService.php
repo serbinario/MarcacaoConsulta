@@ -47,12 +47,12 @@ class FilaService
             'cgm.endereco.bairros.cidade.estado',
             'prioridade',
             'especialidade.operacao.grupo.tipo',
-            'suboperacoes'
+            'suboperacoes',
+            'nunCgmLocalidade'
         ];
 
         #Recuperando o registro no banco de dados
         $fila = $this->repository->with($relacionamentos)->find($id);
-
         #Verificando se o registro foi encontrado
         if(!$fila) {
             throw new \Exception('Empresa não encontrada!');

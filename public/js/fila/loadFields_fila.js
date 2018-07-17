@@ -17,7 +17,7 @@ function cidades() {
 
         jQuery.ajax({
             type: 'POST',
-            url: '/serbinario/util/search',
+            url: '/index.php/serbinario/util/search',
             data: dados,
             datatype: 'json'
     }).done(function (json) {
@@ -54,7 +54,7 @@ function bairros() {
 
         jQuery.ajax({
             type: 'POST',
-            url: '/serbinario/util/search',
+            url: '/index.php/serbinario/util/search',
             data: dados,
             datatype: 'json'
     }).done(function (json) {
@@ -87,7 +87,7 @@ function especialidades() {
 
         jQuery.ajax({
             type: 'POST',
-            url: '/serbinario/util/searchOperacoes',
+            url: '/index.php/serbinario/util/searchOperacoes',
             data: dados,
             datatype: 'json'
     }).done(function (json) {

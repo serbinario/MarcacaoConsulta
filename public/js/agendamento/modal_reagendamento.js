@@ -56,7 +56,7 @@ $(document).on('click', '#reagendar', function (event) {
     // Requisição Ajax
     jQuery.ajax({
         type: 'POST',
-        url: "/serbinario/calendario/reagendamento",
+        url: "/index.php/serbinario/calendario/reagendamento",
         data: dados,
         datatype: 'json'
     }).done(function (json) {

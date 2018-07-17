@@ -49,6 +49,12 @@ class CGM extends Model implements Transformable
 		'idade',
 		'fone2',
 		'fone3',
+        'post_nun_cgm_01',
+        'post_nun_cgm_02',
+        'post_nun_cgm_03',
+        'post_nun_cgm_04',
+        'post_nun_cgm_05',
+        'post_nun_cgm_06'
 
 	];
 

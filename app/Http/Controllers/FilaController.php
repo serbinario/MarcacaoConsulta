@@ -195,9 +195,10 @@ class FilaController extends Controller
         try {
             #Recuperando a empresa
             $model = $this->service->find($id);
-
+            //dd($model);
             #Carregando os dados para o cadastro
             $loadFields = $this->service->load($this->loadFields);
+
 
             #retorno para view
             return view('fila.edit', compact('model', 'loadFields'));
@@ -217,7 +218,6 @@ class FilaController extends Controller
 
             #Recuperando os dados da requisição
             $data = $request->all();
-
             #tratando as rules
             $this->validator->replaceRules(ValidatorInterface::RULE_UPDATE, ":id", $id);
 
@@ -292,6 +292,7 @@ class FilaController extends Controller
                 'gen_cgm.numero_nis',
                 'gen_endereco.logradouro',
                 'gen_endereco.numero',
+                'gen_endereco.cep',
                 'gen_bairros.nome as bairro',
                 'gen_bairros.id as bairro_id',
                 'gen_cidades.nome as cidade',

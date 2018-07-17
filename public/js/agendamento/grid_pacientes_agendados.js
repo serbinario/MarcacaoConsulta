@@ -28,7 +28,7 @@ table = $('#agendados-grid').DataTable({
     autoWidth: false,
     order: [[ 1, "asc" ]],
     ajax: {
-        url: "/serbinario/agendados/grid",
+        url: "/index.php/serbinario/agendados/grid",
         method: 'POST',
         data: function (d) {
             d.data_inicio = $('input[name=data_inicio]').val();

@@ -6,7 +6,7 @@
 function especialistas(id) {
     jQuery.ajax({
         type: 'GET',
-        url: '/serbinario/especialista/byespecialidade/' + especialidadeId,
+        url: '/index.php/serbinario/especialista/byespecialidade/' + especialidadeId,
         datatype: 'json'
     }).done(function (json) {
         var option = '';
@@ -35,7 +35,7 @@ $(document).on('change', "#especialista", function () {
         // De acordo com a especialidade encontrada, é feito o carregamento dos dias do calendário
         jQuery.ajax({
             type: 'POST',
-            url: '/serbinario/especialista/especialidades',
+            url: '/index.php/serbinario/especialista/especialidades',
             datatype: 'json',
             data: {'idEspecialista': idEspecialista}
         }).done(function (json) {
@@ -65,7 +65,7 @@ $(document).on('change', "#especialidade", function () {
         // De acordo com a especialidade encontrada, é feito o carregamento dos dias do calendário
         jQuery.ajax({
             type: 'POST',
-            url: '/serbinario/calendario/calendarioEspecialista',
+            url: '/index.php/serbinario/calendario/calendarioEspecialista',
             datatype: 'json',
             data: {'idEspecialista': idEspecialista, 'idEspecialidade': idEspecialidade}
         }).done(function (json) {

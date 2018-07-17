@@ -2,7 +2,7 @@
  * Created by Fabio on 01/06/2017.
  */
 
-// Variáveis globais
+// Variï¿½veis globais
 var especialidadeId, idsPacientes, perfil;
 var totalVagas, vagasRestantes;
 
@@ -27,7 +27,7 @@ var table = $('#fila-grid').DataTable({
         url: '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json'
     },
     ajax: {
-        url: "/serbinario/fila/grid",
+        url: "/index.php/serbinario/fila/grid",
         method: 'POST',
         data: function (d) {
             d.data_inicio = $('input[name=data_inicio]').val();
@@ -88,7 +88,7 @@ $(document).on('click', '#fila-grid tbody tr', function () {
 // Evento para quando clicar na tr da table de pacientes
 $(document).on('click', '#fila-grid tbody tr', function () {
 
-    // Array que armazenará os ids dos pacientes
+    // Array que armazenarï¿½ os ids dos pacientes
     var aux;
     var auxHabilitarBotaoAgendar;
     var arrayId = [];
@@ -119,7 +119,7 @@ $(document).on('click', '#fila-grid tbody tr', function () {
 
     });
 
-    // Habilitando e desabilitando o botão de agendamento
+    // Habilitando e desabilitando o botï¿½o de agendamento
     if(arrayId.length > 0 && auxHabilitarBotaoAgendar) {
         $('#agendarPaciente').prop('disabled', false);
     } else {
@@ -131,7 +131,7 @@ $(document).on('click', '#fila-grid tbody tr', function () {
 
 });
 
-//Função do submit do search da grid principal
+//Funï¿½ï¿½o do submit do search da grid principal
 $('#search').click(function(e) {
     table.draw();
     e.preventDefault();

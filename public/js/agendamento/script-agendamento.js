@@ -60,7 +60,7 @@ $(document).ready(function () {
 
             jQuery.ajax({
                 type: 'POST',
-                url: "/serbinario/agendamento/delete/"+ $('#id').val(),
+                url: "/index.php/serbinario/agendamento/delete/"+ $('#id').val(),
                 datatype: 'json'
             }).done(function (retorno) {
 

@@ -249,7 +249,7 @@ class UtilController extends Controller
 //            }
 
             #preparando a consulta
-            $qb = DB::table($tableName)->select('id', 'nome');
+            $qb = DB::table($tableName)->select('id', 'nome', 'numero_sus');
             $qb->skip($pageValue);
             $qb->take(10);
             $qb->orderBy('nome', 'asc');
@@ -270,7 +270,7 @@ class UtilController extends Controller
             foreach($resultItems as $item) {
                 $result[] = [
                     "id" => $item->id,
-                    "text" => $item->nome
+                    "text" => $item->nome . " SUS: " . $item->numero_sus
                 ];
             }
 

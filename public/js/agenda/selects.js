@@ -6,7 +6,7 @@
 function localidade(id) {
     jQuery.ajax({
         type: 'POST',
-        url: "/serbinario/localidade/all",
+        url: "/index.php/serbinario/localidade/all",
         datatype: 'json',
     }).done(function (json) {
         var option = '';
@@ -29,7 +29,7 @@ function localidade(id) {
 function especialidadesUm(id, idEspecialista) {
     jQuery.ajax({
         type: 'POST',
-        url: "/serbinario/especialista/especialidades",
+        url: "/index.php/serbinario/especialista/especialidades",
         datatype: 'json',
         data: {'idEspecialista': idEspecialista}
     }).done(function (json) {
@@ -53,7 +53,7 @@ function especialidadesUm(id, idEspecialista) {
 function especialidadesDois(id, idEspecialista) {
     jQuery.ajax({
         type: 'POST',
-        url: "/serbinario/especialista/especialidades",
+        url: "/index.php/serbinario/especialista/especialidades",
         datatype: 'json',
         data: {'idEspecialista': idEspecialista}
     }).done(function (json) {
@@ -77,7 +77,7 @@ function especialidadesDois(id, idEspecialista) {
 function especialidadesSearchGrid(id, idEspecialista) {
     jQuery.ajax({
         type: 'POST',
-        url: "/serbinario/especialista/especialidades",
+        url: "/index.php/serbinario/especialista/especialidades",
         datatype: 'json',
         data: {'idEspecialista': idEspecialista}
     }).done(function (json) {

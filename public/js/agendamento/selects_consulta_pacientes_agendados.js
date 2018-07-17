@@ -6,7 +6,7 @@
 function localidade(id) {
     jQuery.ajax({
         type: 'POST',
-        url: "/serbinario/localidade/all",
+        url: "index.php/serbinario/localidade/all",
         datatype: 'json',
     }).done(function (json) {
         var option = '';
@@ -53,7 +53,7 @@ function especialistas(idEspecialidade, id) {
 
     jQuery.ajax({
         type: 'GET',
-        url: "/serbinario/especialista/byespecialidade/"+idEspecialidade,
+        url: "/index.php/serbinario/especialista/byespecialidade/"+idEspecialidade,
         datatype: 'json',
     }).done(function (json) {
         var option = '';

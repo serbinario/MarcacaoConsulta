@@ -5,7 +5,7 @@
 var idCalendario = "";
 var idEspecialista = "";
 
-// Tratar habilitação do mapa 2
+// Tratar habilitaï¿½ï¿½o do mapa 2
 $('#mapa').click(function () {
     if ($('#mapa').is(":checked")) {
         $('#hora2').prop('readonly', false);
@@ -26,7 +26,7 @@ $('#mapa').click(function () {
 $("#save").click(function (event) {
     event.preventDefault();
 
-    // Pegando os valores do formulário
+    // Pegando os valores do formulï¿½rio
     var mapa = $('#mapa').is(":checked") == true ? '1' : '0';
     var localidade = $('#localidades').val();
     var especialista = $('#especialista_id').val();
@@ -51,7 +51,7 @@ $("#save").click(function (event) {
         ];
     }
 
-    // Preenchendo o array de dados para requisição do formulário
+    // Preenchendo o array de dados para requisiï¿½ï¿½o do formulï¿½rio
     var dados = {
         'localidade_id': localidade,
         'especialista_id': especialista,
@@ -64,24 +64,24 @@ $("#save").click(function (event) {
     if (!$('#mapa').is(":checked") && (!localidade || !especialista || !qtd_vagas
         || !data || !hora || !especialidade_um || !vagas_mapa1)) {
         console.log(localidade, especialista, qtd_vagas, data, hora, especialidade_um, vagas_mapa1);
-        swal("O preenchimento de todos os campos são obrigatórios");
+        swal("O preenchimento de todos os campos sï¿½o obrigatï¿½rios");
 
     } else if ($('#mapa').is(":checked") && (!localidade || !especialista || !qtd_vagas || !data
         || !hora || !especialidade_um || !vagas_mapa1 || !hora2 || !especialidade_dois || !vagas_mapa2)) {
 
-        swal("O preenchimento de todos os campos são obrigatórios");
+        swal("O preenchimento de todos os campos sï¿½o obrigatï¿½rios");
     } else if ( (parseInt(vagas_mapa1)  +  parseInt(vagas_mapa2)) > qtd_vagas) {
 
-        swal("A quantidade de vaga dos mapas devem ser menor ou igual a quantidade de vagas total do médico para entendimento nesse dia!");
+        swal("A quantidade de vaga dos mapas devem ser menor ou igual a quantidade de vagas total do mï¿½dico para entendimento nesse dia!");
     } else {
         $.ajax({
-            url: '/serbinario/calendario/store',
+            url: '/index.php/serbinario/calendario/store',
             data: {calendario: dados},
             dataType: "json",
             type: "POST",
             success: function (data) {
-                swal('Cadastro realizado com sucesso!', "Click no botão abaixo!", 'success');
-                location.href = "/serbinario/calendario/index/" + idEspecialista;
+                swal('Cadastro realizado com sucesso!', "Click no botï¿½o abaixo!", 'success');
+                location.href = "index.php/serbinario/calendario/index/" + idEspecialista;
             }
         });
     }
@@ -92,7 +92,7 @@ $("#edit").click(function (event) {
     event.preventDefault();
     var mapa = $('#mapa').is(":checked") == true ? '1' : '0';
 
-    // Pegando os valores do formulário
+    // Pegando os valores do formulï¿½rio
     var mapa = $('#mapa').is(":checked") == true ? '1' : '0';
     var localidade          = $('#localidades').val();
     var especialista        = $('#especialista_id').val();
@@ -119,7 +119,7 @@ $("#edit").click(function (event) {
         ];
     }
 
-    // Preenchendo o array de dados para requisição do formulário
+    // Preenchendo o array de dados para requisiï¿½ï¿½o do formulï¿½rio
     var dados = {
         'localidade_id': localidade,
         'especialista_id': especialista,
@@ -132,24 +132,24 @@ $("#edit").click(function (event) {
     if (!$('#mapa').is(":checked") && (!localidade || !especialista || !qtd_vagas
         || !data || !hora || !especialidade_um || !vagas_mapa1)) {
         console.log(localidade, especialista, qtd_vagas, data, hora, especialidade_um, vagas_mapa1);
-        swal("O preenchimento de todos os campos são obrigatórios");
+        swal("O preenchimento de todos os campos sï¿½o obrigatï¿½rios");
 
     } else if ($('#mapa').is(":checked") && (!localidade || !especialista || !qtd_vagas || !data
         || !hora || !especialidade_um || !vagas_mapa1 || !hora2 || !especialidade_dois || !vagas_mapa2)) {
 
-        swal("O preenchimento de todos os campos são obrigatórios");
+        swal("O preenchimento de todos os campos sï¿½o obrigatï¿½rios");
     } else if ( (parseInt(vagas_mapa1)  +  parseInt(vagas_mapa2)) > qtd_vagas) {
 
-        swal("A quantidade de vaga dos mapas devem ser menor ou igual a quantidade de vagas total do médico para entendimento nesse dia!");
+        swal("A quantidade de vaga dos mapas devem ser menor ou igual a quantidade de vagas total do mï¿½dico para entendimento nesse dia!");
     } else {
         $.ajax({
-            url: "/serbinario/calendario/update/" + idCalendario,
+            url: "index.php/serbinario/calendario/update/" + idCalendario,
             data: {calendario: dados},
             dataType: "json",
             type: "POST",
             success: function (data) {
-                swal('Dia editado com sucesso!', "Click no botão abaixo!", 'success');
-                location.href = "/serbinario/calendario/index/" + idEspecialista;
+                swal('Dia editado com sucesso!', "Click no botï¿½o abaixo!", 'success');
+                location.href = "index.php/serbinario/calendario/index/" + idEspecialista;
             }
         });
     }
@@ -167,12 +167,12 @@ $(document).on('click', '#fechar', function (event) {
     }).then(function () {
 
         $.ajax({
-            url: '/serbinario/calendario/fechar/' + idCalendario,
+            url: '/index.php/serbinario/calendario/fechar/' + idCalendario,
             dataType: "json",
             type: "GET",
             success: function (data) {
-                swal('Dia fechado com sucesso!', "Click no botão abaixo!", 'success');
-                location.href = "/serbinario/calendario/index/" + idEspecialista;
+                swal('Dia fechado com sucesso!', "Click no botï¿½o abaixo!", 'success');
+                location.href = "index.php/serbinario/calendario/index/" + idEspecialista;
             }
         });
     });
@@ -204,19 +204,19 @@ $(document).on('click', '#confirmarBloqueio', function (event) {
     if(descricao) {
 
         $.ajax({
-            url: '/serbinario/calendario/bloquear',
+            url: 'index.php/serbinario/calendario/bloquear',
             dataType: "json",
             type: "POST",
             data: {'id' : idCalendario, 'descricao' : descricao},
             success: function (data) {
                 $('#modal-bloqueio').modal({'show': false});
-                swal('Dia bloqueado com sucesso!', "Click no botão abaixo!", 'success');
-                location.href = "/serbinario/calendario/index/" + idEspecialista;
+                swal('Dia bloqueado com sucesso!', "Click no botï¿½o abaixo!", 'success');
+                location.href = "index.php/serbinario/calendario/index/" + idEspecialista;
             }
         });
 
     } else {
-        swal('Informe o motivo do bloqueio!', "Click no botão abaixo!", 'success');
+        swal('Informe o motivo do bloqueio!', "Click no botï¿½o abaixo!", 'success');
     }
 
 

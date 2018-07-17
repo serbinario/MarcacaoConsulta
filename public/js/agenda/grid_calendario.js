@@ -16,7 +16,7 @@ function loadTableCalendario (idEspecialista) {
         autoWidth: false,
         "order": [[ 6, "asc" ]],
         ajax: {
-            url: "/serbinario/calendario/gridCalendario/"+idEspecialista,
+            url: "/index.php/serbinario/calendario/gridCalendario/"+idEspecialista,
             method: 'POST',
             data: function (d) {
                 d.data_inicio = $('input[name=data_inicio]').val();
@@ -37,7 +37,7 @@ function loadTableCalendario (idEspecialista) {
         ]
     });
 
-    //Função do submit do search da grid principal
+    //Funï¿½ï¿½o do submit do search da grid principal
     $('#search').click(function(e) {
         tableCalendario.draw();
         e.preventDefault();

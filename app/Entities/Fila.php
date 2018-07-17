@@ -51,6 +51,14 @@ class Fila extends Model implements Transformable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
+    public function nunCgmLocalidade()
+    {
+        return $this->hasMany(NunCgmLocalidade::class, 'fila_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function cgm()
     {
         return $this->belongsTo(CGM::class, 'cgm_id');

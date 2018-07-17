@@ -47,7 +47,7 @@ function loadTableHistoricoAtendimento (idCGM) {
         bFilter: false,
         autoWidth: false,
         order: [[ 1, "asc" ]],
-        ajax: "/serbinario/fila/historicoAtendimento/"+idCGM,
+        ajax: "/index.php/serbinario/fila/historicoAtendimento/"+idCGM,
         columns: [
             {
                 "className":      'details-control',
@@ -88,7 +88,7 @@ function runHistoricoAtendimento(idCGM)
 {
     //Carregando as grids de situações
     if(tableHistoricoAtendimento) {
-        loadTableHistoricoAtendimento(idCGM).ajax.url("/serbinario/fila/historicoAtendimento/"+idCGM).load();
+        loadTableHistoricoAtendimento(idCGM).ajax.url("/index.php/serbinario/fila/historicoAtendimento/"+idCGM).load();
     } else {
         loadTableHistoricoAtendimento(idCGM);
     }

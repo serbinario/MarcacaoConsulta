@@ -37,7 +37,7 @@ $(document).on('click', '#salvarObservacao', function (event) {
     // Requisição Ajax
     jQuery.ajax({
         type: 'POST',
-        url: "/serbinario/agendados/alterarSituacao",
+        url: "index.php/serbinario/agendados/alterarSituacao",
         data: dados,
         datatype: 'json'
     }).done(function (json) {
@@ -68,7 +68,7 @@ $(document).on('click', '#inserirNaFila', function (event) {
     // Requisição Ajax
     jQuery.ajax({
         type: 'POST',
-        url: "/serbinario/agendados/inserirNaFila",
+        url: "/index.php/serbinario/agendados/inserirNaFila",
         data: dados,
         datatype: 'json'
     }).done(function (json) {

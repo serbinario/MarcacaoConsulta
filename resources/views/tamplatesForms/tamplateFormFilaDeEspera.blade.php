@@ -8,7 +8,7 @@
         {{--#1--}}
         <div class="row">
             @if(!isset($model))
-                <div class="form-group col-sm-4">
+                <div class="form-group col-sm-8">
                     <div class=" fg-line">
                         <label for="cgm_id">Cidadão</label>
                         <div class="select">
@@ -31,7 +31,7 @@
                 <div class="fg-line">
                     <label class="control-label" for="cgm[data_nascimento]">Data de Nascimento</label>
                     {!! Form::text('cgm[data_nascimento]', Session::getOldInput('cgm[data_nascimento]')  ,
-                     array('class' => 'form-control dateTimePicker input-sm date', 'id' => 'data_nascimento', 'placeholder' => 'Data de Nascimento')) !!}
+                     array('class' => 'form-control input-sm date', 'id' => 'data_nascimento', 'placeholder' => 'Data de Nascimento')) !!}
                 </div>
             </div>
             <div class="form-group col-sm-2">
@@ -42,8 +42,8 @@
             </div>
             <div class="form-group col-sm-2">
                 <div class="fg-line">
-                    <label class="control-label" for="data">Data do cadastro *</label>
-                    {!! Form::text('data', Session::getOldInput('data') , array('class' => 'form-control input-sm dateTimePicker date', 'placeholder' => 'Data do cadastro')) !!}
+                    <label class="control-label" for="data">Data do Atendimento *</label>
+                    {!! Form::text('data', Session::getOldInput('data') , array('class' => 'form-control input-sm date', 'placeholder' => 'Data do Atendimento')) !!}
                 </div>
             </div>
             <div class="form-group col-sm-2">
@@ -64,7 +64,7 @@
                     @if(isset($model->especialidade->operacao->grupo->tipo->id))
                         {!! Form::select('tipo', $loadFields['tipooperacao'], $model->especialidade->operacao->grupo->tipo->id, array('class' => 'form-control imput-sm', 'id' => 'tipo')) !!}
                     @else
-                        {!! Form::select('tipo', (['' => 'Selecione um tipo'] + $loadFields['tipooperacao']->toArray()), [2], array('class' => 'form-control imput-sm', 'id' => 'tipo')) !!}
+                        {!! Form::select('tipo', (['' => 'Selecione um tipo'] + $loadFields['tipooperacao']->toArray()), null, array('class' => 'form-control imput-sm', 'id' => 'tipo')) !!}
                     @endif
                 </div>
             </div>
@@ -75,7 +75,7 @@
                         @if(isset($model->especialidade->operacao->id))
                             {!! Form::select('especialidade_id', array($model->especialidade->id => $model->especialidade->operacao->nome), $model->especialidade->id, array('class' => 'form-control', 'id' => 'especialidade')) !!}
                         @else
-                            {!! Form::select('especialidade_id', array(), Session::getOldInput('especialidade_id'),array('class' => 'form-control', 'id' => 'especialidade')) !!}
+                            {!! Form::select('especialidade_id', array('' => 'Selecione uma Operaçao'), Session::getOldInput('especialidade_id'),array('class' => 'form-control', 'id' => 'especialidade')) !!}
                         @endif
                     </div>
                 </div>
@@ -126,7 +126,15 @@
         </div>
         {{--#3--}}
         <div class="row">
-            <div class="form-group col-sm-6">
+            <div class="form-group col-sm-2">
+                <div class="fg-line">
+                    <label class="control-label" for="cep">Cep</label>
+                    {!! Form::text('cgm[endereco][cep]', Session::getOldInput('endereco[endereco][cep]'),
+                    array('class' => 'form-control input-sm', 'id' => 'cep',  'placeholder' => 'CEP')) !!}
+                </div>
+            </div>
+
+            <div class="form-group col-sm-4">
                 <div class="fg-line">
                     <label class="control-label" for="logradouro">Logradouro</label>
                     {!! Form::text('cgm[endereco][logradouro]', Session::getOldInput('cgm[endereco][logradouro]')  ,
@@ -202,6 +210,45 @@
                         {!! Form::select('posto_saude_id', (['' => 'Selecione uma unidade'] + $loadFields['postosaude']->toArray()), null,
                         array('id' => 'psf', 'class'=> 'form-control')) !!}
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-sm-2">
+                <div class="fg-line">
+                    <label class="control-label" for="cgm[post_nun_cgm_01]">POST 01</label>
+                    {!! Form::text('cgm[post_nun_cgm_01]', Session::getOldInput('cgm[post_nun_cgm_01]')  , array('id' => 'nome', 'class' => 'form-control input-sm', 'placeholder' => 'Nome')) !!}
+                </div>
+            </div>
+            <div class="form-group col-sm-2">
+                <div class="fg-line">
+                    <label class="control-label" for="cgm[post_nun_cgm_02]">POST 02</label>
+                    {!! Form::text('cgm[post_nun_cgm_02]', Session::getOldInput('cgm[post_nun_cgm_02]')  , array('id' => 'nome', 'class' => 'form-control input-sm', 'placeholder' => 'Nome')) !!}
+                </div>
+            </div>
+            <div class="form-group col-sm-2">
+                <div class="fg-line">
+                    <label class="control-label" for="cgm[post_nun_cgm_03]">POST 03</label>
+                    {!! Form::text('cgm[post_nun_cgm_03]', Session::getOldInput('cgm[post_nun_cgm_03]')  , array('id' => 'nome', 'class' => 'form-control input-sm', 'placeholder' => 'Nome')) !!}
+                </div>
+            </div>
+            <div class="form-group col-sm-2">
+                <div class="fg-line">
+                    <label class="control-label" for="cgm[post_nun_cgm_04]">POST 04</label>
+                    {!! Form::text('cgm[post_nun_cgm_04]', Session::getOldInput('cgm[post_nun_cgm_04]')  , array('id' => 'nome', 'class' => 'form-control input-sm', 'placeholder' => 'Nome')) !!}
+                </div>
+            </div>
+            <div class="form-group col-sm-2">
+                <div class="fg-line">
+                    <label class="control-label" for="cgm[post_nun_cgm_05]">POST 05</label>
+                    {!! Form::text('cgm[post_nun_cgm_05]', Session::getOldInput('cgm[post_nun_cgm_05]')  , array('id' => 'nome', 'class' => 'form-control input-sm', 'placeholder' => 'Nome')) !!}
+                </div>
+            </div>
+            <div class="form-group col-sm-2">
+                <div class="fg-line">
+                    <label class="control-label" for="cgm[post_nun_cgm_06]">POST 05</label>
+                    {!! Form::text('cgm[post_nun_cgm_06]', Session::getOldInput('cgm[post_nun_cgm_06]')  , array('id' => 'nome', 'class' => 'form-control input-sm', 'placeholder' => 'Nome')) !!}
                 </div>
             </div>
         </div>
@@ -339,6 +386,55 @@
             }
         });
 
+        //CEP
+        $("#cep").blur(function(){
+            var cep_code = $(this).val();
+            if( cep_code.length <= 0 ) return;
+            $.get("http://apps.widenet.com.br/busca-cep/api/cep.json", { code: cep_code },
+                function(result){
+                    console.log(result)
+                    if( result.status!=1 ){
+                        alert(result.message || "Houve um erro desconhecido");
+                        return;
+                    }
+                    $("input#cep").val( result.code );
+                    $("input#estado").val( result.state );
+                    $("input#cidade").val( result.city );
+                    $("input#bairro").val( result.district );
+                    console.log(result.district)
+                    $("#logradouro").val( result.address );
+                    $("input#estado").val( result.state );
+                    //alert("Dados recebidos e alterados");
+                    $('#formFila').bootstrapValidator('revalidateField', 'cgm[endereco][logradouro]');
+                    //$('#formFila').bootstrapValidator('revalidateField', 'cgm[endereco][bairro]');
+
+                    if (result.address !== "") {
+
+                        var dados = {
+                            'table' : 'gen_bairros',
+                            'field_search' : 'nome',
+                            'value_search': result.district
+                        };
+
+                        jQuery.ajax({
+                            type: 'POST',
+                            url: '{{ route('serbinario.util.search')  }}',
+                            data: dados,
+                            datatype: 'json'
+                        }).done(function (json) {
+                            var option = "";
+
+                            for (var i = 0; i < json.length; i++) {
+                                option += '<option value="' + json[i]['id'] + '">' + json[i]['nome'] + '</option>';
+                            }
+
+                            $('#bairro option').remove();
+                            $('#bairro').append(option);
+                        });
+                    }
+                });
+        });
+
 
         //Buscando os dados dos pacientes
         $(document).on('change', "#paciente", function () {
@@ -366,6 +462,7 @@
                     $('#idade').val(json['cidadao']['idade']);
                     $('#fone').val(json['cidadao']['fone']);
                     $('#fone2').val(json['cidadao']['fone2']);
+                    $('#cep').val(json['cidadao']['cep']);
                     $('#logradouro').val(json['cidadao']['logradouro']);
                     $('#numero').val(json['cidadao']['numero']);
                     $('#cpf_cnpj').val(json['cidadao']['cpf_cnpj']);
@@ -417,6 +514,7 @@
                     datatype: 'json'
                 }).done(function (json) {
                     var option = "";
+                    option += '<option value="">Selecione uma Operaçao</option>';
 
                     for (var i = 0; i < json.length; i++) {
                         option += '<optgroup label="' + json[i]['text'] + '">';
@@ -485,7 +583,7 @@
 
             jQuery.ajax({
                 type: 'POST',
-                url: '/serbinario/fila/getIdadePaciente',
+                url: '/index.php/serbinario/fila/getIdadePaciente',
                 datatype: 'json',
                 data: {'data': data}
             }).done(function (json) {

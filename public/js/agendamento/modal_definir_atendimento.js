@@ -42,7 +42,7 @@ $(document).on('click', '#alterarSituacao', function (event) {
     // Requisição Ajax
     jQuery.ajax({
         type: 'POST',
-        url: "/serbinario/agendados/alterarSituacao",
+        url: "/index.php/serbinario/agendados/alterarSituacao",
         data: dados,
         datatype: 'json'
     }).done(function (json) {

@@ -2,7 +2,7 @@
  * Created by Fabio on 30/05/2017.
  */
 
-// Variáveis globais
+// Variï¿½veis globais
 var tablePacientes, especialidadeId, idsPacientes, especialistaNome, CRM;
 var totalVagas, vagasRestantes;
 
@@ -16,7 +16,7 @@ function loadTablePaciente (idCalendario) {
         bLengthChange: false,
         bFilter: false,
         autoWidth: false,
-        ajax: "/serbinario/calendario/gridPacientes/"+idCalendario,
+        ajax: "/index.php/serbinario/calendario/gridPacientes/"+idCalendario,
         columns: [
             {data: 'nome', name: 'gen_cgm.nome'},
             {data: 'horario', name: 'age_mapas.horario'},
@@ -39,7 +39,7 @@ function loadTablePaciente (idCalendario) {
     // Evento para quando clicar na tr da table de pacientes
     /*$(document).on('click', '#pacientes-grid tbody tr', function () {
 
-        // Array que armazenará os ids dos pacientes
+        // Array que armazenarï¿½ os ids dos pacientes
         var arrayId   = [];
         var aux;
         var auxHabilitarBotaoReagendar;
@@ -66,13 +66,13 @@ function loadTablePaciente (idCalendario) {
 
             } else if (arrayId.length > 1 && aux != tablePacientes.row($(value).index()).data().exame_id) {
                 auxHabilitarBotaoReagendar = false;
-                swal("Oops...", "Você selecionou paciente com exames diferentes. Selecione paciente com o mesmo exame!", "error");
+                swal("Oops...", "Vocï¿½ selecionou paciente com exames diferentes. Selecione paciente com o mesmo exame!", "error");
                 return false;
             }
 
         });
 
-        // Habilitando e desabilitando o botão de reagendamento
+        // Habilitando e desabilitando o botï¿½o de reagendamento
         if(arrayId.length > 0 && auxHabilitarBotaoReagendar) {
             $('#reagendarPaciente').prop('disabled', false);
         } else {
@@ -88,12 +88,12 @@ function loadTablePaciente (idCalendario) {
 }
 
 
-// Função de execução
+// Funï¿½ï¿½o de execuï¿½ï¿½o
 function runGridPacientes(idCalendario)
 {
-    //Carregando as grids de situações
+    //Carregando as grids de situaï¿½ï¿½es
     if(tablePacientes) {
-        loadTablePaciente(idCalendario).ajax.url("/serbinario/calendario/gridPacientes/"+idCalendario).load();
+        loadTablePaciente(idCalendario).ajax.url("/index.php/serbinario/calendario/gridPacientes/"+idCalendario).load();
     } else {
         loadTablePaciente(idCalendario);
     }

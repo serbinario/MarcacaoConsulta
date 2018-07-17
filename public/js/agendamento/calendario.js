@@ -56,7 +56,7 @@ $(document).ready(function () {
             $('body').addClass("loading");
 
             jQuery.ajax({
-                url: "/serbinario/agendados/loadCalendarParaConsulta",
+                url: "/index.php/serbinario/agendados/loadCalendarParaConsulta",
                 type: 'POST',
                 dataType: 'json',
                 data: {

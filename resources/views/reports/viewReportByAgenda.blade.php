@@ -97,7 +97,7 @@
             serverSide: true,
             retrieve: true,
             ajax: {
-                url: "/serbinario/relatorio/reportByAgenda",
+                url: "/index.php/serbinario/relatorio/reportByAgenda",
                 method: 'POST',
                 data: function (d) {
                     d.especialista  = $('select[name=especialista] option:selected').val();

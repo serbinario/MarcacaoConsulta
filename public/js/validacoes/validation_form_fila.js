@@ -63,7 +63,7 @@ $(document).ready(function () {
                     }
                 }
             },
-            /*'cgm[data_nascimento]': {
+            'cgm[data_nascimento]': {
                 validators: {
                     notEmpty: {
                         message: "Este campo é obrigatório",
@@ -90,7 +90,14 @@ $(document).ready(function () {
                         message: "Este campo é obrigatório",
                     }
                 }
-            }*/
+            },
+            'cgm[endereco][cep]': {
+                validators: {
+                    notEmpty: {
+                        message: "Este campo é obrigatório",
+                    }
+                }
+            }
         }
     });
 });

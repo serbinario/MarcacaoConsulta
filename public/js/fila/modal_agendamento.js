@@ -53,7 +53,7 @@ $(document).on('click', '#agendar', function (event) {
     // Requisição Ajax
     jQuery.ajax({
         type: 'POST',
-        url: "/serbinario/calendario/agendamento",
+        url: "/index.php/serbinario/calendario/agendamento",
         data: dados,
         datatype: 'json'
     }).done(function (json) {

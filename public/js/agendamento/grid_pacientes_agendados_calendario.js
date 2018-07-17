@@ -12,7 +12,7 @@ table = $('#agendados-grid').DataTable({
     bFilter: false,
     autoWidth: false,
     ajax: {
-        url: "/serbinario/agendados/grid",
+        url: "/index.php/serbinario/agendados/grid",
         method: 'POST',
         data: function (d) {
             d.data_inicio       = "";
@@ -49,7 +49,7 @@ $(document).on('click', '#agendados-grid tbody tr', function () {
 // Evento para quando clicar na tr da table de pacientes
 $(document).on('click', '#agendados-grid tbody tr', function () {
 
-    // Array que armazenará os ids dos pacientes
+    // Array que armazenarï¿½ os ids dos pacientes
     var aux;
     var auxHabilitarBotaoReagendar;
     var arrayId = [];
@@ -80,14 +80,14 @@ $(document).on('click', '#agendados-grid tbody tr', function () {
 
     });
 
-    // Habilitando e desabilitando o botão de reagendamento
+    // Habilitando e desabilitando o botï¿½o de reagendamento
     if(arrayId.length > 0 && auxHabilitarBotaoReagendar) {
         $('#reagendarPaciente').prop('disabled', false);
     } else {
         $('#reagendarPaciente').prop('disabled', true);
     }
 
-    // Habilitando e desabilitando o botão de reagendamento
+    // Habilitando e desabilitando o botï¿½o de reagendamento
     if (arrayId.length > 0) {
         $('#definirAtendimento').prop('disabled', false);
     } else {
