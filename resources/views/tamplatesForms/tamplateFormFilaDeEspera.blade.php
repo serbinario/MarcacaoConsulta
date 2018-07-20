@@ -218,37 +218,37 @@
             <div class="form-group col-sm-2">
                 <div class="fg-line">
                     <label class="control-label" for="cgm[post_nun_cgm_01]">POLI. SL</label>
-                    {!! Form::text('cgm[post_nun_cgm_01]', Session::getOldInput('cgm[post_nun_cgm_01]')  , array('id' => 'nome', 'class' => 'form-control input-sm', 'placeholder' => 'POLI SL')) !!}
+                    {!! Form::text('cgm[post_nun_cgm_01]', Session::getOldInput('cgm[post_nun_cgm_01]')  , array('id' => 'cgm[post_nun_cgm_01]', 'class' => 'form-control input-sm', 'placeholder' => 'POLI SL')) !!}
                 </div>
             </div>
             <div class="form-group col-sm-2">
                 <div class="fg-line">
                     <label class="control-label" for="cgm[post_nun_cgm_02]">POLI. IIL</label>
-                    {!! Form::text('cgm[post_nun_cgm_02]', Session::getOldInput('cgm[post_nun_cgm_02]')  , array('id' => 'nome', 'class' => 'form-control input-sm', 'placeholder' => 'POLI IIL')) !!}
+                    {!! Form::text('cgm[post_nun_cgm_02]', Session::getOldInput('cgm[post_nun_cgm_02]')  , array('id' => 'cgm[post_nun_cgm_02]', 'class' => 'form-control input-sm', 'placeholder' => 'POLI IIL')) !!}
                 </div>
             </div>
             <div class="form-group col-sm-2">
                 <div class="fg-line">
                     <label class="control-label" for="cgm[post_nun_cgm_03]">POST 03</label>
-                    {!! Form::text('cgm[post_nun_cgm_03]', Session::getOldInput('cgm[post_nun_cgm_03]')  , array('id' => 'nome', 'class' => 'form-control input-sm', 'placeholder' => 'Nome')) !!}
+                    {!! Form::text('cgm[post_nun_cgm_03]', Session::getOldInput('cgm[post_nun_cgm_03]')  , array('id' => 'cgm[post_nun_cgm_03]', 'class' => 'form-control input-sm', 'placeholder' => 'Nome')) !!}
                 </div>
             </div>
             <div class="form-group col-sm-2">
                 <div class="fg-line">
                     <label class="control-label" for="cgm[post_nun_cgm_04]">POST 04</label>
-                    {!! Form::text('cgm[post_nun_cgm_04]', Session::getOldInput('cgm[post_nun_cgm_04]')  , array('id' => 'nome', 'class' => 'form-control input-sm', 'placeholder' => 'Nome')) !!}
+                    {!! Form::text('cgm[post_nun_cgm_04]', Session::getOldInput('cgm[post_nun_cgm_04]')  , array('id' => 'cgm[post_nun_cgm_04]', 'class' => 'form-control input-sm', 'placeholder' => 'Nome')) !!}
                 </div>
             </div>
             <div class="form-group col-sm-2">
                 <div class="fg-line">
                     <label class="control-label" for="cgm[post_nun_cgm_05]">POST 05</label>
-                    {!! Form::text('cgm[post_nun_cgm_05]', Session::getOldInput('cgm[post_nun_cgm_05]')  , array('id' => 'nome', 'class' => 'form-control input-sm', 'placeholder' => 'Nome')) !!}
+                    {!! Form::text('cgm[post_nun_cgm_05]', Session::getOldInput('cgm[post_nun_cgm_05]')  , array('id' => 'cgm[post_nun_cgm_05]', 'class' => 'form-control input-sm', 'placeholder' => 'Nome')) !!}
                 </div>
             </div>
             <div class="form-group col-sm-2">
                 <div class="fg-line">
                     <label class="control-label" for="cgm[post_nun_cgm_06]">POST 05</label>
-                    {!! Form::text('cgm[post_nun_cgm_06]', Session::getOldInput('cgm[post_nun_cgm_06]')  , array('id' => 'nome', 'class' => 'form-control input-sm', 'placeholder' => 'Nome')) !!}
+                    {!! Form::text('cgm[post_nun_cgm_06]', Session::getOldInput('cgm[post_nun_cgm_06]')  , array('id' => 'cgm[post_nun_cgm_06]', 'class' => 'form-control input-sm', 'placeholder' => 'Nome')) !!}
                 </div>
             </div>
         </div>
