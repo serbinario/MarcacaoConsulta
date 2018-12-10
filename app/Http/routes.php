@@ -158,6 +158,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('getDadosPaciente', ['as' => 'getDadosPaciente', 'uses' => 'FilaController@getDadosDoPaciente']);
             Route::get('historicoAtendimento/{id}', ['as' => 'historicoAtendimento', 'uses' => 'FilaController@historicoAtendimento']);
             Route::post('getIdadePaciente', ['as' => 'getIdadePaciente', 'uses' => 'FilaController@getIdadePaciente']);
+
+            Route::get('reportPdfProtocolo/{id}', ['as' => 'reportPdfProtocolo', 'uses' => 'FilaController@reportPdfProtocolo']);
         });
 
         Route::group(['prefix' => 'operacao', 'as' => 'operacao.'], function () {

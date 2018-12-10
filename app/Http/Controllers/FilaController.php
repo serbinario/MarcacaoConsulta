@@ -4,6 +4,7 @@ namespace Seracademico\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\App;
 use Seracademico\Http\Requests;
 use Seracademico\Services\FilaService;
 use Yajra\Datatables\Datatables;
@@ -127,6 +128,8 @@ class FilaController extends Controller
             $html  = "";
             $html .= '<a href="edit/'.$row->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i></a> ';
             $html .= '<a title="Histórico de Atendimento" id="historicoAtendimento" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-list-alt"></i></a> ';
+            $html .= '<a title="Protocolo" target="_blank" href="reportPdfProtocolo/'.$row->id.'" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-export"></i> </a>';
+
 
             if (count($fila->agendamento) == 0) {
                 $html .= '<a href="destroy/'.$row->id.'" class="btn btn-xs btn-danger excluir"><i class="glyphicon glyphicon-remove"></i> </a>';
@@ -386,5 +389,50 @@ class FilaController extends Controller
 
         #Retorno para view
         return compact('idade');
+    }
+
+    /**
+     *  Dados que irão preencher o relatório gerado em pdf
+     *  Menu > relatorios > por agenda > gerar pdf
+     */
+    public function reportPdfProtocolo(Request $request, $id)
+    {
+
+        try {
+            //dd($id);
+
+            #Criando a consulta
+            $pacientes = \DB::table('age_fila')
+                ->join('gen_cgm', 'gen_cgm.id', '=', 'age_fila.cgm_id')
+                ->join('age_especialidade', 'age_especialidade.id', '=', 'age_fila.especialidade_id')
+                ->join('age_operacoes', 'age_operacoes.id', '=', 'age_especialidade.operacao_id')
+                ->where('age_fila.id', '=', $id)
+                ->select([
+                    '*',
+                    'gen_cgm.nome',
+                    \DB::raw('DATE_FORMAT(gen_cgm.data_nascimento,"%d/%m/%Y") as data_nascimento'),
+                    \DB::raw('DATE_FORMAT(age_fila.data,"%d/%m/%Y") as data'),
+                    'age_operacoes.nome as operacao_nome',
+                    'age_fila.observacao'
+            ])
+
+                ->first();
+            //dd($pacientes);
+            //$pacientes = $rows->get();
+
+            # Recuperando o serviço de pdf / dompdf
+            //$PDF = App::make('dompdf.wrapper');
+
+            # Carregando a página
+            //$PDF->loadView('reports.viewPdfReportProtocolo', ['pacientes' => $pacientes]);
+            //dd("sss");
+
+            return \PDF::loadView('reports.viewPdfReportProtocolo', compact('pacientes'))->setOrientation('landscape')->stream();
+            # Retornando para página
+            // return $PDF->stream();
+
+        } catch (\Throwable $e) {
+            return $e->getMessage();
+        }
     }
 }

@@ -241,6 +241,23 @@
             });
         });
 
+        // Gerar protocolo
+        $(document).on('click', 'a.protocolo', function (event) {
+            event.preventDefault();
+            var url = $(this).attr('href');
+            console.log(url)
+            var dados = {
+                'fila_id' : url
+
+            };
+            jQuery.ajax({
+                type: 'GET',
+                url: '{{ route('serbinario.fila.reportPdfProtocolo')  }}',
+                data: dados
+            }).done(function (json) {
+            });
+        });
+
         //Carregando os bairros
         $(document).on('change', "#tipo", function () {
             //Removendo as Bairros
