@@ -174,6 +174,10 @@ class FilaController extends Controller
             #Recuperando os dados da requisição
             $data = $request->all();
 
+            //Adiciono o id do usuario
+            $data = array_merge($data, array("user_id" => \Auth::user()->id));
+            //dd($data);
+
             #Validando a requisição
             $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_CREATE);
 
@@ -403,6 +407,7 @@ class FilaController extends Controller
 
             #Criando a consulta
             $pacientes = \DB::table('age_fila')
+                ->join('users', 'users.id', '=', 'age_fila.user_id')
                 ->join('gen_cgm', 'gen_cgm.id', '=', 'age_fila.cgm_id')
                 ->join('age_especialidade', 'age_especialidade.id', '=', 'age_fila.especialidade_id')
                 ->join('age_operacoes', 'age_operacoes.id', '=', 'age_especialidade.operacao_id')
@@ -413,7 +418,10 @@ class FilaController extends Controller
                     \DB::raw('DATE_FORMAT(gen_cgm.data_nascimento,"%d/%m/%Y") as data_nascimento'),
                     \DB::raw('DATE_FORMAT(age_fila.data,"%d/%m/%Y") as data'),
                     'age_operacoes.nome as operacao_nome',
-                    'age_fila.observacao'
+                    'age_fila.observacao',
+                    'age_fila.id as fila_id',
+                    'users.name',
+                    'age_fila.hipotese_diagnostica'
             ])
 
                 ->first();

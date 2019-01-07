@@ -62,6 +62,9 @@
 <table style="width: 400px; text-align: left" align="center"  class="center" border="1">
     <thead>
     <tr>
+        <th>Solicitaçao N: {{ $pacientes->fila_id }}</th>
+    </tr>
+    <tr>
         <th>Nome: {{ $pacientes->nome }}</th>
     </tr>
     <tr>
@@ -74,16 +77,20 @@
         <th>SUS: {{ $pacientes->numero_sus }}</th>
     </tr>
     <tr>
-        <th>UNI. Solicitante</th>
-    </tr>
-    <tr>
-        <th>Proficional: </th>
+        <th>Proficional: {{ $pacientes->name }} </th>
     </tr>
     <tr>
         <th>Data Solic. {{ $pacientes->data }}</th>
     </tr>
     <tr>
         <th>Espicialidade: {{ $pacientes->operacao_nome }}</th>
+    </tr>
+    <tr>
+        <th>Hipótese Diagnóstica:</th>
+    </tr>
+    <tr>
+        <th>{!! Form::textarea('null', $pacientes->hipotese_diagnostica,
+                            array('class' => 'form-control input-sm', 'rows' => '4','placeholder' => 'Hipótese Diagnóstica')) !!}</th>
     </tr>
     <tr>
         <th>Observaçao:</th>

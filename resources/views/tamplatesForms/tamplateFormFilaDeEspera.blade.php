@@ -253,6 +253,17 @@
             </div>
         </div>
         {{--#5--}}
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <div class=" fg-line">
+                    <label for="preparo">Hipótese Diagnóstica</label>
+                    {!! Form::textarea('hipotese_diagnostica', Session::getOldInput('hipotese_diagnostica'),
+                        array('class' => 'form-control input-sm', 'rows' => '4','placeholder' => 'Hipótese Diagnóstica')) !!}
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="form-group col-md-12">
                 <div class=" fg-line">
