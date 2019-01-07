@@ -407,7 +407,7 @@ class FilaController extends Controller
 
             #Criando a consulta
             $pacientes = \DB::table('age_fila')
-                ->join('users', 'users.id', '=', 'age_fila.user_id')
+                ->LeftJoin('users', 'users.id', '=', 'age_fila.user_id')
                 ->join('gen_cgm', 'gen_cgm.id', '=', 'age_fila.cgm_id')
                 ->join('age_especialidade', 'age_especialidade.id', '=', 'age_fila.especialidade_id')
                 ->join('age_operacoes', 'age_operacoes.id', '=', 'age_especialidade.operacao_id')
@@ -433,7 +433,7 @@ class FilaController extends Controller
 
             # Carregando a página
             //$PDF->loadView('reports.viewPdfReportProtocolo', ['pacientes' => $pacientes]);
-            //dd("sss");
+            //dd($pacientes);
 
             return \PDF::loadView('reports.viewPdfReportProtocolo', compact('pacientes'))->setOrientation('landscape')->stream();
             # Retornando para página
